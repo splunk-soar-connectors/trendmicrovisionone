@@ -43,5 +43,3 @@ CHECK_TASK_STATUS = 'trendmicro-visionone-check-task-status'
 FETCH_INCIDENTS = 'fetch-incidents'
 UPDATE_STATUS = 'trendmicro-visionone-update-status'
 ADD_NOTE = 'trendmicro-visionone-add-note'
-# MISC
-UUID5_NAMESPACE = '4e1cb04c-2912-421e-b178-96ff52296776'

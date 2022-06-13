@@ -1,29 +1,29 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # -----------------------------------------
-# Phantom sample App Connector python file
+# Phantom Trend Micro Vision One App Connector python file
 # -----------------------------------------
 
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import base64
+import datetime
+import json
+import os
+import re
+import time
+import uuid
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom import vault
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
-# Usage of the consts file is recommended
-from trendmicrovisionone_consts import *
 import requests
-import json
-import re
-import os
 from bs4 import BeautifulSoup
-import base64
-import uuid
-import datetime
-import time
+from phantom import vault
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
+from trendmicrovisionone_consts import *
 
 
 class RetVal(tuple):
@@ -55,7 +55,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 phantom.APP_ERROR, "Empty response and no information in the header"
             ), None
         )
-        
+
     def header(self):
         return {
             "Authorization": "Bearer {token}".format(token=self.api_key),
@@ -64,7 +64,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         }
 
     def _process_html_response(self, response, action_result):
-        # An html response, treat it like an error
+        # A html response, treat it like an error
         status_code = response.status_code
 
         try:
@@ -73,7 +73,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             split_lines = error_text.split('\n')
             split_lines = [x.strip() for x in split_lines if x.strip()]
             error_text = '\n'.join(split_lines)
-        except:
+        except Exception:
             error_text = "Cannot parse error details"
 
         message = "Status Code: {0}. Data from server:\n{1}\n".format(status_code, error_text)
@@ -103,17 +103,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-    
+
     def _process_file_response(self, r, action_result):
-        #Just send back the file stream data
+        # Just send back the file stream data
         if r.status_code == 200:
             data = r.content
             return RetVal(phantom.APP_SUCCESS, data)
-        
+
         else:
             message = "Error from server. Status Code: {0}".format(r.status_code)
             return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-        
 
     def _process_response(self, r, action_result):
         # store the r_text in debug data, it will get dumped in the logs if the action fails
@@ -134,7 +133,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # the error and adds it to the action_result.
         if 'html' in r.headers.get('Content-Type', ''):
             return self._process_html_response(r, action_result)
-        
+
         # Try manual octet stream return
         if r.headers.get('Content-Type', '') == 'binary/octet-stream':
             return self._process_file_response(r, action_result)
@@ -142,7 +141,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # it's not content-type that is to be parsed, handle an empty response
         if not r.text:
             return self._process_empty_response(r, action_result)
-        
+
         # return 200 response that did not fit any above handle
         if r.status_code == 200:
             return self._process_file_response(r, action_result)
@@ -172,7 +171,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Create a URL to connect to
         url = self._base_url + endpoint
-        
+
         try:
             r = request_func(
                 url,
@@ -197,8 +196,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # i.e. the param dictionary passed to this handler will be empty.
         # Also typically it does not add any data into an action_result either.
         # The status and progress messages are more important.
-        
-        #self.save_progress("Connecting to endpoint")
+
+        # self.save_progress("Connecting to endpoint")
         # make rest call
         ret_val, response = self._make_rest_call(
             ADD_OBJECT_TO_EXCEPTION_LIST, action_result, params=None, headers=self.header()
@@ -213,7 +212,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def get_computer_id(self, field, value):
-        # get the computer id from Trend Micro Vison One
+        # get the computer id from Trend Micro Vision One
 
         body = {
             "criteria": {
@@ -221,14 +220,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "value": value
             }
         }
-        response = requests.post(f'{self._base_url}{GET_COMPUTER_ID_ENDPOINT}', headers=self.header(), data=json.dumps(body)).json()
+        response = requests.post(f'{self._base_url}{GET_COMPUTER_ID_ENDPOINT}', headers=self.header(),
+                                 data=json.dumps(body)).json()
 
         if response["status"] == 'FAIL':
             return ("lookup failed")
         computer_id = response.get("result").get("computerId")
 
         return computer_id
-    
+
     def delistify(self, listed):
         # Unpack and get the first element in a list of any depth
         if isinstance(listed, list) or "[" in listed:
@@ -242,10 +242,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 return self.delistify(liste[1])
         else:
             return listed
-        
+
     def _handle_get_computer_id(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
-        
+
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -258,21 +258,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "value": ip_hostname_mac
             }
         }
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
             GET_COMPUTER_ID_ENDPOINT, action_result, method="post", data=json.dumps(body), headers=self.header()
         )
-        
+
         if phantom.is_fail(ret_val):
             self.save_progress("Computer ID lookup failed.")
             return action_result.get_status()
 
         # Add the response into the data section
         action_result.add_data(response)
-        
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -280,38 +277,38 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def lookup_type(self, param):
 
         # Regex expression for validating IPv4
-        regex = "(([0-9]|[1-9][0-9]|1[0-9][0-9]|"\
-                "2[0-4][0-9]|25[0-5])\\.){3}"\
-                "([0-9]|[1-9][0-9]|1[0-9][0-9]|"\
+        regex = "(([0-9]|[1-9][0-9]|1[0-9][0-9]|" \
+                "2[0-4][0-9]|25[0-5])\\.){3}" \
+                "([0-9]|[1-9][0-9]|1[0-9][0-9]|" \
                 "2[0-4][0-9]|25[0-5])"
 
         # Regex expression for validating IPv6
-        regex1 = "((([0-9a-fA-F]){1,4})\\:){7}"\
+        regex1 = "((([0-9a-fA-F]){1,4})\\:){7}" \
                  "([0-9a-fA-F]){1,4}"
-        
+
         # Regex expression for validating MAC
-        regex2 = "([0-9A-Fa-f]{2}[:-]){5}"\
+        regex2 = "([0-9A-Fa-f]{2}[:-]){5}" \
                  "([0-9A-Fa-f]{2})"
-        
+
         p = re.compile(regex)
         p1 = re.compile(regex1)
         p2 = re.compile(regex2)
 
-        # Checking if it is a valid IPv4 addresses
+        # Checking if it is a valid IPv4 address
         if (re.search(p, param)):
             return "ip"
 
-        # Checking if it is a valid IPv6 addresses
+        # Checking if it is a valid IPv6 address
         elif (re.search(p1, param)):
             return "ipv6"
 
-        # Checking if it is a valid MAC addresses
+        # Checking if it is a valid MAC address
         elif (re.search(p2, param)):
             return "macaddr"
 
         # Otherwise use hostname type
         return "hostname"
-    
+
     def _handle_get_endpoint_info(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -323,6 +320,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         if '-' in value:
             parts = value.split('-')
             value = ':'.join(parts)
+
         # Unpack first item from a list of any depth
         value = self.delistify(value)
         field = self.lookup_type(value)
@@ -333,7 +331,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            GET_ENDPOINT_INFO_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None, headers=self.header()
+            GET_ENDPOINT_INFO_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None,
+            headers=self.header()
         )
 
         if phantom.is_fail(ret_val):
@@ -342,9 +341,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -359,7 +355,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Param setup
         value = param['ip_hostname_mac']
         value = self.delistify(value)
-        field = self.lookup_type(value)        
+        field = self.lookup_type(value)
         computerid = self.get_computer_id(field, value)
         productid = param['productid']
         description = param.get('description', '')
@@ -371,7 +367,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            ISOLATE_CONNECTION_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None, headers=self.header()
+            ISOLATE_CONNECTION_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None,
+            headers=self.header()
         )
 
         if phantom.is_fail(ret_val):
@@ -380,22 +377,19 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-        print(action_result._ActionResult__data)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
+        # print(action_result._ActionResult__data)
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-    
+
     def process_artifacts(self, indicators, imp_scope, severity, start_time, types, container):
         # check if artifact exists, create anew if it doesn't
         artifact_id = indicators.get('id', None)
         artifact_type = indicators.get('objectType', '')
         artifact_value = indicators.get('objectValue', '')
         related_entities = indicators.get('relatedEntities', [])
-        #filter_id = indicators.get('filterId', []) #not going to pass filter_id
-        
+        # filter_id = indicators.get('filterId', []) #not going to pass filter_id
+
         # extract related entity data
         try:
             local_scope = {}
@@ -410,8 +404,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     # extract data
                     entity_v = scope.get('entityValue', '')
                     entity_i = scope.get('entityId', '')
-                    related_e = scope.get('relatedEntities', '') #list
-                    related_i = scope.get('relatedIndicators', '') #list
+                    related_e = scope.get('relatedEntities', '')  # list
+                    related_i = scope.get('relatedIndicators', '')  # list
                     entity_t = scope.get('entityType', '')
                     # append data to listy dict in case artefact is indeed related
                     if artifact_id in related_i:
@@ -422,24 +416,27 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         local_scope['entityType'].append(entity_t)
         except Exception as e:
             self.debug_print(f"The following error happened while localizing artefact impact scope: {e}")
-            
+
         # if artifacts dont already exist, make new artifact bundles
         new_artifacts = []
         try:
             if not self.artifact_exists(f'TM-{container}-{artifact_id}', container):
-                new_artifacts.append(self.create_artifact(artifact_id, artifact_type, artifact_value, related_entities, local_scope, severity, start_time, types, container))
+                new_artifacts.append(
+                    self.create_artifact(artifact_id, artifact_type, artifact_value, related_entities, local_scope,
+                                         severity, start_time, types, container))
         except Exception as e:
-            self.debug_print(f'The following error happened while creating new artifact bundle: {e}')    
+            self.debug_print(f'The following error happened while creating new artifact bundle: {e}')
             pass
-        
+
         # save artifacts to splunk
         if new_artifacts:
             ret_val, msg, response = self.save_artifacts(new_artifacts)
             if phantom.is_fail(ret_val):
                 self.save_progress(f"Error saving artifacts: {msg}")
                 self.debug_print(f"Error saving artifacts: {new_artifacts}")
-                
-    def create_artifact(self, artifact_id, artifact_type, artifact_value, related_entities, local_scope, severity, start_time, types, container):
+
+    def create_artifact(self, artifact_id, artifact_type, artifact_value, related_entities, local_scope, severity,
+                        start_time, types, container):
         # create new artifact
         artifact = {}
         artifact['name'] = artifact_id
@@ -449,7 +446,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         artifact['type'] = local_scope.get('entityType', 'network')
         artifact['severity'] = severity
         artifact['start_time'] = start_time
-        
+
         art_cef = {}
         # Map attributes returned from TM Vision One into Common Event Format (cef)
         art_cef['cs1'] = artifact_value
@@ -466,34 +463,32 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 assoc_ips.append(i.get('ips', ''))
         art_cef['sourceHostName'] = hosts_names
         art_cef['sourceAddress'] = assoc_ips
-        
+
         artifact['cef'] = art_cef
-        
+
         return artifact
-    
+
     def update_container(self, i, old_container):
         # update old container
         update = {}
         update['data'] = i
-        #self.debug_print(i)
         sdi = i.get("workbenchId", "")
         types = i['detail'].get("alertProvider", "")
         update['description'] = f'{sdi}: {types}'
         imp_scope = i['detail']['impactScope']
         severity = i.get('severity', "")
         start_time = i.get('createdTime', "")
-            
+
         url = f'{self.get_phantom_base_url()}rest/container/{old_container}'
         try:
-            #self.debug_print(f'Updating container: {old_container}')
-            response = requests.post(url, data=json.dumps(update), verify=False)
-        except:
+            requests.post(url, data=json.dumps(update), verify=False)
+        except Exception:
             return phantom.APP_ERROR
-        
+
         # add new artifacts
         for x in i['detail']['indicators']:
             self.process_artifacts(x, imp_scope, severity, start_time, types, container=old_container)
-        
+
     def artifact_exists(self, sdi, container):
         # check if a given artifact exists for in a container
         url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container}'
@@ -501,28 +496,28 @@ class TrendMicroVisionOneConnector(BaseConnector):
         try:
             self.debug_print(f"Making request on url: {url}")
             response = requests.get(url, verify=False)
-        except:
+        except Exception:
             return None
         # return id or None
         if response.json().get('data', None):
             return response.json().get('data', None)[0].get('id', None)
         else:
             return None
-    
+
     def container_exists(self, sdi):
         # check if TM workbenchID already exists in Splunk
         url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{sdi}"&_filter_asset={self.get_asset_id()}'
         # make rest call
         try:
             response = requests.get(url, verify=False)
-        except:
+        except Exception:
             return None
         # return id or None
         if response.json().get('data', None):
             return response.json().get('data', None)[0].get('id', None)
         else:
             return None
-    
+
     def create_container(self, i, sdi):
         # create a new container for a Trend Micro WorkBench incident
         container = {}
@@ -534,35 +529,35 @@ class TrendMicroVisionOneConnector(BaseConnector):
         container['type'] = i['detail'].get('alertProvider', "")
         container['severity'] = i.get('severity', "")
         container['start_time'] = i.get('createdTime', "")
-        
+
         return container
-        
+
     def _handle_on_poll(self, param):
         # Log current action
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
-        
-        #standard time frame for poll interval
+
+        # standard time frame for poll interval
         nowstamp = int(datetime.datetime.utcnow().timestamp())
-        end = datetime.datetime.fromtimestamp(nowstamp).isoformat() + '.000Z' #default end is now
-        monthago = nowstamp - 2500000 #2,5 million unix epoch time ~ 1 month 
-        start = datetime.datetime.fromtimestamp(monthago).isoformat() + '.000Z' #default start is approx. 1 month ago
-        
-        #frame time from last run, or do a first run with default timeframe
+        end = datetime.datetime.fromtimestamp(nowstamp).isoformat() + '.000Z'  # default end is now
+        monthago = nowstamp - 2500000  # 2,5 million unix epoch time ~ 1 month
+        start = datetime.datetime.fromtimestamp(monthago).isoformat() + '.000Z'  # default start is approx. 1 month ago
+
+        # frame time from last run, or do a first run with default timeframe
         try:
             starttime = self._state['last_ingestion_time']
-        except:
+        except Exception:
             starttime = param.get('starttime', start)
         endtime = param.get('endtime', end)
-        #DEBUG time frame
-        #starttime = '2022-01-01T10:00:00.000Z'
-        #endtime = '2022-04-12T12:00:00.000Z'
-        #DEBUG time frame
+        # DEBUG time frame
+        # starttime = '2022-01-01T10:00:00.000Z'
+        # endtime = '2022-04-12T12:00:00.000Z'
+        # DEBUG time frame
         limit = param.get('limit', 100)
 
-        query_params = { 
+        query_params = {
             'endTime': endtime,
             'limit': limit,
             'offset': 0,
@@ -573,7 +568,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         ret_val, event_feed = self._make_rest_call(
             WORKBENCH_HISTORIES, action_result, method='get', headers=self.header(), params=query_params,
         )
-        
+
         if event_feed is None:
             return action_result.get_status()
 
@@ -581,36 +576,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         try:
             events = event_feed
             for i in events['data']['workbenchRecords']:
-                entity_value = ''
-                entity_id = ''
-                related_entities = ''
-                related_indicators = ''
-                entity_type = ''
-                for x in i['detail']['impactScope']:
-                    entity_v = x.get('entityValue', '')
-                    if entity_v:
-                        entity_value = entity_v
-                    entity_i = x.get('entityId', '')
-                    if entity_i:
-                        entity_id = entity_i
-                    related_e = x.get('relatedEntities', '') #list
-                    if related_e:
-                        related_entities = related_e
-                    related_i = x.get('relatedIndicators', '') 
-                    if related_i:
-                        related_indicators = related_i
-                    entity_t = x.get('entityType', '')
-                    if entity_t:
-                        entity_type = entity_t
                 sdi = i.get('workbenchId', "")
-                
+
                 # check if container already exists
                 old_container = self.container_exists(sdi)
                 if old_container:
                     self.debug_print('Updating Containers')
                     self.update_container(i, old_container)
                 else:
-                    #make new container
+                    # make new container
                     container = self.create_container(i, sdi)
                     # save new container to Splunk
                     ret_val, msg, cid = self.save_container(container)
@@ -627,10 +601,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
             summary = action_result.update_summary({})
             summary['Number of Events Found'] = len(events)
             self.save_progress("Phantom imported {0} events".format(len(events)))
-            
+
             # remember current timestamp for next run
             self._state['last_ingestion_time'] = endtime
-            
+
             return action_result.set_status(phantom.APP_SUCCESS)
 
         except Exception as e:
@@ -658,7 +632,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         }
         # make rest call
         ret_val, response = self._make_rest_call(
-            RESTORE_CONNECTION_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None, headers=self.header()
+            RESTORE_CONNECTION_ENDPOINT, action_result, method="post", data=json.dumps(body), params=None,
+            headers=self.header()
         )
 
         if phantom.is_fail(ret_val):
@@ -666,9 +641,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -683,7 +655,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Param setup
         action_id = param['action_id']
         param = {'actionId': action_id}
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
             TASK_DETAIL_ENDPOINT, action_result, method='get', params=param, headers=self.header()
@@ -691,9 +663,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
-        
+
         # Start looping for 20 minutes to wait for "ongoing" tasks to finish
-        timer = 1200 #seconds
+        timer = 1200  # seconds
         elapsed = 0
         while timer > 0 and 'success' not in response.get("data").get("taskStatus"):
             # make rest call
@@ -712,16 +684,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     }
                     action_result.add_data(message)
                 return action_result.get_status()
-            
+
         # Add the message into the data section
         self.debug_print('Approximate number of seconds waited for task to finish: %s' % elapsed)
         message = {
             "taskStatus": response.get("data").get("taskStatus")
         }
         action_result.add_data(message)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -739,30 +708,26 @@ class TrendMicroVisionOneConnector(BaseConnector):
         product_id = param.get('product_id', '')
         description = param.get('description', '')
         body = {
-        'valueType': value_type,
-        'targetValue': target_value,
-        'productId': product_id,
-        'description': description,
+            'valueType': value_type,
+            'targetValue': target_value,
+            'productId': product_id,
+            'description': description,
         }
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
             ADD_BLOCKLIST_ENDPOINT, action_result, method='post', data=json.dumps(body), headers=self.header()
         )
-            
+
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
         action_result.add_data(response)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-        
+
     def _handle_remove_from_blocklist(self, param):
         # send progress messages back to the platform
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -776,10 +741,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
         product_id = param.get('product_id', '')
         description = param.get('description', '')
         body = {
-        'valueType': value_type,
-        'targetValue': target_value,
-        'productId': product_id,
-        'description': description,
+            'valueType': value_type,
+            'targetValue': target_value,
+            'productId': product_id,
+            'description': description,
         }
 
         # make rest call
@@ -792,9 +757,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -813,13 +775,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         product_id = param.get('product_id', '')
         description = param.get('description', '')
         body = {
-        'messageId': message_id,
-        'mailBox': mailbox,
-        'messageDeliveryTime': message_delivery_time,
-        'productId': product_id,
-        'description': description
+            'messageId': message_id,
+            'mailBox': mailbox,
+            'messageDeliveryTime': message_delivery_time,
+            'productId': product_id,
+            'description': description
         }
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
             QUARANTINE_EMAIL_ENDPOINT, action_result, method='post', data=json.dumps(body), headers=self.header()
@@ -831,12 +793,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add the response into the data section
         action_result.add_data(response)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-    
+
     def _handle_delete_email_message(self, param):
         # send progress messages back to the platform
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -851,11 +810,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         product_id = param.get('product_id', '')
         description = param.get('description', '')
         body = {
-        'messageId': message_id,
-        'mailBox': mailbox,
-        'messageDeliveryTime': message_delivery_time,
-        'productId': product_id,
-        'description': description
+            'messageId': message_id,
+            'mailBox': mailbox,
+            'messageDeliveryTime': message_delivery_time,
+            'productId': product_id,
+            'description': description
         }
 
         # make rest call
@@ -868,9 +827,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -912,18 +868,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add the response into the data section
         action_result.add_data(response)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-    
+
     def exception_list_count(self):
         # Gets the count of objects present in exception list
         ret_val, response = self._make_rest_call(
             ADD_OBJECT_TO_EXCEPTION_LIST, action_result='', method='get', params=None, headers=self.header()
         )
-        #response = json.loads(response.decode('utf-8')) #seems to not be needed anymore
+        # response = json.loads(response.decode('utf-8')) #seems to not be needed anymore
         list_of_exception = response.get('data').get('exceptionList')
         exception_count = len(list_of_exception)
         return exception_count
@@ -945,9 +898,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_EXCEPTION_LIST, action_result, method='post', data=json.dumps(body), headers=self.header() #params=None,
+            ADD_OBJECT_TO_EXCEPTION_LIST, action_result, method='post', data=json.dumps(body), headers=self.header()
+            # params=None,
         )
-            
+
         exception_list = self.exception_list_count()
 
         if phantom.is_fail(ret_val):
@@ -956,17 +910,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add the response into the data section
         data = {
             "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0], #there could be a better way to get the status code
+            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0],
+            # there could be a better way to get the status code
             "total_items": exception_list,
         }
         action_result.add_data(data)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-    
+
     def _handle_delete_from_exception_list(self, param):
         # send progress messages back to the platform
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -981,12 +933,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         description = param.get('description', '')
         body = {'data': [{'type': types, 'value': value}]}
         body['data'][0]['description'] = description
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
-            DELETE_OBJECT_FROM_EXCEPTION_LIST, action_result, method='post', data=json.dumps(body), headers=self.header() #params=None,
+            DELETE_OBJECT_FROM_EXCEPTION_LIST, action_result, method='post', data=json.dumps(body),
+            headers=self.header()
+            # params=None,
         )
-        
+
         exception_list = self.exception_list_count()
 
         if phantom.is_fail(ret_val):
@@ -995,23 +949,21 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add the response into the data section
         data = {
             "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0], #there could be a better way to get the status code
+            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0],
+            # there could be a better way to get the status code
             "total_items": exception_list,
         }
         action_result.add_data(data)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-        
+
     def suspicious_list_count(self):
         # Get the count of objects present n suspicious list
         ret_val, response = self._make_rest_call(
             ADD_OBJECT_TO_SUSPICIOUS_LIST, action_result='', method="get", params=None, headers=self.header()
         )
-        #response = json.loads(response.decode('utf-8')) 
+        # response = json.loads(response.decode('utf-8'))
         list_of_exception = response.get('data').get('suspiciousObjectList')
         exception_count = len(list_of_exception)
         return exception_count
@@ -1030,44 +982,42 @@ class TrendMicroVisionOneConnector(BaseConnector):
         description = param.get('description', '')
         scan_action = param.get('scan_action', '')
         if scan_action and scan_action not in ('log', 'block'):
-            raise '{0} is not a valid paramter. Kindly provide valid parameter'.format(scan_action)
+            raise '{0} is not a valid parameter. Kindly provide valid parameter'.format(scan_action)
         risk_level = param.get('risk_level', '')
         if risk_level and risk_level not in ("high", "medium", "low"):
-            raise '{0} is not a valid paramter. Kindly provide valid parameter'.format(risk_level)
+            raise '{0} is not a valid parameter. Kindly provide valid parameter'.format(risk_level)
         expiry = param.get('expiry', 0)
         body = {
             'data': [
                 {
-                'type': types,
-                'value': value,
-                'description': description,
-                'scanAction': scan_action,
-                'riskLevel': risk_level,
-                'expiredDay': expiry
+                    'type': types,
+                    'value': value,
+                    'description': description,
+                    'scanAction': scan_action,
+                    'riskLevel': risk_level,
+                    'expiredDay': expiry
                 }
             ]
         }
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_SUSPICIOUS_LIST, action_result, method='post', data=json.dumps(body), headers=self.header()  #params=None,
+            ADD_OBJECT_TO_SUSPICIOUS_LIST, action_result, method='post', data=json.dumps(body), headers=self.header()
         )
 
         suspicious_list = self.suspicious_list_count()
-        
+
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
         data = {
             "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0], #there could be a better way to get the status code
+            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0],
+            # there could be a better way to get the status code
             "total_items": suspicious_list,
         }
         action_result.add_data(data)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1087,24 +1037,23 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            DELETE_OBJECT_FROM_SUSPICIOUS_LIST, action_result, method='post', data=json.dumps(body), headers=self.header() #params=None, 
+            DELETE_OBJECT_FROM_SUSPICIOUS_LIST, action_result, method='post', data=json.dumps(body),
+            headers=self.header()
         )
 
         suspicious_list = self.suspicious_list_count()
-        
+
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
         data = {
             "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0], #there could be a better way to get the status code
+            "status_code": action_result._ActionResult__debug_data[0].split(':')[1].split('}')[0],
+            # there could be a better way to get the status code
             "total_items": suspicious_list,
         }
         action_result.add_data(data)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1123,25 +1072,22 @@ class TrendMicroVisionOneConnector(BaseConnector):
         ret_val, response = self._make_rest_call(
             GET_FILE_STATUS.format(taskId=task_id), action_result, method='get', params=None, headers=self.header()
         )
-        
+
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
         action_result.add_data(response)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-        
+
     def file_to_vault(self, data, filename, container_id, action_result):
         # Create temp file for upload
         try:
             vault_dir = vault.get_vault_tmp_dir()
         except Exception as e:
-            #self.debug_print(e)
+            self.debug_print(e)
             vault_dir = "/opt/phantom/vault/tmp/"
         unique_id = str(uuid.uuid4())
         vault_dir += unique_id
@@ -1191,18 +1137,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
         params = {
             'type': types
         }
-        
+
         # make rest call
         ret_val, response = self._make_rest_call(
-            GET_FILE_REPORT.format(reportId=report_id), action_result, method='get', params=params, headers=self.header(), stream=True
+            GET_FILE_REPORT.format(reportId=report_id), action_result, method='get', params=params,
+            headers=self.header(), stream=True
         )
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
-        
-        
+
         if isinstance(response, dict):
-            #add response to results here
+            # add response to results here
             message = {
                 'message': response.get("message", ""),
                 'code': response.get("code", ""),
@@ -1219,20 +1165,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         'root_file_sha1': data.get("rootFileSha1", "")
                     }
                     message.get('data', {}).append(data_value)
-                    
+
             container = {}
             container['name'] = report_id
             container['source_data_identifier'] = 'File Analysis Report - Suspicious Object'
             container['label'] = 'trendmicro'
             try:
                 container['severity'] = message['data'][0]['risk_level'].capitalize()
-            except:
-                container['severity'] = 'Medium' 
+            except Exception:
+                container['severity'] = 'Medium'
             container['tags'] = 'suspiciousObject'
             ret_val, msg, cid = self.save_container(container)
-            print('THIS IS CONTAINER DETAILS')
-            print(ret_val, msg, cid)
-            
+
             artifacts = []
             for i in message['data']:
                 artifacts_d = {}
@@ -1243,18 +1187,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 artifacts_d['cef'] = i
                 artifacts.append(artifacts_d)
             ret_val, msg, cid = self.save_artifacts(artifacts)
-            print('THIS IS ARTIFACT DETAILS')
-            print(ret_val, msg, cid)
 
             self.save_progress('Suspicious Object added to Container')
-        
+
         else:
             data = response
             if types == 'vaReport':
-                results = self.file_to_vault(data, 'Sandbox_Analysis_Report.pdf', self.get_container_id(), action_result)
+                results = self.file_to_vault(data, 'Sandbox_Analysis_Report.pdf', self.get_container_id(),
+                                             action_result)
             else:
-                results = self.file_to_vault(data, 'Sandbox_Investigation_Package.zip', self.get_container_id(), action_result)
-
+                results = self.file_to_vault(data, 'Sandbox_Investigation_Package.zip', self.get_container_id(),
+                                             action_result)
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
@@ -1263,11 +1206,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         try:
             action_result.add_data(results)
         except Exception as e:
-            #self.debug_print(e)
+            self.debug_print(e)
             action_result.add_data(response)
-            
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1285,7 +1225,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         field = self.lookup_type(value)
         computer_id = self.get_computer_id(field, value)
         product_id = param['product_id'].lower()
-        file_path = param['file_path'] #WARNING! filepath needs to be tuple!!!
+        file_path = param['file_path']  # WARNING! filepath needs to be tuple!!!
         os = param['os']
         description = param.get('description', '')
 
@@ -1299,17 +1239,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            COLLECT_FORENSIC_FILE, action_result, method='post', params=None, headers=self.header(), data=json.dumps(body)
+            COLLECT_FORENSIC_FILE, action_result, method='post', params=None, headers=self.header(),
+            data=json.dumps(body)
         )
-        
+
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1330,25 +1268,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
             DOWNLOAD_INFORMATION_COLLECTED_FILE, action_result, method='get', params=param, headers=self.header()
         )
 
-        file_url = response.get('data', '').get('url', '')
-        expires = response.get('data', '').get('expires', '')
-        password = response.get('data', '').get('password', '')
-        filename = response.get('data', '').get('filename', '')
-        message = {
-            'url': file_url,
-            'expires': expires,
-            'password': password,
-            'filename': filename
-        }
-        
         if phantom.is_fail(ret_val):
             return action_result.get_status()
-        
+
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1383,9 +1307,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
             file_content = requests.get(file_url, allow_redirects=True)
             files = {'file': (file_name, file_content.content, 'application/x-zip-compressed')}
             ret_val, response = self._make_rest_call(
-                SUBMIT_FILE_TO_SANDBOX, action_result, method='post', params=params, headers=header, data=data, files=files
+                SUBMIT_FILE_TO_SANDBOX, action_result, method='post', params=params, headers=header, data=data,
+                files=files
             )
-        #except HTTPError as http_err:
+        # except HTTPError as http_err:
         #    raise http_err
         except Exception as e:
             raise e
@@ -1395,10 +1320,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-        print(action_result._ActionResult__data)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1420,7 +1341,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            ADD_NOTE_ENDPOINT.format(workbenchId=workbench_id), action_result, method='post', data=json.dumps(body), headers=self.header()
+            ADD_NOTE_ENDPOINT.format(workbenchId=workbench_id), action_result, method='post', data=json.dumps(body),
+            headers=self.header()
         )
 
         if phantom.is_fail(ret_val):
@@ -1428,17 +1350,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-        print(action_result._ActionResult__data)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
+        # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-
-        # For now return Error with a message, in case of success we don't set the message, but use the summary
-        #return action_result.set_status(phantom.APP_ERROR, "Action not yet implemented")
 
     def _handle_update_status(self, param):
         # Send progress messages back to the platform
@@ -1452,13 +1366,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         status = param['status']
 
         if status == 'new':
-            update_status = 0 #NEW
+            update_status = 0  # NEW
         elif status == 'in_progress':
-            update_status = 1 #IN_PROGRESS
+            update_status = 1  # IN_PROGRESS
         elif status == 'resolved_true_positive':
-            update_status = 2 #RESOLVED_TRUE_POSITIVE
+            update_status = 2  # RESOLVED_TRUE_POSITIVE
         elif status == 'resolved_false_positive':
-            update_status = 3 #RESOLVED_FALSE_POSITIVE
+            update_status = 3  # RESOLVED_FALSE_POSITIVE
 
         body = {
             'investigationStatus': update_status
@@ -1466,7 +1380,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            UPDATE_STATUS_ENDPOINT.format(workbenchId=workbench_id), action_result, method='put', data=json.dumps(body), headers=self.header()
+            UPDATE_STATUS_ENDPOINT.format(workbenchId=workbench_id), action_result, method='put', data=json.dumps(body),
+            headers=self.header()
         )
 
         if phantom.is_fail(ret_val):
@@ -1474,18 +1389,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Add the response into the data section
         action_result.add_data(response)
-        print(action_result._ActionResult__data)
 
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-
-
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
+        # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-
-        # For now return Error with a message, in case of success we don't set the message, but use the summary
-        # return action_result.set_status(phantom.APP_ERROR, "Action not yet implemented")
 
     def handle_action(self, param):
         ret_val = phantom.APP_SUCCESS
@@ -1569,7 +1475,6 @@ def main():
     password = args.password
 
     if username is not None and password is None:
-
         # User specified a username but not a password, so ask
         import getpass
         password = getpass.getpass("Password: ")

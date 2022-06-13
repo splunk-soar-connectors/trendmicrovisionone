@@ -1435,11 +1435,13 @@
             "read_only": false,
             "parameters": {
                 "task_id": {
-                    "description": "task id",
+                    "description": "Submission ID in Vision One",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
-                    "contains": [],
+                    "contains": [
+                        "task_id"
+                    ],
                     "value_list": [],
                     "default": "",
                     "order": 0,
@@ -1450,19 +1452,98 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.task_id",
+                    "data_path": "action_result.data.*.message",
                     "data_type": "string",
+                    "contains": [],
+                    "column_name": "message",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.code",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "code",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.data.taskId",
+                    "data_type": "string",
+                    "contains": [
+                        "task_id"
+                    ],
+                    "column_name": "task_id",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.data.taskStatus",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "task_status",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.data.digest",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "digest",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.analysisCompletionTime",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "analysis_completion_time",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.riskLevel",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "risk_level",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.description",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "description",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.detectionNameList",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "detection_name_list",
+                    "column_order": 8
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.threatTypeList",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "threat_type_list",
+                    "column_order": 9
+                },
+                {
+                    "data_path": "action_result.data.*.data.analysisSummary.trueFileType",
+                    "data_type": "string",
+                    "contains": [],
+                    "column_name": "true_file_type",
+                    "column_order": 10
+                },
+                {
+                    "data_path": "action_result.data.*.data.reportId",
+                    "data_type": "numeric",
                     "contains": [
                         "report_id"
                     ],
-                    "column_name": "task_id",
-                    "column_order": 0
+                    "column_name": "report_id",
+                    "column_order": 11
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "status",
-                    "column_order": 1
+                    "column_order": 12
                 },
                 {
                     "data_path": "action_result.message",
