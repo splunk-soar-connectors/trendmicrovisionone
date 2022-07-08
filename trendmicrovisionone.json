@@ -60,7 +60,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC to get info for",
+                    "description": "Hostname/IP/MAC of the endpoint to query. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -196,7 +196,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of endpoint to quarantine",
+                    "description": "Hostname/IP/MAC of endpoint to quarantine/isolate. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -213,7 +213,7 @@
                     "param_name": "ip_hostname_mac"
                 },
                 "productid": {
-                    "description": "Trend Micro product ID for quarantine task",
+                    "description": "Trend Micro product ID for quarantine task. 'sao' or 'sds'. Default: 'sao'. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
@@ -226,7 +226,7 @@
                     "param_name": "productid"
                 },
                 "description": {
-                    "description": "Optional description for this activity",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -289,7 +289,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of endpoint to unquarantine",
+                    "description": "Hostname/IP/MAC of endpoint to unquarantine/restore connectivity for. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -306,7 +306,7 @@
                     "param_name": "ip_hostname_mac"
                 },
                 "productid": {
-                    "description": "Trend Micro product ID for unquarantine task",
+                    "description": "Trend Micro product ID for unquarantine task. 'sao' or 'sds'. Default: 'sao'. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
@@ -319,7 +319,7 @@
                     "param_name": "productid"
                 },
                 "description": {
-                    "description": "Optional description for this activity",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -382,7 +382,7 @@
             "read_only": true,
             "parameters": {
                 "starttime": {
-                    "description": "startTime=2020-06-15T10:00:00.000Z",
+                    "description": "Make sure time format matches following example. 2020-06-15T10:00:00.000Z",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -395,7 +395,7 @@
                     "param_name": "starttime"
                 },
                 "endtime": {
-                    "description": "endTime=2020-06-15T12:00:00.000Z",
+                    "description": "Make sure time format matches following example. 2020-06-15T12:00:00.000Z",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -408,7 +408,7 @@
                     "param_name": "endtime"
                 },
                 "limit": {
-                    "description": "limit=100",
+                    "description": "Limit of polling results. Default: limit=100",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -433,7 +433,7 @@
             "read_only": false,
             "parameters": {
                 "action_id": {
-                    "description": "action id",
+                    "description": "Action ID of the task you would like to get the status of. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -497,7 +497,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\")",
+                    "description": "type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -510,7 +510,7 @@
                     "param_name": "value_type"
                 },
                 "target_value": {
-                    "description": "value to add",
+                    "description": "The object you would like to add to the block list that matches the value-type. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -523,7 +523,7 @@
                     "param_name": "target_value"
                 },
                 "product_id": {
-                    "description": "Trend Micro ID of product",
+                    "description": "Trend Micro ID of product. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -536,7 +536,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -598,7 +598,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\")",
+                    "description": "type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -611,7 +611,7 @@
                     "param_name": "value_type"
                 },
                 "target_value": {
-                    "description": "value to remove",
+                    "description": "The object you would like to remove from block list that matches the value-type. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -624,7 +624,7 @@
                     "param_name": "target_value"
                 },
                 "product_id": {
-                    "description": "Trend Micro ID of product",
+                    "description": "Trend Micro ID of product. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -637,7 +637,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -699,7 +699,7 @@
             "read_only": false,
             "parameters": {
                 "message_id": {
-                    "description": "mailMsgId",
+                    "description": "Email Message ID from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -712,7 +712,7 @@
                     "param_name": "message_id"
                 },
                 "mailbox": {
-                    "description": "mailbox",
+                    "description": "Email mailbox where the message will be quarantied from. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -725,7 +725,7 @@
                     "param_name": "mailbox"
                 },
                 "message_delivery_time": {
-                    "description": "message delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z)",
+                    "description": "Email message's original delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -739,7 +739,7 @@
                     "descriptionError": false
                 },
                 "product_id": {
-                    "description": "product id",
+                    "description": "Target product ID. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -752,7 +752,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -814,7 +814,7 @@
             "read_only": false,
             "parameters": {
                 "message_id": {
-                    "description": "mailMsgId",
+                    "description": "Email Message ID from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -827,7 +827,7 @@
                     "param_name": "message_id"
                 },
                 "mailbox": {
-                    "description": "mailbox",
+                    "description": "Email mailbox where the message will be deleted from. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -840,7 +840,7 @@
                     "param_name": "mailbox"
                 },
                 "message_delivery_time": {
-                    "description": "message delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z)",
+                    "description": "Email message's original delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -853,7 +853,7 @@
                     "param_name": "message_delivery_time"
                 },
                 "product_id": {
-                    "description": "product id",
+                    "description": "Target product ID. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -866,7 +866,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -928,7 +928,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC adderss",
+                    "description": "hostname, macaddr or ip of the endpoint to terminate process on. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
@@ -941,7 +941,7 @@
                     "param_name": "ip_hostname_mac"
                 },
                 "product_id": {
-                    "description": "product id",
+                    "description": "Target product. Default: 'sao'. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -954,7 +954,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -967,7 +967,7 @@
                     "param_name": "description"
                 },
                 "file_sha1": {
-                    "description": "sha1 of the file",
+                    "description": "SHA1 hash of the process to terminate. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -980,7 +980,7 @@
                     "param_name": "file_sha1"
                 },
                 "filename": {
-                    "description": "name of the file",
+                    "description": "File name for log. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1043,7 +1043,7 @@
             "read_only": false,
             "parameters": {
                 "type": {
-                    "description": "type",
+                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1056,7 +1056,7 @@
                     "param_name": "type"
                 },
                 "value": {
-                    "description": "value",
+                    "description": "Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards 'http://.'', 'https://.'' at beginning, or ''' at the end. Multiple wild cards also supported, such as , https://.example.com/path1/) SHA1 only full match. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1069,7 +1069,7 @@
                     "param_name": "value"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1137,7 +1137,7 @@
             "read_only": false,
             "parameters": {
                 "type": {
-                    "description": "type",
+                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1148,7 +1148,7 @@
                     "name": "type"
                 },
                 "value": {
-                    "description": "value",
+                    "description": "The object value. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1159,7 +1159,7 @@
                     "name": "value"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1225,7 +1225,7 @@
             "read_only": false,
             "parameters": {
                 "type": {
-                    "description": "type",
+                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1238,7 +1238,7 @@
                     "param_name": "type"
                 },
                 "value": {
-                    "description": "value",
+                    "description": "The object value. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1251,7 +1251,7 @@
                     "param_name": "value"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description for this activity. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1264,7 +1264,7 @@
                     "param_name": "description"
                 },
                 "scan_action": {
-                    "description": "scan action (either 'log' or 'block')",
+                    "description": "The action to take if object is found. If you don't use this parameter, the scan action specified in default_settings.riskLevel.type will be used instead. 'block' or 'log'. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1277,7 +1277,7 @@
                     "param_name": "scan_action"
                 },
                 "risk_level": {
-                    "description": "risk level (either 'high', 'medium' or 'low')",
+                    "description": "The Suspicious Object risk level. If you don't use this parameter, high will be used instead. risk level (either 'high', 'medium' or 'low'). (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1290,7 +1290,7 @@
                     "param_name": "risk_level"
                 },
                 "expiry": {
-                    "description": "date of expiry",
+                    "description": "The number of days to keep the object in the Suspicious Object List. If you don't use this parameter, the default_settings.expiredDay scan action will be used instead. (Optional)",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -1358,7 +1358,7 @@
             "read_only": false,
             "parameters": {
                 "type": {
-                    "description": "type",
+                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1369,7 +1369,7 @@
                     "name": "type"
                 },
                 "value": {
-                    "description": "value",
+                    "description": "The object value. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1435,7 +1435,7 @@
             "read_only": false,
             "parameters": {
                 "task_id": {
-                    "description": "Submission ID in Vision One",
+                    "description": "task_id from the trendmicro-visionone-submit-file-to-sandbox command output. Submission ID in Vision One. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1572,7 +1572,7 @@
             "read_only": false,
             "parameters": {
                 "report_id": {
-                    "description": "report id",
+                    "description": "report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1585,7 +1585,7 @@
                     "param_name": "report_id"
                 },
                 "type": {
-                    "description": "type",
+                    "description": "Type of report to retrieve: 'vaReport', 'nvestigationPackage', or 'suspiciousObject'. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1646,7 +1646,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "IP/Hostname/MAC address",
+                    "description": "IP/Hostname/MAC address of the endpoint to collect file from. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1659,7 +1659,7 @@
                     "param_name": "ip_hostname_mac"
                 },
                 "product_id": {
-                    "description": "product id",
+                    "description": "Product: 'sao' 'xes' 'sds'. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1672,7 +1672,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "description",
+                    "description": "Description of file collected. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1685,7 +1685,7 @@
                     "param_name": "description"
                 },
                 "file_path": {
-                    "description": "file path",
+                    "description": "Path of the forensic file to collect. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1698,7 +1698,7 @@
                     "param_name": "file_path"
                 },
                 "os": {
-                    "description": "os type (mac, windows or linux without version numbers)",
+                    "description": "os type (mac, windows or linux without version numbers). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1761,7 +1761,7 @@
             "read_only": false,
             "parameters": {
                 "action_id": {
-                    "description": "action id",
+                    "description": "actionId output from the collect command used to collect the file. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1852,7 +1852,7 @@
             "read_only": false,
             "parameters": {
                 "file_url": {
-                    "description": "file url",
+                    "description": "URL pointing to the location of the file to be submitted. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1865,7 +1865,7 @@
                     "param_name": "file_url"
                 },
                 "file_name": {
-                    "description": "file name",
+                    "description": "Name of the file to be analyzed. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1878,7 +1878,7 @@
                     "param_name": "file_name"
                 },
                 "document_pass": {
-                    "description": "password of the document",
+                    "description": "The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1891,7 +1891,7 @@
                     "param_name": "document_pass"
                 },
                 "archive_pass": {
-                    "description": "password of the archive",
+                    "description": "The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1968,7 +1968,7 @@
             "read_only": false,
             "parameters": {
                 "workbench_id": {
-                    "description": "workbench id",
+                    "description": "Workbench id of security incident in Vision One. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1983,7 +1983,7 @@
                     "param_name": "workbench_id"
                 },
                 "content": {
-                    "description": "note to be added to workbench",
+                    "description": "Note to be added to workbench event. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -2051,7 +2051,7 @@
             "read_only": false,
             "parameters": {
                 "workbench_id": {
-                    "description": "workbench_id",
+                    "description": "The ID of the workbench alert that you would like to update the status for. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -2064,7 +2064,7 @@
                     "name": "workbench_id"
                 },
                 "status": {
-                    "description": "status",
+                    "description": "The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
