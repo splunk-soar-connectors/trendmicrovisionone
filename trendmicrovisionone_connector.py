@@ -222,7 +222,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             }
         }
         response = requests.post(f'{self._base_url}{GET_COMPUTER_ID_ENDPOINT}', headers=self.header(),
-                                 data=json.dumps(body)).json()
+                                 data=json.dumps(body), timeout=30).json()
 
         if response["status"] == 'FAIL':
             return ("lookup failed")
@@ -482,7 +482,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         url = f'{self.get_phantom_base_url()}rest/container/{old_container}'
         try:
-            requests.post(url, data=json.dumps(update), verify=False)  # nosemgrep
+            requests.post(url, data=json.dumps(update), verify=False, timeout=30)  # nosemgrep
         except Exception:
             return phantom.APP_ERROR
 
@@ -496,7 +496,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # make rest call
         try:
             self.debug_print(f"Making request on url: {url}")
-            response = requests.get(url, verify=False)  # nosemgrep
+            response = requests.get(url, verify=False, timeout=30)  # nosemgrep
         except Exception:
             return None
         # return id or None
@@ -510,7 +510,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{sdi}"&_filter_asset={self.get_asset_id()}'
         # make rest call
         try:
-            response = requests.get(url, verify=False)  # nosemgrep
+            response = requests.get(url, verify=False, timeout=30)  # nosemgrep
         except Exception:
             return None
         # return id or None
@@ -1305,7 +1305,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # make rest call
         try:
-            file_content = requests.get(file_url, allow_redirects=True)
+            file_content = requests.get(file_url, allow_redirects=True, timeout=30)
             files = {'file': (file_name, file_content.content, 'application/x-zip-compressed')}
             ret_val, response = self._make_rest_call(
                 SUBMIT_FILE_TO_SANDBOX, action_result, method='post', params=params, headers=header, data=data,
@@ -1485,7 +1485,7 @@ def main():
             login_url = TrendMicroVisionOneConnector._get_phantom_base_url() + '/login'
 
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)  # nosemgrep
+            r = requests.get(login_url, verify=False, timeout=30)  # nosemgrep
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -1498,7 +1498,7 @@ def main():
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False, data=data, headers=headers)  # nosemgrep
+            r2 = requests.post(login_url, verify=False, data=data, headers=headers, timeout=30)  # nosemgrep
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
