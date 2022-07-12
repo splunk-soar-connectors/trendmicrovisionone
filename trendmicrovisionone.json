@@ -1,5 +1,5 @@
 {
-    "appid": "f36c99d8-16ed-4b65-be03-d93511d721dd",
+    "app_id": "f36c99d8-16ed-4b65-be03-d93511d721dd",
     "name": "Trend Micro Vision One",
     "description": "Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Micro Vision One prevents the majority of attacks with automated protection.",
     "type": "endpoint",
@@ -30,10 +30,8 @@
         },
         "api_key": {
             "description": "Vision One API Token",
-            "data_type": "string",
+            "data_type": "password",
             "required": true,
-            "value_list": [],
-            "default": "",
             "order": 1,
             "name": "api_key",
             "id": 1
@@ -44,7 +42,7 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
+            "verbose": "Validate the asset configuration for connectivity using supplied configuration.",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -55,7 +53,7 @@
             "action": "get endpoint info",
             "identifier": "get_endpoint_info",
             "description": "Gather information about an endpoint",
-            "verbose": "",
+            "verbose": "Gather information about an endpoint.",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -191,7 +189,7 @@
             "action": "quarantine device",
             "identifier": "quarantine_device",
             "description": "Quarantine the endpoint",
-            "verbose": "",
+            "verbose": "Quarantine the endpoint.",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -284,7 +282,7 @@
             "action": "unquarantine device",
             "identifier": "unquarantine_device",
             "description": "Unquarantine the endpoint",
-            "verbose": "",
+            "verbose": "Unquarantine the endpoint.",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -377,7 +375,7 @@
             "action": "on poll",
             "identifier": "on_poll",
             "description": "Callback action for the on_poll ingest functionality",
-            "verbose": "",
+            "verbose": "Callback action for the on_poll ingest functionality.",
             "type": "ingest",
             "read_only": true,
             "parameters": {
@@ -428,7 +426,7 @@
             "action": "status check",
             "identifier": "status_check",
             "description": "Checks the status of a task",
-            "verbose": "Checks the status of a particular task",
+            "verbose": "Checks the status of a particular task.",
             "type": "investigate",
             "read_only": false,
             "parameters": {
@@ -497,7 +495,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+                    "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -598,7 +596,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+                    "description": "Type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -809,7 +807,7 @@
             "action": "delete email message",
             "identifier": "delete_email_message",
             "description": "Delete the email message",
-            "verbose": "Retrieve data from the delete email message and relay result to Splunk",
+            "verbose": "Retrieve data from the delete email message and relay result to Splunk.",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -928,7 +926,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "hostname, macaddr or ip of the endpoint to terminate process on. (Required)",
+                    "description": "Hostname, macaddr or ip of the endpoint to terminate process on. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
@@ -1037,7 +1035,7 @@
         {
             "action": "add to exception list",
             "identifier": "add_to_exception_list",
-            "description": "Add object to exception list.",
+            "description": "Add object to exception list",
             "verbose": "Add the exception object to the exception list and send the result to Splunk.",
             "type": "correct",
             "read_only": false,
@@ -1131,7 +1129,7 @@
         {
             "action": "delete from exception list",
             "identifier": "delete_from_exception_list",
-            "description": "Delete object from exception list.",
+            "description": "Delete object from exception list",
             "verbose": "Delete the exception object from the exception list and relay data to Splunk.",
             "type": "correct",
             "read_only": false,
@@ -1352,7 +1350,7 @@
         {
             "action": "delete from suspicious list",
             "identifier": "delete_from_suspicious_list",
-            "description": "Delete the suspicious object from suspicious list.",
+            "description": "Delete the suspicious object from suspicious list",
             "verbose": "Delete the suspicious object from suspicious list and send the result to the dashboard.",
             "type": "correct",
             "read_only": false,
@@ -1435,7 +1433,7 @@
             "read_only": false,
             "parameters": {
                 "task_id": {
-                    "description": "task_id from the trendmicro-visionone-submit-file-to-sandbox command output. Submission ID in Vision One. (Required)",
+                    "description": "Task_id from the trendmicro-visionone-submit-file-to-sandbox command output. Submission ID in Vision One. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1566,13 +1564,13 @@
         {
             "action": "get file analysis report",
             "identifier": "get_file_analysis_report",
-            "description": "Get the analysis report of a file based on report id.",
+            "description": "Get the analysis report of a file based on report id",
             "verbose": "Get the analysis report of a file based on report id and send the results to the dashboard.",
             "type": "investigate",
             "read_only": false,
             "parameters": {
                 "report_id": {
-                    "description": "report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command. (Required)",
+                    "description": "Report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1641,7 +1639,7 @@
             "action": "collect file",
             "identifier": "collect_file",
             "description": "Collect forensic file",
-            "verbose": "Collect forensic file and send result to the dashboard",
+            "verbose": "Collect forensic file and send result to the dashboard.",
             "type": "investigate",
             "read_only": false,
             "parameters": {
@@ -1672,7 +1670,7 @@
                     "param_name": "product_id"
                 },
                 "description": {
-                    "description": "Description of file collected. (Optional)",
+                    "description": "Description of file collected (Optional).",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1685,7 +1683,7 @@
                     "param_name": "description"
                 },
                 "file_path": {
-                    "description": "Path of the forensic file to collect. (Required)",
+                    "description": "Path of the forensic file to collect (Required).",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1698,7 +1696,7 @@
                     "param_name": "file_path"
                 },
                 "os": {
-                    "description": "os type (mac, windows or linux without version numbers). (Required)",
+                    "description": "OS type (mac, windows or linux without version numbers) (Required).",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1755,13 +1753,13 @@
         {
             "action": "download information collected file",
             "identifier": "download_information_collected_file",
-            "description": "Get the download information for collected forensic file.",
+            "description": "Get the download information for collected forensic file",
             "verbose": "Get the download information for collected forensic file and send the result to the dashboard.",
             "type": "investigate",
             "read_only": false,
             "parameters": {
                 "action_id": {
-                    "description": "actionId output from the collect command used to collect the file. (Required)",
+                    "description": "ActionId output from the collect command used to collect the file. (Required)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1846,7 +1844,7 @@
         {
             "action": "submit file to sandbox",
             "identifier": "submit_file_to_sandbox",
-            "description": "Submit file to sandbox.",
+            "description": "Submit file to sandbox",
             "verbose": "Submit file to sandbox and send the result to the dashboard.",
             "type": "investigate",
             "read_only": false,
@@ -1963,7 +1961,7 @@
             "action": "add note",
             "identifier": "add_note",
             "description": "Adds a note to an existing workbench alert",
-            "verbose": "Adds a note to an existing workbench alert in Trend Micro Vision One",
+            "verbose": "Adds a note to an existing workbench alert in Trend Micro Vision One.",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2046,7 +2044,7 @@
             "action": "update status",
             "identifier": "update_status",
             "description": "Updates the status of an existing workbench alert",
-            "verbose": "Updates the status of an existing workbench alert in Trend Micro Vision One",
+            "verbose": "Updates the status of an existing workbench alert in Trend Micro Vision One.",
             "type": "correct",
             "read_only": false,
             "parameters": {
