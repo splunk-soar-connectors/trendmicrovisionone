@@ -1,0 +1,1326 @@
+<!-- File: readme.html
+  Copyright (c) Trend Micro, 2022
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under
+  the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+  either express or implied. See the License for the specific language governing permissions
+  and limitations under the License.
+-->
+<h1 id="splunk-phantom">Splunk&gt; Phantom</h1>
+<p>Welcome to the open-source repository for Splunk&gt; Phantom&#39;s trendmicrovisionone App.</p>
+<p>Please have a look at our <a href="https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md">Contributing Guide</a> if you are interested in contributing, raising issues, or learning more about open-source Phantom apps.</p>
+<h2 id="legal-and-license">Legal and License</h2>
+<p>This Phantom App is licensed under the Apache 2.0 license. Please see our <a href="https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md#legal-notice">Contributing Guide</a> for further details.</p>
+<h4 id="integration-author-trend-micro">Integration Author: Trend Micro</h4>
+<p>Support and maintenance for this integration are provided by the author. Please use the following contact details:</p>
+<ul>
+<li><strong>Email</strong>: <a href="mailto:integrations@trendmicro.com">integrations@trendmicro.com</a></li>
+</ul>
+<hr>
+<p>Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection.</p>
+<h2 id="configure-trend-micro-vision-one-on-splunk-soar">Configure Trend Micro Vision One on Splunk SOAR</h2>
+<ol>
+<li>Navigate to <strong>Apps</strong> &gt; <strong>Unconfigured Apps</strong>.</li>
+<li>Search for Trend Micro Vision One.</li>
+<li>Click <strong>CONFIGURE NEW ASSET</strong> to create and configure a new integration instance.</li>
+<li>ALternatively click on <strong>INSTALL APP</strong> and drop a tarball of the app</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Parameter</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asset name</td>
+<td>Unique name for this Trend Micro Vision One instance runner asset</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Asset description</td>
+<td>Short description of the asset&#39;s purpose</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Product vendor</td>
+<td>Trend Micro</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Product name</td>
+<td>Vision One</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td>Optional tags to use in Playbooks</td>
+<td>False</td>
+</tr>
+<tr>
+<td>API_URL</td>
+<td>Vision One API URL</td>
+<td>True</td>
+</tr>
+<tr>
+<td>API_TOKEN</td>
+<td>Vision One API Token</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Polling interval (minutes)</td>
+<td>How often should security incident events be updated from Vision One</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Click <strong>TEST CONNECTIVITY</strong> to validate the URLs, token, and connection.</li>
+</ol>
+<h2 id="commands">Commands</h2>
+<p>You can execute these commands from the Splunk SOAR CLI, as part of an automation, or in a playbook.</p>
+<h4 id="base-command">Base Command</h4>
+<ol>
+<li><code>add to block list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value_type</td>
+<td>&quot;file_sha1&quot;, &quot;ip&quot;, &quot;domain&quot;, &quot;url&quot; or &quot;mailbox&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>target_value</td>
+<td>The object you would like to add that matches the value-type</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.BlockList.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.BlockList.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.</p>
+<ol>
+<li><code>remove from block list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value_type</td>
+<td>&quot;file_sha1&quot;, &quot;ip&quot;, &quot;domain&quot;, &quot;url&quot; or &quot;mailbox&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>target_value</td>
+<td>The object you would like to add that matches the value-type</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.BlockList.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.BlockList.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.</p>
+<ol>
+<li><code>quarantine email message</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message_id</td>
+<td>Email Message ID from Trend Micro Vision One message activity data</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>mail_box</td>
+<td>Email mailbox where the message will be quarantied from</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>message_delivery_time</td>
+<td>Email message&#39;s original delivery time</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Email.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Email.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.</p>
+<ol>
+<li><code>delete email message</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message_id</td>
+<td>Email Message ID from Trend Micro Vision One message activity data</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>mail_box</td>
+<td>Email mailbox where the message will be deleted from</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>message_delivery_time</td>
+<td>Email message&#39;s original delivery time</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Email.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Email.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.</p>
+<ol>
+<li><code>quarantine device</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint</td>
+<td>&quot;hostname&quot;, &quot;macaddr&quot; or &quot;ip&quot; of the endpoint to isolate</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product: &quot;sao&quot; or &quot;sds&quot;. Default: &quot;sao&quot;.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Endpoint_Connection.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Connection.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.
+Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be <code>20 minutes</code>.</p>
+<ol>
+<li><code>unquarantine device</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint</td>
+<td>&quot;hostname&quot;, &quot;macaddr&quot; or &quot;ip&quot; of the endpoint to restore connectivity</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product: &quot;sao&quot; or &quot;sds&quot;. Default: &quot;sao&quot;.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Endpoint_Connection.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Connection.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.
+Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be <code>20 minutes</code>.</p>
+<ol>
+<li><code>add to exception list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>The object type: &quot;domain&quot;, &quot;ip&quot;, &quot;sha1&quot;, or &quot;url&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>value</td>
+<td>Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards &#39;http://.&#39;&#39;, &#39;https://.&#39;&#39; at beginning, or &#39;&#39;&#39; at the end. Multiple wild cards also supported, such as , <a href="https://.example.com/path1/">https://.example.com/path1/</a>) SHA1 only full match&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Exception_List.message</td>
+<td>String</td>
+<td>Status message of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Exception_List.status_code</td>
+<td>String</td>
+<td>Response code of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Exception_List.total_items</td>
+<td>String</td>
+<td>Number of items present in the exception list.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>delete from exception list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>The object type: &quot;domain&quot;, &quot;ip&quot;, &quot;sha1&quot;, or &quot;url&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>value</td>
+<td>The object value</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Exception_List.message</td>
+<td>String</td>
+<td>Status message of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Exception_List.status_code</td>
+<td>String</td>
+<td>Response code of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Exception_List.total_items</td>
+<td>String</td>
+<td>Number of items present in the exception list.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>add to suspicious list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>The object type: &quot;domain&quot;, &quot;ip&quot;, &quot;sha1&quot;, or &quot;url&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>value</td>
+<td>The object value</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>scan_action</td>
+<td>The action to take if object is found. If you don&#39;t use this parameter, the scan action specified in default_settings.riskLevel.type will be used instead. &quot;block&quot; or &quot;log&quot;</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>risk_level</td>
+<td>The Suspicious Object risk level. If you don&#39;t use this parameter, high will be used instead. &quot;high&quot;, &quot;medium&quot;, or &quot;low&quot;</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>expiry (days)</td>
+<td>The number of days to keep the object in the Suspicious Object List. If you don&#39;t use this parameter, the default_settings.expiredDay scan action will be used instead.</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Suspicious_List.message</td>
+<td>String</td>
+<td>Status message of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Suspicious_List.status_code</td>
+<td>String</td>
+<td>Response code of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Suspicious_List.total_items</td>
+<td>String</td>
+<td>Number of items present in the exception list.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>delete from suspicious list</code></li>
+</ol>
+<h4 id="input">Input</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>The object type: &quot;domain&quot;, &quot;ip&quot;, &quot;sha1&quot;, or &quot;url&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>value</td>
+<td>The object value</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Suspicious_List.message</td>
+<td>String</td>
+<td>Status message of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Suspicious_List.status_code</td>
+<td>String</td>
+<td>Response code of existing task</td>
+</tr>
+<tr>
+<td>VisionOne.Suspicious_List.total_items</td>
+<td>String</td>
+<td>Number of items present in the exception list.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>terminate process</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint</td>
+<td>&quot;hostname&quot;, &quot;macaddr&quot; or &quot;ip&quot; of the endpoint to terminate process on</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>file_sha1</td>
+<td>SHA1 hash of the process to terminate</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Target product. Default: &quot;sao&quot;</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>Optional file name list for log</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Terminate_Process.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Terminate_Process.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.
+Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout is <code>20 minutes</code>.</p>
+<ol>
+<li><code>get file analysis status</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>task_id</td>
+<td>task_id from the trendmicro-visionone-submit-file-to-sandbox command output</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.File_Analysis_Status.message</td>
+<td>String</td>
+<td>Message status</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.code</td>
+<td>String</td>
+<td>Code status of the task</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.task_id</td>
+<td>String</td>
+<td>Task id</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.taskStatus</td>
+<td>String</td>
+<td>Task status</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.digest</td>
+<td>String</td>
+<td>Hash value of task</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.analysis_completion_time</td>
+<td>String</td>
+<td>Task completion time</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.risk_level</td>
+<td>String</td>
+<td>Risk level of task</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.description</td>
+<td>String</td>
+<td>Description of task</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.detection_name_list</td>
+<td>String</td>
+<td>List of task detected</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.threat_type_list</td>
+<td>String</td>
+<td>Threat type list</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.file_type</td>
+<td>String</td>
+<td>Type of file</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Status.report_id</td>
+<td>String</td>
+<td>Report ID of task.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>get file analysis report</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>report_id</td>
+<td>report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Type of report to retrieve: &quot;vaReport&quot;, &quot;investigationPackage&quot;, or &quot;suspiciousObject&quot;</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.File_Analysis_Report.message</td>
+<td>String</td>
+<td>Message status</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.code</td>
+<td>String</td>
+<td>Code status of task</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.type</td>
+<td>String</td>
+<td>type of report</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.value</td>
+<td>String</td>
+<td>value of the above type</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.risk_level</td>
+<td>String</td>
+<td>risk level of the file</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.analysis_completion_time</td>
+<td>String</td>
+<td>Final analysed time of report</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.expired_time</td>
+<td>String</td>
+<td>Expiry time of report</td>
+</tr>
+<tr>
+<td>VisionOne.File_Analysis_Report.root_file_sha1</td>
+<td>String</td>
+<td>sha value of the root file</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>collect file</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint</td>
+<td>&quot;hostname&quot;, &quot;macaddr&quot; or &quot;ip&quot; of the endpoint to collect file from</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>Product: &quot;sao&quot; &quot;xes&quot; &quot;sds&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>file_path</td>
+<td>Path of the forensic file to collect</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>os</td>
+<td>&quot;windows&quot;, &quot;mac&quot; or &quot;linux&quot;</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description of file collected</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Collect_Forensic_File.actionId</td>
+<td>String</td>
+<td>Action id of the running task</td>
+</tr>
+<tr>
+<td>VisionOne.Collect_Forensic_File.taskStatus</td>
+<td>String</td>
+<td>Status of the running task</td>
+</tr>
+</tbody>
+</table>
+<p>Note: To get the complete task status run polling command <code>status check</code> giving <code>actionId</code> as input parameter.
+Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be <code>20 minutes</code>.</p>
+<ol>
+<li><code>download information collected file</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>actionId</td>
+<td>actionId output from the collect command used to collect the file</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Download_Information_For_Collected_Forensic_File.url</td>
+<td>String</td>
+<td>URL of the collected file</td>
+</tr>
+<tr>
+<td>VisionOne.Download_Information_For_Collected_Forensic_File.expires</td>
+<td>String</td>
+<td>URL expiration date</td>
+</tr>
+<tr>
+<td>VisionOne.Download_Information_For_Collected_Forensic_File.password</td>
+<td>String</td>
+<td>Archive password for the protected forensic file</td>
+</tr>
+<tr>
+<td>VisionOne.Download_Information_For_Collected_Forensic_File.filename</td>
+<td>String</td>
+<td>Name of the collected file</td>
+</tr>
+</tbody>
+</table>
+<p>Note: The URL received from the &#39;trendmicro-visionone-download-information-for-collected-forensic-file&#39; will be valid for only <code>60 seconds</code></p>
+<ol>
+<li><code>submit file to sandbox</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>file_url</td>
+<td>URL pointing to the location of the file to be submitted.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>Name of the file to be analyzed.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>document_password</td>
+<td>The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>archive_password</td>
+<td>The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Submit_File_to_Sandbox.message</td>
+<td>String</td>
+<td>Message status of the sandbox file</td>
+</tr>
+<tr>
+<td>VisionOne.Submit_File_to_Sandbox.code</td>
+<td>String</td>
+<td>Code status of the sandbox file</td>
+</tr>
+<tr>
+<td>VisionOne.Submit_File_to_Sandbox.task_id</td>
+<td>String</td>
+<td>Task ID of the running task</td>
+</tr>
+<tr>
+<td>VisionOne.Submit_File_to_Sandbox.digest</td>
+<td>Object</td>
+<td>Sha value of the file</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>status check</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>actionId</td>
+<td>Action ID of the task you would like to get the status of.</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Endpoint_Connection.actionId</td>
+<td>String</td>
+<td>The action id</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Connection.taskStatus</td>
+<td>String</td>
+<td>Status of existing task</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>get endpoint info</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>endpoint</td>
+<td>&quot;hostname&quot;, &quot;macaddr&quot; or &quot;ip&quot; of the endpoint to query</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Endpoint_Info.message</td>
+<td>String</td>
+<td>Message information from the request.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.errorCode</td>
+<td>Integer</td>
+<td>Error code.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.status</td>
+<td>String</td>
+<td>Status of the request.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.logonAccount</td>
+<td>String</td>
+<td>Account currently logged on to the endpoint.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.hostname</td>
+<td>String</td>
+<td>Hostname.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.macAddr</td>
+<td>String</td>
+<td>MAC address.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.ip</td>
+<td>String</td>
+<td>IP address.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.osName</td>
+<td>String</td>
+<td>Operating System name.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.osVersion</td>
+<td>String</td>
+<td>Operating System version.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.osDescription</td>
+<td>String</td>
+<td>Description of the Operating System.</td>
+</tr>
+<tr>
+<td>VisionOne.Endpoint_Info.productCode</td>
+<td>String</td>
+<td>Product code of the Trend Micro product running on the endpoint.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>add note</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source data identifier (workbench id)</td>
+<td>Workbench id of security incident in Vision One</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>content</td>
+<td>note to be added to the workbench event</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Add_Note.Workbench_Id</td>
+<td>String</td>
+<td>Workbench ID that the action was executed on.</td>
+</tr>
+<tr>
+<td>VisionOne.Add_Note.noteId</td>
+<td>String</td>
+<td>Note ID.</td>
+</tr>
+<tr>
+<td>VisionOne.Add_Note.response_code</td>
+<td>String</td>
+<td>Response code for the request.</td>
+</tr>
+<tr>
+<td>VisionOne.Add_Note.response_msg</td>
+<td>String</td>
+<td>Response message for the request.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>update status</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Argument Name</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source data identifier (workbench_id)</td>
+<td>The ID of the workbench alert that you would like to update the status for.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>status</td>
+<td>The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<h4 id="context-output">Context Output</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Path</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VisionOne.Update_Status.Workbench_Id</td>
+<td>String</td>
+<td>Workbench ID that the action was executed on.</td>
+</tr>
+<tr>
+<td>VisionOne.Update_Status.response_code</td>
+<td>String</td>
+<td>Response code for the request.</td>
+</tr>
+<tr>
+<td>VisionOne.Update_Status.response_msg</td>
+<td>String</td>
+<td>Response message for the request.</td>
+</tr>
+</tbody>
+</table>
+<p>This version of the Trend Micro app is compatible with Splunk SOAR version <strong>5.1.0</strong> and above.</p>
+<h2 id="authentication-information">Authentication Information</h2>
+<p>The app uses HTTPS protocol for communicating with the Trend Micro Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.</p>
+<hr>
+<p><a href="insert here link to documentation that will be published on Splunk docs">View Integration Documentation</a></p>
+
