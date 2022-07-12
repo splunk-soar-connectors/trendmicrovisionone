@@ -58,7 +58,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of the endpoint to query (Required).",
+                    "description": "Hostname/IP/MAC of the endpoint to query. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1035,7 +1035,7 @@
         {
             "action": "add to exception list",
             "identifier": "add_to_exception_list",
-            "description": "Add object to exception list.",
+            "description": "Add object to exception list",
             "verbose": "Add the exception object to the exception list and send the result to Splunk.",
             "type": "correct",
             "read_only": false,
@@ -1129,7 +1129,7 @@
         {
             "action": "delete from exception list",
             "identifier": "delete_from_exception_list",
-            "description": "Delete object from exception list.",
+            "description": "Delete object from exception list",
             "verbose": "Delete the exception object from the exception list and relay data to Splunk.",
             "type": "correct",
             "read_only": false,
@@ -1350,7 +1350,7 @@
         {
             "action": "delete from suspicious list",
             "identifier": "delete_from_suspicious_list",
-            "description": "Delete the suspicious object from suspicious list.",
+            "description": "Delete the suspicious object from suspicious list",
             "verbose": "Delete the suspicious object from suspicious list and send the result to the dashboard.",
             "type": "correct",
             "read_only": false,
@@ -1564,7 +1564,7 @@
         {
             "action": "get file analysis report",
             "identifier": "get_file_analysis_report",
-            "description": "Get the analysis report of a file based on report id.",
+            "description": "Get the analysis report of a file based on report id",
             "verbose": "Get the analysis report of a file based on report id and send the results to the dashboard.",
             "type": "investigate",
             "read_only": false,
@@ -1844,7 +1844,7 @@
         {
             "action": "submit file to sandbox",
             "identifier": "submit_file_to_sandbox",
-            "description": "Submit file to sandbox.",
+            "description": "Submit file to sandbox",
             "verbose": "Submit file to sandbox and send the result to the dashboard.",
             "type": "investigate",
             "read_only": false,
