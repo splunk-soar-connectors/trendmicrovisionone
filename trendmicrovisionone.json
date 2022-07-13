@@ -497,7 +497,7 @@
                 "value_type": {
                     "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -510,7 +510,7 @@
                 "target_value": {
                     "description": "The object you would like to add to the block list that matches the value-type. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -598,7 +598,7 @@
                 "value_type": {
                     "description": "Type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -611,7 +611,7 @@
                 "target_value": {
                     "description": "The object you would like to remove from block list that matches the value-type. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -699,7 +699,7 @@
                 "message_id": {
                     "description": "Email Message ID from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -712,7 +712,7 @@
                 "mailbox": {
                     "description": "Email mailbox where the message will be quarantied from. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -814,7 +814,7 @@
                 "message_id": {
                     "description": "Email Message ID from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -827,7 +827,7 @@
                 "mailbox": {
                     "description": "Email mailbox where the message will be deleted from. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -967,7 +967,7 @@
                 "file_sha1": {
                     "description": "SHA1 hash of the process to terminate. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1043,7 +1043,7 @@
                 "type": {
                     "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1056,7 +1056,7 @@
                 "value": {
                     "description": "Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards 'http://.'', 'https://.'' at beginning, or ''' at the end. Multiple wild cards also supported, such as , https://.example.com/path1/) SHA1 only full match. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1137,7 +1137,7 @@
                 "type": {
                     "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1148,7 +1148,7 @@
                 "value": {
                     "description": "The object value. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1225,7 +1225,7 @@
                 "type": {
                     "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1238,7 +1238,7 @@
                 "value": {
                     "description": "The object value. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1358,7 +1358,7 @@
                 "type": {
                     "description": "The object type: 'domain', 'ip', 'sha1', or 'url'. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1369,7 +1369,7 @@
                 "value": {
                     "description": "The object value. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1659,7 +1659,7 @@
                 "product_id": {
                     "description": "Product: 'sao' 'xes' 'sds'. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],
@@ -1761,7 +1761,7 @@
                 "action_id": {
                     "description": "ActionId output from the collect command used to collect the file. (Required)",
                     "data_type": "string",
-                    "required": false,
+                    "required": true,
                     "primary": false,
                     "contains": [],
                     "value_list": [],

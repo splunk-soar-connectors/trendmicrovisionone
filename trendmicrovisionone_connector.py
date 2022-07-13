@@ -704,10 +704,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        value_type = param.get('value_type', '')
-        target_value = param.get('target_value', '')
-        product_id = param.get('product_id', '')
-        description = param.get('description', '')
+        value_type = param['value_type']
+        target_value = param['target_value']
+        product_id = param.get('product_id', 'sao')
+        description = param.get('description', 'Add item to blocklist.')
         body = {
             'valueType': value_type,
             'targetValue': target_value,
@@ -737,10 +737,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        value_type = param.get('value_type', '')
-        target_value = param.get('target_value', '')
-        product_id = param.get('product_id', '')
-        description = param.get('description', '')
+        value_type = param['value_type']
+        target_value = param['target_value']
+        product_id = param.get('product_id', 'sao')
+        description = param.get('description', 'Remove item to blocklist.')
         body = {
             'valueType': value_type,
             'targetValue': target_value,
@@ -770,11 +770,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        message_id = param.get('message_id', '')
-        mailbox = param.get('mailbox', '')
+        message_id = param['message_id']
+        mailbox = param['mailbox']
         message_delivery_time = param.get('message_delivery_time', '')
-        product_id = param.get('product_id', '')
-        description = param.get('description', '')
+        product_id = param.get('product_id', 'sao')
+        description = param.get('description', 'Quarantine e-mail.')
         body = {
             'messageId': message_id,
             'mailBox': mailbox,
@@ -805,11 +805,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        message_id = param.get('message_id', '')
-        mailbox = param.get('mailbox', '')
+        message_id = param['message_id']
+        mailbox = param['mailbox']
         message_delivery_time = param.get('message_delivery_time', '')
-        product_id = param.get('product_id', '')
-        description = param.get('description', '')
+        product_id = param.get('product_id', 'sao')
+        description = param.get('description', 'Delete e-mail.')
         body = {
             'messageId': message_id,
             'mailBox': mailbox,
@@ -844,9 +844,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         value = self.delistify(value)
         field = self.lookup_type(value)
         file_list = []
-        product_id = param.get('product_id', '')
-        description = param.get('description', '')
-        file_sha1 = param.get('file_sha1', '')
+        product_id = param.get('product_id', 'sao')
+        description = param.get('description', 'Terminate process.')
+        file_sha1 = param['file_sha1']
         filename = param.get('filename', '')
         computer_id = self.get_computer_id(field, value)
         if filename:
@@ -890,9 +890,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        types = param.get('type', '')
+        types = param['type']
         types = self.delistify(types)
-        value = param.get('value', '')
+        value = param['value']
         description = param.get('description', '')
         body = {'data': [{'type': types, 'value': value}]}
         body['data'][0]['description'] = description
@@ -928,9 +928,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        types = param.get('type', '')
+        types = param['type']
         types = self.delistify(types)
-        value = param.get('value', '')
+        value = param['value']
         description = param.get('description', '')
         body = {'data': [{'type': types, 'value': value}]}
         body['data'][0]['description'] = description
@@ -977,9 +977,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        types = param.get('type', '')
+        types = param['type']
         types = self.delistify(types)
-        value = param.get('value', '')
+        value = param['value']
         description = param.get('description', '')
         scan_action = param.get('scan_action', '')
         if scan_action and scan_action not in ('log', 'block'):
@@ -1031,9 +1031,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        types = param.get('type', '')
+        types = param['type']
         types = self.delistify(types)
-        value = param.get('value', '')
+        value = param['value']
         body = {'data': [{'type': types, 'value': value}]}
 
         # make rest call
@@ -1102,7 +1102,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, "Failed to create vault file or directory")
 
         # Upload file to vault
-        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename)
+        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename) #TODO: add stream instead of file
 
         # Erase temp data
         try:
@@ -1261,7 +1261,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        action_id = param.get('action_id', '')
+        action_id = param['action_id']
         param = {'actionId': action_id}
 
         # make rest call
