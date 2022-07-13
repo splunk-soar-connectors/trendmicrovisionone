@@ -166,7 +166,7 @@ Note: The above command should be added with execution timeout in the advanced f
 Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
 Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes`.
 
-7. `add to exception list`
+7. `add to exception`
 
 #### Input
 
@@ -184,7 +184,7 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.Exception_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Exception_List.total_items | String   | Number of items present in the exception list. |
 
-8. `delete from exception list`
+8. `delete from exception`
 
 #### Input
 
@@ -202,7 +202,7 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.Exception_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Exception_List.total_items | String   | Number of items present in the exception list. |
 
-9. `add to suspicious list`
+9. `add to suspicious`
 
 #### Input
 
@@ -223,7 +223,7 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.Suspicious_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Suspicious_List.total_items | String   | Number of items present in the exception list. |
 
-10. `delete from suspicious list`
+10. `delete from suspicious`
 
 #### Input
 
@@ -260,11 +260,11 @@ Note: The above command should be added with execution timeout in the advanced f
 Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
 Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout is `20 minutes`.
 
-12. `get file analysis status`
+12. `check analysis status`
 
-| **Argument Name** | **Description**                                                             | **Required** |
-| ----------------- | --------------------------------------------------------------------------- | ------------ |
-| task_id           | task_id from the trendmicro-visionone-submit-file-to-sandbox command output | Required     |
+| **Argument Name** | **Description**                                                     | **Required** |
+| ----------------- | ------------------------------------------------------------------- | ------------ |
+| task_id           | task_id from the trendmicro-visionone-start-analysis command output | Required     |
 
 #### Context Output
 
@@ -283,12 +283,12 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.File_Analysis_Status.file_type                | String   | Type of file            |
 | VisionOne.File_Analysis_Status.report_id                | String   | Report ID of task.      |
 
-13. `get file analysis report`
+13. `download analysis report`
 
-| **Argument Name** | **Description**                                                                                              | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------------------ | ------------ |
-| report_id         | report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command | Required     |
-| type              | Type of report to retrieve: "vaReport", "investigationPackage", or "suspiciousObject"                        | Required     |
+| **Argument Name** | **Description**                                                                                           | **Required** |
+| ----------------- | --------------------------------------------------------------------------------------------------------- | ------------ |
+| report_id         | report_id of the sandbox submission retrieved from the trendmicro-visionone-check-analysis-status command | Required     |
+| type              | Type of report to retrieve: "vaReport", "investigationPackage", or "suspiciousObject"                     | Required     |
 
 #### Context Output
 
@@ -303,7 +303,7 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.File_Analysis_Report.expired_time             | String   | Expiry time of report         |
 | VisionOne.File_Analysis_Report.root_file_sha1           | String   | sha value of the root file    |
 
-14. `collect file`
+14. `collect forensic file`
 
 | **Argument Name** | **Description**                                                    | **Required** |
 | ----------------- | ------------------------------------------------------------------ | ------------ |
@@ -323,7 +323,7 @@ Note: The above command should be added with execution timeout in the advanced f
 Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
 Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes`.
 
-15. `download information collected file`
+15. `forensic file info`
 
 | **Argument Name** | **Description**                                                   | **Required** |
 | ----------------- | ----------------------------------------------------------------- | ------------ |
@@ -331,16 +331,16 @@ Note: The above command should be added with execution timeout in the advanced f
 
 #### Context Output
 
-| **Path**                                                            | **Type** | **Description**                                  |
-| ------------------------------------------------------------------- | -------- | ------------------------------------------------ |
-| VisionOne.Download_Information_For_Collected_Forensic_File.url      | String   | URL of the collected file                        |
-| VisionOne.Download_Information_For_Collected_Forensic_File.expires  | String   | URL expiration date                              |
-| VisionOne.Download_Information_For_Collected_Forensic_File.password | String   | Archive password for the protected forensic file |
-| VisionOne.Download_Information_For_Collected_Forensic_File.filename | String   | Name of the collected file                       |
+| **Path**                              | **Type** | **Description**                                  |
+| ------------------------------------- | -------- | ------------------------------------------------ |
+| VisionOne.Forensic_File_Info.url      | String   | URL of the collected file                        |
+| VisionOne.Forensic_File_Info.expires  | String   | URL expiration date                              |
+| VisionOne.Forensic_File_Info.password | String   | Archive password for the protected forensic file |
+| VisionOne.Forensic_File_Info.filename | String   | Name of the collected file                       |
 
 Note: The URL received from the 'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only `60 seconds`
 
-16. `submit file to sandbox`
+16. `start analysis`
 
 | **Argument Name** | **Description**                                                                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
@@ -351,12 +351,12 @@ Note: The URL received from the 'trendmicro-visionone-download-information-for-c
 
 #### Context Output
 
-| **Path**                                 | **Type** | **Description**                    |
-| ---------------------------------------- | -------- | ---------------------------------- |
-| VisionOne.Submit_File_to_Sandbox.message | String   | Message status of the sandbox file |
-| VisionOne.Submit_File_to_Sandbox.code    | String   | Code status of the sandbox file    |
-| VisionOne.Submit_File_to_Sandbox.task_id | String   | Task ID of the running task        |
-| VisionOne.Submit_File_to_Sandbox.digest  | Object   | Sha value of the file              |
+| **Path**                         | **Type** | **Description**                    |
+| -------------------------------- | -------- | ---------------------------------- |
+| VisionOne.Start_Analysis.message | String   | Message status of the sandbox file |
+| VisionOne.Start_Analysis.code    | String   | Code status of the sandbox file    |
+| VisionOne.Start_Analysis.task_id | String   | Task ID of the running task        |
+| VisionOne.Start_Analysis.digest  | Object   | Sha value of the file              |
 
 17. `status check`
 
