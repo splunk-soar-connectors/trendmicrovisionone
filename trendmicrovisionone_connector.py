@@ -1102,7 +1102,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, "Failed to create vault file or directory")
 
         # Upload file to vault
-        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename) #TODO: add stream instead of file
+        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename)
 
         # Erase temp data
         try:
