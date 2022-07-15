@@ -1436,7 +1436,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         computer_id = self.get_computer_id(field, value)
         product_id = param["product_id"].lower()
         file_path = param["file_path"]  # WARNING! filepath needs to be tuple!!!
-        os = param["os"]
+        os = param.get("os")
         description = param.get("description", "")
 
         body = {
