@@ -21,6 +21,51 @@
 </ul>
 <hr>
 <p>Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection.</p>
+<h2 id="port-information">Port Information</h2>
+<p>The app uses HTTPS protocol for communicating with the VisionOne API server. Below are the
+default ports used by the Splunk SOAR Connector.</p>
+<table>
+<thead>
+<tr>
+<th>SERVICE NAME</th>
+<th>TRANSPORT PROTOCOL</th>
+<th>PORT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>https</td>
+<td>tcp</td>
+<td>443</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-variables">Configuration Variables</h3>
+<p>The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Trend Micro Vision One asset in SOAR.</p>
+<table>
+<thead>
+<tr>
+<th>VARIABLE</th>
+<th>REQUIRED</th>
+<th>TYPE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>api_url</strong></td>
+<td>required</td>
+<td>string</td>
+<td>The URL for your ETP instance</td>
+</tr>
+<tr>
+<td><strong>api_key</strong></td>
+<td>required</td>
+<td>password</td>
+<td>API key</td>
+</tr>
+</tbody>
+</table>
 <h2 id="configure-trend-micro-vision-one-on-splunk-soar">Configure Trend Micro Vision One on Splunk SOAR</h2>
 <ol>
 <li>Navigate to <strong>Apps</strong> &gt; <strong>Unconfigured Apps</strong>.</li>
