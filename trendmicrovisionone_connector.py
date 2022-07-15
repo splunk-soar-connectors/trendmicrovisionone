@@ -894,6 +894,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
