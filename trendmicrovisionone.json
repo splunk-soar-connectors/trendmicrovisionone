@@ -4,8 +4,8 @@
     "description": "Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Micro Vision One prevents the majority of attacks with automated protection.",
     "type": "endpoint",
     "product_vendor": "Trend Micro",
-    "logo": "trendmicrovisionone.png",
-    "logo_dark": "trendmicrovisionone_dark.png",
+    "logo": "trendmicrovisionone.svg",
+    "logo_dark": "trendmicrovisionone_dark.svg",
     "product_name": "Vision One",
     "python_version": "3",
     "product_version_regex": ".*",
@@ -15,7 +15,7 @@
     "utctime_updated": "2022-06-09T15:02:47.122162Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "5.1.0.70187",
+    "min_phantom_version": "5.2.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_url": {

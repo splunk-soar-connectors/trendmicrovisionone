@@ -526,9 +526,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         url = f"{self.get_phantom_base_url()}rest/container/{old_container}"
         try:
-            requests.post(
-                url, data=json.dumps(update), verify=False, timeout=30
-            )  # nosemgrep
+            # nosemgrep
+            requests.post(url, data=json.dumps(update), verify=False, timeout=30)
+            # the above requests to create artefacts only work with verify=False
         except Exception:
             return phantom.APP_ERROR
 
@@ -706,6 +706,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -805,6 +808,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -844,6 +850,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -926,6 +935,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -972,6 +984,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1024,6 +1039,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         exception_list = self.exception_list_count()
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1070,6 +1088,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         exception_list = self.exception_list_count()
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1150,6 +1171,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         suspicious_list = self.suspicious_list_count()
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1193,6 +1217,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         suspicious_list = self.suspicious_list_count()
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1231,6 +1258,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1428,6 +1458,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1459,6 +1492,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1523,6 +1559,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise e
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1556,6 +1595,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1598,6 +1640,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if phantom.is_fail(ret_val):
+            self.debug_print(
+                "REST call failed, please check your endpoints and/or params"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1711,9 +1756,11 @@ def main():
             headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
+            # nosemgrep
             r2 = requests.post(
                 login_url, verify=False, data=data, headers=headers, timeout=30
-            )  # nosemgrep
+            )
+            # the above requests to create artefacts only work with verify=False
             session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
