@@ -495,7 +495,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\") (Required)",
+                    "description": "Type of object to be added ('domain', 'ip', 'sha1', or 'url') (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
@@ -596,7 +596,7 @@
             "read_only": false,
             "parameters": {
                 "value_type": {
-                    "description": "Type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\") (Required)",
+                    "description": "Type of object to be removed ('domain', 'ip', 'sha1', or 'url') (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": false,
