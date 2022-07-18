@@ -1282,10 +1282,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         unique_id = str(uuid.uuid4())
         vault_dir += unique_id
         try:
-            os.makedirs(vault_dir)
             fullpath = vault_dir + filename
-            with open(fullpath, "wb") as f:
-                f.write(data)
+            vault.create_attachment(data, container_id, filename, metadata=None)
         except Exception as e:
             self.debug_print(e)
             return action_result.set_status(
