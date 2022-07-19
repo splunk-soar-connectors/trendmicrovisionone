@@ -10,7 +10,6 @@ from __future__ import print_function, unicode_literals
 import base64
 import datetime
 import json
-import os
 import re
 import sys
 import time
@@ -1273,44 +1272,26 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def file_to_vault(self, data, filename, container_id, action_result):
-        # Create temp file for upload
+        filename += "@" + str(uuid.uuid4())
         try:
-            vault_dir = vault.get_vault_tmp_dir()
-        except Exception as e:
-            self.debug_print(e)
-            vault_dir = "/opt/phantom/vault/tmp/"
-        unique_id = str(uuid.uuid4())
-        vault_dir += unique_id
-        try:
-            fullpath = vault_dir + filename
-            vault.create_attachment(data, container_id, filename, metadata=None)
-        except Exception as e:
-            self.debug_print(e)
-            return action_result.set_status(
-                phantom.APP_ERROR, "Failed to create vault file or directory"
+            #  Upload file to vault
+            ret_val, response, vault_id = vault.Vault.create_attachment(
+                data, container_id, filename
             )
-
-        # Upload file to vault
-        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename)
-
-        # Erase temp data
-        try:
-            os.rmdir(vault_dir)
-        except Exception as e:
-            self.debug_print(e)
-            return action_result.set_status(
-                phantom.APP_ERROR, "Failed erasing temporary vault related data"
-            )
-
-        # Return with vault creation details
-        if ret_val:
-            success_info = {phantom.APP_JSON_VAULT_ID: vault_id, "file_name": filename}
-            return phantom.APP_SUCCESS, success_info
-
-        # Failed to send file to vault
-        self.debug_print(f"Failed to send file to vault: {response}")
+            if ret_val:
+                self.debug_print(
+                    f"Successfully created vault file: {filename} in vault: {vault_id}"
+                )
+                success_info = {
+                    phantom.APP_JSON_VAULT_ID: vault_id,
+                    "file_name": filename,
+                }
+                return phantom.APP_SUCCESS, success_info
+            raise Exception(f"Error during create attachment: {response}")
+        except Exception as err:
+            self.debug_print(err)
         return action_result.set_status(
-            phantom.APP_ERROR, "Failed to send file to vault"
+            phantom.APP_ERROR, "Failed to create vault file"
         )
 
     def _handle_download_analysis_report(self, param):
