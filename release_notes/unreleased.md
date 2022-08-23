@@ -1,27 +1,24 @@
-<b>Trend Micro Vision One Release Notes - Published by Trend Micro July 01, 2022</b>
-<br><br>
-<li>Initial Release with the following actions</li>
-<ul>
-<li>Update Status</li>
-<li>Add Note</li>
-<li>Submit File To Sandbox</li>
-<li>Download Information Collected File</li>
-<li>Collect File</li>
-<li>Get File Analysis Report</li>
-<li>Get File Analysis Status</li>
-<li>Delete From Suspicious List</li>
-<li>Add To Suspicious List</li>
-<li>Delete From Exception List</li>
-<li>Add To Exception List</li>
-<li>Terminate Process</li>
-<li>Delete Email Message</li>
-<li>Quarantine Email Message</li>
-<li>Remove From Blocklist</li>
-<li>Add To Blocklist</li>
-<li>Status Check</li>
-<li>On Poll</li>
-<li>Unquarantine Device</li>
-<li>Quarantine Device</li>
-<li>Get Endpoint Info</li>
-<li>Test Connectivity</li>
-</ul>
+**Unreleased**
+* Initial Release with the following actions:
+    * Update Status
+    * Add Note
+    * Submit File To Sandbox
+    * Download Information Collected File
+    * Collect File
+    * Get File Analysis Report
+    * Get File Analysis Status
+    * Delete From Suspicious List
+    * Add To Suspicious List
+    * Delete From Exception List
+    * Add To Exception List
+    * Terminate Process
+    * Delete Email Message
+    * Quarantine Email Message
+    * Remove From Blocklist
+    * Add To Blocklist
+    * Status Check
+    * On Poll
+    * Unquarantine Device
+    * Quarantine Device
+    * Get Endpoint Info
+    * Test Connectivity
