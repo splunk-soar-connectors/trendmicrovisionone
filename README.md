@@ -1,49 +1,83 @@
+[comment]: # "Auto-generated SOAR connector documentation"
+# TrendMicroVisionOne
+
+Publisher: Trend Micro  
+Connector Version: 1\.0\.1  
+Product Vendor: Trend Micro  
+Product Name: VisionOne  
+Product Version Supported (regex): "\.\*"  
+Minimum Product Version: 5\.3\.0  
+
+Trend Micro Vision One is a purpose\-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster\. Providing deep and broad extended detection and response \(XDR\) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection
+
+[comment]: # " File: README.md"
+[comment]: # "  Copyright (c) Trend Micro, 2022"
+[comment]: # "  Licensed under the Apache License, Version 2.0 (the 'License');"
+[comment]: # "  you may not use this file except in compliance with the License."
+[comment]: # "  You may obtain a copy of the License at"
+[comment]: # "      http://www.apache.org/licenses/LICENSE-2.0"
+[comment]: # "  Unless required by applicable law or agreed to in writing, software distributed under"
+[comment]: # "  the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,"
+[comment]: # "  either express or implied. See the License for the specific language governing permissions"
+[comment]: # "  and limitations under the License."
+[comment]: # ""
 # Splunk> Phantom
 
 Welcome to the open-source repository for Splunk> Phantom's trendmicrovisionone App.
 
-Please have a look at our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md) if you are interested in contributing, raising issues, or learning more about open-source Phantom apps.
+Please have a look at our [Contributing
+Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md) if you are
+interested in contributing, raising issues, or learning more about open-source Phantom apps.
 
 ## Legal and License
 
-This Phantom App is licensed under the Apache 2.0 license. Please see our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md#legal-notice) for further details.
+This Phantom App is licensed under the Apache 2.0 license. Please see our [Contributing
+Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md#legal-notice)
+for further details.
 
 #### Integration Author: Trend Micro
 
-Support and maintenance for this integration are provided by the author. Please use the following contact details:
+Support and maintenance for this integration are provided by the author. Please use the following
+contact details:
 
-- **Email**: [integrations@trendmicro.com](mailto:integrations@trendmicro.com)
+-   **Email** : <integrations@trendmicro.com>
 
----
+----------------------------------------------------------------------------------------------------
 
-Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection.
+Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new
+benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad
+extended detection and response (XDR) capabilities that collect and automatically correlate data
+across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro
+Vision One prevents the majority of attacks with automated protection.
 
 ## Port Information
 
-The app uses HTTPS protocol for communicating with the VisionOne API server. Below are the
-default ports used by the Splunk SOAR Connector.
+The app uses HTTPS protocol for communicating with the VisionOne API server. Below are the default
+ports used by the Splunk SOAR Connector.
 
 | SERVICE NAME | TRANSPORT PROTOCOL | PORT |
 |--------------|--------------------|------|
 | https        | tcp                | 443  |
 
 ### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Trend Micro Vision One asset in SOAR.
 
-| VARIABLE    | REQUIRED | TYPE | DESCRIPTION                   |
-|-------------| -------- | ---- |-------------------------------|
-| **api_url** |  required  | string | The URL for your ETP instance |
-| **api_key** |  required  | password | API key                       |
+The below configuration variables are required for this Connector to operate. These variables are
+specified when configuring a Trend Micro Vision One asset in SOAR.
+
+| VARIABLE    | REQUIRED | TYPE     | DESCRIPTION                   |
+|-------------|----------|----------|-------------------------------|
+| **api_url** | required | string   | The URL for your ETP instance |
+| **api_key** | required | password | API key                       |
 
 ## Configure Trend Micro Vision One on Splunk SOAR
 
-1. Navigate to **Apps** > **Unconfigured Apps**.
-2. Search for Trend Micro Vision One.
-3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
-4. ALternatively click on **INSTALL APP** and drop a tarball of the app
+1.  Navigate to **Apps** \> **Unconfigured Apps** .
+2.  Search for Trend Micro Vision One.
+3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
+4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
 
 | **Parameter**              | **Description**                                                      | **Required** |
-| -------------------------- | -------------------------------------------------------------------- | ------------ |
+|----------------------------|----------------------------------------------------------------------|--------------|
 | Asset name                 | Unique name for this Trend Micro Vision One instance runner asset    | True         |
 | Asset description          | Short description of the asset's purpose                             | True         |
 | Product vendor             | Trend Micro                                                          | True         |
@@ -53,7 +87,7 @@ The below configuration variables are required for this Connector to operate.  T
 | API_TOKEN                  | Vision One API Token                                                 | True         |
 | Polling interval (minutes) | How often should security incident events be updated from Vision One | False        |
 
-4. Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
+1.  Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
 
 ## Commands
 
@@ -61,52 +95,54 @@ You can execute these commands from the Splunk SOAR CLI, as part of an automatio
 
 #### Base Command
 
-1. `add to block list`
+1.  `      add to block list     `
 
 #### Input
 
-| **Argument Name** | **Description**                                                            | **Required** |
-| ----------------- | -------------------------------------------------------------------------- | ------------ |
-| value_type        | "file_sha1", "ip", "domain", "url" or "mailbox"                            | Required     |
-| target_value      | The object you would like to add to block list that matches the value-type | Required     |
-| product_id        | Target product                                                             | Optional     |
-| description       | Description                                                                | Optional     |
+| **Argument Name** | **Description**                                              | **Required** |
+|-------------------|--------------------------------------------------------------|--------------|
+| value_type        | "file_sha1", "ip", "domain", "url" or "mailbox"              | Required     |
+| target_value      | The object you would like to add that matches the value-type | Required     |
+| product_id        | Target product                                               | Optional     |
+| description       | Description                                                  | Optional     |
 
 #### Context Output
 
 | **Path**                       | **Type** | **Description**         |
-| ------------------------------ | -------- | ----------------------- |
+|--------------------------------|----------|-------------------------|
 | VisionOne.BlockList.actionId   | String   | The action id           |
 | VisionOne.BlockList.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter.
 
-2. `remove from block list`
+1.  `      remove from block list     `
 
 #### Input
 
-| **Argument Name** | **Description**                                                                 | **Required** |
-| ----------------- | ------------------------------------------------------------------------------- | ------------ |
-| value_type        | "file_sha1", "ip", "domain", "url" or "mailbox"                                 | Required     |
-| target_value      | The object you would like to remove from block list that matches the value-type | Required     |
-| product_id        | Target product                                                                  | Optional     |
-| description       | Description                                                                     | Optional     |
+| **Argument Name** | **Description**                                              | **Required** |
+|-------------------|--------------------------------------------------------------|--------------|
+| value_type        | "file_sha1", "ip", "domain", "url" or "mailbox"              | Required     |
+| target_value      | The object you would like to add that matches the value-type | Required     |
+| product_id        | Target product                                               | Optional     |
+| description       | Description                                                  | Optional     |
 
 #### Context Output
 
 | **Path**                       | **Type** | **Description**         |
-| ------------------------------ | -------- | ----------------------- |
+|--------------------------------|----------|-------------------------|
 | VisionOne.BlockList.actionId   | String   | The action id           |
 | VisionOne.BlockList.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter.
 
-3. `quarantine email message`
+1.  `      quarantine email message     `
 
 #### Input
 
 | **Argument Name**     | **Description**                                                    | **Required** |
-| --------------------- | ------------------------------------------------------------------ | ------------ |
+|-----------------------|--------------------------------------------------------------------|--------------|
 | message_id            | Email Message ID from Trend Micro Vision One message activity data | Required     |
 | mail_box              | Email mailbox where the message will be quarantied from            | Required     |
 | message_delivery_time | Email message's original delivery time                             | Required     |
@@ -116,18 +152,19 @@ Note: To get the complete task status run polling command `status check` giving 
 #### Context Output
 
 | **Path**                   | **Type** | **Description**         |
-| -------------------------- | -------- | ----------------------- |
+|----------------------------|----------|-------------------------|
 | VisionOne.Email.actionId   | String   | The action id           |
 | VisionOne.Email.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter.
 
-4. `delete email message`
+1.  `      delete email message     `
 
 #### Input
 
 | **Argument Name**     | **Description**                                                    | **Required** |
-| --------------------- | ------------------------------------------------------------------ | ------------ |
+|-----------------------|--------------------------------------------------------------------|--------------|
 | message_id            | Email Message ID from Trend Micro Vision One message activity data | Required     |
 | mail_box              | Email mailbox where the message will be deleted from               | Required     |
 | message_delivery_time | Email message's original delivery time                             | Required     |
@@ -137,18 +174,19 @@ Note: To get the complete task status run polling command `status check` giving 
 #### Context Output
 
 | **Path**                   | **Type** | **Description**         |
-| -------------------------- | -------- | ----------------------- |
+|----------------------------|----------|-------------------------|
 | VisionOne.Email.actionId   | String   | The action id           |
 | VisionOne.Email.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter.
 
-5. `quarantine device`
+1.  `      quarantine device     `
 
 #### Input
 
 | **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
+|-------------------|----------------------------------------------------------|--------------|
 | endpoint          | "hostname", "macaddr" or "ip" of the endpoint to isolate | Required     |
 | product_id        | Target product: "sao" or "sds". Default: "sao".          | Required     |
 | description       | Description                                              | Optional     |
@@ -156,19 +194,21 @@ Note: To get the complete task status run polling command `status check` giving 
 #### Context Output
 
 | **Path**                                 | **Type** | **Description**         |
-| ---------------------------------------- | -------- | ----------------------- |
+|------------------------------------------|----------|-------------------------|
 | VisionOne.Endpoint_Connection.actionId   | String   | The action id           |
 | VisionOne.Endpoint_Connection.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
-Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes`.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter. Note: The above command should be added with execution
+timeout in the advanced field of playbook execution. The recommended timeout be
+`     20 minutes    ` .
 
-6. `unquarantine device`
+1.  `      unquarantine device     `
 
 #### Input
 
 | **Argument Name** | **Description**                                                       | **Required** |
-| ----------------- | --------------------------------------------------------------------- | ------------ |
+|-------------------|-----------------------------------------------------------------------|--------------|
 | endpoint          | "hostname", "macaddr" or "ip" of the endpoint to restore connectivity | Required     |
 | product_id        | Target product: "sao" or "sds". Default: "sao".                       | Required     |
 | description       | Description                                                           | Optional     |
@@ -176,37 +216,39 @@ Note: The above command should be added with execution timeout in the advanced f
 #### Context Output
 
 | **Path**                                 | **Type** | **Description**         |
-| ---------------------------------------- | -------- | ----------------------- |
+|------------------------------------------|----------|-------------------------|
 | VisionOne.Endpoint_Connection.actionId   | String   | The action id           |
 | VisionOne.Endpoint_Connection.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
-Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes`.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter. Note: The above command should be added with execution
+timeout in the advanced field of playbook execution. The recommended timeout be
+`     20 minutes    ` .
 
-7. `add to exception`
+1.  `      add to exception list     `
 
 #### Input
 
-| **Argument Name** | **Description**                                                                                                                                                                                                                                                                                                                                                                                                         | **Required** |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| type              | The object type: "domain", "ip", "sha1", or "url"                                                                                                                                                                                                                                                                                                                                                                       | Required     |
-| value             | Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards 'http://.'', 'https://.'' at beginning, or ''' at the end. Multiple wild cards also supported, such as , https://.example.com/path1/) SHA1 only full match" | Required     |
-| description       | Description                                                                                                                                                                                                                                                                                                                                                                                                             | Optional     |
+| **Argument Name** | **Description**                                                                                                                                                                                                                                                                                                                                                                                                            | **Required** |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
+| type              | The object type: "domain", "ip", "sha1", or "url"                                                                                                                                                                                                                                                                                                                                                                          | Required     |
+| value             | Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards 'http://.'', 'https://.'' at beginning, or ''' at the end. Multiple wild cards also supported, such as , <https://.example.com/path1/> ) SHA1 only full match" | Required     |
+| description       | Description                                                                                                                                                                                                                                                                                                                                                                                                                | Optional     |
 
 #### Context Output
 
 | **Path**                             | **Type** | **Description**                                |
-| ------------------------------------ | -------- | ---------------------------------------------- |
+|--------------------------------------|----------|------------------------------------------------|
 | VisionOne.Exception_List.message     | String   | Status message of existing task                |
 | VisionOne.Exception_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Exception_List.total_items | String   | Number of items present in the exception list. |
 
-8. `delete from exception`
+1.  `      delete from exception list     `
 
 #### Input
 
 | **Argument Name** | **Description**                                   | **Required** |
-| ----------------- | ------------------------------------------------- | ------------ |
+|-------------------|---------------------------------------------------|--------------|
 | type              | The object type: "domain", "ip", "sha1", or "url" | Required     |
 | value             | The object value                                  | Required     |
 | description       | Description                                       | Optional     |
@@ -214,17 +256,17 @@ Note: The above command should be added with execution timeout in the advanced f
 #### Context Output
 
 | **Path**                             | **Type** | **Description**                                |
-| ------------------------------------ | -------- | ---------------------------------------------- |
+|--------------------------------------|----------|------------------------------------------------|
 | VisionOne.Exception_List.message     | String   | Status message of existing task                |
 | VisionOne.Exception_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Exception_List.total_items | String   | Number of items present in the exception list. |
 
-9. `add to suspicious`
+1.  `      add to suspicious list     `
 
 #### Input
 
 | **Argument Name** | **Description**                                                                                                                                                             | **Required** |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
 | type              | The object type: "domain", "ip", "sha1", or "url"                                                                                                                           | Required     |
 | value             | The object value                                                                                                                                                            | Required     |
 | description       | Description                                                                                                                                                                 | Optional     |
@@ -235,32 +277,32 @@ Note: The above command should be added with execution timeout in the advanced f
 #### Context Output
 
 | **Path**                              | **Type** | **Description**                                |
-| ------------------------------------- | -------- | ---------------------------------------------- |
+|---------------------------------------|----------|------------------------------------------------|
 | VisionOne.Suspicious_List.message     | String   | Status message of existing task                |
 | VisionOne.Suspicious_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Suspicious_List.total_items | String   | Number of items present in the exception list. |
 
-10. `delete from suspicious`
+1.  `      delete from suspicious list     `
 
 #### Input
 
 | **Argument Name** | **Description**                                   | **Required** |
-| ----------------- | ------------------------------------------------- | ------------ |
+|-------------------|---------------------------------------------------|--------------|
 | type              | The object type: "domain", "ip", "sha1", or "url" | Required     |
 | value             | The object value                                  | Required     |
 
 #### Context Output
 
 | **Path**                              | **Type** | **Description**                                |
-| ------------------------------------- | -------- | ---------------------------------------------- |
+|---------------------------------------|----------|------------------------------------------------|
 | VisionOne.Suspicious_List.message     | String   | Status message of existing task                |
 | VisionOne.Suspicious_List.status_code | String   | Response code of existing task                 |
 | VisionOne.Suspicious_List.total_items | String   | Number of items present in the exception list. |
 
-11. `terminate process`
+1.  `      terminate process     `
 
 | **Argument Name** | **Description**                                                       | **Required** |
-| ----------------- | --------------------------------------------------------------------- | ------------ |
+|-------------------|-----------------------------------------------------------------------|--------------|
 | endpoint          | "hostname", "macaddr" or "ip" of the endpoint to terminate process on | Required     |
 | file_sha1         | SHA1 hash of the process to terminate                                 | Required     |
 | product_id        | Target product. Default: "sao"                                        | Optional     |
@@ -270,23 +312,25 @@ Note: The above command should be added with execution timeout in the advanced f
 #### Context Output
 
 | **Path**                               | **Type** | **Description**         |
-| -------------------------------------- | -------- | ----------------------- |
+|----------------------------------------|----------|-------------------------|
 | VisionOne.Terminate_Process.actionId   | String   | The action id           |
 | VisionOne.Terminate_Process.taskStatus | String   | Status of existing task |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
-Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout is `20 minutes`.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter. Note: The above command should be added with execution
+timeout in the advanced field of playbook execution. The recommended timeout is
+`     20 minutes    ` .
 
-12. `check analysis status`
+1.  `      get file analysis status     `
 
-| **Argument Name** | **Description**                                                     | **Required** |
-| ----------------- | ------------------------------------------------------------------- | ------------ |
-| task_id           | task_id from the trendmicro-visionone-start-analysis command output | Required     |
+| **Argument Name** | **Description**                                                             | **Required** |
+|-------------------|-----------------------------------------------------------------------------|--------------|
+| task_id           | task_id from the trendmicro-visionone-submit-file-to-sandbox command output | Required     |
 
 #### Context Output
 
 | **Path**                                                | **Type** | **Description**         |
-| ------------------------------------------------------- | -------- | ----------------------- |
+|---------------------------------------------------------|----------|-------------------------|
 | VisionOne.File_Analysis_Status.message                  | String   | Message status          |
 | VisionOne.File_Analysis_Status.code                     | String   | Code status of the task |
 | VisionOne.File_Analysis_Status.task_id                  | String   | Task id                 |
@@ -300,17 +344,17 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.File_Analysis_Status.file_type                | String   | Type of file            |
 | VisionOne.File_Analysis_Status.report_id                | String   | Report ID of task.      |
 
-13. `download analysis report`
+1.  `      get file analysis report     `
 
-| **Argument Name** | **Description**                                                                                           | **Required** |
-| ----------------- | --------------------------------------------------------------------------------------------------------- | ------------ |
-| report_id         | report_id of the sandbox submission retrieved from the trendmicro-visionone-check-analysis-status command | Required     |
-| type              | Type of report to retrieve: "vaReport", "investigationPackage", or "suspiciousObject"                     | Required     |
+| **Argument Name** | **Description**                                                                                              | **Required** |
+|-------------------|--------------------------------------------------------------------------------------------------------------|--------------|
+| report_id         | report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command | Required     |
+| type              | Type of report to retrieve: "vaReport", "investigationPackage", or "suspiciousObject"                        | Required     |
 
 #### Context Output
 
 | **Path**                                                | **Type** | **Description**               |
-| ------------------------------------------------------- | -------- | ----------------------------- |
+|---------------------------------------------------------|----------|-------------------------------|
 | VisionOne.File_Analysis_Report.message                  | String   | Message status                |
 | VisionOne.File_Analysis_Report.code                     | String   | Code status of task           |
 | VisionOne.File_Analysis_Report.type                     | String   | type of report                |
@@ -320,10 +364,10 @@ Note: The above command should be added with execution timeout in the advanced f
 | VisionOne.File_Analysis_Report.expired_time             | String   | Expiry time of report         |
 | VisionOne.File_Analysis_Report.root_file_sha1           | String   | sha value of the root file    |
 
-14. `collect forensic file`
+1.  `      collect file     `
 
 | **Argument Name** | **Description**                                                    | **Required** |
-| ----------------- | ------------------------------------------------------------------ | ------------ |
+|-------------------|--------------------------------------------------------------------|--------------|
 | endpoint          | "hostname", "macaddr" or "ip" of the endpoint to collect file from | Required     |
 | product_id        | Product: "sao" "xes" "sds"                                         | Required     |
 | file_path         | Path of the forensic file to collect                               | Required     |
@@ -333,34 +377,38 @@ Note: The above command should be added with execution timeout in the advanced f
 #### Context Output
 
 | **Path**                                   | **Type** | **Description**               |
-| ------------------------------------------ | -------- | ----------------------------- |
+|--------------------------------------------|----------|-------------------------------|
 | VisionOne.Collect_Forensic_File.actionId   | String   | Action id of the running task |
 | VisionOne.Collect_Forensic_File.taskStatus | String   | Status of the running task    |
 
-Note: To get the complete task status run polling command `status check` giving `actionId` as input parameter.
-Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes`.
+Note: To get the complete task status run polling command `     status check    ` giving
+`     actionId    ` as input parameter. Note: The above command should be added with execution
+timeout in the advanced field of playbook execution. The recommended timeout be
+`     20 minutes    ` .
 
-15. `forensic file info`
+1.  `      download information collected file     `
 
 | **Argument Name** | **Description**                                                   | **Required** |
-| ----------------- | ----------------------------------------------------------------- | ------------ |
+|-------------------|-------------------------------------------------------------------|--------------|
 | actionId          | actionId output from the collect command used to collect the file | Required     |
 
 #### Context Output
 
-| **Path**                              | **Type** | **Description**                                  |
-| ------------------------------------- | -------- | ------------------------------------------------ |
-| VisionOne.Forensic_File_Info.url      | String   | URL of the collected file                        |
-| VisionOne.Forensic_File_Info.expires  | String   | URL expiration date                              |
-| VisionOne.Forensic_File_Info.password | String   | Archive password for the protected forensic file |
-| VisionOne.Forensic_File_Info.filename | String   | Name of the collected file                       |
+| **Path**                                                            | **Type** | **Description**                                  |
+|---------------------------------------------------------------------|----------|--------------------------------------------------|
+| VisionOne.Download_Information_For_Collected_Forensic_File.url      | String   | URL of the collected file                        |
+| VisionOne.Download_Information_For_Collected_Forensic_File.expires  | String   | URL expiration date                              |
+| VisionOne.Download_Information_For_Collected_Forensic_File.password | String   | Archive password for the protected forensic file |
+| VisionOne.Download_Information_For_Collected_Forensic_File.filename | String   | Name of the collected file                       |
 
-Note: The URL received from the 'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only `60 seconds`
+Note: The URL received from the
+'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only
+`     60 seconds    `
 
-16. `start analysis`
+1.  `      submit file to sandbox     `
 
 | **Argument Name** | **Description**                                                                                                                                   | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
 | file_url          | URL pointing to the location of the file to be submitted.                                                                                         | Required     |
 | filename          | Name of the file to be analyzed.                                                                                                                  | Required     |
 | document_password | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. | Optional     |
@@ -368,36 +416,36 @@ Note: The URL received from the 'trendmicro-visionone-download-information-for-c
 
 #### Context Output
 
-| **Path**                         | **Type** | **Description**                    |
-| -------------------------------- | -------- | ---------------------------------- |
-| VisionOne.Start_Analysis.message | String   | Message status of the sandbox file |
-| VisionOne.Start_Analysis.code    | String   | Code status of the sandbox file    |
-| VisionOne.Start_Analysis.task_id | String   | Task ID of the running task        |
-| VisionOne.Start_Analysis.digest  | Object   | Sha value of the file              |
+| **Path**                                 | **Type** | **Description**                    |
+|------------------------------------------|----------|------------------------------------|
+| VisionOne.Submit_File_to_Sandbox.message | String   | Message status of the sandbox file |
+| VisionOne.Submit_File_to_Sandbox.code    | String   | Code status of the sandbox file    |
+| VisionOne.Submit_File_to_Sandbox.task_id | String   | Task ID of the running task        |
+| VisionOne.Submit_File_to_Sandbox.digest  | Object   | Sha value of the file              |
 
-17. `status check`
+1.  `      status check     `
 
 | **Argument Name** | **Description**                                            | **Required** |
-| ----------------- | ---------------------------------------------------------- | ------------ |
+|-------------------|------------------------------------------------------------|--------------|
 | actionId          | Action ID of the task you would like to get the status of. | Required     |
 
 #### Context Output
 
 | **Path**                                 | **Type** | **Description**         |
-| ---------------------------------------- | -------- | ----------------------- |
+|------------------------------------------|----------|-------------------------|
 | VisionOne.Endpoint_Connection.actionId   | String   | The action id           |
 | VisionOne.Endpoint_Connection.taskStatus | String   | Status of existing task |
 
-18. `get endpoint info`
+1.  `      get endpoint info     `
 
 | **Argument Name** | **Description**                                        | **Required** |
-| ----------------- | ------------------------------------------------------ | ------------ |
+|-------------------|--------------------------------------------------------|--------------|
 | endpoint          | "hostname", "macaddr" or "ip" of the endpoint to query | Required     |
 
 #### Context Output
 
 | **Path**                              | **Type** | **Description**                                                  |
-| ------------------------------------- | -------- | ---------------------------------------------------------------- |
+|---------------------------------------|----------|------------------------------------------------------------------|
 | VisionOne.Endpoint_Info.message       | String   | Message information from the request.                            |
 | VisionOne.Endpoint_Info.errorCode     | Integer  | Error code.                                                      |
 | VisionOne.Endpoint_Info.status        | String   | Status of the request.                                           |
@@ -410,37 +458,720 @@ Note: The URL received from the 'trendmicro-visionone-download-information-for-c
 | VisionOne.Endpoint_Info.osDescription | String   | Description of the Operating System.                             |
 | VisionOne.Endpoint_Info.productCode   | String   | Product code of the Trend Micro product running on the endpoint. |
 
-19. `add note`
+1.  `      add note     `
 
 | **Argument Name**                     | **Description**                                 | **Required** |
-| ------------------------------------- | ----------------------------------------------- | ------------ |
+|---------------------------------------|-------------------------------------------------|--------------|
 | source data identifier (workbench id) | Workbench id of security incident in Vision One | Required     |
 | content                               | note to be added to the workbench event         | Required     |
 
 #### Context Output
 
 | **Path**                         | **Type** | **Description**                               |
-| -------------------------------- | -------- | --------------------------------------------- |
+|----------------------------------|----------|-----------------------------------------------|
 | VisionOne.Add_Note.Workbench_Id  | String   | Workbench ID that the action was executed on. |
 | VisionOne.Add_Note.noteId        | String   | Note ID.                                      |
 | VisionOne.Add_Note.response_code | String   | Response code for the request.                |
 | VisionOne.Add_Note.response_msg  | String   | Response message for the request.             |
 
-20. `update status`
+1.  `      update status     `
 
 | **Argument Name**                     | **Description**                                                                                                | **Required** |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------ |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------|
 | source data identifier (workbench_id) | The ID of the workbench alert that you would like to update the status for.                                    | Required     |
 | status                                | The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive | Required     |
 
 #### Context Output
 
 | **Path**                              | **Type** | **Description**                               |
-| ------------------------------------- | -------- | --------------------------------------------- |
+|---------------------------------------|----------|-----------------------------------------------|
 | VisionOne.Update_Status.Workbench_Id  | String   | Workbench ID that the action was executed on. |
 | VisionOne.Update_Status.response_code | String   | Response code for the request.                |
 | VisionOne.Update_Status.response_msg  | String   | Response message for the request.             |
 
----
+This version of the Trend Micro app is compatible with Splunk SOAR version **5.1.0** and above.
 
-[View Integration Documentation](insert here link to documentation that will be published on Splunk docs)
+## Authentication Information
+
+The app uses HTTPS protocol for communicating with the Trend Micro Vision One server. For
+authentication a Vision One API Token is used by the Splunk SOAR Connector.
+
+----------------------------------------------------------------------------------------------------
+
+[View Integration
+Documentation](insert%20here%20link%20to%20documentation%20that%20will%20be%20published%20on%20Splunk%20docs)
+
+
+### Configuration Variables
+The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a VisionOne asset in SOAR.
+
+VARIABLE | REQUIRED | TYPE | DESCRIPTION
+-------- | -------- | ---- | -----------
+**api\_url** |  required  | string | Vision One API URL \(e\.g\. https\://api\.xdr\.trendmicro\.com\)
+**api\_key** |  required  | password | Vision One API Token
+
+### Supported Actions  
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
+[get endpoint info](#action-get-endpoint-info) - Gather information about an endpoint  
+[quarantine device](#action-quarantine-device) - Quarantine the endpoint  
+[unquarantine device](#action-unquarantine-device) - Unquarantine the endpoint  
+[on poll](#action-on-poll) - Callback action for the on\_poll ingest functionality  
+[status check](#action-status-check) - Checks the status of a task  
+[add to blocklist](#action-add-to-blocklist) - Adds an item to the Suspicious Objects list in Vision One  
+[remove from blocklist](#action-remove-from-blocklist) - Removes an item from the Suspicious Objects list  
+[quarantine email message](#action-quarantine-email-message) - Quarantine the email message  
+[delete email message](#action-delete-email-message) - Delete the email message  
+[terminate process](#action-terminate-process) - Terminate the process running on the endpoint  
+[add to exception](#action-add-to-exception) - Add object to exception list  
+[delete from exception](#action-delete-from-exception) - Delete object from exception list  
+[add to suspicious](#action-add-to-suspicious) - Add suspicious object to suspicious list  
+[delete from suspicious](#action-delete-from-suspicious) - Delete the suspicious object from suspicious list  
+[check analysis status](#action-check-analysis-status) - Get the status of file analysis based on task id  
+[download analysis report](#action-download-analysis-report) - Get the analysis report of a file based on report id  
+[collect forensic file](#action-collect-forensic-file) - Collect forensic file  
+[forensic file info](#action-forensic-file-info) - Get the download information for collected forensic file  
+[start analysis](#action-start-analysis) - Submit file to sandbox for analysis  
+[add note](#action-add-note) - Adds a note to an existing workbench alert  
+[update status](#action-update-status) - Updates the status of an existing workbench alert  
+
+## action: 'test connectivity'
+Validate the asset configuration for connectivity using supplied configuration
+
+Type: **test**  
+Read only: **True**
+
+Validate the asset configuration for connectivity using supplied configuration\.
+
+#### Action Parameters
+No parameters are required for this action
+
+#### Action Output
+No Output  
+
+## action: 'get endpoint info'
+Gather information about an endpoint
+
+Type: **generic**  
+Read only: **False**
+
+Gather information about an endpoint\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip\_hostname\_mac** |  required  | Hostname/IP/MAC of the endpoint to query \(Required\) | string |  `ip`  `mac address`  `host name` 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.status | string | 
+action\_result\.data\.\*\.errorCode | string | 
+action\_result\.data\.\*\.result\.logonAccount\.value | string | 
+action\_result\.data\.\*\.result\.hostname\.value | string | 
+action\_result\.data\.\*\.result\.macAddr\.value | string |  `mac address` 
+action\_result\.data\.\*\.result\.ip\.value | string |  `ip` 
+action\_result\.data\.\*\.result\.osName | string | 
+action\_result\.data\.\*\.result\.osVersion | string | 
+action\_result\.data\.\*\.result\.osDescription | string | 
+action\_result\.data\.\*\.result\.productCode | string | 
+action\_result\.parameter\.ip\_hostname\_mac | string |  `ip`  `mac address`  `host name` 
+action\_result\.status | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'quarantine device'
+Quarantine the endpoint
+
+Type: **contain**  
+Read only: **False**
+
+Quarantine the endpoint\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip\_hostname\_mac** |  required  | Hostname/IP/MAC of endpoint to quarantine/isolate \(Required\) | string |  `ip`  `mac address`  `host name` 
+**productid** |  required  | Trend Micro product ID for quarantine task\. 'sao' or 'sds'\. Default\: 'sao' \(Required\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.ip\_hostname\_mac | string |  `ip`  `mac address`  `host name` 
+action\_result\.parameter\.productid | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'unquarantine device'
+Unquarantine the endpoint
+
+Type: **correct**  
+Read only: **False**
+
+Unquarantine the endpoint\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip\_hostname\_mac** |  required  | Hostname/IP/MAC of endpoint to unquarantine/restore connectivity for \(Required\) | string |  `ip`  `mac address`  `host name` 
+**productid** |  required  | Trend Micro product ID for unquarantine task\. 'sao' or 'sds'\. Default\: 'sao' \(Required\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.ip\_hostname\_mac | string |  `ip`  `mac address`  `host name` 
+action\_result\.parameter\.productid | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'on poll'
+Callback action for the on\_poll ingest functionality
+
+Type: **ingest**  
+Read only: **True**
+
+Callback action for the on\_poll ingest functionality\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**starttime** |  optional  | Make sure time format matches following example \(2020\-06\-15T10\:00\:00\.000Z\) | string | 
+**endtime** |  optional  | Make sure time format matches following example \(2020\-06\-15T12\:00\:00\.000Z\) | string | 
+**limit** |  optional  | Limit of polling results\. Default\: limit=100 | numeric | 
+
+#### Action Output
+No Output  
+
+## action: 'status check'
+Checks the status of a task
+
+Type: **investigate**  
+Read only: **False**
+
+Checks the status of a particular task\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**action\_id** |  required  | Action ID of the task you would like to get the status of \(Required\) | string |  `action id` 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.parameter\.action\_id | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'add to blocklist'
+Adds an item to the Suspicious Objects list in Vision One
+
+Type: **contain**  
+Read only: **False**
+
+Adds an item from the Trend Micro Vision One Suspicious Objects list\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**value\_type** |  required  | Type of object to be added \('domain', 'ip', 'sha1', or 'url'\) \(Required\) | string | 
+**target\_value** |  required  | The object you would like to add to the block list that matches the value\-type \(Required\) | string | 
+**product\_id** |  optional  | Trend Micro ID of product \(Optional\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.target\_value | string | 
+action\_result\.parameter\.value\_type | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'remove from blocklist'
+Removes an item from the Suspicious Objects list
+
+Type: **correct**  
+Read only: **False**
+
+Removes an item from the Trend Micro Vision One Suspicious Objects list\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**value\_type** |  required  | Type of object to be removed \('domain', 'ip', 'sha1', or 'url'\) \(Required\) | string | 
+**target\_value** |  required  | The object you would like to remove from block list that matches the value\-type \(Required\) | string | 
+**product\_id** |  optional  | Trend Micro ID of product \(Optional\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.target\_value | string | 
+action\_result\.parameter\.value\_type | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'quarantine email message'
+Quarantine the email message
+
+Type: **contain**  
+Read only: **False**
+
+Retrieve data from the quarantine email message and send the result to dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**message\_id** |  required  | Email Message ID from Trend Micro Vision One message activity data \(Required\) | string | 
+**mailbox** |  required  | Email mailbox where the message will be quarantied from \(Required\) | string | 
+**message\_delivery\_time** |  optional  | Email message's original delivery time \(format=YYYY\-MM\-DDTHH\:MM\:SS\.000Z\) \(Required\) | string | 
+**product\_id** |  optional  | Target product ID \(Optional\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.message\_id | string | 
+action\_result\.parameter\.mailbox | string | 
+action\_result\.parameter\.message\_delivery\_time | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'delete email message'
+Delete the email message
+
+Type: **correct**  
+Read only: **False**
+
+Retrieve data from the delete email message and relay result to Splunk\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**message\_id** |  required  | Email Message ID from Trend Micro Vision One message activity data \(Required\) | string | 
+**mailbox** |  required  | Email mailbox where the message will be deleted from \(Required\) | string | 
+**message\_delivery\_time** |  optional  | Email message's original delivery time \(format=YYYY\-MM\-DDTHH\:MM\:SS\.000Z\) \(Required\) | string | 
+**product\_id** |  optional  | Target product ID \(Optional\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.message\_id | string | 
+action\_result\.parameter\.mailbox | string | 
+action\_result\.parameter\.message\_delivery\_time | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'terminate process'
+Terminate the process running on the endpoint
+
+Type: **contain**  
+Read only: **False**
+
+Terminate the process running on the endpoint and send results to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip\_hostname\_mac** |  required  | Hostname, macaddr or ip of the endpoint to terminate process on \(Required\) | string | 
+**product\_id** |  optional  | Target product\. Default\: 'sao' \(Optional\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+**file\_sha1** |  required  | SHA1 hash of the process to terminate \(Required\) | string | 
+**filename** |  optional  | File name for log \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.ip\_hostname\_mac | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.file\_sha1 | string | 
+action\_result\.parameter\.filename | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'add to exception'
+Add object to exception list
+
+Type: **correct**  
+Read only: **False**
+
+Add the exception object to the exception list and send the result to Splunk\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**type** |  required  | The object type\: 'domain', 'ip', 'sha1', or 'url' \(Required\) | string | 
+**value** |  required  | Full and partial matches supported\. Domain partial match, \(with a wildcard as the subdomain, example, \.example\.com\) IP partial match, \(IP range example, 192\.168\.35\.1\-192\.168\.35\.254, cidr example, 192\.168\.35\.1/24\) URL partial match, \(Supports wildcards 'http\://\.'', 'https\://\.'' at beginning, or ''' at the end\. Multiple wild cards also supported, such as , https\://\.example\.com/path1/\) SHA1 only full match \(Required\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.status\_code | string | 
+action\_result\.data\.\*\.total\_items | numeric | 
+action\_result\.status | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.type | string | 
+action\_result\.parameter\.value | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'delete from exception'
+Delete object from exception list
+
+Type: **correct**  
+Read only: **False**
+
+Delete the exception object from the exception list and relay data to Splunk\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**type** |  required  | The object type\: 'domain', 'ip', 'sha1', or 'url' \(Required\) | string | 
+**value** |  required  | The object value \(Required\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.status\_code | string | 
+action\_result\.data\.\*\.total\_items | numeric | 
+action\_result\.status | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.type | string | 
+action\_result\.parameter\.value | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'add to suspicious'
+Add suspicious object to suspicious list
+
+Type: **contain**  
+Read only: **False**
+
+Add suspicious object to suspicious list and send the result to dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**type** |  required  | The object type\: 'domain', 'ip', 'sha1', or 'url' \(Required\) | string | 
+**value** |  required  | The object value \(Required\) | string | 
+**description** |  optional  | Description for this activity \(Optional\) | string | 
+**scan\_action** |  optional  | The action to take if object is found\. If you don't use this parameter, the scan action specified in default\_settings\.riskLevel\.type will be used instead\. 'block' or 'log' \(Optional\) | string | 
+**risk\_level** |  optional  | The Suspicious Object risk level\. If you don't use this parameter, high will be used instead\. risk level \(either 'high', 'medium' or 'low'\) \(Optional\) | string | 
+**expiry** |  optional  | The number of days to keep the object in the Suspicious Object List\. If you don't use this parameter, the default\_settings\.expiredDay scan action will be used instead \(Optional\) | numeric | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.status\_code | string | 
+action\_result\.data\.\*\.total\_items | numeric | 
+action\_result\.status | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.type | string | 
+action\_result\.parameter\.value | string | 
+action\_result\.parameter\.scan\_action | string | 
+action\_result\.parameter\.risk\_level | string | 
+action\_result\.parameter\.expiry | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'delete from suspicious'
+Delete the suspicious object from suspicious list
+
+Type: **correct**  
+Read only: **False**
+
+Delete the suspicious object from suspicious list and send the result to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**type** |  required  | The object type\: 'domain', 'ip', 'sha1', or 'url' \(Required\) | string | 
+**value** |  required  | The object value \(Required\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.status\_code | string | 
+action\_result\.data\.\*\.total\_items | numeric | 
+action\_result\.status | string | 
+action\_result\.parameter\.type | string | 
+action\_result\.parameter\.value | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'check analysis status'
+Get the status of file analysis based on task id
+
+Type: **investigate**  
+Read only: **False**
+
+Get the status of file analysis based on task id and send result to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**task\_id** |  required  | Task\_id from the trendmicro\-visionone\-start\-analysis command output\. Submission ID in Vision One \(Required\) | string |  `task id` 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.code | string | 
+action\_result\.data\.\*\.data\.taskId | string |  `task id` 
+action\_result\.data\.\*\.data\.taskStatus | string | 
+action\_result\.data\.\*\.data\.digest | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.analysisCompletionTime | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.riskLevel | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.description | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.detectionNameList | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.threatTypeList | string | 
+action\_result\.data\.\*\.data\.analysisSummary\.trueFileType | string | 
+action\_result\.data\.\*\.data\.reportId | numeric |  `report id` 
+action\_result\.status | string | 
+action\_result\.parameter\.task\_id | string |  `task id` 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'download analysis report'
+Get the analysis report of a file based on report id
+
+Type: **investigate**  
+Read only: **False**
+
+Get the analysis report of a file based on report id and send the results to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**report\_id** |  required  | Report\_id of the sandbox submission retrieved from the trendmicro\-visionone\-check\-analysis\-status command \(Required\) | string | 
+**type** |  required  | Type of report to retrieve\: 'vaReport', 'nvestigationPackage', or 'suspiciousObject' \(Required\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.parameter\.report\_id | string | 
+action\_result\.parameter\.type | string | 
+action\_result\.status | string | 
+action\_result\.data | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'collect forensic file'
+Collect forensic file
+
+Type: **investigate**  
+Read only: **False**
+
+Collect forensic file and send result to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip\_hostname\_mac** |  required  | IP/Hostname/MAC address of the endpoint to collect file from \(Required\) | string | 
+**product\_id** |  required  | Product\: 'sao' 'xes' 'sds' \(Required\) | string | 
+**description** |  optional  | Description of file collected \(Optional\) | string | 
+**file\_path** |  required  | Path of the forensic file to collect \(Required\) | string | 
+**os** |  optional  | OS type \(mac, windows or linux without version numbers\) \(Required\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.actionId | string |  `action id` 
+action\_result\.data\.\*\.taskStatus | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.ip\_hostname\_mac | string | 
+action\_result\.parameter\.product\_id | string | 
+action\_result\.parameter\.description | string | 
+action\_result\.parameter\.file\_path | string | 
+action\_result\.parameter\.os | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'forensic file info'
+Get the download information for collected forensic file
+
+Type: **investigate**  
+Read only: **False**
+
+Get the download information for collected forensic file and send the result to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**action\_id** |  required  | ActionId output from the collect command used to collect the file \(Required\) | string |  `action id` 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.data\.url | string |  `file url`  `url` 
+action\_result\.data\.\*\.data\.expires | string | 
+action\_result\.data\.\*\.data\.password | string |  `document pass`  `archive pass` 
+action\_result\.data\.\*\.data\.filename | string |  `file name` 
+action\_result\.parameter\.action\_id | string |  `action id` 
+action\_result\.status | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'start analysis'
+Submit file to sandbox for analysis
+
+Type: **investigate**  
+Read only: **False**
+
+Submit file to sandbox for analysis and send the result to the dashboard\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**file\_url** |  required  | URL pointing to the location of the file to be submitted \(Required\) | string | 
+**file\_name** |  required  | Name of the file to be analyzed \(Required\) | string | 
+**document\_pass** |  optional  | The password for decrypting the submitted document\. The value must be Base64\-encoded\. The maximum password length is 128 bytes prior to encoding \(Optional\) | string | 
+**archive\_pass** |  optional  | The password for decrypting the submitted archive\. The value must be Base64\-encoded\. The maximum password length is 128 bytes prior to encoding \(Optional\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.code | string | 
+action\_result\.data\.\*\.message | string | 
+action\_result\.data\.\*\.data\.taskId | string |  `task id` 
+action\_result\.data\.\*\.data\.digest | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.file\_url | string | 
+action\_result\.parameter\.file\_name | string | 
+action\_result\.parameter\.document\_pass | string | 
+action\_result\.parameter\.archive\_pass | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'add note'
+Adds a note to an existing workbench alert
+
+Type: **generic**  
+Read only: **False**
+
+Adds a note to an existing workbench alert in Trend Micro Vision One\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**workbench\_id** |  required  | Workbench id of security incident in Vision One \(Required\) | string |  `source data identifier` 
+**content** |  required  | Note to be added to workbench event \(Required\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.info\.code | string | 
+action\_result\.data\.\*\.info\.msg | string | 
+action\_result\.data\.\*\.data\.id | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.workbench\_id | string |  `source data identifier` 
+action\_result\.parameter\.content | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric |   
+
+## action: 'update status'
+Updates the status of an existing workbench alert
+
+Type: **correct**  
+Read only: **False**
+
+Updates the status of an existing workbench alert in Trend Micro Vision One\.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**workbench\_id** |  required  | The ID of the workbench alert that you would like to update the status for \(Required\) | string |  `source data identifier` 
+**status** |  required  | The status to assign to the workbench alert\: new, in\_progress, resolved\_false\_positive, resolved\_true\_positive \(Required\) | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS
+--------- | ---- | --------
+action\_result\.data\.\*\.info\.code | string | 
+action\_result\.data\.\*\.info\.msg | string | 
+action\_result\.data\.\*\.data | string | 
+action\_result\.status | string | 
+action\_result\.parameter\.workbench\_id | string |  `source data identifier` 
+action\_result\.parameter\.status | string | 
+action\_result\.summary | string | 
+action\_result\.message | string | 
+summary\.total\_objects | numeric | 
+summary\.total\_objects\_successful | numeric | 
