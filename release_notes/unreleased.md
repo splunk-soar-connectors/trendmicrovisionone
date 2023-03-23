@@ -1,2 +1,1 @@
 **Unreleased**
-* Updated app name to 'Trend Micro Vision One for Splunk SOAR'
