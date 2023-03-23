@@ -33,7 +33,8 @@
             "order": 1
         }
     },
-    "actions": [{
+    "actions": [
+        {
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
@@ -65,7 +66,8 @@
                     "order": 0
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.status",
                     "data_type": "string",
                     "column_name": "Status",
@@ -206,7 +208,8 @@
                     "order": 2
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -302,7 +305,8 @@
                     "order": 2
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -412,7 +416,8 @@
                     "order": 0
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.parameter.action_id",
                     "data_type": "string",
                     "contains": [
@@ -490,7 +495,8 @@
                     "order": 3
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -584,7 +590,8 @@
                     "order": 3
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -683,7 +690,8 @@
                     "order": 4
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -786,7 +794,8 @@
                     "order": 4
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -889,7 +898,8 @@
                     "order": 4
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -982,7 +992,8 @@
                     "order": 2
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
@@ -1070,7 +1081,8 @@
                     "order": 2
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
@@ -1174,7 +1186,8 @@
                     "order": 5
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
@@ -1269,7 +1282,8 @@
                     "order": 1
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
@@ -1346,7 +1360,8 @@
                     "order": 0
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
@@ -1484,7 +1499,8 @@
                     "order": 1
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
                     "column_name": "Report ID",
@@ -1569,7 +1585,8 @@
                     "order": 4
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.actionId",
                     "data_type": "string",
                     "contains": [
@@ -1654,7 +1671,8 @@
                     ]
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.data.url",
                     "data_type": "string",
                     "contains": [
@@ -1761,7 +1779,8 @@
                     "order": 3
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.code",
                     "data_type": "string",
                     "column_name": "Code",
@@ -1861,7 +1880,8 @@
                     "order": 1
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.info.code",
                     "data_type": "string",
                     "column_name": "Code",
@@ -1947,7 +1967,8 @@
                     "order": 1
                 }
             },
-            "output": [{
+            "output": [
+                {
                     "data_path": "action_result.data.*.info.code",
                     "data_type": "string",
                     "column_name": "Code",
@@ -2010,13 +2031,14 @@
         }
     ],
     "pip_dependencies": {
-        "wheel": [{
+        "wheel": [
+            {
                 "module": "beautifulsoup4",
                 "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
             },
             {
                 "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.6.15-py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
             },
             {
                 "module": "chardet",
@@ -2033,6 +2055,38 @@
             {
                 "module": "soupsieve",
                 "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.25.11-py2.py3-none-any.whl"
+            }
+        ]
+    },
+    "pip39_dependencies": {
+        "wheel": [
+            {
+                "module": "beautifulsoup4",
+                "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/shared/idna-2.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/shared/requests-2.22.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "soupsieve",
+                "input_file": "wheels/py3/soupsieve-2.4-py3-none-any.whl"
             },
             {
                 "module": "urllib3",
