@@ -1,2097 +1,2252 @@
 {
-    "appid": "f36c99d8-16ed-4b65-be03-d93511d721dd",
-    "name": "Trend Micro Vision One for Splunk SOAR",
-    "description": "Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Micro Vision One prevents the majority of attacks with automated protection",
-    "type": "endpoint",
-    "product_vendor": "Trend Micro",
-    "logo": "logo_trendmicrovisionone.svg",
-    "logo_dark": "logo_trendmicrovisionone_dark.svg",
-    "product_name": "VisionOne",
-    "python_version": "3",
-    "product_version_regex": ".*",
-    "publisher": "Trend Micro",
-    "license": "Copyright (c) Trend Micro, 2022-2023",
-    "app_version": "1.1.0",
-    "utctime_updated": "2022-06-09T15:02:47.122162Z",
-    "package_name": "phantom_trendmicrovisionone",
-    "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "5.5.0",
-    "app_wizard_version": "1.0.0",
-    "fips_compliant": false,
-    "configuration": {
-        "api_url": {
-            "description": "Vision One API URL (e.g. https://api.xdr.trendmicro.com)",
-            "data_type": "string",
-            "required": true,
-            "default": "https://api.xdr.trendmicro.com",
-            "order": 0
-        },
-        "api_key": {
-            "description": "Vision One API Token",
-            "data_type": "password",
-            "required": true,
-            "order": 1
-        }
+  "appid": "f36c99d8-16ed-4b65-be03-d93511d721dd",
+  "name": "Trend Micro Vision One for Splunk SOAR",
+  "description": "Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Micro Vision One prevents the majority of attacks with automated protection",
+  "type": "endpoint",
+  "product_vendor": "Trend Micro",
+  "logo": "logo_trendmicrovisionone.svg",
+  "logo_dark": "logo_trendmicrovisionone_dark.svg",
+  "product_name": "VisionOne",
+  "python_version": "3",
+  "product_version_regex": ".*",
+  "publisher": "Trend Micro",
+  "license": "Copyright (c) Trend Micro, 2022-2023",
+  "app_version": "1.1.0",
+  "utctime_updated": "2022-06-09T15:02:47.122162Z",
+  "package_name": "phantom_trendmicrovisionone",
+  "main_module": "trendmicrovisionone_connector.py",
+  "min_phantom_version": "5.5.0",
+  "app_wizard_version": "1.0.0",
+  "fips_compliant": false,
+  "configuration": {
+    "api_url": {
+      "description": "Vision One API URL (e.g. https://api.xdr.trendmicro.com)",
+      "data_type": "string",
+      "required": true,
+      "value_list": [],
+      "default": "https://api.xdr.trendmicro.com",
+      "order": 0,
+      "name": "api_url",
+      "id": 0
     },
-    "actions": [
-        {
-            "action": "test connectivity",
-            "identifier": "test_connectivity",
-            "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "Validate the asset configuration for connectivity using supplied configuration.",
-            "type": "test",
-            "read_only": true,
-            "parameters": {},
-            "output": [],
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "get endpoint info",
-            "identifier": "get_endpoint_info",
-            "description": "Gather information about an endpoint",
-            "verbose": "Gather information about an endpoint.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of the endpoint to query (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ],
-                    "order": 0
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.errorCode",
-                    "data_type": "string",
-                    "column_name": "Error Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.result.logonAccount.value",
-                    "data_type": "string",
-                    "column_name": "Logon Account",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.result.hostname.value",
-                    "data_type": "string",
-                    "column_name": "Hostname",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.result.macAddr.value",
-                    "data_type": "string",
-                    "contains": [
-                        "mac address"
-                    ],
-                    "column_name": "MAC Addr",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.result.ip.value",
-                    "data_type": "string",
-                    "contains": [
-                        "ip"
-                    ],
-                    "column_name": "IP",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.result.osName",
-                    "data_type": "string",
-                    "column_name": "OS Name",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.result.osVersion",
-                    "data_type": "string",
-                    "column_name": "OS Version",
-                    "column_order": 7
-                },
-                {
-                    "data_path": "action_result.data.*.result.osDescription",
-                    "data_type": "string",
-                    "column_name": "OS Description",
-                    "column_order": 8
-                },
-                {
-                    "data_path": "action_result.data.*.result.productCode",
-                    "data_type": "string",
-                    "column_name": "Product Code",
-                    "column_order": 9
-                },
-                {
-                    "data_path": "action_result.parameter.ip_hostname_mac",
-                    "data_type": "string",
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ],
-                    "column_name": "IP Hostname MAC",
-                    "column_order": 10
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 11,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "quarantine device",
-            "identifier": "quarantine_device",
-            "description": "Quarantine the endpoint",
-            "verbose": "Quarantine the endpoint.",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of endpoint to quarantine/isolate (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ],
-                    "order": 0
-                },
-                "productid": {
-                    "description": "Trend Micro product ID for quarantine task. 'sao' or 'sds'. Default: 'sao' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.ip_hostname_mac",
-                    "data_type": "string",
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.productid",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "unquarantine device",
-            "identifier": "unquarantine_device",
-            "description": "Unquarantine the endpoint",
-            "verbose": "Unquarantine the endpoint.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC of endpoint to unquarantine/restore connectivity for (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ],
-                    "order": 0
-                },
-                "productid": {
-                    "description": "Trend Micro product ID for unquarantine task. 'sao' or 'sds'. Default: 'sao' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.ip_hostname_mac",
-                    "data_type": "string",
-                    "contains": [
-                        "ip",
-                        "mac address",
-                        "host name"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.productid",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "on poll",
-            "identifier": "on_poll",
-            "description": "Callback action for the on_poll ingest functionality",
-            "verbose": "Callback action for the on_poll ingest functionality.",
-            "type": "ingest",
-            "read_only": true,
-            "parameters": {
-                "starttime": {
-                    "description": "Make sure time format matches following example (2020-06-15T10:00:00.000Z)",
-                    "data_type": "string",
-                    "order": 0
-                },
-                "endtime": {
-                    "description": "Make sure time format matches following example (2020-06-15T12:00:00.000Z)",
-                    "data_type": "string",
-                    "order": 1
-                },
-                "limit": {
-                    "description": "Limit of polling results. Default: limit=100",
-                    "data_type": "numeric",
-                    "order": 2
-                }
-            },
-            "output": [],
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "status check",
-            "identifier": "status_check",
-            "description": "Checks the status of a task",
-            "verbose": "Checks the status of a particular task.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "action_id": {
-                    "description": "Action ID of the task you would like to get the status of (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "action id"
-                    ],
-                    "order": 0
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.action_id",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "add to blocklist",
-            "identifier": "add_to_blocklist",
-            "description": "Adds an item to the Suspicious Objects list in Vision One",
-            "verbose": "Adds an item from the Trend Micro Vision One Suspicious Objects list.",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "value_type": {
-                    "description": "Type of object to be added ('domain', 'ip', 'sha1', or 'url') (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "target_value": {
-                    "description": "The object you would like to add to the block list that matches the value-type (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "product_id": {
-                    "description": "Trend Micro ID of product (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.target_value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value_type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "remove from blocklist",
-            "identifier": "remove_from_blocklist",
-            "description": "Removes an item from the Suspicious Objects list",
-            "verbose": "Removes an item from the Trend Micro Vision One Suspicious Objects list.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "value_type": {
-                    "description": "Type of object to be removed ('domain', 'ip', 'sha1', or 'url') (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "target_value": {
-                    "description": "The object you would like to remove from block list that matches the value-type (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "product_id": {
-                    "description": "Trend Micro ID of product (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.target_value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value_type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "quarantine email message",
-            "identifier": "quarantine_email_message",
-            "description": "Quarantine the email message",
-            "verbose": "Retrieve data from the quarantine email message and send the result to dashboard.",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "message_id": {
-                    "description": "Email Message ID from Trend Micro Vision One message activity data (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "mailbox": {
-                    "description": "Email mailbox where the message will be quarantied from (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "message_delivery_time": {
-                    "description": "Email message's original delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z) (Required)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "product_id": {
-                    "description": "Target product ID (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 4
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.message_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.mailbox",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.message_delivery_time",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "delete email message",
-            "identifier": "delete_email_message",
-            "description": "Delete the email message",
-            "verbose": "Retrieve data from the delete email message and relay result to Splunk.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "message_id": {
-                    "description": "Email Message ID from Trend Micro Vision One message activity data (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "mailbox": {
-                    "description": "Email mailbox where the message will be deleted from (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "message_delivery_time": {
-                    "description": "Email message's original delivery time (format=YYYY-MM-DDTHH:MM:SS.000Z) (Required)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "product_id": {
-                    "description": "Target product ID (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 4
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.message_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.mailbox",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.message_delivery_time",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "terminate process",
-            "identifier": "terminate_process",
-            "description": "Terminate the process running on the endpoint",
-            "verbose": "Terminate the process running on the endpoint and send results to the dashboard.",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "ip_hostname_mac": {
-                    "description": "Hostname, macaddr or ip of the endpoint to terminate process on (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "product_id": {
-                    "description": "Target product. Default: 'sao' (Optional)",
-                    "data_type": "string",
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "file_sha1": {
-                    "description": "SHA1 hash of the process to terminate (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 3
-                },
-                "filename": {
-                    "description": "File name for log (Optional)",
-                    "data_type": "string",
-                    "order": 4
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.ip_hostname_mac",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.file_sha1",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.filename",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "add to exception",
-            "identifier": "add_to_exception",
-            "description": "Add object to exception list",
-            "verbose": "Add the exception object to the exception list and send the result to Splunk.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "type": {
-                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "value": {
-                    "description": "Full and partial matches supported. Domain partial match, (with a wildcard as the subdomain, example, .example.com) IP partial match, (IP range example, 192.168.35.1-192.168.35.254, cidr example, 192.168.35.1/24) URL partial match, (Supports wildcards 'http://.'', 'https://.'' at beginning, or ''' at the end. Multiple wild cards also supported, such as , https://.example.com/path1/) SHA1 only full match (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status_code",
-                    "data_type": "string",
-                    "column_name": "Status Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.total_items",
-                    "data_type": "numeric",
-                    "column_name": "Total Items",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "delete from exception",
-            "identifier": "delete_from_exception",
-            "description": "Delete object from exception list",
-            "verbose": "Delete the exception object from the exception list and relay data to Splunk.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "type": {
-                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "value": {
-                    "description": "The object value (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status_code",
-                    "data_type": "string",
-                    "column_name": "Status Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.total_items",
-                    "data_type": "numeric",
-                    "column_name": "Total Items",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "add to suspicious",
-            "identifier": "add_to_suspicious",
-            "description": "Add suspicious object to suspicious list",
-            "verbose": "Add suspicious object to suspicious list and send the result to dashboard.",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "type": {
-                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "value": {
-                    "description": "The object value (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description for this activity (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "scan_action": {
-                    "description": "The action to take if object is found. If you don't use this parameter, the scan action specified in default_settings.riskLevel.type will be used instead. 'block' or 'log' (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                },
-                "risk_level": {
-                    "description": "The Suspicious Object risk level. If you don't use this parameter, high will be used instead. risk level (either 'high', 'medium' or 'low') (Optional)",
-                    "data_type": "string",
-                    "order": 4
-                },
-                "expiry": {
-                    "description": "The number of days to keep the object in the Suspicious Object List. If you don't use this parameter, the default_settings.expiredDay scan action will be used instead (Optional)",
-                    "data_type": "numeric",
-                    "default": 0,
-                    "order": 5
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status_code",
-                    "data_type": "string",
-                    "column_name": "Status Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.total_items",
-                    "data_type": "numeric",
-                    "column_name": "Total Items",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.scan_action",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.risk_level",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.expiry",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "delete from suspicious",
-            "identifier": "delete_from_suspicious",
-            "description": "Delete the suspicious object from suspicious list",
-            "verbose": "Delete the suspicious object from suspicious list and send the result to the dashboard.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "type": {
-                    "description": "The object type: 'domain', 'ip', 'sha1', or 'url' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "value": {
-                    "description": "The object value (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status_code",
-                    "data_type": "string",
-                    "column_name": "Status Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.total_items",
-                    "data_type": "numeric",
-                    "column_name": "Total Items",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "check analysis status",
-            "identifier": "check_analysis_status",
-            "description": "Get the status of file analysis based on task id",
-            "verbose": "Get the status of file analysis based on task id and send result to the dashboard.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "task_id": {
-                    "description": "Task_id from the trendmicro-visionone-start-analysis command output. Submission ID in Vision One (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "task id"
-                    ],
-                    "order": 0
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.code",
-                    "data_type": "string",
-                    "column_name": "Code",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.data.taskId",
-                    "data_type": "string",
-                    "contains": [
-                        "task id"
-                    ],
-                    "column_name": "Task ID",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.data.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.data.digest",
-                    "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.analysisCompletionTime",
-                    "data_type": "string",
-                    "column_name": "Analysis Completion Time",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.riskLevel",
-                    "data_type": "string",
-                    "column_name": "Risk Level",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.description",
-                    "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 7
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.detectionNameList",
-                    "data_type": "string",
-                    "column_name": "Detection Name List",
-                    "column_order": 8
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.threatTypeList",
-                    "data_type": "string",
-                    "column_name": "Threat Type List",
-                    "column_order": 9
-                },
-                {
-                    "data_path": "action_result.data.*.data.analysisSummary.trueFileType",
-                    "data_type": "string",
-                    "column_name": "True File Type",
-                    "column_order": 10
-                },
-                {
-                    "data_path": "action_result.data.*.data.reportId",
-                    "data_type": "numeric",
-                    "contains": [
-                        "report id"
-                    ],
-                    "column_name": "Report ID",
-                    "column_order": 11
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 12,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.task_id",
-                    "data_type": "string",
-                    "contains": [
-                        "task id"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "download analysis report",
-            "identifier": "download_analysis_report",
-            "description": "Get the analysis report of a file based on report id",
-            "verbose": "Get the analysis report of a file based on report id and send the results to the dashboard.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "report_id": {
-                    "description": "Report_id of the sandbox submission retrieved from the trendmicro-visionone-check-analysis-status command (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "type": {
-                    "description": "Type of report to retrieve: 'vaReport', 'nvestigationPackage', or 'suspiciousObject' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.parameter.report_id",
-                    "data_type": "string",
-                    "column_name": "Report ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.type",
-                    "data_type": "string",
-                    "column_name": "Type",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "collect forensic file",
-            "identifier": "collect_forensic_file",
-            "description": "Collect forensic file",
-            "verbose": "Collect forensic file and send result to the dashboard.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "ip_hostname_mac": {
-                    "description": "IP/Hostname/MAC address of the endpoint to collect file from (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "product_id": {
-                    "description": "Product: 'sao' 'xes' 'sds' (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "description": {
-                    "description": "Description of file collected (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "file_path": {
-                    "description": "Path of the forensic file to collect (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 3
-                },
-                "os": {
-                    "description": "OS type (mac, windows or linux without version numbers) (Required)",
-                    "data_type": "string",
-                    "order": 4
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.actionId",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.taskStatus",
-                    "data_type": "string",
-                    "column_name": "Task Status",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 2,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.ip_hostname_mac",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.product_id",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.description",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.file_path",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.os",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "forensic file info",
-            "identifier": "forensic_file_info",
-            "description": "Get the download information for collected forensic file",
-            "verbose": "Get the download information for collected forensic file and send the result to the dashboard.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "action_id": {
-                    "description": "ActionId output from the collect command used to collect the file (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0,
-                    "contains": [
-                        "action id"
-                    ]
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.data.url",
-                    "data_type": "string",
-                    "contains": [
-                        "file url",
-                        "url"
-                    ],
-                    "column_name": "File URL",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.data.expires",
-                    "data_type": "string",
-                    "column_name": "Expires",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.data.password",
-                    "data_type": "string",
-                    "contains": [
-                        "document pass",
-                        "archive pass"
-                    ],
-                    "column_name": "Password",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.data.filename",
-                    "data_type": "string",
-                    "contains": [
-                        "file name"
-                    ],
-                    "column_name": "Filename",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.parameter.action_id",
-                    "data_type": "string",
-                    "contains": [
-                        "action id"
-                    ],
-                    "column_name": "Action ID",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 5,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "start analysis",
-            "identifier": "start_analysis",
-            "description": "Submit file to sandbox for analysis",
-            "verbose": "Submit file to sandbox for analysis and send the result to the dashboard.",
-            "type": "investigate",
-            "read_only": false,
-            "parameters": {
-                "file_url": {
-                    "description": "URL pointing to the location of the file to be submitted (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "file_name": {
-                    "description": "Name of the file to be analyzed (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                },
-                "document_pass": {
-                    "description": "The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding (Optional)",
-                    "data_type": "string",
-                    "order": 2
-                },
-                "archive_pass": {
-                    "description": "The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding (Optional)",
-                    "data_type": "string",
-                    "order": 3
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.code",
-                    "data_type": "string",
-                    "column_name": "Code",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.data.taskId",
-                    "data_type": "string",
-                    "contains": [
-                        "task id"
-                    ],
-                    "column_name": "Task ID",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.data.digest",
-                    "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 4,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.file_url",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.file_name",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.document_pass",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.archive_pass",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "add note",
-            "identifier": "add_note",
-            "description": "Adds a note to an existing workbench alert",
-            "verbose": "Adds a note to an existing workbench alert in Trend Micro Vision One.",
-            "type": "generic",
-            "read_only": false,
-            "parameters": {
-                "workbench_id": {
-                    "description": "Workbench id of security incident in Vision One (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "source data identifier"
-                    ],
-                    "order": 0
-                },
-                "content": {
-                    "description": "Note to be added to workbench event (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.info.code",
-                    "data_type": "string",
-                    "column_name": "Code",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.info.msg",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.data.id",
-                    "data_type": "string",
-                    "column_name": "ID",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.workbench_id",
-                    "data_type": "string",
-                    "contains": [
-                        "source data identifier"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.content",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "update status",
-            "identifier": "update_status",
-            "description": "Updates the status of an existing workbench alert",
-            "verbose": "Updates the status of an existing workbench alert in Trend Micro Vision One.",
-            "type": "correct",
-            "read_only": false,
-            "parameters": {
-                "workbench_id": {
-                    "description": "The ID of the workbench alert that you would like to update the status for (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [
-                        "source data identifier"
-                    ],
-                    "order": 0
-                },
-                "status": {
-                    "description": "The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive (Required)",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 1
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.info.code",
-                    "data_type": "string",
-                    "column_name": "Code",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.info.msg",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.data",
-                    "data_type": "string",
-                    "column_name": "Data",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.workbench_id",
-                    "data_type": "string",
-                    "contains": [
-                        "source data identifier"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.status",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        }
-    ],
-    "pip_dependencies": {
-        "wheel": [
-            {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
-            },
-            {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
-            },
-            {
-                "module": "chardet",
-                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "idna",
-                "input_file": "wheels/shared/idna-2.8-py2.py3-none-any.whl"
-            },
-            {
-                "module": "requests",
-                "input_file": "wheels/shared/requests-2.22.0-py2.py3-none-any.whl"
-            },
-            {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.25.11-py2.py3-none-any.whl"
-            }
-        ]
-    },
-    "pip39_dependencies": {
-        "wheel": [
-            {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
-            },
-            {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
-            },
-            {
-                "module": "chardet",
-                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "idna",
-                "input_file": "wheels/shared/idna-2.8-py2.py3-none-any.whl"
-            },
-            {
-                "module": "requests",
-                "input_file": "wheels/shared/requests-2.22.0-py2.py3-none-any.whl"
-            },
-            {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.4-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.25.11-py2.py3-none-any.whl"
-            }
-        ]
+    "api_key": {
+      "description": "Vision One API Token",
+      "data_type": "password",
+      "required": true,
+      "order": 1,
+      "name": "api_key",
+      "id": 1
     }
+  },
+  "actions": [
+    {
+      "action": "test connectivity",
+      "identifier": "test_connectivity",
+      "description": "Validate the asset configuration for connectivity using supplied configuration",
+      "verbose": "Validate the asset configuration for connectivity using supplied configuration.",
+      "type": "test",
+      "read_only": true,
+      "parameters": {},
+      "output": [],
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get endpoint info",
+      "identifier": "get_endpoint_info",
+      "description": "Gather information about an endpoint",
+      "verbose": "Gather information about an endpoint.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "ip_hostname_mac": {
+          "description": "Hostname/IP/MAC of the endpoint to query. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["ip", "mac address", "host name"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "ip_hostname_mac",
+          "id": 1,
+          "param_name": "ip_hostname_mac"
+        },
+        "query_op": {
+          "description": "Query Operator. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["and", "or"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "query_op",
+          "id": 1,
+          "param_name": "query_op"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.agentGuid",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "agentGuid",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.loginAccount.value",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "loginAccount",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.endpointName.value",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "endpointName",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.*.macAddress.value",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "macAddress",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.*.ip.value",
+          "data_type": "string",
+          "contains": ["mac address"],
+          "column_name": "ip",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.result.ip.value",
+          "data_type": "string",
+          "contains": ["ip"],
+          "column_name": "ip",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.result.osName",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "os_name",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.*.osName",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "osName",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.*.osVersion",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "osVersion",
+          "column_order": 8
+        },
+        {
+          "data_path": "action_result.*.installedProductCodes",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "product_code",
+          "column_order": 9
+        },
+        {
+          "data_path": "action_result.*.osDescription",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "osDescription",
+          "column_order": 10
+        },
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 11
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "width": 12,
+        "type": "custom",
+        "view": "trendmicrovisionone_view.display_view",
+        "title": "Endpoint Info",
+        "height": 5
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "quarantine device",
+      "identifier": "quarantine_device",
+      "description": "Quarantine the endpoint",
+      "verbose": "Quarantine the endpoint.",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "endpoint_identifiers": {
+          "description": "Hostname/IP/MAC of endpoint to quarantine/isolate. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["ip", "mac address", "host name"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "endpoint_identifiers",
+          "id": 1,
+          "param_name": "endpoint_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "unquarantine device",
+      "identifier": "unquarantine_device",
+      "description": "Unquarantine the endpoint",
+      "verbose": "Unquarantine the endpoint.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "endpoint_identifiers": {
+          "description": "Hostname/IP/MAC of endpoint to restore. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["ip", "mac address", "host name"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "endpoint_identifiers",
+          "id": 1,
+          "param_name": "endpoint_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "on poll",
+      "identifier": "on_poll",
+      "description": "Callback action for the on_poll ingest functionality",
+      "verbose": "Callback action for the on_poll ingest functionality.",
+      "type": "ingest",
+      "read_only": true,
+      "parameters": {
+        "starttime": {
+          "description": "Make sure time format matches following example. 2020-06-15T10:00:00Z",
+          "data_type": "string",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "starttime",
+          "id": 1,
+          "param_name": "starttime",
+          "descriptionError": false
+        },
+        "endtime": {
+          "description": "Make sure time format matches following example. 2020-06-15T12:00:00Z",
+          "data_type": "string",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "endtime",
+          "id": 2,
+          "param_name": "endtime",
+          "descriptionError": false
+        }
+      },
+      "output": [],
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "status check",
+      "identifier": "status_check",
+      "description": "Checks the status of a task",
+      "verbose": "Checks the status of a particular task.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "task_id": {
+          "description": "ID of the task you would like to get the status of. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["task_id"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "task_id",
+          "id": 1,
+          "param_name": "task_id"
+        },
+        "poll": {
+          "description": "Would you like to poll the task ID? (Required)",
+          "data_type": "boolean",
+          "required": true,
+          "primary": true,
+          "contains": ["true", "false"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "poll",
+          "id": 1,
+          "param_name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "Poll time duration in seconds. (Required)",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "poll_time_sec",
+          "id": 1,
+          "param_name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.id",
+          "data_type": "string",
+          "contains": ["id"],
+          "column_name": "id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.created_date_time",
+          "data_type": "string",
+          "column_name": "created_date_time",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.*.last_action_date_time=",
+          "data_type": "string",
+          "column_name": "last_action_date_time=",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.*.action",
+          "data_type": "string",
+          "column_name": "action",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.*.description",
+          "data_type": "string",
+          "column_name": "description",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.*.account",
+          "data_type": "string",
+          "column_name": "account",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "add to blocklist",
+      "identifier": "add_to_blocklist",
+      "description": "Adds an item to the Suspicious Objects list in Vision One",
+      "verbose": "Adds an item from the Trend Micro Vision One Suspicious Objects list.",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "remove from blocklist",
+      "identifier": "remove_from_blocklist",
+      "description": "Removes an item from the Suspicious Objects list",
+      "verbose": "Removes an item from the Trend Micro Vision One Suspicious Objects list.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "quarantine email message",
+      "identifier": "quarantine_email_message",
+      "description": "Quarantine the email message",
+      "verbose": "Retrieve data from the quarantine email message and send the result to dashboard.",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "email_identifiers": {
+          "description": "Email Message ID and Mailbox ID or Unique Message ID from Trend Micro Vision One message activity data and description(optional). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "email_identifiers",
+          "id": 1,
+          "param_name": "email_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "delete email message",
+      "identifier": "delete_email_message",
+      "description": "Delete the email message",
+      "verbose": "Retrieve data from the delete email message and relay result to Splunk.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "email_identifiers": {
+          "description": "Email Message ID and Mailbox ID or Unique Message ID from Trend Micro Vision One message activity data and description(optional). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "email_identifiers",
+          "id": 1,
+          "param_name": "email_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "terminate process",
+      "identifier": "terminate_process",
+      "description": "Terminate the process running on the endpoint",
+      "verbose": "Terminate the process running on the endpoint and send results to the dashboard.",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "process_identifiers": {
+          "description": "EndpointName and fileSha1 and filename with description from Trend Micro Vision One. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [
+            "endpointName (Required)",
+            "fileSha1 (Required)",
+            "fileName (Optional)",
+            "description (Optional)"
+          ],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "process_identifiers",
+          "id": 1,
+          "param_name": "process_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "add to exception",
+      "identifier": "add_to_exception",
+      "description": "Add object to exception list",
+      "verbose": "Add the exception object to the exception list and send the result to Splunk.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.total_count",
+          "data_type": "string",
+          "column_name": "total_count",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "delete from exception",
+      "identifier": "delete_from_exception",
+      "description": "Delete object from exception list",
+      "verbose": "Delete the exception object from the exception list and relay data to Splunk.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "add to suspicious",
+      "identifier": "add_to_suspicious",
+      "description": "Add suspicious object to suspicious list",
+      "verbose": "Add suspicious object to suspicious list and send the result to dashboard.",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be added (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.total_count",
+          "data_type": "string",
+          "column_name": "total_count",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "delete from suspicious",
+      "identifier": "delete_from_suspicious",
+      "description": "Delete the suspicious object from suspicious list",
+      "verbose": "Delete the suspicious object from suspicious list and send the result to the dashboard.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "block_objects": {
+          "description": "Type of object to be removed (\"domain\", \"ip\", \"sha1\", or \"url\"). (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "block_objects",
+          "id": 1,
+          "param_name": "block_objects"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get sandbox submission status",
+      "identifier": "get_sandbox_submission_status",
+      "description": "Get the status of file analysis based on task id",
+      "verbose": "Get the status of file analysis based on task id and send result to the dashboard.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "task_id": {
+          "description": "Task ID from the trendmicro-visionone-start-analysis command output. Submission ID in Vision One. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["task_id"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "task_id",
+          "id": 1,
+          "param_name": "task_id"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.task_id",
+          "data_type": "string",
+          "contains": ["task_id"],
+          "column_name": "task_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "download analysis report",
+      "identifier": "download_analysis_report",
+      "description": "Get the analysis report of a file based on report id",
+      "verbose": "Get the analysis report of a file based on report id and send the results to the dashboard.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "submit_id": {
+          "description": "ID of the sandbox submission retrieved from the trendmicro-visionone-check-analysis-status command. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "submit_id",
+          "id": 1,
+          "param_name": "submit_id"
+        },
+        "poll": {
+          "description": "Should the action be polled? (Optional)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "poll",
+          "id": 2,
+          "param_name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "How long should the action be polled for? (Optional)",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "poll_time_sec",
+          "id": 2,
+          "param_name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.report_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "report_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.type",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "type",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "collect forensic file",
+      "identifier": "collect_forensic_file",
+      "description": "Collect forensic file",
+      "verbose": "Collect forensic file and send result to the dashboard.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "collect_files": {
+          "description": "Hostname/agentGuid of the endpoint to collect file from along with file path and optional description for action taken. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["endpoint", "file_path", "description"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "collect_files",
+          "id": 1,
+          "param_name": "collect_files"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.status",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.task_id",
+          "data_type": "string",
+          "column_name": "task_id",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "forensic file info",
+      "identifier": "forensic_file_info",
+      "description": "Get the download information for collected forensic file",
+      "verbose": "Get the download information for collected forensic file and send the result to the dashboard.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "task_id": {
+          "description": "Task ID output from the collect command used to collect the file. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "task_id",
+          "id": 1,
+          "param_name": "task_id"
+        },
+        "poll": {
+          "description": "Would you like to poll for the result? (Optional)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "poll",
+          "id": 1,
+          "param_name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "How long would you like to poll for the result? (Optional)",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "poll_time_sec",
+          "id": 1,
+          "param_name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.file_info",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "file_info",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "start analysis",
+      "identifier": "start_analysis",
+      "description": "Submit file to sandbox for analysis",
+      "verbose": "Submit file to sandbox for analysis and send the result to the dashboard.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "file_url": {
+          "description": "URL pointing to the location of the file to be submitted. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "file_url",
+          "id": 1,
+          "param_name": "file_url"
+        },
+        "file_name": {
+          "description": "Name of the file to be analyzed. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "file_name",
+          "id": 2,
+          "param_name": "file_name"
+        },
+        "document_pass": {
+          "description": "The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
+          "data_type": "string",
+          "required": false,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 2,
+          "name": "document_pass",
+          "id": 3,
+          "param_name": "document_pass"
+        },
+        "archive_pass": {
+          "description": "The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
+          "data_type": "string",
+          "required": false,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 3,
+          "name": "archive_pass",
+          "id": 4,
+          "param_name": "archive_pass"
+        },
+        "arguments": {
+          "description": "Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. (Optional)",
+          "data_type": "string",
+          "required": false,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 4,
+          "name": "arguments",
+          "id": 5,
+          "param_name": "arguments"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.digest",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "digest",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.arguments",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "arguments",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "add note",
+      "identifier": "add_note",
+      "description": "Adds a note to an existing workbench alert",
+      "verbose": "Adds a note to an existing workbench alert in Trend Micro Vision One.",
+      "type": "generic",
+      "read_only": false,
+      "parameters": {
+        "workbench_id": {
+          "description": "Workbench id of security incident in Vision One. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["source_data_identifier"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "workbench_id",
+          "id": 1,
+          "param_name": "workbench_id"
+        },
+        "content": {
+          "description": "Note to be added to workbench event. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "content",
+          "id": 2,
+          "param_name": "content"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.note_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "code",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.message",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "message",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "update status",
+      "identifier": "update_status",
+      "description": "Updates the status of an existing workbench alert",
+      "verbose": "Updates the status of an existing workbench alert in Trend Micro Vision One.",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "workbench_id": {
+          "description": "The ID of the workbench alert that you would like to update the status for. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": ["source_data_identifier"],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "workbench_id",
+          "id": 1,
+          "param_name": "workbench_id"
+        },
+        "status": {
+          "description": "The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "status",
+          "id": 2,
+          "param_name": "status"
+        },
+        "if_match": {
+          "description": "The target resource will be updated only if it matches ETag of the target one. (Required)",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "if_match",
+          "id": 3,
+          "param_name": "if_match"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.*.message",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "message",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get alert details",
+      "identifier": "get_alert_details",
+      "description": "Displays information about the specified alert",
+      "verbose": "Displays information about the specified alert.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "workbench_id": {
+          "description": "Workbench alert ID",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "workbench_id"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.workbench_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "workbench_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.etag",
+          "data_type": "string",
+          "column_name": "eTag",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.*.alert",
+          "data_type": "string",
+          "column_name": "alert",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "urls to sandbox",
+      "identifier": "urls_to_sandbox",
+      "description": "Submits URLs to the sandbox for analysis.",
+      "verbose": "Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request. For more information about the supported URL format, see https://docs.trendmicro.com/en-us/enterprise/trend-micro-xdr-help/SandboxAnalysis.\nNote: Using Sandbox Analysis requires credits.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "urls": {
+          "description": "Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request.",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "urls",
+          "id": 1,
+          "param_name": "urls"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.urls",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "urls",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "enable account",
+      "identifier": "enable_account",
+      "description": "Allows the user to sign in to new application and browser sessions.",
+      "verbose": "Allows the user to sign in to new application and browser sessions.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "account_identifiers": {
+          "description": "User account",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "account_identifiers",
+          "id": 1,
+          "param_name": "account_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.account_identifiers",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "account_identifiers",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "disable account",
+      "identifier": "disable_account",
+      "description": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.",
+      "verbose": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "account_identifiers": {
+          "description": "User account and Description of a response task",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "account_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.account_identifiers",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "account_identifiers",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "restore email message",
+      "identifier": "restore_email_message",
+      "description": "Restore quarantined email messages",
+      "verbose": "Restore quarantined email messages\n\nAccount role permissions required:\nResponse Management\nView, filter, and search (Task List tab)\nQuarantine/Restore messages",
+      "type": "correct",
+      "read_only": false,
+      "parameters": {
+        "email_identifiers": {
+          "description": "description, messageId and mailbox or uniqueId and description",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "email_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.email_identifiers",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "email_identifiers",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "sign out account",
+      "identifier": "sign_out_account",
+      "description": "Signs the user out of all active application and browser sessions.",
+      "verbose": "Signs the user out of all active application and browser sessions.\nSupported IAM systems:\nAzure AD",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "account_identifiers": {
+          "description": "accountName and description of a response task",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "account_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.account_identifiers",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "account_identifiers",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "force password reset",
+      "identifier": "force_password_reset",
+      "description": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.",
+      "verbose": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "type": "contain",
+      "read_only": false,
+      "parameters": {
+        "account_identifiers": {
+          "description": "accountName and description of a response task",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "account_identifiers"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.account_identifiers",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "account_identifiers",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "sandbox suspicious list",
+      "identifier": "sandbox_suspicious_list",
+      "description": "Downloads the suspicious object list associated to the specified object.",
+      "verbose": "Downloads the suspicious object list associated to the specified object. Note: Suspicious Object Lists are only available for objects with a high risk level",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "submit_id": {
+          "description": "Unique alphanumeric string that identifies the analysis results of a submission",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "submit_id",
+          "id": 1,
+          "param_name": "submit_id"
+        },
+        "poll": {
+          "description": "Would you like to poll the result?",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "poll",
+          "id": 2,
+          "param_name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "How long would you like to poll the request?",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 2,
+          "name": "poll_time_sec",
+          "id": 3,
+          "param_name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.submit_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "submit_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.*.sandbox_suspicious_list_resp",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "sandbox analysis result",
+      "identifier": "sandbox_analysis_result",
+      "description": "Displays the analysis results of the specified object.",
+      "verbose": "Displays the analysis results of the specified object.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "report_id": {
+          "description": "Unique alphanumeric string that identifies the analysis results of a submission",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "report_id"
+        },
+        "poll": {
+          "description": "Poll the request? true or false (Optional)",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 1,
+          "name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "How long would you like to poll for result? (Optional)",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 2,
+          "name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.report_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "report_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.poll",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "poll",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.parameter.poll_time_sec",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "poll_time_sec",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.analysis_result",
+          "data_type": "string",
+          "column_name": "analysis_result",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "sandbox investigation package",
+      "identifier": "sandbox_investigation_package",
+      "description": "Downloads the Investigation Package of the specified object",
+      "verbose": "Downloads the Investigation Package of the specified object using the unique alphanumeric string that identifies the analysis results of a submission.",
+      "type": "investigate",
+      "read_only": false,
+      "parameters": {
+        "submit_id": {
+          "description": "Unique alphanumeric string that identifies the analysis results of a submission",
+          "data_type": "string",
+          "required": true,
+          "primary": true,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 0,
+          "name": "submit_id"
+        },
+        "poll": {
+          "description": "Would you like to poll for the result?",
+          "data_type": "boolean",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "default": "",
+          "order": 1,
+          "name": "poll"
+        },
+        "poll_time_sec": {
+          "description": "How long would you like to poll for the result?",
+          "data_type": "numeric",
+          "required": false,
+          "primary": false,
+          "contains": [],
+          "value_list": [],
+          "default": "",
+          "order": 2,
+          "name": "poll_time_sec"
+        }
+      },
+      "output": [
+        {
+          "data_path": "action_result.parameter.submit_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "submit_id",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.parameter.poll",
+          "data_type": "boolean",
+          "contains": [],
+          "column_name": "poll",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.parameter.poll_time_sec",
+          "data_type": "numeric",
+          "contains": [],
+          "column_name": "poll_time_sec",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get suspicious list",
+      "identifier": "get_suspicious_list",
+      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.",
+      "type": "investigate",
+      "read_only": true,
+      "parameters": {},
+      "output": [
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get exception list",
+      "identifier": "get_exception_list",
+      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.",
+      "type": "investigate",
+      "read_only": true,
+      "parameters": {},
+      "output": [
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status",
+          "column_order": 0
+        },
+        {
+          "data_path": "action_result.message",
+          "data_type": "string"
+        },
+        {
+          "data_path": "summary.total_objects",
+          "data_type": "numeric"
+        },
+        {
+          "data_path": "summary.total_objects_successful",
+          "data_type": "numeric"
+        }
+      ],
+      "render": {
+        "type": "table"
+      },
+      "versions": "EQ(*)"
+    }
+  ],
+  "pip_dependencies": {
+    "wheel": [
+      {
+        "module": "beautifulsoup4",
+        "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
+      },
+      {
+        "module": "certifi",
+        "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+      },
+      {
+        "module": "chardet",
+        "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+      },
+      {
+        "module": "idna",
+        "input_file": "wheels/shared/idna-2.8-py2.py3-none-any.whl"
+      },
+      {
+        "module": "requests",
+        "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
+      },
+      {
+        "module": "soupsieve",
+        "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
+      },
+      {
+        "module": "urllib3",
+        "input_file": "wheels/shared/urllib3-1.25.11-py2.py3-none-any.whl"
+      },
+      {
+        "module": "pytmv1",
+        "input_file": "wheels/shared/pytmv1-0.5.3-py3-none-any.whl"
+      }
+    ]
+  },
+  "pip39_dependencies": {
+    "wheel": [
+      {
+        "module": "beautifulsoup4",
+        "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
+      },
+      {
+        "module": "certifi",
+        "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+      },
+      {
+        "module": "chardet",
+        "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+      },
+      {
+        "module": "idna",
+        "input_file": "wheels/shared/idna-2.8-py2.py3-none-any.whl"
+      },
+      {
+        "module": "requests",
+        "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
+      },
+      {
+        "module": "soupsieve",
+        "input_file": "wheels/py3/soupsieve-2.4-py3-none-any.whl"
+      },
+      {
+        "module": "urllib3",
+        "input_file": "wheels/shared/urllib3-1.25.11-py2.py3-none-any.whl"
+      }
+    ]
+  }
 }
