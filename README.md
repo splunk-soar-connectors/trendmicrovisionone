@@ -532,7 +532,19 @@ The below configuration variables are required for this Connector to operate.  T
 [forensic file info](#action-forensic-file-info) - Get the download information for collected forensic file  
 [start analysis](#action-start-analysis) - Submit file to sandbox for analysis  
 [add note](#action-add-note) - Adds a note to an existing workbench alert  
-[update status](#action-update-status) - Updates the status of an existing workbench alert  
+[update status](#action-update-status) - Updates the status of an existing workbench alert
+[get alert details](#action-get-alert-details) - Displays information about the specified alert
+[urls to sandbox](#action-urls-to-sandbox) - Submits URLs to the sandbox for analysis
+[enable account](#action-enable-account) - Allows the user to sign in to new application and browser sessions
+[disable account](#action-disable-account) - Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
+[restore email message](#action-restore-email-message) - Restore quarantined email messages
+[sign out account](#action-sign-out-account) - Signs the user out of all active application and browser sessions
+[force password reset](#action-force-password-reset) - Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt
+[sandbox suspicious list](#action-sandbox-suspicious-list) - Downloads the suspicious object list associated to the specified object
+[sandbox analysis result](#action-sandbox-analysis-result) - Displays the analysis results of the specified object
+[sandbox investigation package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object
+[get suspicious list](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list
+[get exception list](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list
 
 ## action: 'test connectivity'
 Validate the asset configuration for connectivity using supplied configuration
