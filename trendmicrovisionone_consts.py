@@ -13,44 +13,7 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 API_VER = "v3.0"
-# End Points
-ENABLE_USER_ACCOUNT_ENDPOINT = "/%s/response/domainAccounts/enable"
-DISABLE_USER_ACCOUNT_ENDPOINT = "/%s/response/domainAccounts/disable"
-FORCE_SIGN_OUT_ENDPOINT = "/%s/response/domainAccounts/signOut"
-FORCE_PASSWORD_RESET_ENDPOINT = "/%s/response/domainAccounts/resetPassword"
-ADD_BLOCKLIST_ENDPOINT = "/%s/response/suspiciousObjects" % API_VER
-REMOVE_BLOCKLIST_ENDPOINT = "/%s/response/suspiciousObjects/delete" % API_VER
-QUARANTINE_EMAIL_ENDPOINT = "/%s/response/emails/quarantine" % API_VER
-DELETE_EMAIL_ENDPOINT = "/%s/response/emails/delete" % API_VER
-ISOLATE_CONNECTION_ENDPOINT = "/%s/response/endpoints/isolate" % API_VER
-TERMINATE_PROCESS_ENDPOINT = "/%s/response/endpoints/terminateProcess" % API_VER
-RESTORE_CONNECTION_ENDPOINT = "/%s/response/endpoints/restore" % API_VER
-ADD_OBJECT_TO_EXCEPTION_LIST = "/%s/threatintel/suspiciousObjectExceptions" % API_VER
-DELETE_OBJECT_FROM_EXCEPTION_LIST = (
-    "/%s/threatintel/suspiciousObjectExceptions/delete" % API_VER
-)
-ADD_OBJECT_TO_SUSPICIOUS_LIST = "/%s/threatintel/suspiciousObjects" % API_VER
-DELETE_OBJECT_FROM_SUSPICIOUS_LIST = (
-    "/%s/threatintel/suspiciousObjects/delete" % API_VER
-)
-TASK_DETAIL_ENDPOINT = "/%s/response/tasks/{id}" % API_VER
-GET_ENDPOINT_INFO_ENDPOINT = "/%s/eiqs/endpoints" % API_VER
-TEST_CONNECTIVITY = "/%s/healthcheck/connectivity" % API_VER
-GET_SUBMISSION_STATUS = "/%s/sandbox/tasks/{id}" % API_VER
-GET_ANALYSIS_RESULT = "/%s/sandbox/analysisResults/{id}" % API_VER
-GET_FILE_REPORT = "/%s/sandbox/analysisResults/{id}/report" % API_VER
-DOWNLOAD_INVESTIGATION_PACKAGE = (
-    "/%s/sandbox/analysisResults/{id}/investigationPackage" % API_VER
-)
-DOWNLOAD_SUSPICIOUS_OBJECT_LIST = (
-    "/%s/sandbox/analysisResults/{id}/suspiciousObjects" % API_VER
-)
-COLLECT_FORENSIC_FILE = "/%s/response/endpoints/collectFile" % API_VER
-SUBMIT_FILE_TO_SANDBOX = "/%s/sandbox/files/analyze" % API_VER
-SUBMIT_URL_TO_SANDBOX = "/%s/sandbox/urls/analyze" % API_VER
-WORKBENCH_HISTORIES = "/%s/workbench/alerts" % API_VER
-ADD_NOTE_ENDPOINT = "/%s/workbench/alerts/{alertId}/notes" % API_VER
-UPDATE_STATUS_ENDPOINT = "/%s/workbench/alerts/{id}" % API_VER
+
 # COMMAND NAMES
 ENABLE_USER_ACCOUNT_COMMAND = "trendmicro-visionone-enable-user-account"
 DISABLE_USER_ACCOUNT_COMMAND = "trendmicro-visionone-disable-user-account"
