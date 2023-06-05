@@ -1729,6 +1729,34 @@ class TrendMicroVisionOneConnector(BaseConnector):
             for i in response.response.dict().get("items"):
                 sandbox_suspicious_list_resp.append(json.loads(json.dumps(i)))
 
+        # Create Container
+        container = {}
+        container["name"] = submit_id
+        container["source_data_identifier"] = "File Analysis Report - Suspicious Object"
+        container["label"] = "trendmicro"
+        try:
+            container["severity"] = sandbox_suspicious_list_resp[0][
+                "risk_level"
+            ].capitalize()
+        except Exception:
+            container["severity"] = "Medium"
+        container["tags"] = "suspiciousObject"
+        ret_val, msg, cid = self.save_container(container)
+
+        artifacts = []
+        for i in sandbox_suspicious_list_resp[0]:
+            artifacts_d = {}
+            artifacts_d["name"] = "Artifact of {}".format(submit_id)
+            artifacts_d[
+                "source_data_identifier"
+            ] = "File Analysis Report - Suspicious Object"
+            artifacts_d["label"] = "trendmicro"
+            artifacts_d["container_id"] = cid
+            artifacts_d["cef"] = i
+            artifacts.append(artifacts_d)
+        ret_val, msg, cid = self.save_artifacts(artifacts)
+        self.save_progress("Suspicious Object added to Container")
+
         # Add the response into the data section
         action_result.add_data(sandbox_suspicious_list_resp)
         return action_result.set_status(phantom.APP_SUCCESS)
