@@ -1992,6 +1992,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "urls_to_sandbox": self._handle_urls_to_sandbox,
             "enable_account": self._handle_enable_account,
             "disable_account": self._handle_disable_account,
+            "restore_email_message": self._handle_restore_email_message,
+            "sign_out_account": self._handle_sign_out_account,
             "force_password_reset": self._handle_force_password_reset,
             "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
             "sandbox_analysis_result": self._handle_sandbox_analysis_result,
