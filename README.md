@@ -282,134 +282,125 @@ timeout in the advanced field of playbook execution. The recommended timeout is
 
 #### Context Output
 
-| **Path**                                             | **Type** | **Description**         |
-| ---------------------------------------------------- | -------- | ----------------------- |
-| VisionOne.File_Analysis_Status.id                    | String   | Message status          |
-| VisionOne.File_Analysis_Status.status                | String   | Code status of the task |
-| VisionOne.File_Analysis_Status.action                | String   | Task id                 |
-| VisionOne.File_Analysis_Status.error                 | Object   | Task status             |
-| VisionOne.File_Analysis_Status.digest                | Object   | Hash value of task      |
-| VisionOne.File_Analysis_Status.created_date_time     | String   | Task completion time    |
-| VisionOne.File_Analysis_Status.last_action_date_time | String   | Risk level of task      |
-| VisionOne.File_Analysis_Status.resource_location     | String   | Description of task     |
-| VisionOne.File_Analysis_Status.is_cached             | Boolean  | List of task detected   |
-| VisionOne.File_Analysis_Status.arguments             | String   | Threat type list        |
+| **Path**                                                      | **Type** | **Description**                                                                                                                                                |
+| ------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VisionOne.Get_Sandbox_Submission_Status.id                    | String   | Unique alphanumeric string that identifies a submission                                                                                                        |
+| VisionOne.Get_Sandbox_Submission_Status.status                | String   | Response code for the action call                                                                                                                              |
+| VisionOne.Get_Sandbox_Submission_Status.action                | String   | Action applied to a submitted object                                                                                                                           |
+| VisionOne.Get_Sandbox_Submission_Status.error                 | Object   | Error code and message for the submission                                                                                                                      |
+| VisionOne.Get_Sandbox_Submission_Status.digest                | Object   | The hash values for the file analyzed                                                                                                                          |
+| VisionOne.Get_Sandbox_Submission_Status.created_date_time     | String   | Timestamp in ISO 8601 that indicates the object was submitted to the sandbox                                                                                   |
+| VisionOne.Get_Sandbox_Submission_Status.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated                                                           |
+| VisionOne.Get_Sandbox_Submission_Status.resource_location     | String   | Location of the submitted file                                                                                                                                 |
+| VisionOne.Get_Sandbox_Submission_Status.is_cached             | Boolean  | Parameter that indicates if an object has been analyzed before by the Sandbox Analysis App. Submissions marked as cached do not count toward the daily reserve |
+| VisionOne.Get_Sandbox_Submission_Status.arguments             | String   | Arguments for the file submitted                                                                                                                               |
 
-1.  `      get file analysis report     `
+1.  `      Download Analysis Report     `
 
-| **Argument Name** | **Description**                                                                                              | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------------------ | ------------ |
-| report_id         | report_id of the sandbox submission retrieved from the trendmicro-visionone-get-file-analysis-status command | Required     |
-| type              | Type of report to retrieve: "vaReport", "investigationPackage", or "suspiciousObject"                        | Required     |
-
-#### Context Output
-
-| **Path**                                                | **Type** | **Description**               |
-| ------------------------------------------------------- | -------- | ----------------------------- |
-| VisionOne.File_Analysis_Report.message                  | String   | Message status                |
-| VisionOne.File_Analysis_Report.code                     | String   | Code status of task           |
-| VisionOne.File_Analysis_Report.type                     | String   | type of report                |
-| VisionOne.File_Analysis_Report.value                    | String   | value of the above type       |
-| VisionOne.File_Analysis_Report.risk_level               | String   | risk level of the file        |
-| VisionOne.File_Analysis_Report.analysis_completion_time | String   | Final analysed time of report |
-| VisionOne.File_Analysis_Report.expired_time             | String   | Expiry time of report         |
-| VisionOne.File_Analysis_Report.root_file_sha1           | String   | sha value of the root file    |
-
-1.  `      collect file     `
-
-| **Argument Name** | **Description**                                                    | **Required** |
-| ----------------- | ------------------------------------------------------------------ | ------------ |
-| endpoint          | "hostname", "macaddr" or "ip" of the endpoint to collect file from | Required     |
-| product_id        | Product: "sao" "xes" "sds"                                         | Required     |
-| file_path         | Path of the forensic file to collect                               | Required     |
-| os                | "windows", "mac" or "linux"                                        | Required     |
-| description       | Description of file collected                                      | Optional     |
+| **Argument Name** | **Description**                                                                                   | **Required** |
+| ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
+| submit_id         | Unique alphanumeric string that identifies the analysis results of a submission                   | Required     |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
 
 #### Context Output
 
-| **Path**                                   | **Type** | **Description**               |
-| ------------------------------------------ | -------- | ----------------------------- |
-| VisionOne.Collect_Forensic_File.actionId   | String   | Action id of the running task |
-| VisionOne.Collect_Forensic_File.taskStatus | String   | Status of the running task    |
+| **Path**                                | **Type** | **Description**             |
+| --------------------------------------- | -------- | --------------------------- |
+| VisionOne.Download_Analysis_Report.file | File     | The response is a .pdf file |
+
+
+1.  `      Collect Forensic File     `
+
+| **Argument Name** | **Description**                                                        | **Required** |
+| ----------------- | ---------------------------------------------------------------------- | ------------ |
+| collect_files     | Collect file input JSON containing endpoint, file path and description | Required     |
+
+#### Context Output
+
+| **Path**                                       | **Type**         | **Description**                                 |
+| ---------------------------------------------- | ---------------- | ----------------------------------------------- |
+| VisionOne.Collect_Forensic_File.multi_response | []multi_response | Response Array containing http code and task_id |
 
 Note: To get the complete task status run polling command `     status check    ` giving
 `     actionId    ` as input parameter. Note: The above command should be added with execution
 timeout in the advanced field of playbook execution. The recommended timeout be
 `     20 minutes    ` .
 
-1.  `      download information collected file     `
+1.  `      Forensic File Info     `
 
-| **Argument Name** | **Description**                                                   | **Required** |
-| ----------------- | ----------------------------------------------------------------- | ------------ |
-| actionId          | actionId output from the collect command used to collect the file | Required     |
+| **Argument Name** | **Description**                                                                | **Required** |
+| ----------------- | ------------------------------------------------------------------------------ | ------------ |
+| task_id           | task_id output from the collect forensic file command used to collect the file | Required     |
 
 #### Context Output
 
-| **Path**                                                            | **Type** | **Description**                                  |
-| ------------------------------------------------------------------- | -------- | ------------------------------------------------ |
-| VisionOne.Download_Information_For_Collected_Forensic_File.url      | String   | URL of the collected file                        |
-| VisionOne.Download_Information_For_Collected_Forensic_File.expires  | String   | URL expiration date                              |
-| VisionOne.Download_Information_For_Collected_Forensic_File.password | String   | Archive password for the protected forensic file |
-| VisionOne.Download_Information_For_Collected_Forensic_File.filename | String   | Name of the collected file                       |
+| **Path**                                           | **Type** | **Description**                                                                                      |
+| -------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| VisionOne.Forensic_File_Info.id                    | String   | Unique numeric string that identifies a response task                                                |
+| VisionOne.Forensic_File_Info.created_date_time     | String   | Task completion time                                                                                 |
+| VisionOne.Forensic_File_Info.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated |
+| VisionOne.Forensic_File_Info.action                | String   | Action applied to a submitted object                                                                 |
+| VisionOne.Forensic_File_Info.description           | String   | Description of a response task                                                                       |
+| VisionOne.Forensic_File_Info.account               | String   | User that triggered the response                                                                     |
 
 Note: The URL received from the
 'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only
 `     60 seconds    `
 
-1.  `      submit file to sandbox     `
+1.  `      Start Analysis     `
 
-| **Argument Name** | **Description**                                                                                                                                   | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| file_url          | URL pointing to the location of the file to be submitted.                                                                                         | Required     |
-| filename          | Name of the file to be analyzed.                                                                                                                  | Required     |
-| document_password | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. | Optional     |
-| archive_password  | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.  | Optional     |
-
-#### Context Output
-
-| **Path**                                 | **Type** | **Description**                    |
-| ---------------------------------------- | -------- | ---------------------------------- |
-| VisionOne.Submit_File_to_Sandbox.message | String   | Message status of the sandbox file |
-| VisionOne.Submit_File_to_Sandbox.code    | String   | Code status of the sandbox file    |
-| VisionOne.Submit_File_to_Sandbox.task_id | String   | Task ID of the running task        |
-| VisionOne.Submit_File_to_Sandbox.digest  | Object   | Sha value of the file              |
-
-1.  `      status check     `
-
-| **Argument Name** | **Description**                                            | **Required** |
-| ----------------- | ---------------------------------------------------------- | ------------ |
-| actionId          | Action ID of the task you would like to get the status of. | Required     |
+| **Argument Name** | **Description**                                                                                                                                                                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| file_url          | URL pointing to the location of the file to be submitted.                                                                                                                                                                                          | Required     |
+| file_name         | Name of the file to be analyzed.                                                                                                                                                                                                                   | Required     |
+| document_pass     | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.                                                                                                  | Optional     |
+| archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.                                                                                                   | Optional     |
+| arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. | Optional     |
 
 #### Context Output
 
-| **Path**                                 | **Type** | **Description**         |
-| ---------------------------------------- | -------- | ----------------------- |
-| VisionOne.Endpoint_Connection.actionId   | String   | The action id           |
-| VisionOne.Endpoint_Connection.taskStatus | String   | Status of existing task |
+| **Path**                           | **Type** | **Description**                                                |
+| ---------------------------------- | -------- | -------------------------------------------------------------- |
+| VisionOne.Start_Analysis.id        | String   | Unique alphanumeric string that identifies a submission        |
+| VisionOne.Start_Analysis.digest    | Object   | The hash value of the file                                     |
+| VisionOne.Start_Analysis.arguments | String   | Command line arguments encoded in Base64 of the submitted file |
+
+1.  `      Status Check     `
+
+| **Argument Name** | **Description**                                                                                   | **Required** |
+| ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
+| task_id           | Unique numeric string that identifies a response task.                                            | Required     |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+
+#### Context Output
+
+| **Path**                                     | **Type** | **Description**                                                                                      |
+| -------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| VisionOne.Status_Check.id                    | String   | Unique numeric string that identifies a response task                                                |
+| VisionOne.Status_Check.status                | String   | success or fail status of task                                                                       |
+| VisionOne.Status_Check.created_date_time     | String   | Task completion time                                                                                 |
+| VisionOne.Status_Check.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated |
+| VisionOne.Status_Check.action                | String   | Action applied to a submitted object                                                                 |
+| VisionOne.Status_Check.description           | String   | Description of a response task                                                                       |
+| VisionOne.Status_Check.account               | String   | User that triggered the response                                                                     |
 
 1.  `      get endpoint info     `
 
-| **Argument Name** | **Description**                                        | **Required** |
-| ----------------- | ------------------------------------------------------ | ------------ |
-| endpoint          | "hostname", "macaddr" or "ip" of the endpoint to query | Required     |
+| **Argument Name** | **Description**                                                | **Required** |
+| ----------------- | -------------------------------------------------------------- | ------------ |
+| endpoint          | Hostname, macAddress, agentGuid or IP of the endpoint to query | Required     |
+| query_op          | Logical operator to employ in the query. (AND/OR)              | Required     |
 
 #### Context Output
 
-| **Path**                              | **Type** | **Description**                                                  |
-| ------------------------------------- | -------- | ---------------------------------------------------------------- |
-| VisionOne.Endpoint_Info.message       | String   | Message information from the request.                            |
-| VisionOne.Endpoint_Info.errorCode     | Integer  | Error code.                                                      |
-| VisionOne.Endpoint_Info.status        | String   | Status of the request.                                           |
-| VisionOne.Endpoint_Info.logonAccount  | String   | Account currently logged on to the endpoint.                     |
-| VisionOne.Endpoint_Info.hostname      | String   | Hostname.                                                        |
-| VisionOne.Endpoint_Info.macAddr       | String   | MAC address.                                                     |
-| VisionOne.Endpoint_Info.ip            | String   | IP address.                                                      |
-| VisionOne.Endpoint_Info.osName        | String   | Operating System name.                                           |
-| VisionOne.Endpoint_Info.osVersion     | String   | Operating System version.                                        |
-| VisionOne.Endpoint_Info.osDescription | String   | Description of the Operating System.                             |
-| VisionOne.Endpoint_Info.productCode   | String   | Product code of the Trend Micro product running on the endpoint. |
+| **Path**                                   | **Type**             | **Description**                                                                                                                                                                       |
+| ------------------------------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VisionOne.Endpoint_Info.endpoint_data_resp | []endpoint_data_resp | Array of Endpoint Data Objects, consisting of agent guid, login account, endpoint name, MAC address, IP, os name, or version, os description, product code and installed product code |
 
-1.  `      add note     `
+
+1.  `      Add Note     `
 
 | **Argument Name**                     | **Description**                                 | **Required** |
 | ------------------------------------- | ----------------------------------------------- | ------------ |
@@ -418,21 +409,26 @@ Note: The URL received from the
 
 #### Context Output
 
-| **Path**                         | **Type** | **Description**                               |
-| -------------------------------- | -------- | --------------------------------------------- |
-| VisionOne.Add_Note.Workbench_Id  | String   | Workbench ID that the action was executed on. |
-| VisionOne.Add_Note.noteId        | String   | Note ID.                                      |
-| VisionOne.Add_Note.response_code | String   | Response code for the request.                |
-| VisionOne.Add_Note.response_msg  | String   | Response message for the request.             |
+| **Path**                   | **Type** | **Description**                        |
+| -------------------------- | -------- | -------------------------------------- |
+| VisionOne.Add_Note.note_id | String   | ID of the newly created note.          |
+| VisionOne.Add_Note.message | String   | Response message for the action taken. |
 
-1.  `      update status     `
+1.  `      Update Status     `
 
 | **Argument Name**                     | **Description**                                                                                                | **Required** |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------ |
 | source data identifier (workbench_id) | The ID of the workbench alert that you would like to update the status for.                                    | Required     |
 | status                                | The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive | Required     |
+| if_match                              | The target resource will be updated only if it matches ETag of the target                                      | Required     |
 
-1.  `      get alert details     `
+#### Context Output
+
+| **Path**                        | **Type** | **Description** |
+| ------------------------------- | -------- | --------------- |
+| VisionOne.Update_Status.message | String   | Success or Fail |
+
+1.  `      Get Alert Details     `
 
 | **Argument Name**                     | **Description**                                                  | **Required** |
 | ------------------------------------- | ---------------------------------------------------------------- | ------------ |
@@ -445,7 +441,7 @@ Note: The URL received from the
 | VisionOne.Get_Alert_Details.alert | String   | Information associated to the workbenchID provided.                 |
 | VisionOne.Get_Alert_Details.etag  | String   | An identifier for a specific version of a Workbench alert resource. |
 
-1.  `      urls to sandbox     `
+1.  `      URLs To Sandbox     `
 
 | **Argument Name** | **Description**                                                                                 | **Required** |
 | ----------------- | ----------------------------------------------------------------------------------------------- | ------------ |
@@ -458,7 +454,7 @@ Note: The URL received from the
 | VisionOne.URLs_To_Sandbox.status  | String   | HTTP status code for the call.                            |
 | VisionOne.URLs_To_Sandbox.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-1.  `      enable account     `
+1.  `      Enable Account     `
 
 | **Argument Name**   | **Description**                                                             | **Required** |
 | ------------------- | --------------------------------------------------------------------------- | ------------ |
@@ -471,7 +467,7 @@ Note: The URL received from the
 | VisionOne.Enable_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Enable_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-1.  `      disable account     `
+1.  `      Disable Account     `
 
 | **Argument Name**   | **Description**                                                             | **Required** |
 | ------------------- | --------------------------------------------------------------------------- | ------------ |
@@ -484,7 +480,7 @@ Note: The URL received from the
 | VisionOne.Disable_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Disable_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-1.  `      restore email message     `
+1.  `      Restore Email Message     `
 
 | **Argument Name** | **Description**                                                                                | **Required** |
 | ----------------- | ---------------------------------------------------------------------------------------------- | ------------ |
@@ -497,7 +493,7 @@ Note: The URL received from the
 | VisionOne.Restore_Email_Message.status  | String   | HTTP status code for the call.                           |
 | VisionOne.Restore_Email_Message.task_id | String   | Unique alphanumeric string that identifies a submission. |
 
-1.  `      sign out account     `
+1.  `      Sign Out Account     `
 
 | **Argument Name**   | **Description**                                                                          | **Required** |
 | ------------------- | ---------------------------------------------------------------------------------------- | ------------ |
@@ -510,7 +506,7 @@ Note: The URL received from the
 | VisionOne.Sign_Out_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Sign_Out_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-1.  `      force password reset     `
+1.  `      Force Password Reset     `
 
 | **Argument Name**   | **Description**                                                                          | **Required** |
 | ------------------- | ---------------------------------------------------------------------------------------- | ------------ |
@@ -523,7 +519,7 @@ Note: The URL received from the
 | VisionOne.Sign_Out_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Sign_Out_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-1.  `      sandbox suspicious list     `
+1.  `      Sandbox Suspicious List     `
 
 | **Argument Name** | **Description**                                          | **Required** |
 | ----------------- | -------------------------------------------------------- | ------------ |
@@ -537,7 +533,7 @@ Note: The URL received from the
 | -------------------------------------------------------------- | -------- | ------------------------------------------- |
 | VisionOne.Sandbox_Suspicious_List.sandbox_suspicious_list_resp | List     | List of object containing suspicious object |
 
-1.  `      sandbox analysis result     `
+1.  `      Sandbox Analysis Result     `
 
 | **Argument Name** | **Description**                                          | **Required** |
 | ----------------- | -------------------------------------------------------- | ------------ |
@@ -559,7 +555,7 @@ Note: The URL received from the
 | VisionOne.Sandbox_Analysis_Result.threat_types                  | String   | The threat type as detected by the sandbox                                            |
 | VisionOne.Sandbox_Analysis_Result.true_file_type                | String   | File Type of the Object                                                               |
 
-1.  `      sandbox investigation package     `
+1.  `      Sandbox Investigation Package     `
 
 | **Argument Name** | **Description**                                          | **Required** |
 | ----------------- | -------------------------------------------------------- | ------------ |
