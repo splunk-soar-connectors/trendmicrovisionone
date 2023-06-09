@@ -23,8 +23,12 @@ import os
 import re
 import sys
 import time
+from typing import Any, List, Dict, Optional, Union
 import uuid
 import pytmv1
+from pytmv1 import ImpactScope, HostInfo, SaeAlert, TiAlert, Indicator, Entity
+
+from collections import defaultdict
 
 # Phantom App imports
 import phantom.app as phantom
@@ -48,21 +52,21 @@ class TrendMicroVisionOneConnector(BaseConnector):
         super(TrendMicroVisionOneConnector, self).__init__()
 
         self._state = None
-
+        self.app = "Trend Micro Vision One V3"
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
-        self._base_url = None
+        self._base_url: str = ""
+
+    def _get_client(self) -> pytmv1.Client:  # type: ignore
+        return pytmv1.client(self.app, self.api_key, self._base_url)
 
     def _handle_test_connectivity(self, param):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Initialize pytmv1 client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # Make API Call
         response = client.check_connectivity()
@@ -93,10 +97,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             query_op = pytmv1.QueryOp.AND
 
         # Initialize pytmv1 client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         new_endpoint_data = []
         # make rest call
@@ -111,10 +112,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Load json objects to list
         endpoint_data_resp = []
         for i in new_endpoint_data:
-            # self.debug_print(f"ENDPOINT INFO: {i}")
             endpoint_data_resp.append(json.loads(i))
+
+        # if phantom.is_fail(.result_code):
+        #    self.save_progress("Endpoint info lookup failed.")
+        #    return action_result.get_status()
+
         # Add the response into the data section
         action_result.add_data(endpoint_data_resp)
+
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -128,10 +134,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # Param setup
         endpoint_identifiers = json.loads(param.get("endpoint_identifiers"))
@@ -160,152 +163,104 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def process_artifacts(
-        self, indicators, imp_scope, severity, start_time, types, container
+    def _create_new_artifact_from_indicator(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert], indicator: Indicator
     ):
-        # self.debug_print(f"HITS PROCESS ARTIFACTS")
-        # check if artifact exists, create anew if it doesn't
-        artifact_id = indicators.get("id", None)
-        artifact_type = indicators.get("object_type", "")
-        artifact_value = indicators.get("object_value", "")
-        related_entities = indicators.get("related_entities", [])
-        # filter_id = indicators.get('filterId', []) #not going to pass filter_id
-
-        # extract related entity data
-        try:
-            local_scope = {}
-            if artifact_id:
-                for scope in imp_scope["entities"]:
-                    # make listy dict in case there will be a plethora of related entities
-                    local_scope["entity_value"] = []
-                    local_scope["entity_id"] = []
-                    local_scope["related_entities"] = []
-                    local_scope["related_indicator_ids"] = []
-                    local_scope["entity_type"] = []
-                    local_scope["provenance"] = []
-                    # extract data
-                    entity_v = scope.get("entity_value", "")
-                    entity_i = scope.get("entity_id", "")
-                    related_e = scope.get("related_entities", "")  # list
-                    related_i = scope.get("related_indicator_ids", "")  # list
-                    entity_t = scope.get("entity_type", "")
-                    entity_p = scope.get("provenance", "")
-                    # append data to listy dict in case artefact is indeed related
-                    if artifact_id in related_i:
-                        local_scope["entity_value"].append(entity_v)
-                        local_scope["entity_id"].append(entity_i)
-                        local_scope["related_entities"].append(related_e)
-                        local_scope["related_indicator_ids"].append(related_i)
-                        local_scope["entity_type"].append(entity_t)
-                        local_scope["provenance"].append(entity_p)
-        except Exception as e:
-            self.debug_print(
-                f"The following error happened while localizing artefact impact scope: {e}"
-            )
-
         # if artifacts dont already exist, make new artifact bundles
-        new_artifacts = []
-        try:
-            if not self.artifact_exists(f"TM-{container}-{artifact_id}", container):
-                new_artifacts.append(
-                    self.create_artifact(
-                        artifact_id,
-                        artifact_type,
-                        artifact_value,
-                        related_entities,
-                        local_scope,
-                        severity,
-                        start_time,
-                        types,
-                        container,
-                    )
-                )
-        except Exception as e:
-            self.debug_print(
-                f"The following error happened while creating new artifact bundle: {e}"
-            )
-            pass
+        if self.artifact_exists(container_id, alert.id, indicator.id):
+            return
 
-        # save artifacts to splunk
-        if new_artifacts:
-            ret_val, msg, response = self.save_artifacts(new_artifacts)
-            if phantom.is_fail(ret_val):
-                self.save_progress(f"Error saving artifacts: {msg}")
-                self.debug_print(f"Error saving artifacts: {new_artifacts}")
+        artifact_related_entities: List[Entity] = []
+        for entity in alert.impact_scope.entities:
+            # append data to listy dict in case artefact is indeed related
+            if indicator.id in entity.related_indicator_ids:
+                artifact_related_entities.append(entity)
 
-    def create_artifact(
+        new_artifact = self._create_artifact_content(
+            container_id,
+            alert,
+            indicator,
+            artifact_related_entities,
+        )
+
+        ret_val, msg, response = self.save_artifacts([new_artifact])
+        if phantom.is_fail(ret_val):
+            self.save_progress(f"Error saving artifacts: {msg}")
+            raise RuntimeError(f"Error saving artifacts: {[new_artifact]}")
+
+    @staticmethod
+    def create_artifact_identifier(alert_id: str, artifact_id: int) -> str:
+        return f"TM-{alert_id}-{str(artifact_id)}"
+
+    def _create_artifact_content(
         self,
-        artifact_id,
-        artifact_type,
-        artifact_value,
-        related_entities,
-        local_scope,
-        severity,
-        start_time,
-        types,
-        container,
+        container_id: int,
+        alert: Union[SaeAlert, TiAlert],
+        indicator: Indicator,
+        local_scope: List[Entity],
     ):
-        # self.debug_print(f"HITS CREATE ARTIFACT")
-        # create new artifact
-        artifact = {}
-        artifact["name"] = artifact_id
-        artifact["label"] = artifact_type
-        artifact["container_id"] = container
-        artifact["source_data_identifier"] = f"TM-{container}-{artifact_id}"
-        artifact["type"] = local_scope.get("entityType", "network")
-        artifact["severity"] = severity
-        artifact["start_time"] = start_time
+        art_cef = {
+            "cs1": indicator.value.name
+            if isinstance(indicator.value, HostInfo)
+            else indicator.value,
+            "cs1Label": "Artifact Value",
+            "cs2": indicator.related_entities,
+            "cs2Label": "Related Entities",
+            "cs3": alert.alert_provider.value,
+            "cs3Label": "Product ID",
+        }
+        hosts_names: List[str] = []
+        assoc_ips: List[List[str]] = []
 
-        art_cef = {}
-        # Map attributes returned from TM Vision One into Common Event Format (cef)
-        art_cef["cs1"] = artifact_value
-        art_cef["cs1Label"] = "Artifact Value"
-        art_cef["cs2"] = related_entities
-        art_cef["cs2Label"] = "Related Entities"
-        art_cef["cs3"] = types
-        art_cef["cs3Label"] = "Product ID"
-        hosts_names = []
-        assoc_ips = []
-        if isinstance(local_scope["entity_value"], list):
-            for i in local_scope["entity_value"]:
-                hosts_names.append(i.get("name", ""))
-                assoc_ips.append(i.get("ips", ""))
+        # Note: Unsure, but may be a zipped mapping between host names and associated ips
+        # Ex. Host names idx 0  may map to a list of ips in assoc_ips idx 0
+        for entity in local_scope:
+            value: Union[str, HostInfo] = entity.entity_value
+            assert isinstance(value, HostInfo)
+
+            hosts_names.append(value.name)
+            assoc_ips.append(value.ips)
+
         art_cef["sourceHostName"] = hosts_names
         art_cef["sourceAddress"] = assoc_ips
 
-        artifact["cef"] = art_cef
+        return {
+            "name": indicator.id,
+            "label": indicator.type,
+            "container_id": container_id,
+            "source_data_identifier": self.create_artifact_identifier(
+                alert.id, indicator.id
+            ),
+            "type": [item.entity_type for item in local_scope],
+            "severity": alert.severity.value,
+            "start_time": alert.created_date_time,
+            "cef": art_cef,
+        }
 
-        return artifact
-
-    def update_container(self, i, old_container):
+    def _update_container_metadata(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
+    ):
         # update old container
-        update = {}
-        update["data"] = i
-        sdi = i.get("id", "")
-        types = i.get("alert_provider", "")
-        update["description"] = f"{sdi}: {types}"
-        imp_scope = i.get("impact_scope", {})
-        severity = i.get("severity", "")
-        start_time = i.get("created_date_time", "")
-        # self.debug_print(f"START TIME: {start_time}")
-
-        url = f"{self.get_phantom_base_url()}rest/container/{old_container}"
+        container_alert_metadata: Dict[str, Any] = {
+            "data": alert.dict(),
+            "description": "{}: {}".format(container_id, alert.alert_provider.value),
+        }
         try:
             requests.post(
-                url, data=json.dumps(update), verify=False, timeout=30
+                f"{self.get_phantom_base_url()}rest/container/{container_id}",
+                data=json.dumps(container_alert_metadata),
+                verify=False,
+                timeout=30,
             )  # nosemgrep
-        except Exception:
-            return phantom.APP_ERROR
+        except Exception as e:
+            raise RuntimeError(
+                "Encountered an error updateding container alert."
+            ) from e
 
-        # add new artifacts
-        for x in i["indicators"]:
-            self.process_artifacts(
-                x, imp_scope, severity, start_time, types, container=old_container
-            )
-
-    def artifact_exists(self, sdi, container):
+    def artifact_exists(self, container_id: int, alert_id: str, indicator_id: int):
+        sdi = self.create_artifact_identifier(alert_id, indicator_id)
         # check if a given artifact exists for in a container
-        url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container}'
+        url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container_id}'
         # make rest call
         try:
             self.debug_print(f"Making request on url: {url}")
@@ -318,33 +273,81 @@ class TrendMicroVisionOneConnector(BaseConnector):
         else:
             return None
 
-    def container_exists(self, sdi):
+    def _get_existing_container_id(
+        self, alert: Union[SaeAlert, TiAlert]
+    ) -> Optional[int]:
         # check if TM workbenchID already exists in Splunk
-        url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{sdi}"&_filter_asset={self.get_asset_id()}'
+        url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{alert.id}"&_filter_asset={self.get_asset_id()}'
         # make rest call
         try:
             response = requests.get(url, verify=False, timeout=30)  # nosemgrep
-        except Exception:
-            return None
-        # return id or None
-        if response.json().get("data", None):
-            return response.json().get("data", None)[0].get("id", None)
-        else:
-            return None
+        except Exception as e:
+            raise RuntimeError(
+                "Encountered an error getting the existing container ID from Phantom"
+            ) from e
 
-    def create_container(self, i, sdi):
-        # create a new container for a Trend Micro WorkBench incident
-        container = {}
-        container["name"] = i["model"]
-        container["source_data_identifier"] = sdi
-        container["label"] = self.get_config().get("ingest", {}).get("container_label")
-        container["description"] = i.get("description", "")
-        container["data"] = i
-        container["type"] = i.get("alert_provider", "")
-        container["severity"] = i.get("severity", "")
-        container["start_time"] = i.get("created_date_time", "")
-        # self.debug_print(f"START TIME: {container['start_time']}")
-        return container
+        # return id or None
+        container_data: dict[str, Any] = response.json()
+        if "data" not in container_data or len(container_data["data"]) == 0:
+            return None
+        # This direct access is okay because the values MUST exist otherwise the problem is out of scope.
+        return container_data["data"][0]["id"]
+
+    def _create_new_container_payload(
+        self, alert: Union[SaeAlert, TiAlert]
+    ) -> Dict[str, Any]:
+        return {
+            "name": alert.model,
+            "source_data_identifier": alert.id,
+            "label": self.get_config().get("ingest", {}).get("container_label"),
+            "description": alert.description if isinstance(alert, SaeAlert) else "",
+            "data": alert.dict(),
+            "type": alert.alert_provider,
+            "severity": alert.severity,
+            "start_time": alert.created_date_time,
+        }
+
+    def _create_or_update_container(self, alert: Union[SaeAlert, TiAlert]) -> int:
+        existing_container_id: Optional[int] = self._get_existing_container_id(alert)
+
+        # If a container ID does not already exist, create a new one first, because the update operation
+        # runs regardless of whether the container is new or existing.
+        if existing_container_id is None:
+            # save new container to Splunk using the alert
+            ret_val, msg, cid = self.save_container(
+                self._create_new_container_payload(alert)
+            )
+
+            if phantom.is_fail(ret_val):
+                self.save_progress("Error saving container: {}".format(msg))
+                raise RuntimeError(
+                    "Error saving container: {} -- CID: {}".format(msg, cid)
+                )
+
+            existing_container_id = self._get_existing_container_id(alert)
+
+            # Assertion made for type checking. At this point, the container ID will not be None if it was
+            # successfully created.
+            assert existing_container_id is not None
+        return existing_container_id
+
+    def _create_container_artifacts(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
+    ):
+        # add new artifacts
+        for indicator in alert.indicators:
+            self._create_new_artifact_from_indicator(container_id, alert, indicator)
+
+    def _get_poll_interval(self, param) -> Tuple[datetime, datetime]:
+        # standard time frame for poll interval
+        default_end_time = (
+            datetime.fromtimestamp(int(datetime.utcnow().timestamp())).isoformat() + "Z"
+        )
+        start_time: str = param.get(
+            "starttime", self._state.get("last_ingestion_time", "2020-06-15T10:00:00Z")
+        )
+        end_time: str = param.get("endtime", default_end_time)
+        return start_time, end_time
 
     def _handle_on_poll(self, param):
         # Log current action
@@ -355,92 +358,46 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # standard time frame for poll interval
-        nowstamp = int(datetime.utcnow().timestamp())
-        end = datetime.fromtimestamp(nowstamp).isoformat() + "Z"  # default end is now
-        monthago = nowstamp - 2500000  # 2,5 million unix epoch time ~ 1 month
-        start = (
-            datetime.fromtimestamp(monthago).isoformat() + "Z"
-        )  # default start is approx. 1 month ago
-
-        # frame time from last run, or do a first run with default timeframe
-        try:
-            starttime = self._state["last_ingestion_time"]
-        except Exception as e:
-            self.debug_print(f"This is the exception: {e}")
-            self.debug_print("No previous ingestion time found.")
-            pass
-
-        starttime = param.get("starttime", start)
-        endtime = param.get("endtime", end)
+        start_time, end_time = self._get_poll_interval(param)
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
-        new_alerts = []
+        new_alerts: List[Union[SaeAlert, TiAlert]] = []
         # Make Rest call
         try:
             client.consume_alert_list(
-                lambda alert: new_alerts.append(alert.json()),
-                start_time=starttime,
-                end_time=endtime,
+                lambda alert: new_alerts.append(alert),
+                start_time=start_time,
+                end_time=end_time,
             )
         except Exception as e:
-            self.debug_print("Consume Alert List failed with following exception:")
-            return e
-
-        alert_list = []
-        for i in new_alerts:
-            alert_list.append(json.loads(i))
-
-        if alert_list is None:
-            return action_result.get_status()
+            raise RuntimeError("Consume Alert List failed.") from e
 
         # Get events from the TM Vision One and process them as Phantom containers
         try:
-            events = alert_list
-            for i in events:
-                sdi = i.get("id", "")
-
-                # check if container already exists
-                old_container = self.container_exists(sdi)
-                if old_container:
-                    self.debug_print("Updating Containers")
-                    self.update_container(i, old_container)
-                else:
-                    # make new container
-                    container = self.create_container(i, sdi)
-                    # save new container to Splunk
-                    ret_val, msg, cid = self.save_container(container)
-                    # get new containers id
-                    old_container = self.container_exists(sdi)
-                    # update new container with artifacts
-                    self.update_container(i, old_container)
-                    if phantom.is_fail(ret_val):
-                        self.save_progress("Error saving container: {}".format(msg))
-                        self.debug_print(
-                            "Error saving container: {} -- CID: {}".format(msg, cid)
-                        )
+            for alert in new_alerts:
+                container_id: int = self._create_or_update_container(alert)
+                self._update_container_metadata(container_id, alert)
+                self._create_container_artifacts(container_id, alert)
 
             # Log results
-            action_result.add_data(events)
+            serialized_alerts: List[Dict] = [item.dict() for item in new_alerts]
+            action_result.add_data(serialized_alerts)
             summary = action_result.update_summary({})
-            summary["Number of Events Found"] = len(events)
-            self.save_progress("Phantom imported {0} events".format(len(events)))
+            summary["Number of Events Found"] = len(serialized_alerts)
+            self.save_progress(
+                "Phantom imported {0} events".format(len(serialized_alerts))
+            )
 
             # remember current timestamp for next run
-            self._state["last_ingestion_time"] = endtime
+            self._state["last_ingestion_time"] = end_time
 
             return action_result.set_status(phantom.APP_SUCCESS)
 
         except Exception as e:
             self.save_progress("Exception = {0}".format(str(e)))
-            return action_result.set_status(
-                phantom.APP_ERROR, "Error getting events. Details: {0}".format(str(e))
-            )
+            raise e
 
     def _handle_unquarantine_device(self, param):
         # send progress messages back to the platform
@@ -1181,11 +1138,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return response
         else:
             # Make filename with timestamp
-            name = "Trend_Micro_Sandbox_Analysis_Report.pdf"
+            name = "Trend_Micro_Sandbox_Analysis_Report "
             timestamp = time.time()
             date_time = datetime.fromtimestamp(timestamp)
             str_date_time = date_time.strftime("%d_%m_%Y_%H_%M_%S")
-            file_name = str_date_time + name
+            file_name = str_date_time + name + ".pdf"
 
             results = self.file_to_vault(
                 response.response.content,
@@ -1278,7 +1235,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return action_result.get_status()
 
         file_info = response.response.dict()
-        # self.debug_print(f"FILE INFO: {file_info}")
+        self.debug_print(f"FILE INFO: {file_info}")
 
         # Add the response into the data section
         action_result.add_data(file_info)
@@ -1795,32 +1752,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return action_result.get_status()
 
         analysis_result = json.loads(response.response.json())
-        # self.debug_print(f"ANALYSIS RESULT: {analysis_result}")
-        # Create Container
-        container = {}
-        container["name"] = report_id
-        container["source_data_identifier"] = "File Analysis Report - Suspicious Object"
-        container["label"] = "trendmicro"
-        try:
-            container["severity"] = analysis_result["risk_level"].capitalize()
-        except Exception:
-            container["severity"] = "Medium"
-        container["tags"] = "suspiciousObject"
-        ret_val, msg, cid = self.save_container(container)
-
-        artifacts = []
-        for i in analysis_result:
-            artifacts_d = {}
-            artifacts_d["name"] = "Artifact of {}".format(report_id)
-            artifacts_d[
-                "source_data_identifier"
-            ] = "File Analysis Report - Suspicious Object"
-            artifacts_d["label"] = "trendmicro"
-            artifacts_d["container_id"] = cid
-            artifacts_d["cef"] = i
-            artifacts.append(artifacts_d)
-        ret_val, msg, cid = self.save_artifacts(artifacts)
-        self.save_progress("Suspicious Object added to Container")
 
         # Add the response into the data section
         action_result.add_data(analysis_result)
