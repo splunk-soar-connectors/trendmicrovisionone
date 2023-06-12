@@ -227,42 +227,43 @@
   <a href="#action-get-alert-details">Get Alert Details</a> - Displays
   information about the specified alert<br />
   <a href="#action-urls-to-sandbox">Urls To Sandbox</a> - Submits URLs to the
-  sandbox for analysis<br />
-  <a href="#action-enable-account">Enable Account</a> - Allows the user to sign
-  in to new application and browser sessions<br />
+  sandbox for analysis <br />
+  <a href="#action-enable-account">Enable Account</a>
+  - Allows the user to sign in to new application and browser sessions <br />
   <a href="#action-disable-account">Disable Account</a> - Signs the user out of
   all active application and browser sessions, and prevents the user from
-  signing in any new session<br />
+  signing in any new session <br />
   <a href="#action-restore-email-message">Restore Email Message</a> - Restore
-  quarantined email messages<br />
+  quarantined email messages <br />
   <a href="#action-sign-out-account">Sign Out Account</a> - Signs the user out
-  of all active application and browser sessions<br />
+  of all active application and browser sessions <br />
   <a href="#action-force-password-reset">Force Password Reset</a>
   - Signs the user out of all active application and browser sessions, and
-  forces the user to create a new password during the next sign-in attempt<br />
+  forces the user to create a new password during the next sign-in attempt
+  <br />
   <a href="#action-sandbox-suspicious-list">Sandbox Suspicious List</a> -
-  Downloads the suspicious object list associated to the specified object<br />
+  Downloads the suspicious object list associated to the specified object <br />
   <a href="#action-sandbox-analysis-result">Sandbox Analysis Result</a> -
-  Displays the analysis results of the specified object<br />
+  Displays the analysis results of the specified object <br />
   <a href="#action-sandbox-investigation-package"
     >Sandbox Investigation Package</a
   >
-  - Downloads the Investigation Package of the specified object<br />
+  - Downloads the Investigation Package of the specified object <br />
   <a href="#action-get-suspicious-list">Get Suspicious List</a> - Retrieves
   information about domains, file SHA-1, file SHA-256, IP addresses, email
   addresses, or URLs in the Suspicious Object List and displays the information
-  in a paginated list<br />
+  in a paginated list <br />
   <a href="#action-get-exception-list">Get Exception List</a> - Retrieves
   information about domains, file SHA-1, file SHA-256, IP addresses, sender
-  addresses, or URLs in the Exception List and displays it in a paginated
-  list<br />
+  addresses, or URLs in the Exception List and displays it in a paginated list
+  <br />
 </p>
 <h2 id="commands">Commands</h2>
 <p>
   You can execute these commands from the Splunk SOAR CLI, as part of an
   automation, or in a playbook.
 </p>
-<h2 id="action-test-connectivity">Action: Test Connectivity</h2>
+<h2 id="action-test-connectivity">Action: ‘Test Connectivity’</h2>
 <p>
   Validate the asset configuration for connectivity using supplied configuration
 </p>
@@ -303,7 +304,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-to-blocklist">Action: Add To Blocklist</h2>
+<h2 id="action-add-to-blocklist">Action: ‘Add To Blocklist’</h2>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
@@ -330,6 +331,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;block_objects&quot;: [{
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;6.6.6.6&quot;,
+          &quot;description&quot;: &quot;Block IP&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-1">Context Output</h4>
 <table>
   <colgroup>
@@ -358,7 +367,7 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-remove-from-blocklist">Action: Remove From Blocklist</h2>
+<h2 id="action-remove-from-blocklist">Action: ‘Remove From Blocklist’</h2>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
@@ -385,6 +394,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;block_object&quot;: [{
+          &quot;description&quot;: &quot;Remove from blocklist&quot;,
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;6.6.6.3&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-2">Context Output</h4>
 <table>
   <colgroup>
@@ -413,7 +430,7 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-quarantine-email-message">Action: Quarantine Email Message</h2>
+<h2 id="action-quarantine-email-message">Action: ‘Quarantine Email Message’</h2>
 <p>Quarantine the email message</p>
 <p>
   Type: <strong>contain</strong><br />
@@ -443,6 +460,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;email_identifiers&quot;: [{
+          &quot;description&quot;: &quot;Quarantine email message r7&quot;,
+          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-3">Context Output</h4>
 <table>
   <colgroup>
@@ -469,7 +494,7 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-delete-email-message">Action: Delete Email Message</h2>
+<h2 id="action-delete-email-message">Action: ‘Delete Email Message’</h2>
 <p>Delete the email message.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -499,6 +524,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;email_identifiers&quot;: [{
+          &quot;description&quot;: &quot;Delete email message r7&quot;,
+          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-4">Context Output</h4>
 <table>
   <colgroup>
@@ -525,7 +558,7 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-quarantine-device">Action: Quarantine Device</h2>
+<h2 id="action-quarantine-device">Action: ‘Quarantine Device’</h2>
 <p>Quarantine the endpoint.</p>
 <p>
   Type: <strong>contain</strong><br />
@@ -556,6 +589,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;endpoint_identifiers&quot;: [{
+          &quot;description&quot;: &quot;Test quarantine device&quot;,
+          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
+          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-5">Context Output</h4>
 <table>
   <colgroup>
@@ -584,7 +625,7 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-unquarantine-device">Action: Unquarantine Device</h2>
+<h2 id="action-unquarantine-device">Action: ‘Unquarantine Device’</h2>
 <p>Restore the endpoint.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -615,6 +656,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;endpoint_identifiers&quot;: [{
+          &quot;description&quot;: &quot;Restore endpoint r7&quot;,
+          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
+          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-6">Context Output</h4>
 <table>
   <colgroup>
@@ -643,7 +692,7 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-add-to-exception">Action: Add To Exception</h2>
+<h2 id="action-add-to-exception">Action: ‘Add To Exception’</h2>
 <p>Add object to exception list.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -671,6 +720,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;block_objects&quot;: [{
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;1.2.6.9&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-7">Context Output</h4>
 <table>
   <colgroup>
@@ -693,7 +749,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-delete-from-exception">Action: Delete From Exception</h2>
+<h2 id="action-delete-from-exception">Action: ‘Delete From Exception’</h2>
 <p>Delete object from exception list.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -721,6 +777,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;block_object&quot;: [{
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;1.6.6.3&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-8">Context Output</h4>
 <table>
   <colgroup>
@@ -743,7 +806,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-to-suspicious">Action: Add To Suspicious</h2>
+<h2 id="action-add-to-suspicious">Action: ‘Add To Suspicious’</h2>
 <p>Add suspicious object to suspicious list.</p>
 <p>
   Type: <strong>contain</strong><br />
@@ -752,9 +815,9 @@
 <h4 id="input-8">Input</h4>
 <table>
   <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
+    <col style="width: 15%" />
+    <col style="width: 73%" />
+    <col style="width: 11%" />
   </colgroup>
   <thead>
     <tr class="header">
@@ -766,11 +829,24 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
+      <td>
+        Object object made up of type, value and scan_action, risk_level and
+        expiry_days
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;suspicious_block_object&quot;: [{
+          &quot;risk_level&quot;: &quot;high&quot;,
+          &quot;expiry_days&quot;: &quot;30&quot;,
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;scan_action&quot;: &quot;block&quot;,
+          &quot;object_value&quot;: &quot;6.6.6.3&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-9">Context Output</h4>
 <table>
   <colgroup>
@@ -793,7 +869,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-delete-from-suspicious">Action: Delete From Suspicious</h2>
+<h2 id="action-delete-from-suspicious">Action: ‘Delete From Suspicious’</h2>
 <p>Delete the suspicious object from suspicious list.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -821,6 +897,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;block_object&quot;: [{
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;6.6.6.4&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-10">Context Output</h4>
 <table>
   <colgroup>
@@ -843,7 +926,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-terminate-process">Action: Terminate Process</h2>
+<h2 id="action-terminate-process">Action: ‘Terminate Process’</h2>
 <p>Terminate the process running on the endpoint.</p>
 <p>
   Type: <strong>contain</strong><br />
@@ -873,6 +956,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;process_identifiers&quot;: [{
+          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
+          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;,
+          &quot;file_sha1&quot;: &quot;984afc7aaa2718984e15e3b5ab095b519a081321&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-11">Context Output</h4>
 <table>
   <colgroup>
@@ -902,7 +993,7 @@
   of playbook execution. The recommended timeout is <code>20 minutes</code> .
 </p>
 <h2 id="action-get-sandbox-submission-status">
-  Action: Get Sandbox Submission status
+  Action: ‘Get Sandbox Submission status’
 </h2>
 <p>Get the status of file analysis based on task id.</p>
 <p>
@@ -933,6 +1024,10 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;task_id&quot;: &quot;00000012&quot;
+}</code></pre>
 <h4 id="context-output-12">Context Output</h4>
 <table>
   <colgroup>
@@ -1010,7 +1105,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-download-analysis-report">Action: Download Analysis Report</h2>
+<h2 id="action-download-analysis-report">Action: ‘Download Analysis Report’</h2>
 <p>Get the analysis report of a file based on report id.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1053,6 +1148,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;id&quot;: &quot;8559a7ce-2b85-451b-8742-4b943ad76a22&quot;,
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: true
+}</code></pre>
 <h4 id="context-output-13">Context Output</h4>
 <table>
   <colgroup>
@@ -1075,7 +1176,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-collect-forensic-file">Action: Collect Forensic File</h2>
+<h2 id="action-collect-forensic-file">Action: ‘Collect Forensic File’</h2>
 <p>Collect forensic file.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1104,6 +1205,15 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;collect_files&quot;: [{
+          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
+          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;,
+          &quot;file_path&quot;: &quot;C:/virus.exe&quot;,
+          &quot;description&quot;: &quot;collect malicious file&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-14">Context Output</h4>
 <table>
   <colgroup>
@@ -1132,7 +1242,7 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-forensic-file-info">Action: Forensic File Info</h2>
+<h2 id="action-forensic-file-info">Action: ‘Forensic File Info’</h2>
 <p>Get the download information for collected forensic file.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1162,6 +1272,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: true,
+  &quot;task_id&quot;: &quot;00000012&quot;
+}</code></pre>
 <h4 id="context-output-15">Context Output</h4>
 <table>
   <colgroup>
@@ -1217,7 +1333,7 @@
   ‘trendmicro-visionone-download-information-for-collected-forensic-file’ will
   be valid for only <code>60 seconds</code>
 </p>
-<h2 id="action-start-analysis">Action: Start Analysis</h2>
+<h2 id="action-start-analysis">Action: ‘Start Analysis’</h2>
 <p>Submit file to sandbox for analysis.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1277,6 +1393,14 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;file_url&quot;: &quot;file binary&quot;
+  &quot;file_name&quot;: &quot;some_file.bat&quot;,
+  &quot;document_password&quot;: 1234,
+  &quot;archive_password&quot;: 1234,
+  &quot;arguments&quot;: &quot;IFMlYztbQA==&quot;,
+}</code></pre>
 <h4 id="context-output-16">Context Output</h4>
 <table>
   <colgroup>
@@ -1309,7 +1433,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-status-check">Action: Status Check</h2>
+<h2 id="action-status-check">Action: ‘Status Check’</h2>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
@@ -1348,6 +1472,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: true,
+  &quot;task_id&quot;: &quot;00000012&quot;
+}</code></pre>
 <h4 id="context-output-17">Context Output</h4>
 <table>
   <colgroup>
@@ -1403,7 +1533,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-get-endpoint-info">Action: Get Endpoint Info</h2>
+<h2 id="action-get-endpoint-info">Action: ‘Get Endpoint Info’</h2>
 <p>Gather information about an endpoint.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1435,6 +1565,11 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;endpoint&quot;: &quot;127.127.127.127&quot;,
+  &quot;query_op&quot;: &quot; or &quot;
+}</code></pre>
 <h4 id="context-output-18">Context Output</h4>
 <table>
   <colgroup>
@@ -1461,7 +1596,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-note">Action: Add Note</h2>
+<h2 id="action-add-note">Action: ‘Add Note’</h2>
 <p>Adds a note to an existing workbench alert.</p>
 <p>
   Type: <strong>generic</strong><br />
@@ -1493,6 +1628,11 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;alert_id&quot;: &quot;WB-14-20190709-00003&quot;,
+  &quot;content&quot;: &quot;Suspected False Positive, please verify&quot;
+}</code></pre>
 <h4 id="context-output-19">Context Output</h4>
 <table>
   <colgroup>
@@ -1520,7 +1660,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-update-status">Action: Update Status</h2>
+<h2 id="action-update-status">Action: ‘Update Status’</h2>
 <p>Updates the status of an existing workbench alert.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -1566,6 +1706,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;id&quot;: &quot;WB-14-20190709-00003&quot;,
+  &quot;if_match&quot;: &quot;33a64df551425fcc55e4d42a148795d9f25f89d4&quot;,
+  &quot;status&quot;: &quot;New&quot;
+}</code></pre>
 <h4 id="context-output-20">Context Output</h4>
 <table>
   <thead>
@@ -1583,7 +1729,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-get-alert-details">Action: Get Alert Details</h2>
+<h2 id="action-get-alert-details">Action: ‘Get Alert Details’</h2>
 <p>Displays information about the specified alert.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1604,12 +1750,16 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>source data identifier (workbench_id)</td>
+      <td>workbench_id (source data identifier)</td>
       <td>ID of the workbench alert you would like to get the details for.</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;workbench_id&quot;: &quot;WB-20837-20221111-0000&quot;
+}</code></pre>
 <h4 id="context-output-21">Context Output</h4>
 <table>
   <colgroup>
@@ -1639,7 +1789,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-urls-to-sandbox">Action: Urls To Sandbox</h2>
+<h2 id="action-urls-to-sandbox">Action: ‘Urls To Sandbox’</h2>
 <p>Submits URLs to the sandbox for analysis.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -1669,6 +1819,11 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;url&quot;: [&quot;www.urlurl.com&quot;,
+        &quot;www.zurlzurl.com&quot;]
+}</code></pre>
 <h4 id="context-output-22">Context Output</h4>
 <table>
   <colgroup>
@@ -1696,7 +1851,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-enable-account">Action: Enable Account</h2>
+<h2 id="action-enable-account">Action: ‘Enable Account’</h2>
 <p>Allows the user to sign in to new application and browser sessions.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -1726,6 +1881,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;account_identifiers&quot;: [{
+          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;description&quot;: &quot;Enable jdoe account&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-23">Context Output</h4>
 <table>
   <colgroup>
@@ -1753,7 +1915,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-disable-account">Action: Disable Account</h2>
+<h2 id="action-disable-account">Action: ‘Disable Account’</h2>
 <p>
   Signs the user out of all active application and browser sessions, and
   prevents the user from signing in any new session.
@@ -1786,6 +1948,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;account_identifiers&quot;: [{
+          &quot;account_name&quot;: &quot;jdoe@testemailtrain.com&quot;,
+          &quot;description&quot;: &quot;Disable account&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-24">Context Output</h4>
 <table>
   <colgroup>
@@ -1813,7 +1982,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-restore-email-message">Action: Restore Email Message</h2>
+<h2 id="action-restore-email-message">Action: ‘Restore Email Message’</h2>
 <p>Restore quarantined email messages.</p>
 <p>
   Type: <strong>correct</strong><br />
@@ -1821,9 +1990,9 @@
 </p>
 <table>
   <colgroup>
-    <col style="width: 13%" />
-    <col style="width: 76%" />
-    <col style="width: 9%" />
+    <col style="width: 10%" />
+    <col style="width: 81%" />
+    <col style="width: 7%" />
   </colgroup>
   <thead>
     <tr class="header">
@@ -1837,13 +2006,22 @@
       <td>email_identifiers</td>
       <td>
         Object containing <code>mailbox</code> (Optional) and
-        <code>message_id</code> or <code>unique_id</code> of the email to
+        <code>message_id</code> and <code>description</code> or
+        <code>description</code> and <code>unique_id</code> of the email to
         restore
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;email_identifiers&quot;: [{
+          &quot;description&quot;: &quot;Restore email message&quot;,
+          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-25">Context Output</h4>
 <table>
   <colgroup>
@@ -1871,7 +2049,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-sign-out-account">Action: Sign Out Account</h2>
+<h2 id="action-sign-out-account">Action: ‘Sign Out Account’</h2>
 <p>Signs the user out of all active application and browser sessions.</p>
 <p>
   Type: <strong>contain</strong><br />
@@ -1901,6 +2079,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;account_identifiers&quot;: [{
+          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;description&quot;: &quot;Sign out account&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-26">Context Output</h4>
 <table>
   <colgroup>
@@ -1928,7 +2113,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-force-password-reset">Action: Force Password Reset</h2>
+<h2 id="action-force-password-reset">Action: ‘Force Password Reset’</h2>
 <p>
   Signs the user out of all active application and browser sessions, and forces
   the user to create a new password during the next sign-in attempt.
@@ -1961,6 +2146,13 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;account_identifiers&quot;: [{
+          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+          &quot;description&quot;: &quot;Force password reset&quot;
+        }]
+}</code></pre>
 <h4 id="context-output-27">Context Output</h4>
 <table>
   <colgroup>
@@ -1988,7 +2180,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-sandbox-suspicious-list">Action: Sandbox Suspicious List</h2>
+<h2 id="action-sandbox-suspicious-list">Action: ‘Sandbox Suspicious List’</h2>
 <p>Downloads the suspicious object list associated to the specified object.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -2025,6 +2217,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;submit_id&quot;: &quot;90406723-2b29-4e85-b0b2-ba58af8f63df&quot;
+  &quot;poll&quot;: false,
+  &quot;poll_time_sec&quot;: 0,
+}</code></pre>
 <h4 id="context-output-28">Context Output</h4>
 <table>
   <colgroup>
@@ -2047,7 +2245,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-sandbox-analysis-result">Action: Sandbox Analysis Result</h2>
+<h2 id="action-sandbox-analysis-result">Action: ‘Sandbox Analysis Result’</h2>
 <p>Displays the analysis results of the specified object.</p>
 <p>
   Type: <strong>investigate</strong><br />
@@ -2084,6 +2282,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;report_id&quot;: &quot;90406723-2b29-4e85-b0b2-ba58af8f63df&quot;
+  &quot;poll&quot;: false,
+  &quot;poll_time_sec&quot;: 0,
+}</code></pre>
 <h4 id="context-output-29">Context Output</h4>
 <table>
   <colgroup>
@@ -2153,7 +2357,7 @@
   </tbody>
 </table>
 <h2 id="action-sandbox-investigation-package">
-  Action: Sandbox Investigation Package
+  Action: ‘Sandbox Investigation Package’
 </h2>
 <p>Downloads the Investigation Package of the specified object.</p>
 <p>
@@ -2191,6 +2395,12 @@
     </tr>
   </tbody>
 </table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;submit_id&quot;: &quot;00000012&quot;,
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: true
+}</code></pre>
 <h4 id="context-output-30">Context Output</h4>
 <table>
   <colgroup>
@@ -2213,7 +2423,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-get-suspicious-list">Action: Get Suspicious List</h2>
+<h2 id="action-get-suspicious-list">Action: ‘Get Suspicious List’</h2>
 <p>
   Retrieves information about domains, file SHA-1, file SHA-256, IP addresses,
   email addresses, or URLs in the Suspicious Object List and displays the
@@ -2261,7 +2471,7 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-get-exception-list">Action: Get Exception List</h2>
+<h2 id="action-get-exception-list">Action: ‘Get Exception List’</h2>
 <p>
   Retrieves information about domains, file SHA-1, file SHA-256, IP addresses,
   sender addresses, or URLs in the Exception List and displays it in a paginated

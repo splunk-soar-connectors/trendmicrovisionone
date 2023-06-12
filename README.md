@@ -140,6 +140,18 @@ Read only: **False**
 | ----------------- | ---------------------------------------------------- | ------------ |
 | block_objects     | Object object made up of type, value and description | Required     |
 
+Example input:
+
+```
+{
+  "block_objects": [{
+          "object_type": "ip",
+          "object_value": "6.6.6.6",
+          "description": "Block IP"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                           | **Type**         | **Description**                                                     |
@@ -159,6 +171,18 @@ Read only: **False**
 | **Argument Name** | **Description**                                      | **Required** |
 | ----------------- | ---------------------------------------------------- | ------------ |
 | block_object      | Object object made up of type, value and description | Required     |
+
+Example input:
+
+```
+{
+  "block_object": [{
+          "description": "Remove from blocklist",
+          "object_type": "ip",
+          "object_value": "6.6.6.3"
+        }]
+}
+```
 
 #### Context Output
 
@@ -182,6 +206,18 @@ Read only: **False**
 | ----------------- | ------------------------------------------------------------------- | ------------ |
 | email_identifiers | Email Identifiers consisting of message id, mailbox and description | Required     |
 
+Example input:
+
+```
+{
+  "email_identifiers": [{
+          "description": "Quarantine email message r7",
+          "mailbox": "jdoe@testemailtest.com",
+          "message_id": "AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                       | **Type**         | **Description**                         |
@@ -204,6 +240,18 @@ Read only: **False**
 | ----------------- | ------------------------------------------------------------------- | ------------ |
 | email_identifiers | Email Identifiers consisting of message id, mailbox and description | Required     |
 
+Example input:
+
+```
+{
+  "email_identifiers": [{
+          "description": "Delete email message r7",
+          "mailbox": "jdoe@testemailtest.com",
+          "message_id": "AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                       | **Type**         | **Description**                     |
@@ -225,6 +273,18 @@ Read only: **False**
 | **Argument Name**    | **Description**                                                                    | **Required** |
 | -------------------- | ---------------------------------------------------------------------------------- | ------------ |
 | endpoint_identifiers | Endpoint Identifiers consisting of endpoint(hostname or agentGuid) and description | Required     |
+
+Example input:
+
+```
+{
+  "endpoint_identifiers": [{
+          "description": "Test quarantine device",
+          "endpoint_name": "endpoint123",
+          "agent_guid": "cb9c8412-1f64-4fa0-a36b-76bf41a07ede"
+        }]
+}
+```
 
 #### Context Output
 
@@ -250,6 +310,18 @@ Read only: **False**
 | -------------------- | ---------------------------------------------------------------------------------- | ------------ |
 | endpoint_identifiers | Endpoint Identifiers consisting of endpoint(hostname or agentGuid) and description | Required     |
 
+Example input:
+
+```
+{
+  "endpoint_identifiers": [{
+          "description": "Restore endpoint r7",
+          "endpoint_name": "endpoint123",
+          "agent_guid": "cb9c8412-1f64-4fa0-a36b-76bf41a07ede"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                                     | **Type**         | **Description**                 |
@@ -274,6 +346,17 @@ Read only: **False**
 | ----------------- | ---------------------------------------------------- | ------------ |
 | block_objects     | Object object made up of type, value and description | Required     |
 
+Example input:
+
+```
+{
+  "block_objects": [{
+          "object_type": "ip",
+          "object_value": "1.2.6.9"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                                | **Type**         | **Description**                      |
@@ -293,6 +376,17 @@ Read only: **False**
 | ----------------- | ---------------------------------------------------- | ------------ |
 | block_objects     | Object object made up of type, value and description | Required     |
 
+Example input:
+
+```
+{
+  "block_object": [{
+          "object_type": "ip",
+          "object_value": "1.6.6.3"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                                | **Type**         | **Description**                           |
@@ -308,9 +402,23 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                      | **Required** |
-| ----------------- | ---------------------------------------------------- | ------------ |
-| block_objects     | Object object made up of type, value and description | Required     |
+| **Argument Name** | **Description**                                                                  | **Required** |
+| ----------------- | -------------------------------------------------------------------------------- | ------------ |
+| block_objects     | Object object made up of type, value and scan_action, risk_level and expiry_days | Required     |
+
+Example input:
+
+```
+{
+  "suspicious_block_object": [{
+          "risk_level": "high",
+          "expiry_days": "30",
+          "object_type": "ip",
+          "scan_action": "block",
+          "object_value": "6.6.6.3"
+        }]
+}
+```
 
 #### Context Output
 
@@ -331,6 +439,17 @@ Read only: **False**
 | ----------------- | ---------------------------------------------------- | ------------ |
 | block_objects     | Object object made up of type, value and description | Required     |
 
+Example input:
+
+```
+{
+  "block_object": [{
+          "object_type": "ip",
+          "object_value": "6.6.6.4"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                                 | **Type**         | **Description**                            |
@@ -347,6 +466,18 @@ Read only: **False**
 | **Argument Name**   | **Description**                                                                                                           | **Required** |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | process_identifiers | Process Identifiers consisting of endpoint(hostname or agentGuid), filesha1, filename(optional) and description(optional) | Required     |
+
+Example input:
+
+```
+{
+  "process_identifiers": [{
+          "endpoint_name": "endpoint123",
+          "agent_guid": "cb9c8412-1f64-4fa0-a36b-76bf41a07ede",
+          "file_sha1": "984afc7aaa2718984e15e3b5ab095b519a081321"
+        }]
+}
+```
 
 #### Context Output
 
@@ -369,6 +500,14 @@ Read only: **False**
 | **Argument Name** | **Description**                                                             | **Required** |
 | ----------------- | --------------------------------------------------------------------------- | ------------ |
 | task_id           | Task_id from the trendmicro-visionone-submit-file-to-sandbox command output | Required     |
+
+Example input:
+
+```
+{
+  "task_id": "00000012"
+}
+```
 
 #### Context Output
 
@@ -398,6 +537,16 @@ Read only: **False**
 | poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
 | poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
 
+Example input:
+
+```
+{
+  "id": "8559a7ce-2b85-451b-8742-4b943ad76a22",
+  "poll": true,
+  "poll_time_sec": true
+}
+```
+
 #### Context Output
 
 | **Path**                                | **Type** | **Description**             |
@@ -414,6 +563,19 @@ Read only: **False**
 | **Argument Name** | **Description**                                                        | **Required** |
 | ----------------- | ---------------------------------------------------------------------- | ------------ |
 | collect_files     | Collect file input JSON containing endpoint, file path and description | Required     |
+
+Example input:
+
+```
+{
+  "collect_files": [{
+          "endpoint_name": "endpoint123",
+          "agent_guid": "cb9c8412-1f64-4fa0-a36b-76bf41a07ede",
+          "file_path": "C:/virus.exe",
+          "description": "collect malicious file"
+        }]
+}
+```
 
 #### Context Output
 
@@ -436,6 +598,17 @@ Read only: **False**
 | **Argument Name** | **Description**                                                                | **Required** |
 | ----------------- | ------------------------------------------------------------------------------ | ------------ |
 | task_id           | task_id output from the collect forensic file command used to collect the file | Required     |
+
+
+Example input:
+
+```
+{
+  "poll": true,
+  "poll_time_sec": true,
+  "task_id": "00000012"
+}
+```
 
 #### Context Output
 
@@ -467,6 +640,18 @@ Read only: **False**
 | archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.                                                                                                   | Optional     |
 | arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. | Optional     |
 
+Example input:
+
+```
+{
+  "file_url": "file binary"
+  "file_name": "some_file.bat",
+  "document_password": 1234,
+  "archive_password": 1234,
+  "arguments": "IFMlYztbQA==",
+}
+```
+
 #### Context Output
 
 | **Path**                           | **Type** | **Description**                                                |
@@ -485,6 +670,16 @@ Read only: **False**
 | task_id           | Unique numeric string that identifies a response task.                                            | Required     |
 | poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
 | poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+
+Example input:
+
+```
+{
+  "poll": true,
+  "poll_time_sec": true,
+  "task_id": "00000012"
+}
+```
 
 #### Context Output
 
@@ -510,6 +705,15 @@ Read only: **False**
 | endpoint          | Hostname, macAddress, agentGuid or IP of the endpoint to query | Required     |
 | query_op          | Logical operator to employ in the query. (AND/OR)              | Required     |
 
+Example input:
+
+```
+{
+  "endpoint": "127.127.127.127",
+  "query_op": " or "
+}
+```
+
 #### Context Output
 
 | **Path**                                   | **Type**             | **Description**                                                                                                                                                                       |
@@ -527,6 +731,15 @@ Read only: **False**
 | ------------------------------------- | ----------------------------------------------- | ------------ |
 | source data identifier (workbench id) | Workbench id of security incident in Vision One | Required     |
 | content                               | note to be added to the workbench event         | Required     |
+
+Example input:
+
+```
+{
+  "alert_id": "WB-14-20190709-00003",
+  "content": "Suspected False Positive, please verify"
+}
+```
 
 #### Context Output
 
@@ -548,6 +761,16 @@ Read only: **False**
 | status                                | The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive | Required     |
 | if_match                              | The target resource will be updated only if it matches ETag of the target                                      | Required     |
 
+Example input:
+
+```
+{
+  "id": "WB-14-20190709-00003",
+  "if_match": "33a64df551425fcc55e4d42a148795d9f25f89d4",
+  "status": "New"
+}
+```
+
 #### Context Output
 
 | **Path**                        | **Type** | **Description** |
@@ -563,7 +786,15 @@ Read only: **False**
 
 | **Argument Name**                     | **Description**                                                  | **Required** |
 | ------------------------------------- | ---------------------------------------------------------------- | ------------ |
-| source data identifier (workbench_id) | ID of the workbench alert you would like to get the details for. | Required     |
+| workbench_id (source data identifier) | ID of the workbench alert you would like to get the details for. | Required     |
+
+Example input:
+
+```
+{
+  "workbench_id": "WB-20837-20221111-0000"
+}
+```
 
 #### Context Output
 
@@ -583,6 +814,15 @@ Read only: **False**
 | ----------------- | ----------------------------------------------------------------------------------------------- | ------------ |
 | urls              | Submits URLs to the sandbox for analysis. Note: You can submit a maximum of 10 URLs per request | Required     |
 
+Example input:
+
+```
+{
+  "url": ["www.urlurl.com",
+        "www.zurlzurl.com"]
+}
+```
+
 #### Context Output
 
 | **Path**                          | **Type** | **Description**                                           |
@@ -600,6 +840,17 @@ Read only: **False**
 | **Argument Name**   | **Description**                                                             | **Required** |
 | ------------------- | --------------------------------------------------------------------------- | ------------ |
 | account_identifiers | Object containing `account_name` and optional `description` of action taken | Required     |
+
+Example input:
+
+```
+{
+  "account_identifiers": [{
+          "account_name": "jdoe@testemailtest.com",
+          "description": "Enable jdoe account"
+        }]
+}
+```
 
 #### Context Output
 
@@ -619,6 +870,17 @@ Read only: **False**
 | ------------------- | --------------------------------------------------------------------------- | ------------ |
 | account_identifiers | Object containing `account_name` and optional `description` of action taken | Required     |
 
+Example input:
+
+```
+{
+  "account_identifiers": [{
+          "account_name": "jdoe@testemailtrain.com",
+          "description": "Disable account"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                          | **Type** | **Description**                                           |
@@ -633,9 +895,21 @@ Restore quarantined email messages.
 Type: **correct**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                | **Required** |
-| ----------------- | ---------------------------------------------------------------------------------------------- | ------------ |
-| email_identifiers | Object containing `mailbox` (Optional) and `message_id` or `unique_id` of the email to restore | Required     |
+| **Argument Name** | **Description**                                                                                                                    | **Required** |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| email_identifiers | Object containing `mailbox` (Optional) and `message_id` and `description` or `description` and `unique_id` of the email to restore | Required     |
+
+Example input:
+
+```
+{
+  "email_identifiers": [{
+          "description": "Restore email message",
+          "mailbox": "jdoe@testemailtest.com",
+          "message_id": "AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA"
+        }]
+}
+```
 
 #### Context Output
 
@@ -655,6 +929,17 @@ Read only: **False**
 | ------------------- | ---------------------------------------------------------------------------------------- | ------------ |
 | account_identifiers | Object containing `account_name` and `description` (Optional) of the account to sign-out | Required     |
 
+Example input:
+
+```
+{
+  "account_identifiers": [{
+          "account_name": "jdoe@testemailtest.com",
+          "description": "Sign out account"
+        }]
+}
+```
+
 #### Context Output
 
 | **Path**                           | **Type** | **Description**                                           |
@@ -672,6 +957,17 @@ Read only: **False**
 | **Argument Name**   | **Description**                                                                          | **Required** |
 | ------------------- | ---------------------------------------------------------------------------------------- | ------------ |
 | account_identifiers | Object containing `account_name` and `description` (Optional) of the account to sign-out | Required     |
+
+Example input:
+
+```
+{
+  "account_identifiers": [{
+          "account_name": "jdoe@testemailtest.com",
+          "description": "Force password reset"
+        }]
+}
+```
 
 #### Context Output
 
@@ -693,6 +989,16 @@ Read only: **False**
 | poll              | Should the result be polled?                             | Optional     |
 | poll_time_sec     | How long should the result be polled for?                | Optional     |
 
+Example input:
+
+```
+{
+  "submit_id": "90406723-2b29-4e85-b0b2-ba58af8f63df"
+  "poll": false,
+  "poll_time_sec": 0,
+}
+```
+
 #### Context Output
 
 | **Path**                                                       | **Type** | **Description**                             |
@@ -711,6 +1017,16 @@ Read only: **False**
 | report_id         | Unique alphanumeric string that identifies a submission. | Required     |
 | poll              | Should the result be polled?                             | Optional     |
 | poll_time_sec     | How long should the result be polled for?                | Optional     |
+
+Example input:
+
+```
+{
+  "report_id": "90406723-2b29-4e85-b0b2-ba58af8f63df"
+  "poll": false,
+  "poll_time_sec": 0,
+}
+```
 
 #### Context Output
 
@@ -738,6 +1054,16 @@ Read only: **False**
 | submit_id         | Unique alphanumeric string that identifies a submission. | Required     |
 | poll              | Should the result be polled?                             | Optional     |
 | poll_time_sec     | How long should the result be polled for?                | Optional     |
+
+Example input:
+
+```
+{
+  "submit_id": "00000012",
+  "poll": true,
+  "poll_time_sec": true
+}
+```
 
 #### Context Output
 
