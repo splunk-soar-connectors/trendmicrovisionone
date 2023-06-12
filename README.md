@@ -112,24 +112,24 @@ specified when configuring a Trend Micro Vision One asset in SOAR.
 
 You can execute these commands from the Splunk SOAR CLI, as part of an automation, or in a playbook.
 
-## action 'Test Connectivity'
+## Action: 'Test Connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
 Type: **test**  
 Read only: **True**
 
-Validate the asset configuration for connectivity using supplied configuration.
+| **Argument Name** | **Description** | **Required** |
+| ----------------- | --------------- | ------------ |
+| N/A               |                 |              |
 
-#### Action Parameters
+#### Context Output
 
-No parameters are required for this action
+| **Path** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| N/A      |          |                 |
 
-#### Action Output
-
-No Output  
-
-## action: 'Add To Blocklist'
+## Action: 'Add To Blocklist'
 
 Type: **contain**  
 Read only: **False**
@@ -149,7 +149,7 @@ Read only: **False**
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## action 'Remove From Blocklist'
+## Action: 'Remove From Blocklist'
 
 Type: **correct**  
 Read only: **False**
@@ -169,7 +169,7 @@ Read only: **False**
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## action 'Quarantine Email Message'
+## Action: 'Quarantine Email Message'
 
 Quarantine the email message
 
@@ -191,7 +191,7 @@ Read only: **False**
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## action 'Delete Email Message'
+## Action: 'Delete Email Message'
 
 Delete the email message.
 
@@ -213,7 +213,7 @@ Read only: **False**
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## action 'Quarantine device'
+## Action: 'Quarantine Device'
 
 Quarantine the endpoint.
 
@@ -237,7 +237,7 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## action 'Unquarantine device'
+## Action: 'Unquarantine Device'
 
 Restore the endpoint.
 
@@ -261,7 +261,7 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## action 'Add To Exception'
+## Action: 'Add To Exception'
 
 Add object to exception list.
 
@@ -280,7 +280,7 @@ Read only: **False**
 | --------------------------------------- | ---------------- | ------------------------------------ |
 | VisionOne.Exception_List.multi_response | []multi_response | Add To Exception List Response Array |
 
-## action 'Delete From Exception'
+## Action: 'Delete From Exception'
 
 Delete object from exception list.
 
@@ -299,7 +299,7 @@ Read only: **False**
 | --------------------------------------- | ---------------- | ----------------------------------------- |
 | VisionOne.Exception_List.multi_response | []multi_response | Remove From Exception List Response Array |
 
-## action 'Add To Suspicious'
+## Action: 'Add To Suspicious'
 
 Add suspicious object to suspicious list.
 
@@ -318,7 +318,7 @@ Read only: **False**
 | ---------------------------------------- | ---------------- | ------------------------------------- |
 | VisionOne.Suspicious_List.multi_response | []multi_response | Add To Suspicious List Response Array |
 
-## action 'Delete From Suspicious'
+## Action: 'Delete From Suspicious'
 
 Delete the suspicious object from suspicious list.
 
@@ -337,7 +337,7 @@ Read only: **False**
 | ---------------------------------------- | ---------------- | ------------------------------------------ |
 | VisionOne.Suspicious_List.multi_response | []multi_response | Delete from Suspicious List Response Array |
 
-## action 'Terminate Process'
+## Action: 'Terminate Process'
 
 Terminate the process running on the endpoint.
 
@@ -359,7 +359,7 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout is
 `20 minutes` .
 
-## action 'Get Sandbox Submission status'
+## Action: 'Get Sandbox Submission status'
 
 Get the status of file analysis based on task id.
 
@@ -385,7 +385,7 @@ Read only: **False**
 | VisionOne.Get_Sandbox_Submission_Status.is_cached             | Boolean  | Parameter that indicates if an object has been analyzed before by the Sandbox Analysis App. Submissions marked as cached do not count toward the daily reserve |
 | VisionOne.Get_Sandbox_Submission_Status.arguments             | String   | Arguments for the file submitted                                                                                                                               |
 
-## action 'Download Analysis Report'
+## Action: 'Download Analysis Report'
 
 Get the analysis report of a file based on report id.
 
@@ -404,7 +404,7 @@ Read only: **False**
 | --------------------------------------- | -------- | --------------------------- |
 | VisionOne.Download_Analysis_Report.file | File     | The response is a .pdf file |
 
-## action 'Collect Forensic File'
+## Action: 'Collect Forensic File'
 
 Collect forensic file.
 
@@ -426,7 +426,7 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## action 'Forensic File Info'
+## Action: 'Forensic File Info'
 
 Get the download information for collected forensic file.
 
@@ -452,7 +452,7 @@ Note: The URL received from the
 'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only
 `60 seconds`
 
-## action 'Start Analysis'
+## Action: 'Start Analysis'
 
 Submit file to sandbox for analysis.
 
@@ -475,7 +475,7 @@ Read only: **False**
 | VisionOne.Start_Analysis.digest    | Object   | The hash value of the file                                     |
 | VisionOne.Start_Analysis.arguments | String   | Command line arguments encoded in Base64 of the submitted file |
 
-## action 'Status Check'
+## Action: 'Status Check'
 
 Type: **investigate**  
 Read only: **False**
@@ -498,7 +498,7 @@ Read only: **False**
 | VisionOne.Status_Check.description           | String   | Description of a response task                                                                       |
 | VisionOne.Status_Check.account               | String   | User that triggered the response                                                                     |
 
-## action 'Get Endpoint Info'
+## Action: 'Get Endpoint Info'
 
 Gather information about an endpoint.
 
@@ -516,7 +516,7 @@ Read only: **False**
 | ------------------------------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | VisionOne.Endpoint_Info.endpoint_data_resp | []endpoint_data_resp | Array of Endpoint Data Objects, consisting of agent guid, login account, endpoint name, MAC address, IP, os name, or version, os description, product code and installed product code |
 
-## action 'Add Note'
+## Action: 'Add Note'
 
 Adds a note to an existing workbench alert.
 
@@ -535,7 +535,7 @@ Read only: **False**
 | VisionOne.Add_Note.note_id | String   | ID of the newly created note.          |
 | VisionOne.Add_Note.message | String   | Response message for the action taken. |
 
-## action 'Update Status'
+## Action: 'Update Status'
 
 Updates the status of an existing workbench alert.
 
@@ -554,7 +554,7 @@ Read only: **False**
 | ------------------------------- | -------- | --------------- |
 | VisionOne.Update_Status.message | String   | Success or Fail |
 
-## action 'Get Alert Details'
+## Action: 'Get Alert Details'
 
 Displays information about the specified alert.
 
@@ -572,7 +572,7 @@ Read only: **False**
 | VisionOne.Get_Alert_Details.alert | String   | Information associated to the workbenchID provided.                 |
 | VisionOne.Get_Alert_Details.etag  | String   | An identifier for a specific version of a Workbench alert resource. |
 
-## action 'Urls To Sandbox'
+## Action: 'Urls To Sandbox'
 
 Submits URLs to the sandbox for analysis.
 
@@ -590,7 +590,7 @@ Read only: **False**
 | VisionOne.URLs_To_Sandbox.status  | String   | HTTP status code for the call.                            |
 | VisionOne.URLs_To_Sandbox.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-## action 'Enable Account'
+## Action: 'Enable Account'
 
 Allows the user to sign in to new application and browser sessions.
 
@@ -608,7 +608,7 @@ Read only: **False**
 | VisionOne.Enable_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Enable_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-## action 'Disable Account'
+## Action: 'Disable Account'
 
 Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.
 
@@ -626,7 +626,7 @@ Read only: **False**
 | VisionOne.Disable_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Disable_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-## action 'Restore Email Message'
+## Action: 'Restore Email Message'
 
 Restore quarantined email messages.
 
@@ -644,7 +644,7 @@ Read only: **False**
 | VisionOne.Restore_Email_Message.status  | String   | HTTP status code for the call.                           |
 | VisionOne.Restore_Email_Message.task_id | String   | Unique alphanumeric string that identifies a submission. |
 
-## action 'Sign Out Account'
+## Action: 'Sign Out Account'
 
 Signs the user out of all active application and browser sessions.
 
@@ -662,7 +662,7 @@ Read only: **False**
 | VisionOne.Sign_Out_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Sign_Out_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-## action 'Force Password Reset'
+## Action: 'Force Password Reset'
 
 Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.
 
@@ -680,7 +680,7 @@ Read only: **False**
 | VisionOne.Sign_Out_Account.status  | String   | HTTP status code for the call.                            |
 | VisionOne.Sign_Out_Account.task_id | String   | Unique alphanumeric string that identifies a submission.. |
 
-## action 'Sandbox Suspicious List'
+## Action: 'Sandbox Suspicious List'
 
 Downloads the suspicious object list associated to the specified object.
 
@@ -699,7 +699,7 @@ Read only: **False**
 | -------------------------------------------------------------- | -------- | ------------------------------------------- |
 | VisionOne.Sandbox_Suspicious_List.sandbox_suspicious_list_resp | List     | List of object containing suspicious object |
 
-## action 'Sandbox Analysis Result'
+## Action: 'Sandbox Analysis Result'
 
 Displays the analysis results of the specified object.
 
@@ -726,7 +726,7 @@ Read only: **False**
 | VisionOne.Sandbox_Analysis_Result.threat_types                  | String   | The threat type as detected by the sandbox                                            |
 | VisionOne.Sandbox_Analysis_Result.true_file_type                | String   | File Type of the Object                                                               |
 
-## action 'Sandbox Investigation Package'
+## Action: 'Sandbox Investigation Package'
 
 Downloads the Investigation Package of the specified object.
 
@@ -745,7 +745,7 @@ Read only: **False**
 | ------------------------------------------ | -------- | ------------------------- |
 | VisionOne.Sandbox_Investigation_Package.id | File     | The output is a .zip file |
 
-## action 'Get Suspicious List'
+## Action: 'Get Suspicious List'
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.
 
@@ -762,7 +762,7 @@ Read only: **True**
 | ------------------------------------------------ | -------------------- | ------------------------------- |
 | VisionOne.Get_Suspicious_list.suspicious_objects | []suspicious_objects | Array of any Suspicious Objects |
 
-## action 'Get Exception List'
+## Action: 'Get Exception List'
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.
 
