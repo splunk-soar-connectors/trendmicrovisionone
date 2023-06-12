@@ -114,9 +114,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in new_endpoint_data:
             endpoint_data_resp.append(json.loads(i))
 
-        # if phantom.is_fail(.result_code):
-        #    self.save_progress("Endpoint info lookup failed.")
-        #    return action_result.get_status()
+        if len(endpoint_data_resp) == 0:
+            self.save_progress(
+                f"Endpoint lookup failed, please check endpoint name: {endpoint}"
+            )
+            return
 
         # Add the response into the data section
         action_result.add_data(endpoint_data_resp)
