@@ -73,40 +73,40 @@ specified when configuring a Trend Micro Vision One asset in SOAR.
 
 ### Supported Actions  
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
-[get endpoint info](#action-get-endpoint-info) - Gather information about an endpoint  
-[quarantine device](#action-quarantine-device) - Quarantine the endpoint  
-[unquarantine device](#action-unquarantine-device) - Unquarantine the endpoint  
-[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality  
-[status check](#action-status-check) - Checks the status of a task  
-[add to blocklist](#action-add-to-blocklist) - Adds an item to the Suspicious Objects list in Vision One  
-[remove from blocklist](#action-remove-from-blocklist) - Removes an item from the Suspicious Objects list  
-[quarantine email message](#action-quarantine-email-message) - Quarantine the email message  
-[delete email message](#action-delete-email-message) - Delete the email message  
-[terminate process](#action-terminate-process) - Terminate the process running on the endpoint  
-[add to exception](#action-add-to-exception) - Add object to exception list  
-[delete from exception](#action-delete-from-exception) - Delete object from exception list  
-[add to suspicious](#action-add-to-suspicious) - Add suspicious object to suspicious list  
-[delete from suspicious](#action-delete-from-suspicious) - Delete the suspicious object from suspicious list  
-[check analysis status](#action-check-analysis-status) - Get the status of file analysis based on task id  
-[download analysis report](#action-download-analysis-report) - Get the analysis report of a file based on report id  
-[collect forensic file](#action-collect-forensic-file) - Collect forensic file  
-[forensic file info](#action-forensic-file-info) - Get the download information for collected forensic file  
-[start analysis](#action-start-analysis) - Submit file to sandbox for analysis  
-[add note](#action-add-note) - Adds a note to an existing workbench alert  
-[update status](#action-update-status) - Updates the status of an existing workbench alert
-[get alert details](#action-get-alert-details) - Displays information about the specified alert
-[urls to sandbox](#action-urls-to-sandbox) - Submits URLs to the sandbox for analysis
-[enable account](#action-enable-account) - Allows the user to sign in to new application and browser sessions
-[disable account](#action-disable-account) - Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
-[restore email message](#action-restore-email-message) - Restore quarantined email messages
-[sign out account](#action-sign-out-account) - Signs the user out of all active application and browser sessions
-[force password reset](#action-force-password-reset) - Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt
-[sandbox suspicious list](#action-sandbox-suspicious-list) - Downloads the suspicious object list associated to the specified object
-[sandbox analysis result](#action-sandbox-analysis-result) - Displays the analysis results of the specified object
-[sandbox investigation package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object
-[get suspicious list](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list
-[get exception list](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list
+[Test Connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
+[Get Endpoint Info](#action-get-endpoint-info) - Gather information about an endpoint  
+[Quarantine Device](#action-quarantine-device) - Quarantine the endpoint  
+[Unquarantine Device](#action-unquarantine-device) - Unquarantine the endpoint  
+[On Poll](#action-on-poll) - Callback action for the on_poll ingest functionality  
+[Status Check](#action-status-check) - Checks the status of a task  
+[Add To Blocklist](#action-add-to-blocklist) - Adds an item to the Suspicious Objects list in Vision One  
+[Remove From Blocklist](#action-remove-from-blocklist) - Removes an item from the Suspicious Objects list  
+[Quarantine Email Message](#action-quarantine-email-message) - Quarantine the email message  
+[Delete Email Message](#action-delete-email-message) - Delete the email message  
+[Terminate Process](#action-terminate-process) - Terminate the process running on the endpoint  
+[Add To Exception](#action-add-to-exception) - Add object to exception list  
+[Delete From Exception](#action-delete-from-exception) - Delete object from exception list  
+[Add To Suspicious](#action-add-to-suspicious) - Add suspicious object to suspicious list  
+[Delete From Suspicious](#action-delete-from-suspicious) - Delete the suspicious object from suspicious list  
+[Check Analysis Status](#action-check-analysis-status) - Get the status of file analysis based on task id  
+[Download Analysis Report](#action-download-analysis-report) - Get the analysis report of a file based on report id  
+[Collect Forensic File](#action-collect-forensic-file) - Collect forensic file  
+[Forensic File Info](#action-forensic-file-info) - Get the download information for collected forensic file  
+[Start Analysis](#action-start-analysis) - Submit file to sandbox for analysis  
+[Add Note](#action-add-note) - Adds a note to an existing workbench alert  
+[Update Status](#action-update-status) - Updates the status of an existing workbench alert
+[Get Alert Details](#action-get-alert-details) - Displays information about the specified alert
+[Urls To Sandbox](#action-urls-to-sandbox) - Submits URLs to the sandbox for analysis
+[Enable Account](#action-enable-account) - Allows the user to sign in to new application and browser sessions
+[Disable Account](#action-disable-account) - Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
+[Restore Email Message](#action-restore-email-message) - Restore quarantined email messages
+[Sign Out Account](#action-sign-out-account) - Signs the user out of all active application and browser sessions
+[Force Password Reset](#action-force-password-reset) - Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt
+[Sandbox Suspicious List](#action-sandbox-suspicious-list) - Downloads the suspicious object list associated to the specified object
+[Sandbox Analysis Result](#action-sandbox-analysis-result) - Displays the analysis results of the specified object
+[Sandbox Investigation Package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object
+[Get Suspicious List](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list
+[Get Exception List](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list
 
 ## Commands
 
