@@ -599,7 +599,6 @@ Read only: **False**
 | ----------------- | ------------------------------------------------------------------------------ | ------------ |
 | task_id           | task_id output from the collect forensic file command used to collect the file | Required     |
 
-
 Example input:
 
 ```
