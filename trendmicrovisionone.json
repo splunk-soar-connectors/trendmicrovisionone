@@ -364,12 +364,12 @@
         },
         "poll": {
           "description": "Would you like to poll the task ID? (Required)",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["true", "false"],
-          "value_list": [],
-          "default": "",
+          "contains": [],
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 0,
           "name": "poll",
           "id": 1,
@@ -962,18 +962,18 @@
       "type": "investigate",
       "read_only": false,
       "parameters": {
-        "task_id": {
-          "description": "Task ID from the trendmicro-visionone-start-analysis command output. Submission ID in Vision One. (Required)",
+        "submit_id": {
+          "description": "ID generated from the trendmicro-visionone-start-analysis command. Submission ID in Vision One. (Required)",
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["task_id"],
+          "contains": ["submit_id"],
           "value_list": [],
           "default": "",
           "order": 0,
-          "name": "task_id",
+          "name": "submit_id",
           "id": 1,
-          "param_name": "task_id"
+          "param_name": "submit_id"
         }
       },
       "output": [
@@ -1031,12 +1031,12 @@
         },
         "poll": {
           "description": "Should the action be polled? (Optional)",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": false,
           "primary": false,
           "contains": [],
-          "value_list": [],
-          "default": "",
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 1,
           "name": "poll",
           "id": 2,
@@ -1172,12 +1172,12 @@
         },
         "poll": {
           "description": "Would you like to poll for the result? (Optional)",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": false,
           "primary": false,
           "contains": [],
-          "value_list": [],
-          "default": "",
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 0,
           "name": "poll",
           "id": 1,
@@ -1876,12 +1876,12 @@
         },
         "poll": {
           "description": "Would you like to poll the result?",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": false,
           "primary": false,
           "contains": [],
-          "value_list": [],
-          "default": "",
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 1,
           "name": "poll",
           "id": 2,
@@ -1960,12 +1960,12 @@
         },
         "poll": {
           "description": "Poll the request? true or false (Optional)",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": false,
           "primary": false,
           "contains": [],
-          "value_list": [],
-          "default": "",
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 1,
           "name": "poll"
         },
@@ -2048,11 +2048,12 @@
         },
         "poll": {
           "description": "Would you like to poll for the result?",
-          "data_type": "boolean",
+          "data_type": "string",
           "required": false,
           "primary": false,
           "contains": [],
-          "default": "",
+          "value_list": ["true", "false"],
+          "default": "false",
           "order": 1,
           "name": "poll"
         },
@@ -2078,7 +2079,7 @@
         },
         {
           "data_path": "action_result.parameter.poll",
-          "data_type": "boolean",
+          "data_type": "string",
           "contains": [],
           "column_name": "poll",
           "column_order": 1

@@ -16,25 +16,24 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import base64
-from datetime import datetime
+import re
 import json
 import os
-import re
 import sys
 import time
-from typing import Any, List, Dict, Optional, Union
 import uuid
+import base64
 import pytmv1
+import requests
+from datetime import datetime
+from collections import defaultdict
+from typing import Any, List, Dict, Optional, Union, Tuple
 from pytmv1 import ImpactScope, HostInfo, SaeAlert, TiAlert, Indicator, Entity
 
-from collections import defaultdict
-
 # Phantom App imports
-import phantom.app as phantom
-import requests
-from bs4 import BeautifulSoup
 from phantom import vault
+from bs4 import BeautifulSoup
+import phantom.app as phantom
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
@@ -80,6 +79,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_endpoint_info(self, param):
+        """
+        Fetches information for an endpoint.
+        Args:
+            param: str: endpoint and query operator
+        Returns:
+            List[Any]: Returns a list of objects containing information about an endpoint
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
@@ -88,9 +94,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        endpoint = param["ip_hostname_mac"]
-        query_op = param["query_op"]
-        # Choose enum
+        endpoint: str = param["ip_hostname_mac"]
+        query_op: str = param["query_op"]
+        # Choose QueryOp Enum based on user choice
         if "or" in query_op:
             query_op = pytmv1.QueryOp.OR
         elif "and" in query_op:
@@ -127,6 +133,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_quarantine_device(self, param):
+        """_summary_
+
+        Args:
+            param (endpoint_identifiers): Object containing Endpoint name and (optional) description.
+
+        Returns:
+            List[Any]: Returns a list of objects containing task_id and HTTP status code
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -168,13 +182,23 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _create_new_artifact_from_indicator(
         self, container_id: int, alert: Union[SaeAlert, TiAlert], indicator: Indicator
     ):
+        """
+        Create a new artifact from indicator.
+        Args:
+            container_id (int): ID that will be used to query for containers
+            alert (Union[SaeAlert, TiAlert]): SAEAlert or TiAlert object
+            indicator (Indicator): Indicator object
+
+        Raises:
+            RuntimeError: Raise error if artifact creation encounters a problem
+        """
         # if artifacts dont already exist, make new artifact bundles
         if self.artifact_exists(container_id, alert.id, indicator.id):
             return
 
         artifact_related_entities: List[Entity] = []
         for entity in alert.impact_scope.entities:
-            # append data to listy dict in case artefact is indeed related
+            # append data to artifact related entities list in case artifact is indeed related
             if indicator.id in entity.related_indicator_ids:
                 artifact_related_entities.append(entity)
 
@@ -192,6 +216,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     @staticmethod
     def create_artifact_identifier(alert_id: str, artifact_id: int) -> str:
+        """
+        Returns string artifact identifier.
+        Args:
+            alert_id (str): Alert ID.
+            artifact_id (int): Artifact ID.
+
+        Returns:
+            str: Artifact identifier string.
+        """
         return f"TM-{alert_id}-{str(artifact_id)}"
 
     def _create_artifact_content(
@@ -201,6 +234,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         indicator: Indicator,
         local_scope: List[Entity],
     ):
+        """
+        Gathers information and adds to artifact.
+        Args:
+            container_id (int): Container ID.
+            alert (Union[SaeAlert, TiAlert]): Type of alert (SaeAlert or TiAlert).
+            indicator (Indicator): Indicators fetched from alert.
+            local_scope (List[Entity]): Entities fetched from Impact Scope.
+
+        Returns:
+            dict[str, Any]: Artifact object.
+        """
         art_cef = {
             "cs1": indicator.value.name
             if isinstance(indicator.value, HostInfo)
@@ -242,6 +286,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _update_container_metadata(
         self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
+        """
+        Updates an Alert container.
+        Args:
+            container_id (int): ID for the container.
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert
+
+        Raises:
+            RuntimeError: Raise a runtime error if container update fails.
+        """
         # update old container
         container_alert_metadata: Dict[str, Any] = {
             "data": alert.dict(),
@@ -260,6 +313,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
             ) from e
 
     def artifact_exists(self, container_id: int, alert_id: str, indicator_id: int):
+        """
+        Makes a rest call to see if the artifact exists or not.
+        Args:
+            container_id (int): Container ID to filter.
+            alert_id (str): Alert ID.
+            indicator_id (int): Indicator ID.
+
+        Returns:
+            Boolean: True or False condition.
+        """
+        # Fetch the source data identifier
         sdi = self.create_artifact_identifier(alert_id, indicator_id)
         # check if a given artifact exists for in a container
         url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container_id}'
@@ -278,6 +342,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _get_existing_container_id(
         self, alert: Union[SaeAlert, TiAlert]
     ) -> Optional[int]:
+        """
+        Fetch container ID if it exists.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert.
+
+        Raises:
+            RuntimeError: Raise an error if container ID doesn't exist.
+
+        Returns:
+            Optional[int]: Return the container ID.
+        """
         # check if TM workbenchID already exists in Splunk
         url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{alert.id}"&_filter_asset={self.get_asset_id()}'
         # make rest call
@@ -298,6 +373,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _create_new_container_payload(
         self, alert: Union[SaeAlert, TiAlert]
     ) -> Dict[str, Any]:
+        """
+        Returns information for an Alert
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+
+        Returns:
+            Dict[str, Any]: All pertinent data used to create container from Alert.
+        """
         return {
             "name": alert.model,
             "source_data_identifier": alert.id,
@@ -310,6 +393,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         }
 
     def _create_or_update_container(self, alert: Union[SaeAlert, TiAlert]) -> int:
+        """
+        Check if the container exists, if not then create a new container.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+
+        Raises:
+            RuntimeError: Raise a runtime error if container creation fails.
+
+        Returns:
+            int: The ID for the created container.
+        """
         existing_container_id: Optional[int] = self._get_existing_container_id(alert)
 
         # If a container ID does not already exist, create a new one first, because the update operation
@@ -336,11 +430,25 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _create_container_artifacts(
         self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
+        """
+        Create an artifact for a container.
+        Args:
+            container_id (int): ID for the container.
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+        """
         # add new artifacts
         for indicator in alert.indicators:
             self._create_new_artifact_from_indicator(container_id, alert, indicator)
 
     def _get_poll_interval(self, param) -> Tuple[datetime, datetime]:
+        """
+        Helper function for On Poll action to get poll interval.
+        Args:
+            param (str): starttime and endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+
+        Returns:
+            Tuple[datetime, datetime]: start and end datetime.
+        """
         # standard time frame for poll interval
         default_end_time = (
             datetime.fromtimestamp(int(datetime.utcnow().timestamp())).isoformat() + "Z"
@@ -352,6 +460,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return start_time, end_time
 
     def _handle_on_poll(self, param):
+        """
+        Action to poll for Workbench Alerts.
+        Args:
+            param (_type_): starttime and endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+
+        Raises:
+            RuntimeError: Raise an error if fetching Alerts fails.
+
+        Returns:
+            _type_: List containing Alert Objects.
+        """
         # Log current action
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -379,8 +498,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Get events from the TM Vision One and process them as Phantom containers
         try:
             for alert in new_alerts:
+                # Use the container ID to create or update an Alert container
                 container_id: int = self._create_or_update_container(alert)
+                # Update container metadata
                 self._update_container_metadata(container_id, alert)
+                # Create artifacts for Alert containers
                 self._create_container_artifacts(container_id, alert)
 
             # Log results
@@ -402,6 +524,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise e
 
     def _handle_unquarantine_device(self, param):
+        """
+        Action to restore endpoint.
+        Args:
+            param (_type_): endpoint name and optional description.
+
+        Returns:
+            Dict[str,Any]: Object containing task_id and HTTP status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -411,10 +541,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # Param setup
         endpoint_identifiers = json.loads(param.get("endpoint_identifiers"))
@@ -444,6 +571,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_status_check(self, param):
+        """
+        Action to check the status of a task based on task_id.
+        Args:
+            param (str): Unique numeric string that identifies a response task.
+
+        Returns:
+            Dict[str, int]: object containing task_id and HTTP status code
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -452,18 +587,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Param setup
+        # Required Params
         task_id = param["task_id"]
         poll = param["poll"]
+
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
-        # make rest call
+        # Make rest call
         response = client.get_base_task_result(task_id, poll, poll_time_sec)
 
         if phantom.is_fail(response.result_code):
@@ -475,6 +609,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_add_to_blocklist(self, param):
+        """
+        Action to add item to block list.
+        Args:
+            param (Dict[str, str]): Object object made up of type, value and description.
+
+        Returns:
+            multi_resp: Object containing task_id and https status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -502,10 +644,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 i["object_type"] = pytmv1.ObjectType.URL
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in block_objects:
@@ -523,9 +662,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     response.response.dict().get("items")[0]
                 )
 
-        # if phantom.is_fail(client.result_code):
-        # return action_result.get_status()
-
         # Add the response into the data section
         action_result.add_data(multi_resp)
 
@@ -533,6 +669,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_remove_from_blocklist(self, param):
+        """
+        Remove an item from block list.
+        Args:
+            param (block_objects): Object containing  type, value and (optional) description.
+
+        Returns:
+            multi_resp: Object containing task_id and https status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -560,10 +704,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 i["object_type"] = pytmv1.ObjectType.URL
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in block_objects:
@@ -588,6 +729,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_quarantine_email_message(self, param):
+        """
+        Action to quarantine an email using the mailBox and messageId or uniqueId
+        Args:
+            param (email_identifiers): Object containing mailBox/messageId and optional description or uniqueId and optional description.
+
+        Returns:
+            multi_resp: Object containing task_id and HTTP status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -601,10 +750,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         multi_resp = {"multi_response": []}
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in email_identifiers:
@@ -650,10 +796,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         multi_resp = {"multi_response": []}
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in email_identifiers:
@@ -699,10 +842,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         multi_resp = {"multi_response": []}
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in process_identifiers:
@@ -727,13 +867,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def exception_list_count(self):
+    def exception_list_count(self) -> int:
         """Gets the count of objects present in exception list"""
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
         new_exceptions = []
         try:
             client.consume_exception_list(
@@ -779,10 +916,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 i["object_type"] = pytmv1.ObjectType.URL
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in block_objects:
@@ -839,10 +973,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 i["object_type"] = pytmv1.ObjectType.URL
 
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
 
         # make rest call
         for i in block_objects:
@@ -860,19 +991,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
                 multi_resp["multi_response"].append(items)
 
+        total_exception_count = self.exception_list_count()
+        multi_resp["total_count"] = total_exception_count
         # Add the response into the data section
         action_result.add_data(multi_resp)
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def suspicious_list_count(self):
+    def suspicious_list_count(self) -> int:
         """Gets the count of objects present in suspicious list"""
         # Initialize Pytmv1
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        client = self._get_client()
         new_suspicious = []
         try:
             client.consume_suspicious_list(
@@ -928,11 +1058,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             elif "low" in i["risk_level"].lower():
                 i["risk_level"] = pytmv1.RiskLevel.LOW
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         for i in block_objects:
             response = client.add_to_suspicious_list(
@@ -1010,6 +1137,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
                 multi_resp["multi_response"].append(items)
 
+        total_suspicious_count = self.suspicious_list_count()
+        multi_resp["total_count"] = total_suspicious_count
         # Add the response into the data section
         action_result.add_data(multi_resp)
 
@@ -1017,6 +1146,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_sandbox_submission_status(self, param):
+        """
+        Checks the submission status for item(s) sent to sandbox for analysis.
+        Args:
+            submit_id: The Output ID  generated from Start-Analysis Command.
+
+        Returns:
+            Dict: Object containing response regarding submission status.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
@@ -1026,16 +1163,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Param setup
-        task_id = param["task_id"]
+        submit_id = param["submit_id"]
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # Make Action API Call
-        response = client.get_sandbox_submission_status(submit_id=task_id)
+        response = client.get_sandbox_submission_status(submit_id=submit_id)
         if "error" in response.result_code.lower():
             return response
         else:
@@ -1120,18 +1254,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Param setup
+        # Required Params
         submit_id = param["submit_id"]
-        poll = param.get("poll", "false")
+        poll = param["poll"]
+
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
+        # Make rest call
         response = client.download_sandbox_analysis_result(
             submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
         )
@@ -1178,11 +1311,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         collect_files = json.loads(param.get("collect_files"))
         multi_resp = {"multi_response": []}
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         for i in collect_files:
@@ -1215,18 +1345,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Param setup
+        # Required Params
         task_id = param["task_id"]
-        poll = param.get("poll", "false")
+        poll = param["poll"]
+
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
+        # Make rest call
         response = client.get_base_task_result(
             task_id=task_id,
             poll=poll,
@@ -1254,11 +1383,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # Param setup
         file_url = param["file_url"]
@@ -1298,11 +1424,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         workbench_id = param["workbench_id"]
         content = param["content"]
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         response = client.add_alert_note(alert_id=workbench_id, note=content)
@@ -1334,11 +1457,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         status = param["status"]
         if_match = param["if_match"]
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # Choose enum
         if "new" in status.lower():
@@ -1382,11 +1502,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required values can be accessed directly
         workbench_id = param["workbench_id"]
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         response = client.get_alert_details(alert_id=workbench_id)
@@ -1418,11 +1535,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Param setup
         urls = json.loads(param["urls"])
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         submit_urls_resp = {"submit_urls_resp": []}
         # make rest call
@@ -1455,11 +1569,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         account_identifiers = json.loads(param["account_identifiers"])
 
         multi_resp = {"multi_response": []}
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         for i in account_identifiers:
@@ -1495,12 +1606,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required values can be accessed directly
         account_identifiers = json.loads(param["account_identifiers"])
 
-        multi_resp = {"multi_response": []}
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        multi_resp: Dict[str, Any] = {"multi_response": []}
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         for i in account_identifiers:
@@ -1536,11 +1644,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required values can be accessed directly
         email_identifiers = json.loads(param["email_identifiers"])
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         multi_resp = {"multi_response": []}
         # make rest call
@@ -1586,11 +1691,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required values can be accessed directly
         account_identifiers = json.loads(param["account_identifiers"])
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         multi_resp = {"multi_response": []}
 
@@ -1627,11 +1729,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required values can be accessed directly
         account_identifiers = json.loads(param["account_identifiers"])
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         multi_resp = {"multi_response": []}
 
@@ -1665,18 +1764,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Param setup
+        # Required Params
         submit_id = param["submit_id"]
-        poll = param.get("poll", "false")
+        poll = param["poll"]
+
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
+        # Make rest call
         response = client.get_sandbox_suspicious_list(
             submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
         )
@@ -1684,7 +1782,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         if "error" in response.result_code.lower():
             return response.error
         else:
-            sandbox_suspicious_list_resp = []
+            sandbox_suspicious_list_resp: List[Any] = []
             for i in response.response.dict().get("items"):
                 sandbox_suspicious_list_resp.append(json.loads(json.dumps(i)))
 
@@ -1730,20 +1828,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Required values can be accessed directly
+        # Required Params
         report_id = param["report_id"]
+        poll = param["poll"]
 
-        # Optional values should use the .get() function
-        poll = param.get("poll", "false")
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
+        # Make rest call
         response = client.get_sandbox_analysis_result(
             submit_id=report_id,
             poll=poll,
@@ -1768,18 +1863,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Param setup
+        # Required Params
         submit_id = param["submit_id"]
-        poll = param.get("poll", "false")
+        poll = param["poll"]
+
+        # Optional Params
         poll_time_sec = param.get("poll_time_sec", 0)
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # Make API Call
+        # Make rest Call
         response = client.download_sandbox_investigation_package(
             submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
         )
@@ -1822,11 +1916,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         new_suspicions = []
@@ -1861,11 +1952,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # Initialize PYTMV1 Client
-        app = "Trend Micro Vision One V3"
-        token = self.api_key
-        url = self._base_url
-        client = pytmv1.client(app, token, url)
+        # Initialize Pytmv1
+        client = self._get_client()
 
         # make rest call
         new_exceptions = []
@@ -1897,39 +1985,39 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self.debug_print("action_id", self.get_action_identifier())
 
         action_dict = {
-            "get_endpoint_info": self._handle_get_endpoint_info,
-            "quarantine_device": self._handle_quarantine_device,
-            "unquarantine_device": self._handle_unquarantine_device,
-            "status_check": self._handle_status_check,
-            "add_to_blocklist": self._handle_add_to_blocklist,
-            "quarantine_email_message": self._handle_quarantine_email_message,
-            "terminate_process": self._handle_terminate_process,
-            "add_to_exception": self._handle_add_to_exception,
-            "add_to_suspicious": self._handle_add_to_suspicious,
-            "get_exception_list": self._handle_get_exception_list,
-            "get_suspicious_list": self._handle_get_suspicious_list,
-            "delete_from_suspicious": self._handle_delete_from_suspicious,
-            "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
-            "download_analysis_report": self._handle_download_analysis_report,
-            "collect_forensic_file": self._handle_collect_forensic_file,
-            "forensic_file_info": self._handle_forensic_file_info,
-            "start_analysis": self._handle_start_analysis,
-            "remove_from_blocklist": self._handle_remove_from_blocklist,
-            "delete_email_message": self._handle_delete_email_message,
-            "delete_from_exception": self._handle_delete_from_exception,
-            "test_connectivity": self._handle_test_connectivity,
             "on_poll": self._handle_on_poll,
             "add_note": self._handle_add_note,
+            "status_check": self._handle_status_check,
             "update_status": self._handle_update_status,
-            "get_alert_details": self._handle_get_alert_details,
-            "urls_to_sandbox": self._handle_urls_to_sandbox,
             "enable_account": self._handle_enable_account,
+            "start_analysis": self._handle_start_analysis,
             "disable_account": self._handle_disable_account,
-            "restore_email_message": self._handle_restore_email_message,
+            "urls_to_sandbox": self._handle_urls_to_sandbox,
             "sign_out_account": self._handle_sign_out_account,
+            "add_to_blocklist": self._handle_add_to_blocklist,
+            "add_to_exception": self._handle_add_to_exception,
+            "test_connectivity": self._handle_test_connectivity,
+            "get_endpoint_info": self._handle_get_endpoint_info,
+            "quarantine_device": self._handle_quarantine_device,
+            "terminate_process": self._handle_terminate_process,
+            "add_to_suspicious": self._handle_add_to_suspicious,
+            "get_alert_details": self._handle_get_alert_details,
+            "forensic_file_info": self._handle_forensic_file_info,
+            "get_exception_list": self._handle_get_exception_list,
+            "get_suspicious_list": self._handle_get_suspicious_list,
+            "unquarantine_device": self._handle_unquarantine_device,
             "force_password_reset": self._handle_force_password_reset,
-            "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
+            "delete_email_message": self._handle_delete_email_message,
+            "delete_from_exception": self._handle_delete_from_exception,
+            "remove_from_blocklist": self._handle_remove_from_blocklist,
+            "collect_forensic_file": self._handle_collect_forensic_file,
+            "restore_email_message": self._handle_restore_email_message,
+            "delete_from_suspicious": self._handle_delete_from_suspicious,
             "sandbox_analysis_result": self._handle_sandbox_analysis_result,
+            "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
+            "download_analysis_report": self._handle_download_analysis_report,
+            "quarantine_email_message": self._handle_quarantine_email_message,
+            "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
             "sandbox_investigation_package": self._handle_sandbox_investigation_package,
         }
 

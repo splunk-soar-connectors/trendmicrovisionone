@@ -463,7 +463,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Quarantine email message r7&quot;,
+          &quot;description&quot;: &quot;Quarantine email message &quot;,
           &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
           &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
         }]
@@ -527,7 +527,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Delete email message r7&quot;,
+          &quot;description&quot;: &quot;Delete email message &quot;,
           &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
           &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
         }]
@@ -659,7 +659,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;endpoint_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Restore endpoint r7&quot;,
+          &quot;description&quot;: &quot;Restore endpoint &quot;,
           &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
           &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
         }]
@@ -995,7 +995,7 @@
 <h2 id="action-get-sandbox-submission-status">
   Action: ‘Get Sandbox Submission status’
 </h2>
-<p>Get the status of file analysis based on task id.</p>
+<p>Get the status of file analysis based on submit id.</p>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
@@ -1015,10 +1015,9 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>task_id</td>
+      <td>submit_id</td>
       <td>
-        Task_id from the trendmicro-visionone-submit-file-to-sandbox command
-        output
+        ID generated from the trendmicro-visionone-submit-file-to-sandbox command
       </td>
       <td>Required</td>
     </tr>
@@ -1026,7 +1025,7 @@
 </table>
 <p>Example input:</p>
 <pre><code>{
-  &quot;task_id&quot;: &quot;00000012&quot;
+  &quot;submit_id&quot;: &quot;012e4eac-9bd9-4e89-95db-77e02f75a6f3&quot;
 }</code></pre>
 <h4 id="context-output-12">Context Output</h4>
 <table>

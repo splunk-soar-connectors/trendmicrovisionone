@@ -211,7 +211,7 @@ Example input:
 ```
 {
   "email_identifiers": [{
-          "description": "Quarantine email message r7",
+          "description": "Quarantine email message",
           "mailbox": "jdoe@testemailtest.com",
           "message_id": "AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA"
         }]
@@ -245,7 +245,7 @@ Example input:
 ```
 {
   "email_identifiers": [{
-          "description": "Delete email message r7",
+          "description": "Delete email message",
           "mailbox": "jdoe@testemailtest.com",
           "message_id": "AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA"
         }]
@@ -315,7 +315,7 @@ Example input:
 ```
 {
   "endpoint_identifiers": [{
-          "description": "Restore endpoint r7",
+          "description": "Restore endpoint",
           "endpoint_name": "endpoint123",
           "agent_guid": "cb9c8412-1f64-4fa0-a36b-76bf41a07ede"
         }]
@@ -492,20 +492,20 @@ timeout in the advanced field of playbook execution. The recommended timeout is
 
 ## Action: 'Get Sandbox Submission status'
 
-Get the status of file analysis based on task id.
+Get the status of file analysis based on submit id.
 
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                             | **Required** |
-| ----------------- | --------------------------------------------------------------------------- | ------------ |
-| task_id           | Task_id from the trendmicro-visionone-submit-file-to-sandbox command output | Required     |
+| **Argument Name** | **Description**                                                           | **Required** |
+| ----------------- | ------------------------------------------------------------------------- | ------------ |
+| submit_id         | ID generated from the trendmicro-visionone-submit-file-to-sandbox command | Required     |
 
 Example input:
 
 ```
 {
-  "task_id": "00000012"
+  "submit_id": "012e4eac-9bd9-4e89-95db-77e02f75a6f3"
 }
 ```
 
