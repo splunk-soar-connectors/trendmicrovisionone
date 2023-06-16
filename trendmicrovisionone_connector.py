@@ -16,19 +16,16 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import re
 import json
 import os
 import sys
 import time
 import uuid
-import base64
 import pytmv1
 import requests
 from datetime import datetime
-from collections import defaultdict
 from typing import Any, List, Dict, Optional, Union, Tuple
-from pytmv1 import ImpactScope, HostInfo, SaeAlert, TiAlert, Indicator, Entity
+from pytmv1 import HostInfo, SaeAlert, TiAlert, Indicator, Entity
 
 # Phantom App imports
 from phantom import vault
