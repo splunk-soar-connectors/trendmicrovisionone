@@ -22,15 +22,16 @@ import sys
 import time
 import uuid
 import pytmv1
-import requests
+
 from datetime import datetime
 from typing import Any, List, Dict, Optional, Union, Tuple
 from pytmv1 import HostInfo, SaeAlert, TiAlert, Indicator, Entity
 
 # Phantom App imports
+import requests
 from phantom import vault
-from bs4 import BeautifulSoup
 import phantom.app as phantom
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
