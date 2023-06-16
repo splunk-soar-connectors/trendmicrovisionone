@@ -1627,7 +1627,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         etag = response.response.etag
         alert = response.response.alert.json()
 
-        alert_details = {"etag": etag, "alert": alert}
+        alert_details: Dict[str, Any] = {"etag": etag, "alert": alert}
 
         # Add the response into the data section
         action_result.add_data(alert_details)
