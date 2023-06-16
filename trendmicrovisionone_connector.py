@@ -760,7 +760,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.quarantine_email_message(
                     pytmv1.EmailMessageIdTask(
                         messageId=i["message_id"],
-                        description=i.get("description", ""),
+                        description=i.get("description", "Quarantine Email Message."),
                         mailbox=i.get("mailbox", ""),
                     )
                 )
@@ -812,7 +812,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.delete_email_message(
                     pytmv1.EmailMessageIdTask(
                         messageId=i["message_id"],
-                        description=i.get("description", ""),
+                        description=i.get("description", "Delete Email Message."),
                         mailbox=i.get("mailbox", ""),
                     )
                 )
@@ -1794,7 +1794,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.restore_email_message(
                     pytmv1.EmailMessageIdTask(
                         messageId=i["message_id"],
-                        description=i.get("description", "Restore email message."),
+                        description=i.get("description", "Restore Email Message."),
                         mailbox=i.get("mailbox", ""),
                     )
                 )
