@@ -61,6 +61,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return pytmv1.client(self.app, self.api_key, self._base_url)
 
     def _handle_test_connectivity(self, param):
+        """
+        Makes a call to endpoint to check connectivity.
+        Args:
+            N/A
+        Returns:
+            str: Connectivity pass for fail.
+        """
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -142,7 +149,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Action to isolate an endpoint.
         Args:
             endpoint_identifiers(List[Dict[str, str]]): Object containing Endpoint name and (optional) description.
-
         Returns:
             Dict[str, List[Any]]: Returns a list of objects containing task_id and HTTP status code
         """
@@ -194,7 +200,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
             container_id (int): ID that will be used to query for containers
             alert (Union[SaeAlert, TiAlert]): SAEAlert or TiAlert object
             indicator (Indicator): Indicator object
-
         Raises:
             RuntimeError: Raise error if artifact creation encounters a problem
         """
@@ -227,7 +232,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             alert_id (str): Alert ID.
             artifact_id (int): Artifact ID.
-
         Returns:
             str: Artifact identifier string.
         """
@@ -247,7 +251,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
             alert (Union[SaeAlert, TiAlert]): Type of alert (SaeAlert or TiAlert).
             indicator (Indicator): Indicators fetched from alert.
             local_scope (List[Entity]): Entities fetched from Impact Scope.
-
         Returns:
             dict[str, Any]: Artifact object.
         """
@@ -297,7 +300,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             container_id (int): ID for the container.
             alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert
-
         Raises:
             RuntimeError: Raise a runtime error if container update fails.
         """
@@ -325,7 +327,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
             container_id (int): Container ID to filter.
             alert_id (str): Alert ID.
             indicator_id (int): Indicator ID.
-
         Returns:
             ID: Returns an ID or None if no ID exists.
         """
@@ -352,10 +353,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Fetch container ID if it exists.
         Args:
             alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert.
-
         Raises:
             RuntimeError: Raise an error if REST call fails.
-
         Returns:
             ID: Return the container ID.
         """
@@ -383,7 +382,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns information for an Alert
         Args:
             alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
-
         Returns:
             Dict[str, Any]: All pertinent data used to create container from Alert.
         """
@@ -403,10 +401,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Check if the container exists, if not then create a new container.
         Args:
             alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
-
         Raises:
             RuntimeError: Raise a runtime error if container creation fails.
-
         Returns:
             int: The ID for the created container.
         """
@@ -452,7 +448,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             starttime(str): starttime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
             endtime(str): endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
-
         Returns:
             Tuple[datetime, datetime]: start and end datetime.
         """
@@ -472,10 +467,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             start_time(str): starttime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
             end_time(str): endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
-
         Raises:
             RuntimeError: Raise an error if fetching Alerts fails.
-
         Returns:
             List[Dict[str, Any]]: List containing Alert Objects.
         """
@@ -538,7 +531,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Action to restore endpoint.
         Args:
             endpoint_identifiers(List[Dict[str, str]]): endpoint name and optional description.
-
         Returns:
             multi_resp(Dict[str,Any]): Object containing task_id and HTTP status code.
         """
@@ -583,7 +575,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             task_id(str): Unique numeric string that identifies a response task.
             poll(str): 	If script should wait until the task is finished before returning the result (disabled by default)
-
         Returns:
             Dict[str, int]: object containing task_id and HTTP status code
         """
@@ -623,7 +614,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Action to add item to block list.
         Args:
             block_objects(List[Dict[str, str]]): Object object made up of type, value and description.
-
         Returns:
             multi_resp: Object containing task_id and https status code.
         """
@@ -685,7 +675,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Remove an item from block list.
         Args:
             block_objects(List[Dict[str, str]]): Object containing type, value and (optional) description.
-
         Returns:
             multi_resp: Object containing task_id and https status code.
         """
@@ -748,7 +737,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             email_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
             or uniqueId and optional description.
-
         Returns:
             multi_resp(List[Dict[str, Any]]): Object containing task_id and HTTP status code.
         """
@@ -802,7 +790,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             email_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
             or uniqueId and optional description.
-
         Returns:
             multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
         """
@@ -856,7 +843,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Args:
             process_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
             or uniqueId and optional description.
-
         Returns:
             multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
         """
@@ -1234,7 +1220,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Checks the submission status for item(s) sent to sandbox for analysis.
         Args:
             submit_id: The Output ID  generated from Start-Analysis Command.
-
         Returns:
             Dict: Object containing response regarding submission status.
         """
@@ -1306,29 +1291,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return action_result.set_status(
             phantom.APP_ERROR, "Failed to send file to vault"
         )
-
-    # def file_to_vault(self, data, filename, container_id, action_result):
-    #     filename += "@" + str(uuid.uuid4())
-    #     try:
-    #         #  Upload file to vault
-    #         ret_val, response, vault_id = vault.Vault.create_attachment(
-    #             data, container_id, filename
-    #         )
-    #         if ret_val:
-    #             self.debug_print(
-    #                 f"Successfully created vault file: {filename} in vault: {vault_id}"
-    #             )
-    #             success_info = {
-    #                 phantom.APP_JSON_VAULT_ID: vault_id,
-    #                 "file_name": filename,
-    #             }
-    #             return phantom.APP_SUCCESS, success_info
-    #         raise Exception(f"Error during create attachment: {response}")
-    #     except Exception as err:
-    #         self.debug_print(err)
-    #     return action_result.set_status(
-    #         phantom.APP_ERROR, "Failed to create vault file"
-    #     )
 
     def _handle_download_analysis_report(self, param):
         """
@@ -1639,7 +1601,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Displays information about the specified alert.
         Args:
             workbench_id(str): ID for a specific workbench alert (e.g. WB-14-20190709-00003).
-
         Returns:
             alert_details (Dict[str, Any]): Returns an Alert (SaeAlert or TiAlert) and
             ETag (an identifier for a specific version of a Workbench alert resource).
@@ -1681,7 +1642,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         You can submit a maximum of 10 URLs per request.
         Args:
             urls(List[str]): A list of URLS that will be sent to sandbox for analysis.
-
         Returns:
             submit_urls_resp (List[Dict]): Object containing task_id and http status code for the action call.
         """
@@ -1865,7 +1825,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Signs the user out of all active application and browser sessions.
         Args:
             account_identifiers(List[Dict]): Object containing the accountName and optional description.
-
         Returns:
             multi_response(List[Dict]): Object containing task_id and http status code for the action call.
         """
@@ -1913,7 +1872,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         the user to create a new password during the next sign-in attempt.
         Args:
             account_identifiers(List[Dict]): Object containing the accountName and optional description.
-
         Returns:
             multi_response(List[Dict]): Object containing task_id and http status code for the action call.
         """
@@ -2032,7 +1990,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Displays the analysis results of the specified object in the sandbox.
         Args:
             report_id(str): report_id of the sandbox submission retrieved from the sandbox-submission-status command.
-
         Returns:
             Dict: Object containing analysis results for specified ID.
         """
