@@ -333,6 +333,36 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
+## Action: 'On Poll'
+
+This polls information about workbench alerts that match the specified criteria in a paginated list.
+
+Type: **ingest**  
+Read only: **False**
+
+#### Input
+
+| **Argument Name** | **Description**                                                                                                                                                                  | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| starttime         | Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates the start of the data retrieval time range. The available oldest value is "1970-01-01T00:00:00Z"        | False        |
+| endtime           | Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates the end of the data retrieval time range. Ensure that "endDateTime" is not earlier than "startDateTime" | False        |
+
+Example input:
+
+```
+{
+  "starttime": "2010-01-01T10:00:00Z",
+  "endtime": "2023-01-01T10:00:00Z"
+}
+```
+
+#### Context Output
+
+| **Path**                            | **Type**            | **Description**                            |
+| ----------------------------------- | ------------------- | ------------------------------------------ |
+| VisionOne.On_Poll.serialized_alerts | []serialized_alerts | Array of any alerts (awb-workbenchAlertV3) |
+
+
 ## Action: 'Add To Exception'
 
 Add object to exception list.
@@ -523,6 +553,40 @@ Example input:
 | VisionOne.Get_Sandbox_Submission_Status.resource_location     | String   | Location of the submitted file                                                                                                                                 |
 | VisionOne.Get_Sandbox_Submission_Status.is_cached             | Boolean  | Parameter that indicates if an object has been analyzed before by the Sandbox Analysis App. Submissions marked as cached do not count toward the daily reserve |
 | VisionOne.Get_Sandbox_Submission_Status.arguments             | String   | Arguments for the file submitted                                                                                                                               |
+
+## Action: 'Check Analysis Status'
+
+This action retrieves the status of a sandbox submission analysis based on task_id.
+
+Type: **investigate**  
+Read only: **False**
+
+| **Argument Name** | **Description**                                                                 | **Required** |
+| ----------------- | ------------------------------------------------------------------------------- | ------------ |
+| task_id           | Unique alphanumeric string that identifies the analysis results of a submission | Required     |
+
+Example input:
+
+```
+{
+  "task_id": "8559a7ce-2b85-451b-8742-4b943ad76a22"
+}
+```
+
+#### Context Output
+
+| **Path**                                              | **Type** | **Description**                                                                                                                                                |
+| ----------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VisionOne.Check_Analysis_Status.id                    | String   | Unique alphanumeric string that identifies a submission                                                                                                        |
+| VisionOne.Check_Analysis_Status.status                | String   | Response code for the action call                                                                                                                              |
+| VisionOne.Check_Analysis_Status.created_date_time     | String   | Timestamp in ISO 8601 that indicates the object was submitted to the sandbox                                                                                   |
+| VisionOne.Check_Analysis_Status.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated                                                           |
+| VisionOne.Check_Analysis_Status.action                | String   | Action applied to a submitted object                                                                                                                           |
+| VisionOne.Check_Analysis_Status.resource_location     | String   | Location of the submitted file                                                                                                                                 |
+| VisionOne.Check_Analysis_Status.is_cached             | String   | Parameter that indicates if an object has been analyzed before by the Sandbox Analysis App. Submissions marked as cached do not count toward the daily reserve |
+| VisionOne.Check_Analysis_Status.digest                | String   | The hash values for the file analyzed                                                                                                                          |
+| VisionOne.Check_Analysis_Status.arguments             | String   | Arguments for the file submitted                                                                                                                               |
+| VisionOne.Check_Analysis_Status.error                 | String   | Error code and message for the submission                                                                                                                      |
 
 ## Action: 'Download Analysis Report'
 
