@@ -223,40 +223,39 @@
   <a href="#action-add-note">Add Note</a> - Adds a note to an existing workbench
   alert<br />
   <a href="#action-update-status">Update Status</a> - Updates the status of an
-  existing workbench alert<br />
+  existing workbench alert
   <a href="#action-get-alert-details">Get Alert Details</a> - Displays
   information about the specified alert<br />
   <a href="#action-urls-to-sandbox">Urls To Sandbox</a> - Submits URLs to the
-  sandbox for analysis <br />
+  sandbox for analysis<br />
   <a href="#action-enable-account">Enable Account</a>
-  - Allows the user to sign in to new application and browser sessions <br />
+  - Allows the user to sign in to new application and browser sessions<br />
   <a href="#action-disable-account">Disable Account</a> - Signs the user out of
   all active application and browser sessions, and prevents the user from
-  signing in any new session <br />
+  signing in any new session<br />
   <a href="#action-restore-email-message">Restore Email Message</a> - Restore
-  quarantined email messages <br />
+  quarantined email messages<br />
   <a href="#action-sign-out-account">Sign Out Account</a> - Signs the user out
-  of all active application and browser sessions <br />
+  of all active application and browser sessions<br />
   <a href="#action-force-password-reset">Force Password Reset</a>
   - Signs the user out of all active application and browser sessions, and
-  forces the user to create a new password during the next sign-in attempt
-  <br />
+  forces the user to create a new password during the next sign-in attempt<br />
   <a href="#action-sandbox-suspicious-list">Sandbox Suspicious List</a> -
-  Downloads the suspicious object list associated to the specified object <br />
+  Downloads the suspicious object list associated to the specified object<br />
   <a href="#action-sandbox-analysis-result">Sandbox Analysis Result</a> -
-  Displays the analysis results of the specified object <br />
+  Displays the analysis results of the specified object<br />
   <a href="#action-sandbox-investigation-package"
     >Sandbox Investigation Package</a
   >
-  - Downloads the Investigation Package of the specified object <br />
+  - Downloads the Investigation Package of the specified object<br />
   <a href="#action-get-suspicious-list">Get Suspicious List</a> - Retrieves
   information about domains, file SHA-1, file SHA-256, IP addresses, email
   addresses, or URLs in the Suspicious Object List and displays the information
-  in a paginated list <br />
+  in a paginated list<br />
   <a href="#action-get-exception-list">Get Exception List</a> - Retrieves
   information about domains, file SHA-1, file SHA-256, IP addresses, sender
-  addresses, or URLs in the Exception List and displays it in a paginated list
-  <br />
+  addresses, or URLs in the Exception List and displays it in a paginated
+  list<br />
 </p>
 <h2 id="commands">Commands</h2>
 <p>
@@ -463,7 +462,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Quarantine email message &quot;,
+          &quot;description&quot;: &quot;Quarantine email message&quot;,
           &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
           &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
         }]
@@ -527,7 +526,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Delete email message &quot;,
+          &quot;description&quot;: &quot;Delete email message&quot;,
           &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
           &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
         }]
@@ -659,7 +658,7 @@
 <p>Example input:</p>
 <pre><code>{
   &quot;endpoint_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Restore endpoint &quot;,
+          &quot;description&quot;: &quot;Restore endpoint&quot;,
           &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
           &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
         }]
@@ -692,18 +691,21 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-add-to-exception">Action: ‘Add To Exception’</h2>
-<p>Add object to exception list.</p>
+<h2 id="action-on-poll">Action: ‘On Poll’</h2>
 <p>
-  Type: <strong>correct</strong><br />
+  This polls information about workbench alerts that match the specified
+  criteria in a paginated list.
+</p>
+<p>
+  Type: <strong>ingest</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-6">Input</h4>
 <table>
   <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
+    <col style="width: 8%" />
+    <col style="width: 85%" />
+    <col style="width: 5%" />
   </colgroup>
   <thead>
     <tr class="header">
@@ -714,25 +716,36 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
-      <td>Required</td>
+      <td>starttime</td>
+      <td>
+        Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
+        the start of the data retrieval time range. The available oldest value
+        is “1970-01-01T00:00:00Z”
+      </td>
+      <td>False</td>
+    </tr>
+    <tr class="even">
+      <td>endtime</td>
+      <td>
+        Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
+        the end of the data retrieval time range. Ensure that “endDateTime” is
+        not earlier than “startDateTime”
+      </td>
+      <td>False</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
 <pre><code>{
-  &quot;block_objects&quot;: [{
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;1.2.6.9&quot;
-        }]
+  &quot;starttime&quot;: &quot;2010-01-01T10:00:00Z&quot;,
+  &quot;endtime&quot;: &quot;2023-01-01T10:00:00Z&quot;
 }</code></pre>
 <h4 id="context-output-7">Context Output</h4>
 <table>
   <colgroup>
-    <col style="width: 42%" />
-    <col style="width: 17%" />
-    <col style="width: 39%" />
+    <col style="width: 36%" />
+    <col style="width: 19%" />
+    <col style="width: 43%" />
   </colgroup>
   <thead>
     <tr class="header">
@@ -743,14 +756,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Exception_List.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Add To Exception List Response Array</td>
+      <td>VisionOne.On_Poll.serialized_alerts</td>
+      <td>[]serialized_alerts</td>
+      <td>Array of any alerts (awb-workbenchAlertV3)</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-delete-from-exception">Action: ‘Delete From Exception’</h2>
-<p>Delete object from exception list.</p>
+<h2 id="action-add-to-exception">Action: ‘Add To Exception’</h2>
+<p>Add object to exception list.</p>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
@@ -779,12 +792,69 @@
 </table>
 <p>Example input:</p>
 <pre><code>{
+  &quot;block_objects&quot;: [{
+          &quot;object_type&quot;: &quot;ip&quot;,
+          &quot;object_value&quot;: &quot;1.2.6.9&quot;
+        }]
+}</code></pre>
+<h4 id="context-output-8">Context Output</h4>
+<table>
+  <colgroup>
+    <col style="width: 42%" />
+    <col style="width: 17%" />
+    <col style="width: 39%" />
+  </colgroup>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>VisionOne.Exception_List.multi_response</td>
+      <td>[]multi_response</td>
+      <td>Add To Exception List Response Array</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-delete-from-exception">Action: ‘Delete From Exception’</h2>
+<p>Delete object from exception list.</p>
+<p>
+  Type: <strong>correct</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<h4 id="input-8">Input</h4>
+<table>
+  <colgroup>
+    <col style="width: 20%" />
+    <col style="width: 64%" />
+    <col style="width: 14%" />
+  </colgroup>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>block_objects</td>
+      <td>Object object made up of type, value and description</td>
+      <td>Required</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>{
   &quot;block_object&quot;: [{
           &quot;object_type&quot;: &quot;ip&quot;,
           &quot;object_value&quot;: &quot;1.6.6.3&quot;
         }]
 }</code></pre>
-<h4 id="context-output-8">Context Output</h4>
+<h4 id="context-output-9">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 40%" />
@@ -812,7 +882,7 @@
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
-<h4 id="input-8">Input</h4>
+<h4 id="input-9">Input</h4>
 <table>
   <colgroup>
     <col style="width: 15%" />
@@ -847,7 +917,7 @@
           &quot;object_value&quot;: &quot;6.6.6.3&quot;
         }]
 }</code></pre>
-<h4 id="context-output-9">Context Output</h4>
+<h4 id="context-output-10">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 43%" />
@@ -875,7 +945,7 @@
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
-<h4 id="input-9">Input</h4>
+<h4 id="input-10">Input</h4>
 <table>
   <colgroup>
     <col style="width: 20%" />
@@ -904,7 +974,7 @@
           &quot;object_value&quot;: &quot;6.6.6.4&quot;
         }]
 }</code></pre>
-<h4 id="context-output-10">Context Output</h4>
+<h4 id="context-output-11">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 40%" />
@@ -964,7 +1034,7 @@
           &quot;file_sha1&quot;: &quot;984afc7aaa2718984e15e3b5ab095b519a081321&quot;
         }]
 }</code></pre>
-<h4 id="context-output-11">Context Output</h4>
+<h4 id="context-output-12">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 46%" />
@@ -1003,7 +1073,7 @@
 <table>
   <colgroup>
     <col style="width: 16%" />
-    <col style="width: 72%" />
+    <col style="width: 71%" />
     <col style="width: 11%" />
   </colgroup>
   <thead>
@@ -1017,7 +1087,8 @@
     <tr class="odd">
       <td>submit_id</td>
       <td>
-        ID generated from the trendmicro-visionone-submit-file-to-sandbox command
+        ID generated from the trendmicro-visionone-submit-file-to-sandbox
+        command
       </td>
       <td>Required</td>
     </tr>
@@ -1027,7 +1098,7 @@
 <pre><code>{
   &quot;submit_id&quot;: &quot;012e4eac-9bd9-4e89-95db-77e02f75a6f3&quot;
 }</code></pre>
-<h4 id="context-output-12">Context Output</h4>
+<h4 id="context-output-13">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 26%" />
@@ -1104,6 +1175,120 @@
     </tr>
   </tbody>
 </table>
+<h2 id="action-check-analysis-status">Action: ‘Check Analysis Status’</h2>
+<p>
+  This action retrieves the status of a sandbox submission analysis based on
+  task_id.
+</p>
+<p>
+  Type: <strong>investigate</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<table>
+  <colgroup>
+    <col style="width: 15%" />
+    <col style="width: 73%" />
+    <col style="width: 11%" />
+  </colgroup>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>task_id</td>
+      <td>
+        Unique alphanumeric string that identifies the analysis results of a
+        submission
+      </td>
+      <td>Required</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>{
+  &quot;task_id&quot;: &quot;8559a7ce-2b85-451b-8742-4b943ad76a22&quot;
+}</code></pre>
+<h4 id="context-output-14">Context Output</h4>
+<table>
+  <colgroup>
+    <col style="width: 24%" />
+    <col style="width: 3%" />
+    <col style="width: 72%" />
+  </colgroup>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>VisionOne.Check_Analysis_Status.id</td>
+      <td>String</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
+    </tr>
+    <tr class="even">
+      <td>VisionOne.Check_Analysis_Status.status</td>
+      <td>String</td>
+      <td>Response code for the action call</td>
+    </tr>
+    <tr class="odd">
+      <td>VisionOne.Check_Analysis_Status.created_date_time</td>
+      <td>String</td>
+      <td>
+        Timestamp in ISO 8601 that indicates the object was submitted to the
+        sandbox
+      </td>
+    </tr>
+    <tr class="even">
+      <td>VisionOne.Check_Analysis_Status.last_action_date_time</td>
+      <td>String</td>
+      <td>
+        Timestamp in ISO 8601 format that indicates when the information about a
+        submission was last updated
+      </td>
+    </tr>
+    <tr class="odd">
+      <td>VisionOne.Check_Analysis_Status.action</td>
+      <td>String</td>
+      <td>Action applied to a submitted object</td>
+    </tr>
+    <tr class="even">
+      <td>VisionOne.Check_Analysis_Status.resource_location</td>
+      <td>String</td>
+      <td>Location of the submitted file</td>
+    </tr>
+    <tr class="odd">
+      <td>VisionOne.Check_Analysis_Status.is_cached</td>
+      <td>String</td>
+      <td>
+        Parameter that indicates if an object has been analyzed before by the
+        Sandbox Analysis App. Submissions marked as cached do not count toward
+        the daily reserve
+      </td>
+    </tr>
+    <tr class="even">
+      <td>VisionOne.Check_Analysis_Status.digest</td>
+      <td>String</td>
+      <td>The hash values for the file analyzed</td>
+    </tr>
+    <tr class="odd">
+      <td>VisionOne.Check_Analysis_Status.arguments</td>
+      <td>String</td>
+      <td>Arguments for the file submitted</td>
+    </tr>
+    <tr class="even">
+      <td>VisionOne.Check_Analysis_Status.error</td>
+      <td>String</td>
+      <td>Error code and message for the submission</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="action-download-analysis-report">Action: ‘Download Analysis Report’</h2>
 <p>Get the analysis report of a file based on report id.</p>
 <p>
@@ -1153,7 +1338,7 @@
   &quot;poll&quot;: true,
   &quot;poll_time_sec&quot;: true
 }</code></pre>
-<h4 id="context-output-13">Context Output</h4>
+<h4 id="context-output-15">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 52%" />
@@ -1213,7 +1398,7 @@
           &quot;description&quot;: &quot;collect malicious file&quot;
         }]
 }</code></pre>
-<h4 id="context-output-14">Context Output</h4>
+<h4 id="context-output-16">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 42%" />
@@ -1277,7 +1462,7 @@
   &quot;poll_time_sec&quot;: true,
   &quot;task_id&quot;: &quot;00000012&quot;
 }</code></pre>
-<h4 id="context-output-15">Context Output</h4>
+<h4 id="context-output-17">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 31%" />
@@ -1400,7 +1585,7 @@
   &quot;archive_password&quot;: 1234,
   &quot;arguments&quot;: &quot;IFMlYztbQA==&quot;,
 }</code></pre>
-<h4 id="context-output-16">Context Output</h4>
+<h4 id="context-output-18">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 32%" />
@@ -1477,7 +1662,7 @@
   &quot;poll_time_sec&quot;: true,
   &quot;task_id&quot;: &quot;00000012&quot;
 }</code></pre>
-<h4 id="context-output-17">Context Output</h4>
+<h4 id="context-output-19">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 28%" />
@@ -1569,7 +1754,7 @@
   &quot;endpoint&quot;: &quot;127.127.127.127&quot;,
   &quot;query_op&quot;: &quot; or &quot;
 }</code></pre>
-<h4 id="context-output-18">Context Output</h4>
+<h4 id="context-output-20">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 17%" />
@@ -1632,7 +1817,7 @@
   &quot;alert_id&quot;: &quot;WB-14-20190709-00003&quot;,
   &quot;content&quot;: &quot;Suspected False Positive, please verify&quot;
 }</code></pre>
-<h4 id="context-output-19">Context Output</h4>
+<h4 id="context-output-21">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 36%" />
@@ -1711,7 +1896,7 @@
   &quot;if_match&quot;: &quot;33a64df551425fcc55e4d42a148795d9f25f89d4&quot;,
   &quot;status&quot;: &quot;New&quot;
 }</code></pre>
-<h4 id="context-output-20">Context Output</h4>
+<h4 id="context-output-22">Context Output</h4>
 <table>
   <thead>
     <tr class="header">
@@ -1759,7 +1944,7 @@
 <pre><code>{
   &quot;workbench_id&quot;: &quot;WB-20837-20221111-0000&quot;
 }</code></pre>
-<h4 id="context-output-21">Context Output</h4>
+<h4 id="context-output-23">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 30%" />
@@ -1823,7 +2008,7 @@
   &quot;url&quot;: [&quot;www.urlurl.com&quot;,
         &quot;www.zurlzurl.com&quot;]
 }</code></pre>
-<h4 id="context-output-22">Context Output</h4>
+<h4 id="context-output-24">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 33%" />
@@ -1887,7 +2072,7 @@
           &quot;description&quot;: &quot;Enable jdoe account&quot;
         }]
 }</code></pre>
-<h4 id="context-output-23">Context Output</h4>
+<h4 id="context-output-25">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 32%" />
@@ -1954,7 +2139,7 @@
           &quot;description&quot;: &quot;Disable account&quot;
         }]
 }</code></pre>
-<h4 id="context-output-24">Context Output</h4>
+<h4 id="context-output-26">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 33%" />
@@ -2021,7 +2206,7 @@
           &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
         }]
 }</code></pre>
-<h4 id="context-output-25">Context Output</h4>
+<h4 id="context-output-27">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 37%" />
@@ -2085,7 +2270,7 @@
           &quot;description&quot;: &quot;Sign out account&quot;
         }]
 }</code></pre>
-<h4 id="context-output-26">Context Output</h4>
+<h4 id="context-output-28">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 34%" />
@@ -2152,7 +2337,7 @@
           &quot;description&quot;: &quot;Force password reset&quot;
         }]
 }</code></pre>
-<h4 id="context-output-27">Context Output</h4>
+<h4 id="context-output-29">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 34%" />
@@ -2222,7 +2407,7 @@
   &quot;poll&quot;: false,
   &quot;poll_time_sec&quot;: 0,
 }</code></pre>
-<h4 id="context-output-28">Context Output</h4>
+<h4 id="context-output-30">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 54%" />
@@ -2287,7 +2472,7 @@
   &quot;poll&quot;: false,
   &quot;poll_time_sec&quot;: 0,
 }</code></pre>
-<h4 id="context-output-29">Context Output</h4>
+<h4 id="context-output-31">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 40%" />
@@ -2400,7 +2585,7 @@
   &quot;poll&quot;: true,
   &quot;poll_time_sec&quot;: true
 }</code></pre>
-<h4 id="context-output-30">Context Output</h4>
+<h4 id="context-output-32">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 56%" />
@@ -2448,7 +2633,7 @@
     </tr>
   </tbody>
 </table>
-<h4 id="context-output-31">Context Output</h4>
+<h4 id="context-output-33">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 48%" />
@@ -2496,7 +2681,7 @@
     </tr>
   </tbody>
 </table>
-<h4 id="context-output-32">Context Output</h4>
+<h4 id="context-output-34">Context Output</h4>
 <table>
   <colgroup>
     <col style="width: 48%" />
