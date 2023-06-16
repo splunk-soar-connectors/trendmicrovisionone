@@ -1141,7 +1141,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
-                    f"Error while adding to suspicious list: {response.error}"
+                    f"Error while adding to suspicious list: {response.errors}"
                 )
             else:
                 items = response.response.dict().get("items")[0]
@@ -1208,7 +1208,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
-                    f"Error while removing from suspicious list: {response.error}"
+                    f"Error while removing from suspicious list: {response.errors}"
                 )
             else:
                 items = response.response.dict().get("items")[0]
