@@ -16,9 +16,9 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import json
 import os
 import sys
+import json
 import time
 import uuid
 import pytmv1
