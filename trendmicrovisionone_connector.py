@@ -784,7 +784,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )
                 )
             if "error" in response.result_code.lower():
-                raise RuntimeError(f"Error while quarantining email: {response.error}")
+                raise RuntimeError(f"Error while quarantining email: {response.errors}")
             else:
                 multi_resp.append(response.response.dict().get("items")[0])
 
@@ -837,7 +837,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )
                 )
             if "error" in response.result_code.lower():
-                raise RuntimeError(f"Error while deleting email: {response.error}")
+                raise RuntimeError(f"Error while deleting email: {response.errors}")
             else:
                 multi_resp.append(response.response.dict().get("items")[0])
 
@@ -1847,7 +1847,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
-                    f"Error while restoring email message: {response.error}"
+                    f"Error while restoring email message: {response.errors}"
                 )
             else:
                 multi_resp.append(response.response.dict().get("items")[0])
