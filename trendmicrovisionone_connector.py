@@ -166,7 +166,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in endpoint_identifiers:
             response = client.isolate_endpoint(
                 pytmv1.EndpointTask(
-                    endpointName=i["endpoint"], description=i.get("description", "")
+                    endpointName=i["endpoint"],
+                    description=i.get("description", "Quarantine Device."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -561,7 +562,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in endpoint_identifiers:
             response = client.restore_endpoint(
                 pytmv1.EndpointTask(
-                    endpointName=i["endpoint"], description=i.get("description", "")
+                    endpointName=i["endpoint"],
+                    description=i.get("description", "Restore Device."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -662,7 +664,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 pytmv1.ObjectTask(
                     objectType=i["object_type"],
                     objectValue=i["object_value"],
-                    description=i.get("description", ""),
+                    description=i.get("description", "Add To Blocklist."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -724,7 +726,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 pytmv1.ObjectTask(
                     objectType=i["object_type"],
                     objectValue=i["object_value"],
-                    description=i.get("description", ""),
+                    description=i.get("description", "Remove From Blocklist."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -780,7 +782,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.quarantine_email_message(
                     pytmv1.EmailMessageUIdTask(
                         uniqueId=i["message_id"],
-                        description=i.get("description", ""),
+                        description=i.get("description", "Quarantine Email Message."),
                     )
                 )
             if "error" in response.result_code.lower():
@@ -833,7 +835,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.delete_email_message(
                     pytmv1.EmailMessageUIdTask(
                         uniqueId=i["message_id"],
-                        description=i.get("description", ""),
+                        description=i.get("description", "Delete Email Message."),
                     )
                 )
             if "error" in response.result_code.lower():
@@ -881,7 +883,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 pytmv1.ProcessTask(
                     endpointName=i["endpoint"],
                     fileSha1=i["file_sha1"],
-                    description=i.get("description", ""),
+                    description=i.get("description", "Terminate Process."),
                     fileName=i.get("filename", ""),
                 )
             )
@@ -965,7 +967,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 pytmv1.ObjectTask(
                     objectType=i["object_type"],
                     objectValue=i["object_value"],
-                    description=i.get("description", "Add to exception list."),
+                    description=i.get("description", "Add To Exception List."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -1420,7 +1422,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 pytmv1.FileTask(
                     endpointName=i["endpoint"],
                     filePath=i["file_path"],
-                    description=i.get("description", ""),
+                    description=i.get("description", "Collect File."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -1744,7 +1746,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             response = client.enable_account(
                 pytmv1.AccountTask(
                     accountName=i["account_name"],
-                    description=i.get("description", "Enable User Account"),
+                    description=i.get("description", "Enable User Account."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -1788,7 +1790,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             response = client.disable_account(
                 pytmv1.AccountTask(
                     accountName=i["account_name"],
-                    description=i.get("description", "Disable User Account"),
+                    description=i.get("description", "Disable User Account."),
                 )
             )
             if "error" in response.result_code.lower():
@@ -1842,7 +1844,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 response = client.restore_email_message(
                     pytmv1.EmailMessageUIdTask(
                         uniqueId=i["message_id"],
-                        description=i.get("description", "Restore email message."),
+                        description=i.get("description", "Restore Email Message."),
                     )
                 )
             if "error" in response.result_code.lower():
@@ -1937,7 +1939,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             response = client.reset_password_account(
                 pytmv1.AccountTask(
                     accountName=i["account_name"],
-                    description=i.get("description", "Force password reset."),
+                    description=i.get("description", "Force Password Reset."),
                 )
             )
             if "error" in response.result_code.lower():
