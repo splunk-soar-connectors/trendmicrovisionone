@@ -1321,9 +1321,9 @@
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (enabled by default)
+        result (disabled by default)
       </td>
-      <td>Required</td>
+      <td>Optional</td>
     </tr>
     <tr class="odd">
       <td>poll_time_sec</td>
@@ -1336,7 +1336,7 @@
 <pre><code>{
   &quot;id&quot;: &quot;8559a7ce-2b85-451b-8742-4b943ad76a22&quot;,
   &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: true
+  &quot;poll_time_sec&quot;: 30
 }</code></pre>
 <h4 id="context-output-15">Context Output</h4>
 <table>
@@ -1458,9 +1458,9 @@
 </table>
 <p>Example input:</p>
 <pre><code>{
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: true,
   &quot;task_id&quot;: &quot;00000012&quot;
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: 30,
 }</code></pre>
 <h4 id="context-output-17">Context Output</h4>
 <table>
@@ -1645,9 +1645,9 @@
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (enabled by default)
+        result (disabled by default)
       </td>
-      <td>Required</td>
+      <td>Optional</td>
     </tr>
     <tr class="odd">
       <td>poll_time_sec</td>
@@ -1658,9 +1658,9 @@
 </table>
 <p>Example input:</p>
 <pre><code>{
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: true,
   &quot;task_id&quot;: &quot;00000012&quot;
+  &quot;poll&quot;: true,
+  &quot;poll_time_sec&quot;: 30,
 }</code></pre>
 <h4 id="context-output-19">Context Output</h4>
 <table>
@@ -2391,12 +2391,15 @@
     </tr>
     <tr class="even">
       <td>poll</td>
-      <td>Should the result be polled?</td>
+      <td>
+        If script should wait until the task is finished before returning the
+        result (disabled by default)
+      </td>
       <td>Optional</td>
     </tr>
     <tr class="odd">
       <td>poll_time_sec</td>
-      <td>How long should the result be polled for?</td>
+      <td>Maximum time to wait for the result to be available</td>
       <td>Optional</td>
     </tr>
   </tbody>
@@ -2456,12 +2459,15 @@
     </tr>
     <tr class="even">
       <td>poll</td>
-      <td>Should the result be polled?</td>
+      <td>
+        If script should wait until the task is finished before returning the
+        result (disabled by default)
+      </td>
       <td>Optional</td>
     </tr>
     <tr class="odd">
       <td>poll_time_sec</td>
-      <td>How long should the result be polled for?</td>
+      <td>Maximum time to wait for the result to be available</td>
       <td>Optional</td>
     </tr>
   </tbody>
@@ -2569,12 +2575,15 @@
     </tr>
     <tr class="even">
       <td>poll</td>
-      <td>Should the result be polled?</td>
+      <td>
+        If script should wait until the task is finished before returning the
+        result (disabled by default)
+      </td>
       <td>Optional</td>
     </tr>
     <tr class="odd">
       <td>poll_time_sec</td>
-      <td>How long should the result be polled for?</td>
+      <td>Maximum time to wait for the result to be available</td>
       <td>Optional</td>
     </tr>
   </tbody>
@@ -2583,7 +2592,7 @@
 <pre><code>{
   &quot;submit_id&quot;: &quot;00000012&quot;,
   &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: true
+  &quot;poll_time_sec&quot;: 30
 }</code></pre>
 <h4 id="context-output-32">Context Output</h4>
 <table>

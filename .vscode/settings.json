@@ -1,7 +1,13 @@
 {
     "cSpell.words": [
         "BLOCKLIST",
+        "endtime",
         "etag",
+        "filesha",
+        "pytmv",
+        "sendermailaddress",
+        "starttime",
+        "timespec",
         "unquarantine",
         "visionone"
     ]

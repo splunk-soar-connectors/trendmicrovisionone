@@ -595,11 +595,11 @@ Get the analysis report of a file based on report id.
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                   | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies the analysis results of a submission                   | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| **Argument Name** | **Description**                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ------------ |
+| submit_id         | Unique alphanumeric string that identifies the analysis results of a submission                    | Required     |
+| poll              | If script should wait until the task is finished before returning the result (disabled by default) | Optional     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                                | Optional     |
 
 Example input:
 
@@ -607,7 +607,7 @@ Example input:
 {
   "id": "8559a7ce-2b85-451b-8742-4b943ad76a22",
   "poll": true,
-  "poll_time_sec": true
+  "poll_time_sec": 30
 }
 ```
 
@@ -667,9 +667,9 @@ Example input:
 
 ```
 {
-  "poll": true,
-  "poll_time_sec": true,
   "task_id": "00000012"
+  "poll": true,
+  "poll_time_sec": 30,
 }
 ```
 
@@ -728,19 +728,19 @@ Example input:
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                   | **Required** |
-| ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| task_id           | Unique numeric string that identifies a response task.                                            | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Required     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| **Argument Name** | **Description**                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ------------ |
+| task_id           | Unique numeric string that identifies a response task.                                             | Required     |
+| poll              | If script should wait until the task is finished before returning the result (disabled by default) | Optional     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                                | Optional     |
 
 Example input:
 
 ```
 {
-  "poll": true,
-  "poll_time_sec": true,
   "task_id": "00000012"
+  "poll": true,
+  "poll_time_sec": 30,
 }
 ```
 
@@ -1046,11 +1046,11 @@ Downloads the suspicious object list associated to the specified object.
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies a submission. | Required     |
-| poll              | Should the result be polled?                             | Optional     |
-| poll_time_sec     | How long should the result be polled for?                | Optional     |
+| **Argument Name** | **Description**                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ------------ |
+| submit_id         | Unique alphanumeric string that identifies a submission.                                           | Required     |
+| poll              | If script should wait until the task is finished before returning the result (disabled by default) | Optional     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                                | Optional     |
 
 Example input:
 
@@ -1075,11 +1075,11 @@ Displays the analysis results of the specified object.
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
-| report_id         | Unique alphanumeric string that identifies a submission. | Required     |
-| poll              | Should the result be polled?                             | Optional     |
-| poll_time_sec     | How long should the result be polled for?                | Optional     |
+| **Argument Name** | **Description**                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ------------ |
+| report_id         | Unique alphanumeric string that identifies a submission.                                           | Required     |
+| poll              | If script should wait until the task is finished before returning the result (disabled by default) | Optional     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                                | Optional     |
 
 Example input:
 
@@ -1112,11 +1112,11 @@ Downloads the Investigation Package of the specified object.
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies a submission. | Required     |
-| poll              | Should the result be polled?                             | Optional     |
-| poll_time_sec     | How long should the result be polled for?                | Optional     |
+| **Argument Name** | **Description**                                                                                    | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ------------ |
+| submit_id         | Unique alphanumeric string that identifies a submission.                                           | Required     |
+| poll              | If script should wait until the task is finished before returning the result (disabled by default) | Optional     |
+| poll_time_sec     | Maximum time to wait for the result to be available                                                | Optional     |
 
 Example input:
 
@@ -1124,7 +1124,7 @@ Example input:
 {
   "submit_id": "00000012",
   "poll": true,
-  "poll_time_sec": true
+  "poll_time_sec": 30
 }
 ```
 
