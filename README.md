@@ -1,7 +1,7 @@
 # Trend Micro Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
-Connector Version: 1.1.0  
+Connector Version: 1.1.1  
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
@@ -546,8 +546,8 @@ Example input:
 | VisionOne.Get_Sandbox_Submission_Status.id                    | String   | Unique alphanumeric string that identifies a submission                                                                                                        |
 | VisionOne.Get_Sandbox_Submission_Status.status                | String   | Response code for the action call                                                                                                                              |
 | VisionOne.Get_Sandbox_Submission_Status.action                | String   | Action applied to a submitted object                                                                                                                           |
-| VisionOne.Get_Sandbox_Submission_Status.error                 | Object   | Error code and message for the submission                                                                                                                      |
-| VisionOne.Get_Sandbox_Submission_Status.digest                | Object   | The hash values for the file analyzed                                                                                                                          |
+| VisionOne.Get_Sandbox_Submission_Status.error                 | String   | Error code and message for the submission                                                                                                                      |
+| VisionOne.Get_Sandbox_Submission_Status.digest                | String   | The hash values for the file analyzed                                                                                                                          |
 | VisionOne.Get_Sandbox_Submission_Status.created_date_time     | String   | Timestamp in ISO 8601 that indicates the object was submitted to the sandbox                                                                                   |
 | VisionOne.Get_Sandbox_Submission_Status.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated                                                           |
 | VisionOne.Get_Sandbox_Submission_Status.resource_location     | String   | Location of the submitted file                                                                                                                                 |
@@ -720,7 +720,7 @@ Example input:
 | **Path**                           | **Type** | **Description**                                                |
 | ---------------------------------- | -------- | -------------------------------------------------------------- |
 | VisionOne.Start_Analysis.id        | String   | Unique alphanumeric string that identifies a submission        |
-| VisionOne.Start_Analysis.digest    | Object   | The hash value of the file                                     |
+| VisionOne.Start_Analysis.digest    | String   | The hash value of the file                                     |
 | VisionOne.Start_Analysis.arguments | String   | Command line arguments encoded in Base64 of the submitted file |
 
 ## Action: 'Status Check'
