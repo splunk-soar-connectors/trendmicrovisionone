@@ -23,9 +23,9 @@ import time
 import uuid
 import pytmv1
 
-from datetime import datetime
-from typing import Any, List, Dict, Optional, Union, Tuple
-from pytmv1 import HostInfo, SaeAlert, TiAlert, Indicator, Entity
+from datetime import datetime, timezone
+from typing import Any, Callable, List, Dict, Optional, Union, Tuple
+from pytmv1 import HostInfo, SaeAlert, TiAlert, Indicator, Entity, MsData, ObjectType
 
 # Phantom App imports
 import requests
@@ -48,14 +48,51 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Call the BaseConnectors init first
         super(TrendMicroVisionOneConnector, self).__init__()
 
-        self._state = None
+        self._state: Dict[str, Any] = {}
         self.app = "Trend Micro Vision One V3"
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
         self._base_url: str = ""
 
-    def _get_client(self) -> pytmv1.Client:  # type: ignore
+        self.supported_actions: Dict[str, Callable] = {
+            "on_poll": self._handle_on_poll,
+            "add_note": self._handle_add_note,
+            "status_check": self._handle_status_check,
+            "update_status": self._handle_update_status,
+            "enable_account": self._handle_enable_account,
+            "start_analysis": self._handle_start_analysis,
+            "disable_account": self._handle_disable_account,
+            "urls_to_sandbox": self._handle_urls_to_sandbox,
+            "sign_out_account": self._handle_sign_out_account,
+            "add_to_blocklist": self._handle_add_to_blocklist,
+            "add_to_exception": self._handle_add_to_exception,
+            "test_connectivity": self._handle_test_connectivity,
+            "get_endpoint_info": self._handle_get_endpoint_info,
+            "quarantine_device": self._handle_quarantine_device,
+            "terminate_process": self._handle_terminate_process,
+            "add_to_suspicious": self._handle_add_to_suspicious,
+            "get_alert_details": self._handle_get_alert_details,
+            "forensic_file_info": self._handle_forensic_file_info,
+            "get_exception_list": self._handle_get_exception_list,
+            "get_suspicious_list": self._handle_get_suspicious_list,
+            "unquarantine_device": self._handle_unquarantine_device,
+            "force_password_reset": self._handle_force_password_reset,
+            "delete_email_message": self._handle_delete_email_message,
+            "delete_from_exception": self._handle_delete_from_exception,
+            "remove_from_blocklist": self._handle_remove_from_blocklist,
+            "collect_forensic_file": self._handle_collect_forensic_file,
+            "restore_email_message": self._handle_restore_email_message,
+            "delete_from_suspicious": self._handle_delete_from_suspicious,
+            "sandbox_analysis_result": self._handle_sandbox_analysis_result,
+            "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
+            "download_analysis_report": self._handle_download_analysis_report,
+            "quarantine_email_message": self._handle_quarantine_email_message,
+            "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
+            "sandbox_investigation_package": self._handle_sandbox_investigation_package,
+        }
+
+    def _get_client(self) -> pytmv1.Client:
         return pytmv1.client(self.app, self.api_key, self._base_url)
 
     def _handle_test_connectivity(self, param):
@@ -112,7 +149,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         elif "and" in query_op:
             query_op = pytmv1.QueryOp.AND
 
-        new_endpoint_data = []
+        new_endpoint_data: List[Any] = []
 
         # Make rest call
         try:
@@ -126,7 +163,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Something went wrong while fetching endpoint data: {e}"
             )
         # Load json objects to list
-        endpoint_data_resp = []
+        endpoint_data_resp: List[Dict[str, Any]] = []
         for i in new_endpoint_data:
             endpoint_data_resp.append(json.loads(i))
 
@@ -159,29 +196,27 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
-        endpoint_identifiers = json.loads(param.get("endpoint_identifiers"))
+        endpoint_identifiers: List[Dict[str, str]] = json.loads(
+            param.get("endpoint_identifiers")
+        )
 
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in endpoint_identifiers:
             response = client.isolate_endpoint(
                 pytmv1.EndpointTask(
-                    endpointName=i["endpoint"],
+                    endpoint_name=i["endpoint"],
                     description=i.get("description", "Quarantine Device."),
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error quarantining endpoint: {response.errors}")
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
-
-        if phantom.is_fail(response.result_code):
-            self.save_progress("Quarantine endpoint failed.")
-            return action_result.get_status()
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -440,9 +475,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for indicator in alert.indicators:
             self._create_new_artifact_from_indicator(container_id, alert, indicator)
 
-    def _get_poll_interval(self, param) -> Tuple[datetime, datetime]:
+    def _get_poll_interval(self, param) -> Tuple[str, str]:
         """
-        Helper function for On Poll action to get poll interval.
+        Helper function for *On Poll* action to get poll interval.
         Args:
             starttime(str): starttime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
             endtime(str): endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
@@ -541,25 +576,27 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
-        endpoint_identifiers = json.loads(param.get("endpoint_identifiers"))
+        endpoint_identifiers: List[Dict[str, str]] = json.loads(
+            param.get("endpoint_identifiers")
+        )
 
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in endpoint_identifiers:
             response = client.restore_endpoint(
                 pytmv1.EndpointTask(
-                    endpointName=i["endpoint"],
+                    endpoint_name=i["endpoint"],
                     description=i.get("description", "Restore Device."),
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error restoring endpoint: {response.errors}")
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -601,7 +638,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error fetching task status for task {task_id}. Result Code: {response.error}"
             )
-
+        assert response.response is not None
         action_result.add_data(response.response.dict())
 
         # Return success
@@ -624,34 +661,27 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
-        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
+        block_objects: List[Dict[str, Any]] = json.loads(param["block_objects"])
 
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
-        # Choose enum
+        # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
         for i in block_objects:
             response = client.add_to_block_list(
                 pytmv1.ObjectTask(
-                    objectType=i["object_type"],
-                    objectValue=i["object_value"],
+                    object_type=i["object_type"],
+                    object_value=i["object_value"],
                     description=i.get("description", "Add To Blocklist."),
                 )
             )
@@ -659,11 +689,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while adding to block list: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -690,7 +720,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Choose enum
         for i in block_objects:
@@ -711,8 +741,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in block_objects:
             response = client.remove_from_block_list(
                 pytmv1.ObjectTask(
-                    objectType=i["object_type"],
-                    objectValue=i["object_value"],
+                    object_type=i["object_type"],  # type: ignore
+                    object_value=i["object_value"],
                     description=i.get("description", "Remove From Blocklist."),
                 )
             )
@@ -720,8 +750,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while removing from block list: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -752,29 +782,29 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in email_identifiers:
             if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
                 response = client.quarantine_email_message(
                     pytmv1.EmailMessageIdTask(
-                        messageId=i["message_id"],
+                        message_id=i["message_id"],
                         description=i.get("description", "Quarantine Email Message."),
-                        mailbox=i.get("mailbox", ""),
+                        mail_box=i.get("mailbox", ""),
                     )
                 )
             else:
                 response = client.quarantine_email_message(
                     pytmv1.EmailMessageUIdTask(
-                        uniqueId=i["message_id"],
+                        unique_id=i["message_id"],
                         description=i.get("description", "Quarantine Email Message."),
                     )
                 )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while quarantining email: {response.errors}")
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -804,29 +834,29 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in email_identifiers:
             if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
                 response = client.delete_email_message(
                     pytmv1.EmailMessageIdTask(
-                        messageId=i["message_id"],
+                        message_id=i["message_id"],
                         description=i.get("description", "Delete Email Message."),
-                        mailbox=i.get("mailbox", ""),
+                        mail_box=i.get("mailbox", ""),
                     )
                 )
             else:
                 response = client.delete_email_message(
                     pytmv1.EmailMessageUIdTask(
-                        uniqueId=i["message_id"],
+                        unique_id=i["message_id"],
                         description=i.get("description", "Delete Email Message."),
                     )
                 )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while deleting email: {response.errors}")
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -859,24 +889,24 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in process_identifiers:
             response = client.terminate_process(
                 pytmv1.ProcessTask(
-                    endpointName=i["endpoint"],
-                    fileSha1=i["file_sha1"],
+                    endpoint_name=i["endpoint"],
+                    file_sha1=i["file_sha1"],
                     description=i.get("description", "Terminate Process."),
-                    fileName=i.get("filename", ""),
+                    file_name=i.get("filename", ""),
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
                     f"Error while terminating process: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -928,7 +958,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Choose enum type
         for i in block_objects:
@@ -949,8 +979,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in block_objects:
             response = client.add_to_exception_list(
                 pytmv1.ObjectTask(
-                    objectType=i["object_type"],
-                    objectValue=i["object_value"],
+                    object_type=i["object_type"],  # type: ignore
+                    object_value=i["object_value"],
                     description=i.get("description", "Add To Exception List."),
                 )
             )
@@ -958,12 +988,12 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while adding to exception list: {response.errors}"
                 )
-            else:
-                items = response.response.dict().get("items")[0]
-                items["task_id"] = (
-                    "None" if items.get("task_id") is None else items["task_id"]
-                )
-                multi_resp.append(items)
+            assert response.response is not None
+            items = response.response.dict().get("items", [])[0]
+            items["task_id"] = (
+                "None" if items.get("task_id") is None else items["task_id"]
+            )
+            multi_resp.append(items)
 
         # Get total exception list count
         total_exception_count = self.exception_list_count()
@@ -996,7 +1026,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Choose Enum
         for i in block_objects:
@@ -1017,19 +1047,19 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in block_objects:
             response = client.remove_from_exception_list(
                 pytmv1.ObjectTask(
-                    objectType=i["object_type"], objectValue=i["object_value"]
+                    object_type=i["object_type"], object_value=i["object_value"]  # type: ignore
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
                     f"Error while removing from exception list: {response.errors}"
                 )
-            else:
-                items = response.response.dict().get("items")[0]
-                items["task_id"] = (
-                    "None" if items.get("task_id") is None else items["task_id"]
-                )
-                multi_resp.append(items)
+            assert response.response is not None
+            items = response.response.dict().get("items", [])[0]
+            items["task_id"] = (
+                "None" if items.get("task_id") is None else items["task_id"]
+            )
+            multi_resp.append(items)
 
         total_exception_count = self.exception_list_count()
         # Add the response into the data section
@@ -1088,7 +1118,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Choose enum
         for i in block_objects:
@@ -1118,8 +1148,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in block_objects:
             response = client.add_to_suspicious_list(
                 pytmv1.SuspiciousObjectTask(
-                    objectType=i["object_type"],
-                    objectValue=i["object_value"],
+                    object_type=i["object_type"],
+                    object_value=i["object_value"],
                     scan_action=i.get("scan_action", "block"),
                     risk_level=i.get("risk_level", "medium"),
                     days_to_expiration=i.get("expiry_days", 30),
@@ -1129,12 +1159,12 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while adding to suspicious list: {response.errors}"
                 )
-            else:
-                items = response.response.dict().get("items")[0]
-                items["task_id"] = (
-                    "None" if items.get("task_id") is None else items["task_id"]
-                )
-                multi_resp.append(items)
+            assert response.response is not None
+            items = response.response.dict().get("items", [])[0]
+            items["task_id"] = (
+                "None" if items.get("task_id") is None else items["task_id"]
+            )
+            multi_resp.append(items)
 
         # Get suspicious list count
         total_suspicious_count = self.suspicious_list_count()
@@ -1168,7 +1198,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Choose enum
         for i in block_objects:
@@ -1189,19 +1219,19 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in block_objects:
             response = client.remove_from_suspicious_list(
                 pytmv1.ObjectTask(
-                    objectType=i["object_type"], objectValue=i["object_value"]
+                    object_type=i["object_type"], object_value=i["object_value"]  # type: ignore
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(
                     f"Error while removing from suspicious list: {response.errors}"
                 )
-            else:
-                items = response.response.dict().get("items")[0]
-                items["task_id"] = (
-                    "None" if items.get("task_id") is None else items["task_id"]
-                )
-                multi_resp.append(items)
+            assert response.response is not None
+            items = response.response.dict().get("items", [])[0]
+            items["task_id"] = (
+                "None" if items.get("task_id") is None else items["task_id"]
+            )
+            multi_resp.append(items)
 
         # Get suspicious list count
         total_suspicious_count = self.suspicious_list_count()
@@ -1240,22 +1270,23 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error while fetching sandbox submission status: {response.error}"
             )
-        else:
-            # Add the response into the data section
-            action_result.add_data(response.response.dict())
+        assert response.response is not None
+        # Add the response into the data section
+        action_result.add_data(response.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def file_to_vault(self, data, filename, container_id, action_result):
-        # Create temp file for upload
+    def get_vault_download_directory(self) -> str:
         try:
-            vault_dir = vault.get_vault_tmp_dir()
+            return vault.get_vault_tmp_dir()
         except Exception as e:
             self.debug_print(e)
-            vault_dir = "/opt/phantom/vault/tmp/"
-        unique_id = str(uuid.uuid4())
-        vault_dir += unique_id
+            return "/opt/phantom/vault/tmp/"
+
+    def file_to_vault(self, data, filename, container_id, action_result):
+        vault_dir: str = f"{self.get_vault_download_directory()}/{str(uuid.uuid4())}/"
+
         try:
             os.makedirs(vault_dir)
             fullpath = vault_dir + filename
@@ -1327,12 +1358,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
         else:
             # Make filename with timestamp
-            name = "Trend_Micro_Sandbox_Analysis_Report "
-            timestamp = time.time()
-            date_time = datetime.fromtimestamp(timestamp)
-            str_date_time = date_time.strftime("%d_%m_%Y_%H_%M_%S")
-            file_name = str_date_time + name + ".pdf"
-
+            name = "Trend_Micro_Sandbox_Analysis_Report"
+            file_name = f'{name}_{datetime.now(timezone.utc).replace(microsecond=0).isoformat(timespec="seconds")}.pdf'
             results = self.file_to_vault(
                 response.response.content,
                 f"{file_name}",
@@ -1380,15 +1407,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in collect_files:
             response = client.collect_file(
                 pytmv1.FileTask(
-                    endpointName=i["endpoint"],
-                    filePath=i["file_path"],
+                    endpoint_name=i["endpoint"],
+                    file_path=i["file_path"],
                     description=i.get("description", "Collect File."),
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while collecting file: {response.errors}")
             else:
-                multi_resp.append(response.response.dict().get("items")[0])
+                assert response.response is not None
+                multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1433,7 +1461,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error fetching forensic file info for task {task_id}. Result Code: {response.error}"
             )
-
+        assert response.response is not None
         file_info = response.response.dict()
 
         # Add the response into the data section
@@ -1492,6 +1520,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
 
         # Add the response into the data section
+        assert response.response is not None
         action_result.add_data(response.response.dict())
 
         # Return success
@@ -1528,6 +1557,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Error adding note to workbench {workbench_id}. Result Code: {response.error}"
             )
 
+        assert response.response is not None
         location = response.response.location
         note_id = location.split("/")[-1]
         msg = "success"
@@ -1624,6 +1654,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Error fetching alert details for {workbench_id}. Result Code: {response.error}"
             )
 
+        assert response.response is not None
         etag = response.response.etag
         alert = response.response.alert.json()
 
@@ -1666,7 +1697,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while submitting URLs to sandbox: {response.errors}"
                 )
             else:
-                submit_urls_resp.append(response.response.dict().get("items")[0])
+                assert response.response is not None
+                submit_urls_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"submit_urls_resp": submit_urls_resp})
@@ -1703,14 +1735,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in account_identifiers:
             response = client.enable_account(
                 pytmv1.AccountTask(
-                    accountName=i["account_name"],
+                    account_name=i["account_name"],
                     description=i.get("description", "Enable User Account."),
                 )
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while enabling account: {response.errors}")
             else:
-                multi_resp.append(response.response.dict().get("items")[0])
+                assert response.response is not None
+                multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1747,7 +1780,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in account_identifiers:
             response = client.disable_account(
                 pytmv1.AccountTask(
-                    accountName=i["account_name"],
+                    account_name=i["account_name"],
                     description=i.get("description", "Disable User Account."),
                 )
             )
@@ -1755,8 +1788,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while disabling user account: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1793,15 +1826,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
                 response = client.restore_email_message(
                     pytmv1.EmailMessageIdTask(
-                        messageId=i["message_id"],
+                        message_id=i["message_id"],
                         description=i.get("description", "Restore Email Message."),
-                        mailbox=i.get("mailbox", ""),
+                        mail_box=i.get("mailbox", ""),
                     )
                 )
             else:
                 response = client.restore_email_message(
                     pytmv1.EmailMessageUIdTask(
-                        uniqueId=i["message_id"],
+                        unique_id=i["message_id"],
                         description=i.get("description", "Restore Email Message."),
                     )
                 )
@@ -1809,8 +1842,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while restoring email message: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1847,7 +1880,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in account_identifiers:
             response = client.sign_out_account(
                 pytmv1.AccountTask(
-                    accountName=i["account_name"],
+                    account_name=i["account_name"],
                     description=i.get("description", "Sign Out Account."),
                 )
             )
@@ -1855,8 +1888,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while signing out user account: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1894,7 +1927,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in account_identifiers:
             response = client.reset_password_account(
                 pytmv1.AccountTask(
-                    accountName=i["account_name"],
+                    account_name=i["account_name"],
                     description=i.get("description", "Force Password Reset."),
                 )
             )
@@ -1902,8 +1935,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while resetting user account password: {response.errors}"
                 )
-            else:
-                multi_resp.append(response.response.dict().get("items")[0])
+            assert response.response is not None
+            multi_resp.append(response.response.dict().get("items", [])[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": multi_resp})
@@ -1948,7 +1981,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error while fetching sandbox suspicious list: {response.error}"
             )
-        for i in response.response.dict().get("items"):
+        assert response.response is not None
+        for i in response.response.dict().get("items", []):
             sandbox_suspicious_list_resp.append(json.loads(json.dumps(i)))
 
         # Create Container
@@ -1956,13 +1990,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         container["name"] = submit_id
         container["source_data_identifier"] = "File Analysis Report - Suspicious Object"
         container["label"] = "trendmicro"
-        try:
-            container["severity"] = sandbox_suspicious_list_resp[0][
-                "risk_level"
-            ].capitalize()
-        except Exception:
-            container["severity"] = "Medium"
         container["tags"] = "suspiciousObject"
+
+        if len(sandbox_suspicious_list_resp) > 0:
+            suspicious_object: dict[str, Any] = sandbox_suspicious_list_resp[0]
+
+            container["severity"] = suspicious_object.get(
+                "risk_level", "Medium"
+            ).capitalize()
+        else:
+            container["severity"] = "Medium"
+
         ret_val, msg, cid = self.save_container(container)
 
         artifacts = []
@@ -2019,7 +2057,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error fetching sandbox analysis result: {response.error}"
             )
-
+        assert response.response is not None
         analysis_result = json.loads(response.response.json())
 
         # Add the response into the data section
@@ -2062,20 +2100,20 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error while downloading investigation package: {response.error}"
             )
-        else:
-            # Make filename with timestamp
-            name = "Trend_Micro_Sandbox_Investigation_Package.zip"
-            timestamp = time.time()
-            date_time = datetime.fromtimestamp(timestamp)
-            str_date_time = date_time.strftime("%d_%m_%Y_%H_%M_%S")
-            file_name = str_date_time + name
 
-            results = self.file_to_vault(
-                response.response.content,
-                f"{file_name}",
-                self.get_container_id(),
-                action_result,
-            )
+        # Make filename with timestamp
+        name = "Trend_Micro_Sandbox_Investigation_Package.zip"
+        timestamp = time.time()
+        date_time = datetime.fromtimestamp(timestamp)
+        str_date_time = date_time.strftime("%d_%m_%Y_%H_%M_%S")
+        file_name = str_date_time + name
+
+        results = self.file_to_vault(
+            response.response.content,
+            f"{file_name}",
+            self.get_container_id(),
+            action_result,
+        )
 
         if phantom.is_fail(response.result_code):
             return action_result.get_status()
@@ -2174,47 +2212,12 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        action_dict = {
-            "on_poll": self._handle_on_poll,
-            "add_note": self._handle_add_note,
-            "status_check": self._handle_status_check,
-            "update_status": self._handle_update_status,
-            "enable_account": self._handle_enable_account,
-            "start_analysis": self._handle_start_analysis,
-            "disable_account": self._handle_disable_account,
-            "urls_to_sandbox": self._handle_urls_to_sandbox,
-            "sign_out_account": self._handle_sign_out_account,
-            "add_to_blocklist": self._handle_add_to_blocklist,
-            "add_to_exception": self._handle_add_to_exception,
-            "test_connectivity": self._handle_test_connectivity,
-            "get_endpoint_info": self._handle_get_endpoint_info,
-            "quarantine_device": self._handle_quarantine_device,
-            "terminate_process": self._handle_terminate_process,
-            "add_to_suspicious": self._handle_add_to_suspicious,
-            "get_alert_details": self._handle_get_alert_details,
-            "forensic_file_info": self._handle_forensic_file_info,
-            "get_exception_list": self._handle_get_exception_list,
-            "get_suspicious_list": self._handle_get_suspicious_list,
-            "unquarantine_device": self._handle_unquarantine_device,
-            "force_password_reset": self._handle_force_password_reset,
-            "delete_email_message": self._handle_delete_email_message,
-            "delete_from_exception": self._handle_delete_from_exception,
-            "remove_from_blocklist": self._handle_remove_from_blocklist,
-            "collect_forensic_file": self._handle_collect_forensic_file,
-            "restore_email_message": self._handle_restore_email_message,
-            "delete_from_suspicious": self._handle_delete_from_suspicious,
-            "sandbox_analysis_result": self._handle_sandbox_analysis_result,
-            "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
-            "download_analysis_report": self._handle_download_analysis_report,
-            "quarantine_email_message": self._handle_quarantine_email_message,
-            "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
-            "sandbox_investigation_package": self._handle_sandbox_investigation_package,
-        }
+        action_handler: Optional[Callable] = self.supported_actions.get(action_id)
 
-        if action_id in action_dict.keys():
-            ret_val = action_dict[action_id](param)
+        if action_handler is None:
+            raise ValueError("Action requested ({}) was not found".format(action_id))
 
-        return ret_val
+        return action_handler(param)
 
     def initialize(self):
         # Load the state in initialize, use it to store data
