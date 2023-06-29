@@ -25,7 +25,16 @@ import pytmv1
 
 from datetime import datetime, timezone
 from typing import Any, Callable, List, Dict, Optional, Union, Tuple
-from pytmv1 import HostInfo, SaeAlert, TiAlert, Indicator, Entity, MsData, ObjectType
+from pytmv1 import (
+    HostInfo,
+    SaeAlert,
+    TiAlert,
+    Indicator,
+    Entity,
+    MsData,
+    ObjectType,
+    InvestigationStatus,
+)
 
 # Phantom App imports
 import requests
@@ -1593,19 +1602,12 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        # Choose status enum
-        if "new" in status.lower():
-            status = pytmv1.InvestigationStatus.NEW
-        elif "in_progress" in status.lower():
-            status = pytmv1.InvestigationStatus.IN_PROGRESS
-        elif "true_positive" in status.lower():
-            status = pytmv1.InvestigationStatus.TRUE_POSITIVE
-        elif "false_positive" in status.lower():
-            status = pytmv1.InvestigationStatus.FALSE_POSITIVE
-        elif "benign_true_positive" in status.lower():
-            status = pytmv1.InvestigationStatus.BENIGN_TRUE_POSITIVE
-        elif "closed" in status.lower():
-            status = pytmv1.InvestigationStatus.CLOSED
+        # Choose Status Enum
+        sts = status.upper()
+        if sts in InvestigationStatus.__members__:
+            status = InvestigationStatus[sts]
+        else:
+            raise RuntimeError(f"Please check status: {status}")
 
         # Make rest call
         response = client.edit_alert_status(
