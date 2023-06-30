@@ -1288,7 +1288,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     def get_vault_download_directory(self) -> str:
         try:
-            return vault.get_vault_tmp_dir()
+            return vault.Vault.get_vault_tmp_dir()
         except Exception as e:
             self.debug_print(e)
             return "/opt/phantom/vault/tmp/"
