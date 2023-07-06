@@ -1298,7 +1298,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         name = "Trend_Micro_Sandbox_Analysis_Report"
         file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.pdf"
 
-        results = Vault.create_attachment(
+        results = Vault.create_attachment(  # noqa: F841
             response.response.content,
             self.get_container_id(),
             file_name,
@@ -1425,9 +1425,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         file_url = param["file_url"]
+        file_name = param["file_name"]
 
         # Optional Params
-        file_name = param.get("file_name", "Suspicious_File_Report.pdf")
         document_password = param.get("document_pass", "")
         archive_password = param.get("archive_pass", "")
         arguments = param.get("arguments", "None")
@@ -2028,7 +2028,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         name = "Trend_Micro_Sandbox_Investigation_Package"
         file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.zip"
 
-        results = Vault.create_attachment(
+        results = Vault.create_attachment(  # noqa: F841
             response.response.content,
             self.get_container_id(),
             file_name,
