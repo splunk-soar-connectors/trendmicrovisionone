@@ -16,14 +16,12 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import os
 import sys
 import json
-import time
-import uuid
 import pytmv1
-
-from datetime import datetime, timezone
+import requests
+from datetime import timezone
+from datetime import datetime
 from typing import Any, Callable, List, Dict, Optional, Union, Tuple
 from pytmv1 import (
     HostInfo,
@@ -37,14 +35,11 @@ from pytmv1 import (
 )
 
 # Phantom App imports
-import requests
 from phantom import vault
+from phantom.vault import Vault
 import phantom.app as phantom
-from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
-
-from trendmicrovisionone_consts import *
 
 
 class RetVal(tuple):
@@ -100,6 +95,12 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
             "sandbox_investigation_package": self._handle_sandbox_investigation_package,
         }
+
+    def handle_exception(self, exception: BaseException):
+        error_result = ActionResult(self.get_current_param())
+        error_result.set_status(phantom.APP_ERROR)
+        error_result.add_exception_details(exception)
+        self.add_action_result(error_result)
 
     def _get_client(self) -> pytmv1.Client:
         return pytmv1.client(self.app, self.api_key, self._base_url)
@@ -225,10 +226,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error quarantining endpoint: {response.errors}")
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -388,9 +389,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         else:
             return None
 
-    def _get_existing_container_id(
-        self, alert: Union[SaeAlert, TiAlert]
-    ) -> Optional[int]:
+    def _get_existing_container_id_for_sdi(self, sdi: str) -> Optional[int]:
         """
         Fetch container ID if it exists.
         Args:
@@ -401,7 +400,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             ID: Return the container ID.
         """
         # check if TM workbenchID already exists in Splunk
-        url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{alert.id}"&_filter_asset={self.get_asset_id()}'
+        url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{sdi}"&_filter_asset={self.get_asset_id()}'
         # Make rest call
         try:
             response = requests.get(url, verify=False, timeout=30)  # nosemgrep
@@ -416,6 +415,20 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return None
         # This direct access is okay because the values MUST exist otherwise the problem is out of scope.
         return container_data["data"][0]["id"]
+
+    def _get_existing_container_id_for_alert(
+        self, alert: Union[SaeAlert, TiAlert]
+    ) -> Optional[int]:
+        """
+        Fetch container ID if it exists.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert.
+        Raises:
+            RuntimeError: Raise an error if REST call fails.
+        Returns:
+            ID: Return the container ID.
+        """
+        return self._get_existing_container_id_for_sdi(alert.id)
 
     def _create_new_container_payload(
         self, alert: Union[SaeAlert, TiAlert]
@@ -448,7 +461,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             int: The ID for the created container.
         """
-        existing_container_id: Optional[int] = self._get_existing_container_id(alert)
+        existing_container_id: Optional[
+            int
+        ] = self._get_existing_container_id_for_alert(alert)
 
         # If a container ID does not already exist, create a new one first, because the update operation
         # runs regardless of whether the container is new or existing.
@@ -464,7 +479,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     "Error saving container: {} -- CID: {}".format(msg, cid)
                 )
 
-            existing_container_id = self._get_existing_container_id(alert)
+            existing_container_id = self._get_existing_container_id_for_alert(alert)
 
             # Assertion made for type checking. At this point, the container ID will not be None if it was
             # successfully created.
@@ -514,13 +529,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             List[Dict[str, Any]]: List containing Alert Objects.
         """
+
         # Log current action
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
-        # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Optional Params
         start_time, end_time = self._get_poll_interval(param)
@@ -552,9 +567,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
             # Log results
             serialized_alerts: List[Dict] = [item.dict() for item in new_alerts]
-            action_result.add_data(serialized_alerts)
-            summary = action_result.update_summary({})
-            summary["Number of Events Found"] = len(serialized_alerts)
+            action_result.update_data(serialized_alerts)
+            action_result.set_summary(
+                {"Number of Events Found": len(serialized_alerts)}
+            )
+
             self.save_progress(
                 "Phantom imported {0} events".format(len(serialized_alerts))
             )
@@ -605,10 +622,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error restoring endpoint: {response.errors}")
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -731,20 +748,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         multi_resp: List[MsData] = []
 
-        # Choose enum
+        # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
         for i in block_objects:
@@ -760,10 +770,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while removing from block list: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -813,10 +823,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while quarantining email: {response.errors}")
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -868,7 +878,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -915,10 +925,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while terminating process: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -969,20 +979,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         multi_resp: List[MsData] = []
 
-        # Choose enum type
+        # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
         for i in block_objects:
@@ -1039,18 +1042,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
         for i in block_objects:
@@ -1129,30 +1125,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         multi_resp: List[MsData] = []
 
-        # Choose enum
+        # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
-            elif "block" in i["scan_action"].lower():
-                i["scan_action"] = pytmv1.ScanAction.BLOCK
-            elif "log" in i["scan_action"].lower():
-                i["scan_action"] = pytmv1.ScanAction.LOG
-            elif "high" in i["risk_level"].lower():
-                i["risk_level"] = pytmv1.RiskLevel.HIGH
-            elif "medium" in i["risk_level"].lower():
-                i["risk_level"] = pytmv1.RiskLevel.MEDIUM
-            elif "low" in i["risk_level"].lower():
-                i["risk_level"] = pytmv1.RiskLevel.LOW
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         for i in block_objects:
             response = client.add_to_suspicious_list(
@@ -1209,20 +1188,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         multi_resp: List[MsData] = []
 
-        # Choose enum
+        # Choose Enum
         for i in block_objects:
-            if "domain" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.DOMAIN
-            elif "ip" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.IP
-            elif "filesha1" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA1
-            elif "filesha256" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.FILE_SHA256
-            elif "sendermailaddress" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.SENDER_MAIL_ADDRESS
-            elif "url" in i["object_type"].lower():
-                i["object_type"] = pytmv1.ObjectType.URL
+            obj_type = i["object_type"].upper()
+            if obj_type in ObjectType.__members__:
+                i["object_type"] = ObjectType[obj_type]
+            else:
+                raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
         for i in block_objects:
@@ -1268,13 +1240,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
-        submit_id = param["submit_id"]
+        task_id = param["task_id"]
 
         # Initialize Pytmv1
         client = self._get_client()
 
         # Make rest call
-        response = client.get_sandbox_submission_status(submit_id=submit_id)
+        response = client.get_sandbox_submission_status(submit_id=task_id)
         if "error" in response.result_code.lower():
             raise RuntimeError(
                 f"Error while fetching sandbox submission status: {response.error}"
@@ -1285,50 +1257,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
-
-    def get_vault_download_directory(self) -> str:
-        try:
-            return vault.Vault.get_vault_tmp_dir()
-        except Exception as e:
-            self.debug_print(e)
-            return "/opt/phantom/vault/tmp/"
-
-    def file_to_vault(self, data, filename, container_id, action_result):
-        vault_dir: str = f"{self.get_vault_download_directory()}/{str(uuid.uuid4())}/"
-
-        try:
-            os.makedirs(vault_dir)
-            fullpath = vault_dir + filename
-            with open(fullpath, "wb") as f:
-                f.write(data)
-        except Exception as e:
-            self.debug_print(e)
-            return action_result.set_status(
-                phantom.APP_ERROR, "Failed to create vault file or directory"
-            )
-
-        # Upload file to vault
-        ret_val, response, vault_id = vault.vault_add(container_id, fullpath, filename)
-
-        # Erase temp data
-        try:
-            os.rmdir(vault_dir)
-        except Exception as e:
-            self.debug_print(e)
-            return action_result.set_status(
-                phantom.APP_ERROR, "Failed erasing temporary vault related data"
-            )
-
-        # Return with vault creation details
-        if ret_val:
-            success_info = {phantom.APP_JSON_VAULT_ID: vault_id, "file_name": filename}
-            return phantom.APP_SUCCESS, success_info
-
-        # Failed to send file to vault
-        self.debug_print(f"Failed to send file to vault: {response}")
-        return action_result.set_status(
-            phantom.APP_ERROR, "Failed to send file to vault"
-        )
 
     def _handle_download_analysis_report(self, param):
         """
@@ -1365,25 +1293,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error while downloading sandbox analysis report: {response.error}"
             )
-        else:
-            # Make filename with timestamp
-            name = "Trend_Micro_Sandbox_Analysis_Report"
-            file_name = f'{name}_{datetime.now(timezone.utc).replace(microsecond=0).isoformat(timespec="seconds")}.pdf'
-            results = self.file_to_vault(
-                response.response.content,
-                f"{file_name}",
-                self.get_container_id(),
-                action_result,
-            )
+        assert response.response is not None
+        # Default filename
+        name = "Trend_Micro_Sandbox_Analysis_Report"
+        file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.pdf"
 
-        if phantom.is_fail(response.result_code):
-            return action_result.get_status()
+        results = Vault.create_attachment(
+            response.response.content,
+            self.get_container_id(),
+            file_name,
+        )
         # Add the response into the data section
-        try:
-            action_result.add_data(results)
-        except Exception as e:
-            self.debug_print(e)
-            action_result.add_data(response)
+        action_result.add_data({"file_added": file_name})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1425,10 +1346,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(f"Error while collecting file: {response.errors}")
             else:
                 assert response.response is not None
-                multi_resp.append(response.response.dict().get("items", [])[0])
+                multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1698,12 +1619,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 raise RuntimeError(
                     f"Error while submitting URLs to sandbox: {response.errors}"
                 )
-            else:
-                assert response.response is not None
-                submit_urls_resp.append(response.response.dict().get("items", [])[0])
+            assert response.response is not None
+            submit_urls_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"submit_urls_resp": submit_urls_resp})
+        action_result.add_data(
+            {"submit_urls_resp": [item.dict() for item in submit_urls_resp]}
+        )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1743,12 +1665,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
             if "error" in response.result_code.lower():
                 raise RuntimeError(f"Error while enabling account: {response.errors}")
-            else:
-                assert response.response is not None
-                multi_resp.append(response.response.dict().get("items", [])[0])
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1791,10 +1712,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while disabling user account: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1845,10 +1766,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while restoring email message: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1891,10 +1812,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while signing out user account: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1938,10 +1859,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while resetting user account password: {response.errors}"
                 )
             assert response.response is not None
-            multi_resp.append(response.response.dict().get("items", [])[0])
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data({"multi_response": multi_resp})
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -2102,28 +2023,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(
                 f"Error while downloading investigation package: {response.error}"
             )
-
+        assert response.response is not None
         # Make filename with timestamp
-        name = "Trend_Micro_Sandbox_Investigation_Package.zip"
-        timestamp = time.time()
-        date_time = datetime.fromtimestamp(timestamp)
-        str_date_time = date_time.strftime("%d_%m_%Y_%H_%M_%S")
-        file_name = str_date_time + name
+        name = "Trend_Micro_Sandbox_Investigation_Package"
+        file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.zip"
 
-        results = self.file_to_vault(
+        results = Vault.create_attachment(
             response.response.content,
-            f"{file_name}",
             self.get_container_id(),
-            action_result,
+            file_name,
         )
-
-        if phantom.is_fail(response.result_code):
-            return action_result.get_status()
         # Add the response into the data section
-        try:
-            action_result.add_data(results)
-        except Exception as e:
-            action_result.add_data(response)
+        action_result.add_data({"file_added": file_name})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -2155,7 +2066,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             self.debug_print(
                 f"Consume Suspicious List failed with following exception: {e}"
             )
-            return e
+            raise e
         # Load json objects to list
         suspicious_objects: List[Dict[str, Any]] = []
         for i in new_suspicions:
@@ -2195,7 +2106,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             self.debug_print(
                 f"Consume Suspicious List failed with following exception: {e}"
             )
-            return e
+            raise e
         # Load json objects to list
         exception_objects: List[Dict[str, Any]] = []
         for i in new_exceptions:
@@ -2213,13 +2124,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_id = self.get_action_identifier()
 
         self.debug_print("action_id", self.get_action_identifier())
-
         action_handler: Optional[Callable] = self.supported_actions.get(action_id)
 
         if action_handler is None:
             raise ValueError("Action requested ({}) was not found".format(action_id))
 
-        return action_handler(param)
+        action_handler(param)
+
+        return phantom.APP_SUCCESS
 
     def initialize(self):
         # Load the state in initialize, use it to store data

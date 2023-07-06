@@ -522,20 +522,20 @@ timeout in the advanced field of playbook execution. The recommended timeout is
 
 ## Action: 'Get Sandbox Submission status'
 
-Get the status of file analysis based on submit id.
+Get the status of file analysis based on task id.
 
 Type: **investigate**  
 Read only: **False**
 
 | **Argument Name** | **Description**                                                           | **Required** |
 | ----------------- | ------------------------------------------------------------------------- | ------------ |
-| submit_id         | ID generated from the trendmicro-visionone-submit-file-to-sandbox command | Required     |
+| task_id           | ID generated from the trendmicro-visionone-submit-file-to-sandbox command | Required     |
 
 Example input:
 
 ```
 {
-  "submit_id": "012e4eac-9bd9-4e89-95db-77e02f75a6f3"
+  "task_id": "012e4eac-9bd9-4e89-95db-77e02f75a6f3"
 }
 ```
 

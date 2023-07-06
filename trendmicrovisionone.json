@@ -962,18 +962,18 @@
       "type": "investigate",
       "read_only": false,
       "parameters": {
-        "submit_id": {
+        "task_id": {
           "description": "ID generated from the trendmicro-visionone-start-analysis command. Submission ID in Vision One. (Required)",
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["submit_id"],
+          "contains": ["task_id"],
           "value_list": [],
           "default": "",
           "order": 0,
-          "name": "submit_id",
+          "name": "task_id",
           "id": 1,
-          "param_name": "submit_id"
+          "param_name": "task_id"
         }
       },
       "output": [
