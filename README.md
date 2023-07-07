@@ -92,21 +92,21 @@ specified when configuring a Trend Micro Vision One asset in SOAR.
 [Download Analysis Report](#action-download-analysis-report) - Get the analysis report of a file based on report id  
 [Collect Forensic File](#action-collect-forensic-file) - Collect forensic file  
 [Forensic File Info](#action-forensic-file-info) - Get the download information for collected forensic file  
-[Start Analysis](#action-start-analysis) - Submit file to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)
+[Start Analysis](#action-start-analysis) - Submit file to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
 [Add Note](#action-add-note) - Adds a note to an existing workbench alert  
-[Update Status](#action-update-status) - Updates the status of an existing workbench alert 
-[Get Alert Details](#action-get-alert-details) - Displays information about the specified alert 
-[Urls To Sandbox](#action-urls-to-sandbox) - Submits URLs to the sandbox for analysis 
-[Enable Account](#action-enable-account) - Allows the user to sign in to new application and browser sessions 
-[Disable Account](#action-disable-account) - Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session 
-[Restore Email Message](#action-restore-email-message) - Restore quarantined email messages 
-[Sign Out Account](#action-sign-out-account) - Signs the user out of all active application and browser sessions 
-[Force Password Reset](#action-force-password-reset) - Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt 
-[Sandbox Suspicious List](#action-sandbox-suspicious-list) - Downloads the suspicious object list associated to the specified object 
-[Sandbox Analysis Result](#action-sandbox-analysis-result) - Displays the analysis results of the specified object 
-[Sandbox Investigation Package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object 
-[Get Suspicious List](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list 
-[Get Exception List](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list 
+[Update Status](#action-update-status) - Updates the status of an existing workbench alert  
+[Get Alert Details](#action-get-alert-details) - Displays information about the specified alert  
+[Urls To Sandbox](#action-urls-to-sandbox) - Submits URLs to the sandbox for analysis  
+[Enable Account](#action-enable-account) - Allows the user to sign in to new application and browser sessions  
+[Disable Account](#action-disable-account) - Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session  
+[Restore Email Message](#action-restore-email-message) - Restore quarantined email messages  
+[Sign Out Account](#action-sign-out-account) - Signs the user out of all active application and browser sessions  
+[Force Password Reset](#action-force-password-reset) - Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt  
+[Sandbox Suspicious List](#action-sandbox-suspicious-list) - Downloads the suspicious object list associated to the specified object  
+[Sandbox Analysis Result](#action-sandbox-analysis-result) - Displays the analysis results of the specified object  
+[Sandbox Investigation Package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object  
+[Get Suspicious List](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list  
+[Get Exception List](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list  
 
 ## Commands
 
