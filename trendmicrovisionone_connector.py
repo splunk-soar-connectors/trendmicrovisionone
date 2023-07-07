@@ -35,7 +35,6 @@ from pytmv1 import (
 )
 
 # Phantom App imports
-from phantom import vault
 from phantom.vault import Vault
 import phantom.app as phantom
 from phantom.action_result import ActionResult
