@@ -20,8 +20,7 @@ import sys
 import json
 import pytmv1
 import requests
-from datetime import timezone
-from datetime import datetime
+from datetime import timezone, datetime
 from typing import Any, Callable, List, Dict, Optional, Union, Tuple
 from pytmv1 import (
     HostInfo,
