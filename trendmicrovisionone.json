@@ -87,77 +87,69 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.agentGuid",
+          "data_path": "action_result.data.*.agent_guid",
           "data_type": "string",
           "contains": [],
           "column_name": "agentGuid",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.loginAccount.value",
+          "data_path": "action_result.data.*.login_account.value",
           "data_type": "string",
           "contains": [],
           "column_name": "loginAccount",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.endpointName.value",
+          "data_path": "action_result.data.*.endpoint_name.value",
           "data_type": "string",
           "contains": [],
           "column_name": "endpointName",
           "column_order": 2
         },
         {
-          "data_path": "action_result.*.macAddress.value",
+          "data_path": "action_result.data.*.mac_address.value",
           "data_type": "string",
           "contains": [],
           "column_name": "macAddress",
           "column_order": 3
         },
         {
-          "data_path": "action_result.*.ip.value",
+          "data_path": "action_result.data.*.ip.value",
           "data_type": "string",
           "contains": ["mac address"],
           "column_name": "ip",
           "column_order": 4
         },
         {
-          "data_path": "action_result.data.*.result.ip.value",
-          "data_type": "string",
-          "contains": ["ip"],
-          "column_name": "ip",
-          "column_order": 5
-        },
-        {
-          "data_path": "action_result.data.*.result.osName",
+          "data_path": "action_result.data.*.os_name",
           "data_type": "string",
           "contains": [],
           "column_name": "os_name",
           "column_order": 6
         },
         {
-          "data_path": "action_result.*.osName",
-          "data_type": "string",
-          "contains": [],
-          "column_name": "osName",
-          "column_order": 7
-        },
-        {
-          "data_path": "action_result.*.osVersion",
+          "data_path": "action_result.data.*.os_version",
           "data_type": "string",
           "contains": [],
           "column_name": "osVersion",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.data.*.product_code",
+          "data_type": "string",
+          "column_name": "status",
           "column_order": 8
         },
         {
-          "data_path": "action_result.*.installedProductCodes",
+          "data_path": "action_result.*.installed_product_codes",
           "data_type": "string",
           "contains": [],
           "column_name": "product_code",
           "column_order": 9
         },
         {
-          "data_path": "action_result.*.osDescription",
+          "data_path": "action_result.*.os_description",
           "data_type": "string",
           "contains": [],
           "column_name": "osDescription",
@@ -215,14 +207,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "numeric",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "contains": [],
           "column_name": "task_id",
@@ -270,14 +262,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "numeric",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "contains": [],
           "column_name": "task_id",
@@ -391,44 +383,44 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.id",
+          "data_path": "action_result.data.*.id",
           "data_type": "string",
           "contains": ["id"],
           "column_name": "id",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "column_name": "status",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.created_date_time",
+          "data_path": "action_result.data.*.created_date_time",
           "data_type": "string",
           "column_name": "created_date_time",
           "column_order": 3
         },
         {
-          "data_path": "action_result.*.last_action_date_time=",
+          "data_path": "action_result.data.*.last_action_date_time=",
           "data_type": "string",
           "column_name": "last_action_date_time=",
           "column_order": 4
         },
         {
-          "data_path": "action_result.*.action",
+          "data_path": "action_result.data.*.action",
           "data_type": "string",
           "column_name": "action",
           "column_order": 5
         },
         {
-          "data_path": "action_result.*.description",
+          "data_path": "action_result.data.*.description",
           "data_type": "string",
           "column_name": "description",
           "column_order": 6
         },
         {
-          "data_path": "action_result.*.account",
+          "data_path": "action_result.data.*.account",
           "data_type": "string",
           "column_name": "account",
           "column_order": 7
@@ -475,14 +467,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -529,14 +521,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -583,14 +575,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -637,14 +629,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -696,14 +688,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -750,20 +742,20 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.total_count",
+          "data_path": "action_result.data.*.total_count",
           "data_type": "string",
           "column_name": "total_count",
           "column_order": 2
@@ -810,14 +802,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -864,20 +856,20 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.total_count",
+          "data_path": "action_result.data.*.total_count",
           "data_type": "string",
           "column_name": "total_count",
           "column_order": 2
@@ -924,14 +916,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -985,7 +977,7 @@
           "column_order": 0
         },
         {
-          "data_path": "action_result.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "string",
           "column_name": "status",
           "column_order": 1
@@ -1058,24 +1050,31 @@
       },
       "output": [
         {
-          "data_path": "action_result.parameter.report_id",
+          "data_path": "action_result.data.*.file_added",
           "data_type": "string",
           "contains": [],
           "column_name": "report_id",
           "column_order": 0
         },
         {
+          "data_path": "action_result.parameter.submit_id",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "report_id",
+          "column_order": 1
+        },
+        {
           "data_path": "action_result.parameter.type",
           "data_type": "string",
           "contains": [],
           "column_name": "type",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.status",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.message",
@@ -1119,14 +1118,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.status",
+          "data_path": "action_result.data.*.status",
           "data_type": "numeric",
           "contains": [],
           "column_name": "status",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.task_id",
+          "data_path": "action_result.data.*.task_id",
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
@@ -1199,7 +1198,7 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.file_info",
+          "data_path": "action_result.data.*.file_info",
           "data_type": "string",
           "contains": [],
           "column_name": "file_info",
@@ -1299,21 +1298,21 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.id",
+          "data_path": "action_result.data.*.id",
           "data_type": "string",
           "contains": [],
           "column_name": "id",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.digest",
+          "data_path": "action_result.data.*.digest",
           "data_type": "string",
           "contains": [],
           "column_name": "digest",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.arguments",
+          "data_path": "action_result.data.*.arguments",
           "data_type": "string",
           "contains": [],
           "column_name": "arguments",
@@ -1374,14 +1373,14 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.note_id",
+          "data_path": "action_result.data.*.note_id",
           "data_type": "string",
           "contains": [],
           "column_name": "code",
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.message",
+          "data_path": "action_result.data.*.message",
           "data_type": "string",
           "contains": [],
           "column_name": "message",
@@ -1455,7 +1454,7 @@
       },
       "output": [
         {
-          "data_path": "action_result.*.message",
+          "data_path": "action_result.data.*.message",
           "data_type": "string",
           "contains": [],
           "column_name": "message",
@@ -1508,13 +1507,13 @@
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.etag",
+          "data_path": "action_result.data.*.etag",
           "data_type": "string",
           "column_name": "eTag",
           "column_order": 1
         },
         {
-          "data_path": "action_result.*.alert",
+          "data_path": "action_result.data.*.alert",
           "data_type": "string",
           "column_name": "alert",
           "column_order": 2
@@ -1910,7 +1909,7 @@
           "column_order": 0
         },
         {
-          "data_path": "action_result.*.sandbox_suspicious_list_resp",
+          "data_path": "action_result.data.*.sandbox_suspicious_list_resp",
           "data_type": "string",
           "column_name": "status",
           "column_order": 2
@@ -2078,24 +2077,31 @@
           "column_order": 0
         },
         {
+          "data_path": "action_result.data.*.file_added",
+          "data_type": "string",
+          "contains": [],
+          "column_name": "file_added",
+          "column_order": 1
+        },
+        {
           "data_path": "action_result.parameter.poll",
           "data_type": "string",
           "contains": [],
           "column_name": "poll",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.parameter.poll_time_sec",
           "data_type": "numeric",
           "contains": [],
           "column_name": "poll_time_sec",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.status",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.message",
