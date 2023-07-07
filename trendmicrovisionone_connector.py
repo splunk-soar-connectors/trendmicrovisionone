@@ -36,7 +36,7 @@ from pytmv1 import (
 
 # Phantom App imports
 from phantom.vault import Vault
-import phantom.app as phantom
+from phantom import app as phantom
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
