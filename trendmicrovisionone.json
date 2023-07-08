@@ -1594,7 +1594,7 @@
       "action": "enable account",
       "identifier": "enable_account",
       "description": "Allows the user to sign in to new application and browser sessions",
-      "verbose": "Allows the user to sign in to new application and browser sessions.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "verbose": "Allows the user to sign in to new application and browser sessions.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises).",
       "type": "correct",
       "read_only": false,
       "parameters": {
@@ -1648,7 +1648,7 @@
       "action": "disable account",
       "identifier": "disable_account",
       "description": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session",
-      "verbose": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "verbose": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises).",
       "type": "contain",
       "read_only": false,
       "parameters": {
@@ -1700,7 +1700,7 @@
       "action": "restore email message",
       "identifier": "restore_email_message",
       "description": "Restore quarantined email messages",
-      "verbose": "Restore quarantined email messages\n\nAccount role permissions required:\nResponse Management\nView, filter, and search (Task List tab)\nQuarantine/Restore messages",
+      "verbose": "Restore quarantined email messages\n\nAccount role permissions required:\nResponse Management\nView, filter, and search (Task List tab)\nQuarantine/Restore messages.",
       "type": "correct",
       "read_only": false,
       "parameters": {
@@ -1752,7 +1752,7 @@
       "action": "sign out account",
       "identifier": "sign_out_account",
       "description": "Signs the user out of all active application and browser sessions",
-      "verbose": "Signs the user out of all active application and browser sessions.\nSupported IAM systems:\nAzure AD",
+      "verbose": "Signs the user out of all active application and browser sessions.\nSupported IAM systems:\nAzure AD.",
       "type": "contain",
       "read_only": false,
       "parameters": {
@@ -1804,7 +1804,7 @@
       "action": "force password reset",
       "identifier": "force_password_reset",
       "description": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt",
-      "verbose": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
+      "verbose": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises).",
       "type": "contain",
       "read_only": false,
       "parameters": {
@@ -1856,7 +1856,7 @@
       "action": "sandbox suspicious list",
       "identifier": "sandbox_suspicious_list",
       "description": "Downloads the suspicious object list associated to the specified object",
-      "verbose": "Downloads the suspicious object list associated to the specified object. Note: Suspicious Object Lists are only available for objects with a high risk level",
+      "verbose": "Downloads the suspicious object list associated to the specified object. Note: Suspicious Object Lists are only available for objects with a high risk level.",
       "type": "investigate",
       "read_only": false,
       "parameters": {
@@ -2125,7 +2125,7 @@
       "action": "get suspicious list",
       "identifier": "get_suspicious_list",
       "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list",
-      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.",
       "type": "investigate",
       "read_only": true,
       "parameters": {},
@@ -2158,7 +2158,7 @@
       "action": "get exception list",
       "identifier": "get_exception_list",
       "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list",
-      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.",
       "type": "investigate",
       "read_only": true,
       "parameters": {},
