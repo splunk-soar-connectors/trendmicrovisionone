@@ -714,6 +714,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please input params.")
                 raise RuntimeError(
                     f"Error while adding to block list: {response.errors}"
                 )
@@ -769,6 +770,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please input params.")
                 raise RuntimeError(
                     f"Error while removing from block list: {response.errors}"
                 )
@@ -1557,6 +1559,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong while updating alert status.")
             raise RuntimeError(
                 f"Error updating alert status for {workbench_id}. Result Code: {response.error}"
             )
@@ -1999,9 +2002,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         report_id = param["report_id"]
-        poll = param["poll"]
 
         # Optional Params
+        poll = param.get("poll", "false")
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
