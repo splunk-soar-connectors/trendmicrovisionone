@@ -19,6 +19,7 @@ from __future__ import print_function, unicode_literals
 import sys
 import json
 import pytmv1
+import requests
 from datetime import timezone, datetime
 from typing import Any, Callable, List, Dict, Optional, Union, Tuple
 from pytmv1 import (
@@ -34,7 +35,6 @@ from pytmv1 import (
 
 # Phantom App imports
 from phantom import app as phantom
-import requests
 from phantom.vault import Vault
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
