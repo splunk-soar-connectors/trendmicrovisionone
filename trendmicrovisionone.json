@@ -1539,13 +1539,13 @@
     {
       "action": "urls to sandbox",
       "identifier": "urls_to_sandbox",
-      "description": "Submits URLs to the sandbox for analysis.",
+      "description": "Submits URLs to the sandbox for analysis",
       "verbose": "Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request. For more information about the supported URL format, see https://docs.trendmicro.com/en-us/enterprise/trend-micro-xdr-help/SandboxAnalysis.\nNote: Using Sandbox Analysis requires credits.",
       "type": "investigate",
       "read_only": false,
       "parameters": {
         "urls": {
-          "description": "Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request.",
+          "description": "Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request",
           "data_type": "string",
           "required": true,
           "primary": true,
@@ -1593,7 +1593,7 @@
     {
       "action": "enable account",
       "identifier": "enable_account",
-      "description": "Allows the user to sign in to new application and browser sessions.",
+      "description": "Allows the user to sign in to new application and browser sessions",
       "verbose": "Allows the user to sign in to new application and browser sessions.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
       "type": "correct",
       "read_only": false,
@@ -1647,7 +1647,7 @@
     {
       "action": "disable account",
       "identifier": "disable_account",
-      "description": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.",
+      "description": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session",
       "verbose": "Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
       "type": "contain",
       "read_only": false,
@@ -1705,7 +1705,7 @@
       "read_only": false,
       "parameters": {
         "email_identifiers": {
-          "description": "description, messageId and mailbox or uniqueId and description",
+          "description": "Description, messageId and mailbox or uniqueId and description",
           "data_type": "string",
           "required": true,
           "primary": true,
@@ -1751,13 +1751,13 @@
     {
       "action": "sign out account",
       "identifier": "sign_out_account",
-      "description": "Signs the user out of all active application and browser sessions.",
+      "description": "Signs the user out of all active application and browser sessions",
       "verbose": "Signs the user out of all active application and browser sessions.\nSupported IAM systems:\nAzure AD",
       "type": "contain",
       "read_only": false,
       "parameters": {
         "account_identifiers": {
-          "description": "accountName and description of a response task",
+          "description": "Account name and description of a response task",
           "data_type": "string",
           "required": true,
           "primary": true,
@@ -1803,13 +1803,13 @@
     {
       "action": "force password reset",
       "identifier": "force_password_reset",
-      "description": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.",
+      "description": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt",
       "verbose": "Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.\nSupported IAM systems:\nAzure AD\nActive Directory (on-premises)",
       "type": "contain",
       "read_only": false,
       "parameters": {
         "account_identifiers": {
-          "description": "accountName and description of a response task",
+          "description": "Account name and description of a response task",
           "data_type": "string",
           "required": true,
           "primary": true,
@@ -1855,7 +1855,7 @@
     {
       "action": "sandbox suspicious list",
       "identifier": "sandbox_suspicious_list",
-      "description": "Downloads the suspicious object list associated to the specified object.",
+      "description": "Downloads the suspicious object list associated to the specified object",
       "verbose": "Downloads the suspicious object list associated to the specified object. Note: Suspicious Object Lists are only available for objects with a high risk level",
       "type": "investigate",
       "read_only": false,
@@ -1874,7 +1874,7 @@
           "param_name": "submit_id"
         },
         "poll": {
-          "description": "Would you like to poll the result?",
+          "description": "Would you like to poll the result? (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -1887,7 +1887,7 @@
           "param_name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll the request?",
+          "description": "How long would you like to poll the request? (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -1941,7 +1941,7 @@
     {
       "action": "sandbox analysis result",
       "identifier": "sandbox_analysis_result",
-      "description": "Displays the analysis results of the specified object.",
+      "description": "Displays the analysis results of the specified object",
       "verbose": "Displays the analysis results of the specified object.",
       "type": "investigate",
       "read_only": false,
@@ -2046,7 +2046,7 @@
           "name": "submit_id"
         },
         "poll": {
-          "description": "Would you like to poll for the result?",
+          "description": "Would you like to poll for the result? (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -2057,7 +2057,7 @@
           "name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll for the result?",
+          "description": "How long would you like to poll for the result? (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -2124,8 +2124,8 @@
     {
       "action": "get suspicious list",
       "identifier": "get_suspicious_list",
-      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.",
-      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.",
+      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list",
       "type": "investigate",
       "read_only": true,
       "parameters": {},
@@ -2157,8 +2157,8 @@
     {
       "action": "get exception list",
       "identifier": "get_exception_list",
-      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.",
-      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.",
+      "description": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list",
+      "verbose": "Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list",
       "type": "investigate",
       "read_only": true,
       "parameters": {},
