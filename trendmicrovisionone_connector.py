@@ -19,7 +19,6 @@ from __future__ import print_function, unicode_literals
 import sys
 import json
 import pytmv1
-import requests
 from datetime import timezone, datetime
 from typing import Any, Callable, List, Dict, Optional, Union, Tuple
 from pytmv1 import (
@@ -34,8 +33,9 @@ from pytmv1 import (
 )
 
 # Phantom App imports
-from phantom.vault import Vault
 from phantom import app as phantom
+import requests
+from phantom.vault import Vault
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
@@ -222,6 +222,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please check endpoint params.")
                 raise RuntimeError(f"Error quarantining endpoint: {response.errors}")
             assert response.response is not None
             multi_resp.append(response.response.items[0])
@@ -618,6 +619,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please check endpoint params.")
                 raise RuntimeError(f"Error restoring endpoint: {response.errors}")
             assert response.response is not None
             multi_resp.append(response.response.items[0])
@@ -659,6 +661,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.get_base_task_result(task_id, poll, poll_time_sec)
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check task_id.")
             raise RuntimeError(
                 f"Error fetching task status for task {task_id}. Result Code: {response.error}"
             )
@@ -698,6 +701,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if obj_type in ObjectType.__members__:
                 i["object_type"] = ObjectType[obj_type]
             else:
+                self.debug_print("Something went wrong, please check object type.")
                 raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
@@ -752,6 +756,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if obj_type in ObjectType.__members__:
                 i["object_type"] = ObjectType[obj_type]
             else:
+                self.debug_print("Something went wrong, please check object type.")
                 raise RuntimeError(f"Please check object type: {i['object_type']}")
 
         # Make rest call
@@ -819,6 +824,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )
                 )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
                 raise RuntimeError(f"Error while quarantining email: {response.errors}")
             assert response.response is not None
             multi_resp.append(response.response.items[0])
@@ -871,6 +879,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )
                 )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
                 raise RuntimeError(f"Error while deleting email: {response.errors}")
             assert response.response is not None
             multi_resp.append(response.response.items[0])
@@ -919,6 +930,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check process identifiers."
+                )
                 raise RuntimeError(
                     f"Error while terminating process: {response.errors}"
                 )
@@ -1246,6 +1260,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Make rest call
         response = client.get_sandbox_submission_status(submit_id=task_id)
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check task_id.")
             raise RuntimeError(
                 f"Error while fetching sandbox submission status: {response.error}"
             )
@@ -1274,9 +1289,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         submit_id = param["submit_id"]
-        poll = param["poll"]
 
         # Optional Params
+        poll = param.get("poll", "false")
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
@@ -1288,6 +1303,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check submit_id.")
             raise RuntimeError(
                 f"Error while downloading sandbox analysis report: {response.error}"
             )
@@ -1341,6 +1357,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please check inputs.")
                 raise RuntimeError(f"Error while collecting file: {response.errors}")
             else:
                 assert response.response is not None
@@ -1370,9 +1387,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         task_id = param["task_id"]
-        poll = param["poll"]
 
         # Optional Params
+        poll = param.get("poll", "false")
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
@@ -1386,6 +1403,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check task_id.")
             raise RuntimeError(
                 f"Error fetching forensic file info for task {task_id}. Result Code: {response.error}"
             )
@@ -1443,6 +1461,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check file_url.")
             raise RuntimeError(
                 f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
             )
@@ -1481,6 +1500,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.add_alert_note(alert_id=workbench_id, note=content)
 
         if "error" in response.result_code.lower():
+            self.debug_print(
+                "Something went wrong, please check workbench_id and content."
+            )
             raise RuntimeError(
                 f"Error adding note to workbench {workbench_id}. Result Code: {response.error}"
             )
@@ -1526,6 +1548,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         if sts in InvestigationStatus.__members__:
             status = InvestigationStatus[sts]
         else:
+            self.debug_print("Something went wrong, please check input params.")
             raise RuntimeError(f"Please check status: {status}")
 
         # Make rest call
@@ -1571,6 +1594,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.get_alert_details(alert_id=workbench_id)
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check workbench_id.")
             raise RuntimeError(
                 f"Error fetching alert details for {workbench_id}. Result Code: {response.error}"
             )
@@ -1614,6 +1638,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         for i in urls:
             response = client.submit_urls_to_sandbox(i)
             if "error" in response.result_code.lower():
+                self.debug_print("Something went wrong, please check urls.")
                 raise RuntimeError(
                     f"Error while submitting URLs to sandbox: {response.errors}"
                 )
@@ -1662,6 +1687,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
                 raise RuntimeError(f"Error while enabling account: {response.errors}")
             assert response.response is not None
             multi_resp.append(response.response.items[0])
@@ -1706,6 +1734,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
                 raise RuntimeError(
                     f"Error while disabling user account: {response.errors}"
                 )
@@ -1760,6 +1791,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )
                 )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
                 raise RuntimeError(
                     f"Error while restoring email message: {response.errors}"
                 )
@@ -1806,6 +1840,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
                 raise RuntimeError(
                     f"Error while signing out user account: {response.errors}"
                 )
@@ -1853,6 +1890,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
             )
             if "error" in response.result_code.lower():
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
                 raise RuntimeError(
                     f"Error while resetting user account password: {response.errors}"
                 )
@@ -1884,9 +1924,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         submit_id = param["submit_id"]
-        poll = param["poll"]
 
         # Optional Params
+        poll = param.get("poll", "false")
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
@@ -1975,6 +2015,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check report_id.")
             raise RuntimeError(
                 f"Error fetching sandbox analysis result: {response.error}"
             )
@@ -2004,9 +2045,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         submit_id = param["submit_id"]
-        poll = param["poll"]
 
         # Optional Params
+        poll = param.get("poll", "false")
         poll_time_sec = param.get("poll_time_sec", 0)
 
         # Initialize Pytmv1
@@ -2018,6 +2059,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if "error" in response.result_code.lower():
+            self.debug_print("Something went wrong, please check submit_id.")
             raise RuntimeError(
                 f"Error while downloading investigation package: {response.error}"
             )
