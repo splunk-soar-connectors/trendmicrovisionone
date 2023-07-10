@@ -221,6 +221,11 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -274,6 +279,11 @@
           "contains": [],
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -426,6 +436,11 @@
           "column_order": 6
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -478,6 +493,11 @@
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -534,6 +554,11 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -588,6 +613,11 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -640,6 +670,11 @@
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -699,6 +734,11 @@
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -761,6 +801,11 @@
           "column_order": 2
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -813,6 +858,11 @@
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -875,6 +925,11 @@
           "column_order": 2
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -929,6 +984,11 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -981,6 +1041,11 @@
           "data_type": "string",
           "column_name": "status",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -1064,6 +1129,11 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -1116,6 +1186,11 @@
           "data_type": "string",
           "column_name": "task_id",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -1190,6 +1265,11 @@
           "contains": [],
           "column_name": "file_info",
           "column_order": 0
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -1306,6 +1386,11 @@
           "column_order": 2
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -1372,6 +1457,11 @@
           "contains": [],
           "column_name": "message",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -1448,6 +1538,11 @@
           "column_order": 0
         },
         {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
+        },
+        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
@@ -1504,6 +1599,11 @@
           "data_type": "string",
           "column_name": "alert",
           "column_order": 2
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
@@ -1994,6 +2094,11 @@
           "data_type": "string",
           "column_name": "analysis_result",
           "column_order": 3
+        },
+        {
+          "data_path": "action_result.status",
+          "data_type": "string",
+          "column_name": "status"
         },
         {
           "data_path": "action_result.message",
