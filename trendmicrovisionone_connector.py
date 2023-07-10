@@ -90,7 +90,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
             "download_analysis_report": self._handle_download_analysis_report,
             "quarantine_email_message": self._handle_quarantine_email_message,
-            "get_sandbox_submission_status": self._handle_get_sandbox_submission_status,
+            "check_analysis": self._handle_check_analysis,
             "sandbox_investigation_package": self._handle_sandbox_investigation_package,
         }
 
@@ -1238,7 +1238,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_sandbox_submission_status(self, param):
+    def _handle_check_analysis(self, param):
         """
         Checks the submission status for item(s) sent to sandbox for analysis.
         Args:
