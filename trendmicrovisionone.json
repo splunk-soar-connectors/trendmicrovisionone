@@ -1064,19 +1064,6 @@
           "column_order": 1
         },
         {
-          "data_path": "action_result.parameter.type",
-          "data_type": "string",
-          "contains": [],
-          "column_name": "type",
-          "column_order": 2
-        },
-        {
-          "data_path": "action_result.status",
-          "data_type": "string",
-          "column_name": "status",
-          "column_order": 3
-        },
-        {
           "data_path": "action_result.message",
           "data_type": "string"
         },
