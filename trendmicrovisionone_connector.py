@@ -16,28 +16,27 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import sys
 import json
+import sys
+from datetime import datetime, timezone
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
 import pytmv1
 import requests
-from datetime import timezone, datetime
-from typing import Any, Callable, List, Dict, Optional, Union, Tuple
-from pytmv1 import (
-    HostInfo,
-    SaeAlert,
-    TiAlert,
-    Indicator,
-    Entity,
-    MsData,
-    ObjectType,
-    InvestigationStatus,
-)
-
-# Phantom App imports
 from phantom import app as phantom
-from phantom.vault import Vault
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
+from phantom.vault import Vault
+from pytmv1 import (
+    Entity,
+    HostInfo,
+    Indicator,
+    InvestigationStatus,
+    MsData,
+    ObjectType,
+    SaeAlert,
+    TiAlert,
+)
 
 
 class RetVal(tuple):
