@@ -126,40 +126,40 @@
           "data_type": "string",
           "contains": [],
           "column_name": "os_name",
-          "column_order": 6
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.os_version",
           "data_type": "string",
           "contains": [],
           "column_name": "osVersion",
-          "column_order": 7
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.product_code",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 8
+          "column_order": 7
         },
         {
           "data_path": "action_result.*.installed_product_codes",
           "data_type": "string",
           "contains": [],
           "column_name": "product_code",
-          "column_order": 9
+          "column_order": 8
         },
         {
           "data_path": "action_result.*.os_description",
           "data_type": "string",
           "contains": [],
           "column_name": "osDescription",
-          "column_order": 10
+          "column_order": 9
         },
         {
           "data_path": "action_result.*.status",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 11
+          "column_order": 10
         },
         {
           "data_path": "action_result.message",
@@ -399,31 +399,31 @@
           "data_path": "action_result.data.*.created_date_time",
           "data_type": "string",
           "column_name": "created_date_time",
-          "column_order": 3
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.last_action_date_time=",
           "data_type": "string",
           "column_name": "last_action_date_time=",
-          "column_order": 4
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.action",
           "data_type": "string",
           "column_name": "action",
-          "column_order": 5
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.description",
           "data_type": "string",
           "column_name": "description",
-          "column_order": 6
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.account",
           "data_type": "string",
           "column_name": "account",
-          "column_order": 7
+          "column_order": 6
         },
         {
           "data_path": "action_result.message",
