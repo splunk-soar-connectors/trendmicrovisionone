@@ -27,16 +27,7 @@ from phantom import app as phantom
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
-from pytmv1 import (
-    Entity,
-    HostInfo,
-    Indicator,
-    InvestigationStatus,
-    MsData,
-    ObjectType,
-    SaeAlert,
-    TiAlert,
-)
+from pytmv1 import Entity, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, SaeAlert, TiAlert
 
 
 class RetVal(tuple):
