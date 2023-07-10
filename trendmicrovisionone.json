@@ -947,8 +947,8 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "check analysis",
-      "identifier": "check_analysis",
+      "action": "check analysis status",
+      "identifier": "check_analysis_status",
       "description": "Get the status of file analysis based on task id",
       "verbose": "Get the status of file analysis based on task id and send result to the dashboard.",
       "type": "investigate",
