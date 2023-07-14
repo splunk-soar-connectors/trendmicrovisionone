@@ -102,7 +102,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     def _get_client(self) -> pytmv1.Client:
         return pytmv1.client(self.app, self.api_key, self._base_url)
-    
+
     @staticmethod
     def _is_pytmv1_error(result_code: ResultCode) -> bool:
         return result_code == ResultCode.ERROR
