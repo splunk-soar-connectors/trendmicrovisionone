@@ -19,15 +19,23 @@ from __future__ import print_function, unicode_literals
 import json
 import sys
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING, Union
 
 import pytmv1
 import requests
-from phantom import app as phantom
-from phantom.action_result import ActionResult
-from phantom.base_connector import BaseConnector
-from phantom.vault import Vault
-from pytmv1 import Entity, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, SaeAlert, TiAlert
+
+if TYPE_CHECKING:
+    from stubs import app as phantom
+    from stubs.action_result import ActionResult
+    from stubs.base_connector import BaseConnector
+else:
+    from phantom import app as phantom
+    from phantom.action_result import ActionResult
+    from phantom.base_connector import BaseConnector
+    from phantom.vault import Vault
+
+from pytmv1 import Entity, ExceptionObject, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, ResultCode, SaeAlert, \
+    SuspiciousObject, TiAlert
 
 
 class RetVal(tuple):
@@ -41,6 +49,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         super(TrendMicroVisionOneConnector, self).__init__()
 
         self._state: Dict[str, Any] = {}
+        self.config: Dict[str, Any] = {}
+
         self.app = "Trend Micro Vision One V3"
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
@@ -92,6 +102,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     def _get_client(self) -> pytmv1.Client:
         return pytmv1.client(self.app, self.api_key, self._base_url)
+    
+    @staticmethod
+    def _is_pytmv1_error(result_code: ResultCode) -> bool:
+        return result_code == ResultCode.ERROR
+
+    @staticmethod
+    def _get_ot_enum(obj_type: str) -> ObjectType:
+        if not obj_type.upper() in ObjectType.__members__:
+            raise RuntimeError(f"Please check object type: {obj_type}")
+        return ObjectType[obj_type]
 
     def _handle_test_connectivity(self, param):
         """
@@ -152,7 +172,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Make rest call
         try:
             client.consume_endpoint_data(
-                lambda endpoint_data: new_endpoint_data.append(endpoint_data.json()),
+                lambda endpoint_data: new_endpoint_data.append(endpoint_data),
                 pytmv1.QueryOp(query_op),
                 endpoint,
             )
@@ -162,8 +182,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
         # Load json objects to list
         endpoint_data_resp: List[Dict[str, Any]] = []
-        for i in new_endpoint_data:
-            endpoint_data_resp.append(json.loads(i))
+        for endpoint in new_endpoint_data:
+            endpoint_data_resp.append(endpoint.dict())
 
         if len(endpoint_data_resp) == 0:
             self.save_progress(
@@ -172,7 +192,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data(endpoint_data_resp)
+        action_result.add_data({"endpoint_data_resp": endpoint_data_resp})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -432,7 +452,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         return {
             "name": alert.model,
             "source_data_identifier": alert.id,
-            "label": self.get_config().get("ingest", {}).get("container_label"),
+            "label": self.config.get("ingest", {}).get("container_label"),
             "description": alert.description if isinstance(alert, SaeAlert) else "",
             "data": alert.dict(),
             "type": alert.alert_provider,
@@ -937,30 +957,24 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def exception_list_count(self) -> int:
+    def get_exception_count(self) -> int:
         """Gets the count of objects present in exception list"""
         # Initialize Pytmv1
         client = self._get_client()
 
-        new_exceptions: List[Dict[str, Any]] = []
+        new_exceptions: List[ExceptionObject] = []
+
         try:
             client.consume_exception_list(
-                lambda exception: new_exceptions.append(exception.dict())
+                lambda exception: new_exceptions.append(exception)
             )
         except Exception as e:
             self.debug_print("Consume Exception List failed with following exception:")
-            raise RuntimeError("Error while fetching exception list count.") from e
+            raise RuntimeError("Error while adding to exception list.") from e
 
-        # Load json objects to list
-        exception_objects: List[Dict[str, Any]] = []
-        for i in new_exceptions:
-            i["description"] = "" if not i["description"] else i["description"]
-            i = json.dumps(i)
-            exception_objects.append(json.loads(i))
-        exception_count = len(exception_objects)
-        return exception_count
+        return len(new_exceptions)
 
-    def _handle_add_to_exception(self, param):
+    def _handle_add_to_exception(self, param: Dict[str, Any]):
         """
         Adds domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs to the Exception List.
         Args:
@@ -973,7 +987,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
@@ -1005,17 +1019,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while adding to exception list: {response.errors}"
                 )
             assert response.response is not None
-            items = response.response.dict().get("items", [])[0]
-            items["task_id"] = (
-                "None" if items.get("task_id") is None else items["task_id"]
-            )
-            multi_resp.append(items)
+            multi_resp.append(response.response.items[0])
 
         # Get total exception list count
-        total_exception_count = self.exception_list_count()
+        total_exception_count = self.get_exception_count()
         # Add the response into the data section
         action_result.add_data(
-            {"multi_response": multi_resp, "total_count": total_exception_count}
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_exception_count,
+            }
         )
 
         # Return success
@@ -1064,43 +1077,37 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while removing from exception list: {response.errors}"
                 )
             assert response.response is not None
-            items = response.response.dict().get("items", [])[0]
-            items["task_id"] = (
-                "None" if items.get("task_id") is None else items["task_id"]
-            )
-            multi_resp.append(items)
+            multi_resp.append(response.response.items[0])
 
-        total_exception_count = self.exception_list_count()
+        # Get total exception list count
+        total_exception_count = self.get_exception_count()
         # Add the response into the data section
         action_result.add_data(
-            {"multi_response": multi_resp, "total_count": total_exception_count}
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_exception_count,
+            }
         )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def suspicious_list_count(self) -> int:
+    def get_suspicious_count(self) -> int:
         """Gets the count of objects present in suspicious list"""
         # Initialize Pytmv1
         client = self._get_client()
 
-        new_suspicious: List[Dict[str, Any]] = []
+        new_suspicious: List[SuspiciousObject] = []
 
         try:
             client.consume_suspicious_list(
-                lambda suspicious: new_suspicious.append(suspicious.dict())
+                lambda suspicious: new_suspicious.append(suspicious)
             )
         except Exception as e:
             self.debug_print("Consume Suspicious List failed with following exception:")
             raise RuntimeError("Error while fetching suspicious list count.") from e
-        # Load json objects to list
-        suspicious_objects: List[Dict[str, Any]] = []
-        for i in new_suspicious:
-            i["description"] = "" if not i["description"] else i["description"]
-            i = json.dumps(i)
-            suspicious_objects.append(json.loads(i))
-        suspicious_count = len(suspicious_objects)
-        return suspicious_count
+
+        return len(new_suspicious)
 
     def _handle_add_to_suspicious(self, param):
         """
@@ -1119,7 +1126,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         block_objects: List[Dict[str, Any]] = json.loads(param.get("block_objects"))
@@ -1152,17 +1159,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     f"Error while adding to suspicious list: {response.errors}"
                 )
             assert response.response is not None
-            items = response.response.dict().get("items", [])[0]
-            items["task_id"] = (
-                "None" if items.get("task_id") is None else items["task_id"]
-            )
-            multi_resp.append(items)
+            multi_resp.append(response.response.items[0])
 
         # Get suspicious list count
-        total_suspicious_count = self.suspicious_list_count()
+        total_suspicious_count = self.get_suspicious_count()
         # Add the response into the data section
         action_result.add_data(
-            {"multi_response": multi_resp, "total_count": total_suspicious_count}
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_suspicious_count,
+            }
         )
 
         # Return success
@@ -1192,37 +1198,28 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         multi_resp: List[MsData] = []
 
-        # Choose Enum
-        for i in block_objects:
-            obj_type = i["object_type"].upper()
-            if obj_type in ObjectType.__members__:
-                i["object_type"] = ObjectType[obj_type]
-            else:
-                raise RuntimeError(f"Please check object type: {i['object_type']}")
-
         # Make rest call
         for i in block_objects:
             response = client.remove_from_suspicious_list(
                 pytmv1.ObjectTask(
-                    object_type=i["object_type"], object_value=i["object_value"]  # type: ignore
+                    object_type=self._get_ot_enum(i["object_type"]), object_value=i["object_value"]  # type: ignore
                 )
             )
-            if "error" in response.result_code.lower():
+            if self._is_pytmv1_error(response.result_code):
                 raise RuntimeError(
                     f"Error while removing from suspicious list: {response.errors}"
                 )
             assert response.response is not None
-            items = response.response.dict().get("items", [])[0]
-            items["task_id"] = (
-                "None" if items.get("task_id") is None else items["task_id"]
-            )
-            multi_resp.append(items)
+            multi_resp.append(response.response.items[0])
 
         # Get suspicious list count
-        total_suspicious_count = self.suspicious_list_count()
+        total_suspicious_count = self.get_suspicious_count()
         # Add the response into the data section
         action_result.add_data(
-            {"multi_response": multi_resp, "total_count": total_suspicious_count}
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_suspicious_count,
+            }
         )
 
         # Return success
@@ -1351,9 +1348,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
             if "error" in response.result_code.lower():
                 self.debug_print("Something went wrong, please check inputs.")
                 raise RuntimeError(f"Error while collecting file: {response.errors}")
-            else:
-                assert response.response is not None
-                multi_resp.append(response.response.items[0])
+
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
         action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
@@ -1502,10 +1499,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         assert response.response is not None
         location = response.response.location
         note_id = location.split("/")[-1]
-        msg = "success"
-        result = {"note_id": note_id, "message": msg}
         # Add the response into the data section
-        action_result.add_data(result)
+        action_result.add_data({"note_id": note_id, "message": "Success"})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1537,11 +1532,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Choose Status Enum
         sts = status.upper()
-        if sts in InvestigationStatus.__members__:
-            status = InvestigationStatus[sts]
-        else:
+        if sts not in InvestigationStatus.__members__:
             self.debug_print("Something went wrong, please check input params.")
             raise RuntimeError(f"Please check status: {status}")
+
+        status = InvestigationStatus[sts]
 
         # Make rest call
         response = client.edit_alert_status(
@@ -1554,9 +1549,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Error updating alert status for {workbench_id}. Result Code: {response.error}"
             )
 
-        message = response.result_code
         # Add the response into the data section
-        action_result.add_data(message)
+        action_result.add_data({"message": "Success"})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -2172,7 +2166,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self._state = self.load_state()
 
         # get the asset config
-        config = self.get_config()
+        self.config = self.get_config()
         """
         # Access values in asset config by the name
 
@@ -2182,8 +2176,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Optional values should use the .get() function
         optional_config_name = config.get('optional_config_name')
         """
-        self.api_key = config["api_key"]
-        self._base_url = config.get("api_url")
+        self.api_key = self.config["api_key"]
+        self._base_url = self.config["api_url"]
 
         return phantom.APP_SUCCESS
 
