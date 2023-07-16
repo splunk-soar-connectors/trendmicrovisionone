@@ -111,7 +111,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
     def _get_ot_enum(obj_type: str) -> ObjectType:
         if not obj_type.upper() in ObjectType.__members__:
             raise RuntimeError(f"Please check object type: {obj_type}")
-        return ObjectType[obj_type]
+        return ObjectType[obj_type.upper()]
 
     def _handle_test_connectivity(self, param):
         """
@@ -1580,8 +1580,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         submit_urls_resp = []
 
         # Make rest call
-        for i in urls:
-            response = client.submit_urls_to_sandbox(i)
+        for url in urls:
+            response = client.submit_urls_to_sandbox(url)
             if self._is_pytmv1_error(response.result_code):
                 self.debug_print("Something went wrong, please check urls.")
                 raise RuntimeError(
@@ -1877,7 +1877,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        sandbox_suspicious_list_resp = []
+        sandbox_suspicious_list_resp: List[Dict[str, Any]] = []
         # Make rest call
         response = client.get_sandbox_suspicious_list(
             submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
@@ -1888,8 +1888,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Error while fetching sandbox suspicious list: {response.error}"
             )
         assert response.response is not None
-        for i in response.response.dict().get("items", []):
-            sandbox_suspicious_list_resp.append(json.loads(json.dumps(i)))
+        for item in response.response.items:
+            sandbox_suspicious_list_resp.append(item.dict())
 
         # Create Container
         container = {
@@ -1897,27 +1897,19 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "source_data_identifier": "File Analysis Report - Suspicious Object",
             "label": "trendmicro",
             "tags": "suspiciousObject",
+            "severity": sandbox_suspicious_list_resp[0]["risk_level"].capitalize()
         }
-
-        if len(sandbox_suspicious_list_resp) > 0:
-            suspicious_object: dict[str, Any] = sandbox_suspicious_list_resp[0]
-
-            container["severity"] = suspicious_object.get(
-                "risk_level", "Medium"
-            ).capitalize()
-        else:
-            container["severity"] = "Medium"
 
         ret_val, msg, cid = self.save_container(container)
 
-        artifacts = []
-        for i in sandbox_suspicious_list_resp[0]:
+        artifacts: List[Any] = []
+        for sus_obj in sandbox_suspicious_list_resp:
             artifacts_d = {
                 "name": "Artifact of {}".format(submit_id),
                 "source_data_identifier": "File Analysis Report - Suspicious Object",
                 "label": "trendmicro",
                 "container_id": cid,
-                "cef": i
+                "cef": sus_obj
             }
             artifacts.append(artifacts_d)
         ret_val, msg, cid = self.save_artifacts(artifacts)
@@ -2086,8 +2078,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Consume Suspicious List failed with following exception: {e}"
             )
             raise e
-        # Load json objects to list
-        # exception_objects: List[Dict[str, Any]] = []
 
         # Add the response into the data section
         action_result.add_data({"exception_objects": [item.dict() for item in new_exceptions]})
