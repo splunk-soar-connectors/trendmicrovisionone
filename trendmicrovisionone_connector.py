@@ -19,20 +19,20 @@ from __future__ import print_function, unicode_literals
 import json
 import sys
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pytmv1
 import requests
 
-if TYPE_CHECKING:
-    from stubs import app as phantom
-    from stubs.action_result import ActionResult
-    from stubs.base_connector import BaseConnector
-else:
-    from phantom import app as phantom
-    from phantom.action_result import ActionResult
-    from phantom.base_connector import BaseConnector
-    from phantom.vault import Vault
+# if TYPE_CHECKING:
+#     from stubs import app as phantom
+#     from stubs.action_result import ActionResult
+#     from stubs.base_connector import BaseConnector
+# else:
+from phantom import app as phantom
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+from phantom.vault import Vault
 
 from pytmv1 import Entity, ExceptionObject, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, \
     ResultCode, SaeAlert, SuspiciousObject, TiAlert
