@@ -34,8 +34,8 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
 
-from pytmv1 import Entity, ExceptionObject, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, \
-    ResultCode, SaeAlert, SuspiciousObject, TiAlert
+from pytmv1 import (Entity, ExceptionObject, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, ResultCode, SaeAlert,
+                    SuspiciousObject, TiAlert)
 
 
 class RetVal(tuple):
