@@ -19,7 +19,7 @@ from __future__ import print_function, unicode_literals
 import json
 import sys
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pytmv1
 import requests
