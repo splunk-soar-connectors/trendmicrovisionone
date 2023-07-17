@@ -122,7 +122,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             str: Connectivity pass for fail.
         """
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Initialize Pytmv1 client
         client = self._get_client()
@@ -152,7 +152,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         endpoint = param["ip_hostname_mac"]
@@ -211,11 +211,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         endpoint_identifiers: List[Dict[str, str]] = json.loads(
-            param.get("endpoint_identifiers")
+            param["endpoint_identifiers"]
         )
 
         # Initialize Pytmv1
@@ -608,11 +608,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         endpoint_identifiers: List[Dict[str, str]] = json.loads(
-            param.get("endpoint_identifiers")
+            param["endpoint_identifiers"]
         )
 
         # Initialize Pytmv1
@@ -655,7 +655,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         task_id = param["task_id"]
@@ -695,7 +695,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         block_objects: List[Dict[str, Any]] = json.loads(param["block_objects"])
@@ -742,7 +742,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
@@ -790,7 +790,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
@@ -845,7 +845,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
@@ -901,7 +901,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         process_identifiers: List[Dict[str, str]] = json.loads(
@@ -1095,7 +1095,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        block_objects: List[Dict[str, Any]] = json.loads(param.get("block_objects"))
+        block_objects: List[Dict[str, Any]] = json.loads(param["block_objects"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1149,7 +1149,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        block_objects: List[Dict[str, str]] = json.loads(param.get("block_objects"))
+        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1196,7 +1196,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         task_id = param["task_id"]
@@ -1232,7 +1232,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         submit_id = param["submit_id"]
@@ -1284,15 +1284,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        collect_files: List[Dict[str, str]] = json.loads(param.get("collect_files"))
+        collect_files: List[Dict[str, str]] = json.loads(param["collect_files"])
 
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in collect_files:
@@ -1330,7 +1330,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         task_id = param["task_id"]
@@ -1384,7 +1384,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         file_url = param["file_url"]
@@ -1434,7 +1434,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         workbench_id = param["workbench_id"]
@@ -1478,7 +1478,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         workbench_id = param["workbench_id"]
@@ -1527,7 +1527,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         workbench_id = param["workbench_id"]
@@ -1569,7 +1569,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         urls: List[str] = json.loads(param["urls"])
@@ -1577,7 +1577,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        submit_urls_resp = []
+        submit_urls_resp: List[MsData] = []
 
         # Make rest call
         for url in urls:
@@ -1611,7 +1611,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         account_identifiers: List[Dict[str, str]] = json.loads(
@@ -1658,7 +1658,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         account_identifiers: List[Dict[str, str]] = json.loads(
@@ -1708,7 +1708,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
@@ -1716,7 +1716,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in email_identifiers:
@@ -1764,7 +1764,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         account_identifiers: List[Dict[str, str]] = json.loads(
@@ -1814,7 +1814,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         account_identifiers: List[Dict[str, str]] = json.loads(
@@ -1865,7 +1865,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         submit_id = param["submit_id"]
@@ -1932,7 +1932,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         report_id = param["report_id"]
@@ -1957,10 +1957,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 f"Error fetching sandbox analysis result: {response.error}"
             )
         assert response.response is not None
-        analysis_result = json.loads(response.response.json())
 
         # Add the response into the data section
-        action_result.add_data(analysis_result)
+        action_result.add_data({"analysis_result": response.response.dict()})
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -1978,7 +1977,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
         submit_id = param["submit_id"]
@@ -2027,7 +2026,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
         # Initialize Pytmv1
         client = self._get_client()
