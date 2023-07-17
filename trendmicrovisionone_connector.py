@@ -1621,7 +1621,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in account_identifiers:
@@ -1668,7 +1668,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in account_identifiers:
@@ -1774,7 +1774,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in account_identifiers:
@@ -1824,7 +1824,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        multi_resp = []
+        multi_resp: List[MsData] = []
 
         # Make rest call
         for i in account_identifiers:
