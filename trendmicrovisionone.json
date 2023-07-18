@@ -365,7 +365,7 @@
           "param_name": "task_id"
         },
         "poll": {
-          "description": "Would you like to poll the task ID? (Required)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Required)",
           "data_type": "string",
           "required": true,
           "primary": true,
@@ -378,7 +378,7 @@
           "param_name": "poll"
         },
         "poll_time_sec": {
-          "description": "Poll time duration in seconds. (Required)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -1087,7 +1087,7 @@
           "param_name": "submit_id"
         },
         "poll": {
-          "description": "Should the action be polled? (Optional)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -1100,7 +1100,7 @@
           "param_name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long should the action be polled for? (Optional)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -1232,7 +1232,7 @@
           "param_name": "task_id"
         },
         "poll": {
-          "description": "Would you like to poll for the result? (Optional)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -1245,7 +1245,7 @@
           "param_name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll for the result? (Optional)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -1961,7 +1961,7 @@
           "param_name": "submit_id"
         },
         "poll": {
-          "description": "Would you like to poll the result? (Optional)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -1974,7 +1974,7 @@
           "param_name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll the request? (Optional)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -2045,7 +2045,7 @@
           "name": "report_id"
         },
         "poll": {
-          "description": "Poll the request? true or false (Optional)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -2056,7 +2056,7 @@
           "name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll for result? (Optional)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
@@ -2138,7 +2138,7 @@
           "name": "submit_id"
         },
         "poll": {
-          "description": "Would you like to poll for the result? (Optional)",
+          "description": "If script should wait until the task is finished before returning the result, disabled by default (Optional)",
           "data_type": "string",
           "required": false,
           "primary": false,
@@ -2149,7 +2149,7 @@
           "name": "poll"
         },
         "poll_time_sec": {
-          "description": "How long would you like to poll for the result? (Optional)",
+          "description": "Maximum time to wait for the result to be available (Optional)",
           "data_type": "numeric",
           "required": false,
           "primary": false,
