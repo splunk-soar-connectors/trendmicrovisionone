@@ -130,7 +130,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Make rest call
         response = client.check_connectivity()
 
-        if phantom.is_fail(response.result_code):
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Please check your environment variables.")
             self.save_progress("Test Connectivity Failed.")
             return action_result.get_status()
 
