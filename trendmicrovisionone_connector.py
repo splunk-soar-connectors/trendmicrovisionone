@@ -295,7 +295,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "label": "ALERT",
             "container_id": container_id,
             "source_data_identifier": self.create_artifact_identifier(alert.id),
-            "type": [alert.alert_provider],
+            "type": alert.alert_provider,
             "severity": alert.severity.value,
             "start_time": alert.created_date_time,
             "cef": art_cef,
