@@ -271,7 +271,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns string artifact identifier.
         Args:
             alert_id (str): Alert ID.
-            artifact_id (int): Artifact ID.
         Returns:
             str: Artifact identifier string.
         """
@@ -288,6 +287,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             dict[str, Any]: Artifact object.
         """
+        # Use pytmv1 mapper to populate artifact cef
         art_cef = pytmv1.mapper.map_cef(alert)
 
         return {
