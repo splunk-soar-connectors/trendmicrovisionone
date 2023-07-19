@@ -34,8 +34,7 @@ else:
     from phantom.base_connector import BaseConnector
     from phantom.vault import Vault
 
-from pytmv1 import (Entity, ExceptionObject, HostInfo, Indicator, InvestigationStatus, MsData, ObjectType, ResultCode, SaeAlert,
-                    SuspiciousObject, TiAlert)
+from pytmv1 import ExceptionObject, InvestigationStatus, MsData, ObjectType, ResultCode, SaeAlert, SuspiciousObject, TiAlert
 
 
 class RetVal(tuple):
@@ -244,34 +243,22 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _create_new_artifact_from_indicator(
-        self, container_id: int, alert: Union[SaeAlert, TiAlert], indicator: Indicator
+    def _create_new_artifact_from_alert(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
         """
-        Create a new artifact from indicator.
+        Create a new artifact from alert.
         Args:
             container_id (int): ID that will be used to query for containers
             alert (Union[SaeAlert, TiAlert]): SAEAlert or TiAlert object
-            indicator (Indicator): Indicator object
         Raises:
             RuntimeError: Raise error if artifact creation encounters a problem
         """
-        # if artifacts dont already exist, make new artifact bundles
-        if self.artifact_exists(container_id, alert.id, indicator.id):
+        # if artifacts doesn't already exist, make new artifact bundles
+        if self.artifact_exists(container_id, alert.id):
             return
 
-        artifact_related_entities: List[Entity] = []
-        for entity in alert.impact_scope.entities:
-            # append data to artifact related entities list in case artifact is indeed related
-            if indicator.id in entity.related_indicator_ids:
-                artifact_related_entities.append(entity)
-
-        new_artifact = self._create_artifact_content(
-            container_id,
-            alert,
-            indicator,
-            artifact_related_entities,
-        )
+        new_artifact = self._create_artifact_content(container_id, alert)
 
         ret_val, msg, response = self.save_artifacts([new_artifact])
         if phantom.is_fail(ret_val):
@@ -279,7 +266,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(f"Error saving artifacts: {[new_artifact]}")
 
     @staticmethod
-    def create_artifact_identifier(alert_id: str, artifact_id: int) -> str:
+    def create_artifact_identifier(alert_id: str) -> str:
         """
         Returns string artifact identifier.
         Args:
@@ -288,58 +275,27 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             str: Artifact identifier string.
         """
-        return f"TM-{alert_id}-{str(artifact_id)}"
+        return f"TM-{alert_id}"
 
     def _create_artifact_content(
-        self,
-        container_id: int,
-        alert: Union[SaeAlert, TiAlert],
-        indicator: Indicator,
-        local_scope: List[Entity],
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
         """
         Gathers information and adds to artifact.
         Args:
             container_id (int): Container ID.
             alert (Union[SaeAlert, TiAlert]): Type of alert (SaeAlert or TiAlert).
-            indicator (Indicator): Indicators fetched from alert.
-            local_scope (List[Entity]): Entities fetched from Impact Scope.
         Returns:
             dict[str, Any]: Artifact object.
         """
-        art_cef = {
-            "cs1": indicator.value.name
-            if isinstance(indicator.value, HostInfo)
-            else indicator.value,
-            "cs1Label": "Artifact Value",
-            "cs2": indicator.related_entities,
-            "cs2Label": "Related Entities",
-            "cs3": alert.alert_provider.value,
-            "cs3Label": "Product ID",
-        }
-        hosts_names: List[str] = []
-        assoc_ips: List[List[str]] = []
-
-        # Note: Unsure, but may be a zipped mapping between host names and associated ips
-        # Ex. Host names idx 0  may map to a list of ips in assoc_ips idx 0
-        for entity in local_scope:
-            value: Union[str, HostInfo] = entity.entity_value
-            assert isinstance(value, HostInfo)
-
-            hosts_names.append(value.name)
-            assoc_ips.append(value.ips)
-
-        art_cef["sourceHostName"] = hosts_names
-        art_cef["sourceAddress"] = assoc_ips
+        art_cef = pytmv1.mapper.map_cef(alert)
 
         return {
-            "name": indicator.id,
-            "label": indicator.type,
+            "name": alert.id,
+            "label": "ALERT",
             "container_id": container_id,
-            "source_data_identifier": self.create_artifact_identifier(
-                alert.id, indicator.id
-            ),
-            "type": [item.entity_type for item in local_scope],
+            "source_data_identifier": self.create_artifact_identifier(alert.id),
+            "type": [alert.alert_provider],
             "severity": alert.severity.value,
             "start_time": alert.created_date_time,
             "cef": art_cef,
@@ -373,18 +329,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "Encountered an error updateding container alert."
             ) from e
 
-    def artifact_exists(self, container_id: int, alert_id: str, indicator_id: int):
+    def artifact_exists(self, container_id: int, alert_id: str):
         """
         Makes a rest call to see if the artifact exists or not.
         Args:
             container_id (int): Container ID to filter.
             alert_id (str): Alert ID.
-            indicator_id (int): Indicator ID.
         Returns:
             ID: Returns an ID or None if no ID exists.
         """
         # Fetch the source data identifier
-        sdi = self.create_artifact_identifier(alert_id, indicator_id)
+        sdi = self.create_artifact_identifier(alert_id)
         # check if a given artifact exists for in a container
         url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container_id}'
         # Make rest call
@@ -455,7 +410,6 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "source_data_identifier": alert.id,
             "label": self.config.get("ingest", {}).get("container_label"),
             "description": alert.description if isinstance(alert, SaeAlert) else "",
-            "data": alert.dict(),
             "type": alert.alert_provider,
             "severity": alert.severity,
             "start_time": alert.created_date_time,
@@ -506,8 +460,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
         """
         # add new artifacts
-        for indicator in alert.indicators:
-            self._create_new_artifact_from_indicator(container_id, alert, indicator)
+        self._create_new_artifact_from_alert(container_id, alert)
 
     def _get_poll_interval(self, param) -> Tuple[str, str]:
         """
@@ -1898,7 +1851,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "source_data_identifier": "File Analysis Report - Suspicious Object",
             "label": "trendmicro",
             "tags": "suspiciousObject",
-            "severity": sandbox_suspicious_list_resp[0]["risk_level"].capitalize()
+            "severity": sandbox_suspicious_list_resp[0]["risk_level"].capitalize(),
         }
 
         ret_val, msg, cid = self.save_container(container)
@@ -1910,14 +1863,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "source_data_identifier": "File Analysis Report - Suspicious Object",
                 "label": "trendmicro",
                 "container_id": cid,
-                "cef": sus_obj
+                "cef": sus_obj,
             }
             artifacts.append(artifacts_d)
         ret_val, msg, cid = self.save_artifacts(artifacts)
         self.save_progress("Suspicious Object added to Container")
 
         # Add the response into the data section
-        action_result.add_data({"sandbox_suspicious_list_resp": sandbox_suspicious_list_resp})
+        action_result.add_data(
+            {"sandbox_suspicious_list_resp": sandbox_suspicious_list_resp}
+        )
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_sandbox_analysis_result(self, param):
@@ -2046,7 +2001,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise e
 
         # Add the response into the data section
-        action_result.add_data({"suspicious_objects": [item.dict() for item in new_suspicions]})
+        action_result.add_data(
+            {"suspicious_objects": [item.dict() for item in new_suspicions]}
+        )
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -2080,7 +2037,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise e
 
         # Add the response into the data section
-        action_result.add_data({"exception_objects": [item.dict() for item in new_exceptions]})
+        action_result.add_data(
+            {"exception_objects": [item.dict() for item in new_exceptions]}
+        )
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
