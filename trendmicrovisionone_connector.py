@@ -16,23 +16,25 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import base64
-import datetime
 import json
-import re
 import sys
-import time
-import uuid
+from datetime import datetime, timezone
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, Union
 
-# Phantom App imports
-import phantom.app as phantom
+import pytmv1
 import requests
-from bs4 import BeautifulSoup
-from phantom import vault
-from phantom.action_result import ActionResult
-from phantom.base_connector import BaseConnector
 
-from trendmicrovisionone_consts import *
+if TYPE_CHECKING:
+    from stubs import app as phantom
+    from stubs.action_result import ActionResult
+    from stubs.base_connector import BaseConnector
+else:
+    from phantom import app as phantom
+    from phantom.action_result import ActionResult
+    from phantom.base_connector import BaseConnector
+    from phantom.vault import Vault
+
+from pytmv1 import ExceptionObject, InvestigationStatus, MsData, ObjectType, ResultCode, SaeAlert, SuspiciousObject, TiAlert
 
 
 class RetVal(tuple):
@@ -42,185 +44,93 @@ class RetVal(tuple):
 
 class TrendMicroVisionOneConnector(BaseConnector):
     def __init__(self):
-
         # Call the BaseConnectors init first
         super(TrendMicroVisionOneConnector, self).__init__()
 
-        self._state = None
+        self._state: Dict[str, Any] = {}
+        self.config: Dict[str, Any] = {}
 
+        self.app = "Trend Micro Vision One V3"
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
-        self._base_url = None
+        self._base_url: str = ""
 
-    def _process_empty_response(self, response, action_result):
-        if response.status_code == 200:
-            return RetVal(phantom.APP_SUCCESS, {})
-
-        return RetVal(
-            action_result.set_status(
-                phantom.APP_ERROR, "Empty response and no information in the header"
-            ),
-            None,
-        )
-
-    def header(self):
-        return {
-            "Authorization": "Bearer {token}".format(token=self.api_key),
-            "Content-Type": "application/json;charset=utf-8",
-            "User-Agent": "TMV1SplunkSOARApp/1.0",
+        self.supported_actions: Dict[str, Callable] = {
+            "on_poll": self._handle_on_poll,
+            "add_note": self._handle_add_note,
+            "status_check": self._handle_status_check,
+            "update_status": self._handle_update_status,
+            "enable_account": self._handle_enable_account,
+            "start_analysis": self._handle_start_analysis,
+            "disable_account": self._handle_disable_account,
+            "urls_to_sandbox": self._handle_urls_to_sandbox,
+            "sign_out_account": self._handle_sign_out_account,
+            "add_to_blocklist": self._handle_add_to_blocklist,
+            "add_to_exception": self._handle_add_to_exception,
+            "test_connectivity": self._handle_test_connectivity,
+            "get_endpoint_info": self._handle_get_endpoint_info,
+            "quarantine_device": self._handle_quarantine_device,
+            "terminate_process": self._handle_terminate_process,
+            "add_to_suspicious": self._handle_add_to_suspicious,
+            "get_alert_details": self._handle_get_alert_details,
+            "forensic_file_info": self._handle_forensic_file_info,
+            "get_exception_list": self._handle_get_exception_list,
+            "get_suspicious_list": self._handle_get_suspicious_list,
+            "unquarantine_device": self._handle_unquarantine_device,
+            "force_password_reset": self._handle_force_password_reset,
+            "delete_email_message": self._handle_delete_email_message,
+            "delete_from_exception": self._handle_delete_from_exception,
+            "remove_from_blocklist": self._handle_remove_from_blocklist,
+            "collect_forensic_file": self._handle_collect_forensic_file,
+            "restore_email_message": self._handle_restore_email_message,
+            "delete_from_suspicious": self._handle_delete_from_suspicious,
+            "sandbox_analysis_result": self._handle_sandbox_analysis_result,
+            "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
+            "download_analysis_report": self._handle_download_analysis_report,
+            "quarantine_email_message": self._handle_quarantine_email_message,
+            "check_analysis_status": self._handle_check_analysis_status,
+            "sandbox_investigation_package": self._handle_sandbox_investigation_package,
         }
 
-    def _process_html_response(self, response, action_result):
-        # A html response, treat it like an error
-        status_code = response.status_code
+    def handle_exception(self, exception: BaseException):
+        error_result = ActionResult(self.get_current_param())
+        error_result.set_status(phantom.APP_ERROR)
+        error_result.add_exception_details(exception)
+        self.add_action_result(error_result)
 
-        try:
-            soup = BeautifulSoup(response.text, "html.parser")
-            error_text = soup.text
-            split_lines = error_text.split("\n")
-            split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = "\n".join(split_lines)
-        except Exception:
-            error_text = "Cannot parse error details"
+    def _get_client(self) -> pytmv1.Client:
+        return pytmv1.client(self.app, self.api_key, self._base_url)
 
-        message = "Status Code: {0}. Data from server:\n{1}\n".format(
-            status_code, error_text
-        )
+    @staticmethod
+    def _is_pytmv1_error(result_code: ResultCode) -> bool:
+        return result_code == ResultCode.ERROR
 
-        message = message.replace("{", "{{").replace("}", "}}")
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _process_json_response(self, r, action_result):
-        # Try a json parse
-        try:
-            resp_json = r.json()
-        except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR,
-                    "Unable to parse JSON response. Error: {0}".format(str(e)),
-                ),
-                None,
-            )
-
-        # Please specify the status codes here
-        if 200 <= r.status_code < 399:
-            return RetVal(phantom.APP_SUCCESS, resp_json)
-
-        # You should process the error returned in the json
-        message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
-        )
-
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _process_file_response(self, r, action_result):
-        # Just send back the file stream data
-        if r.status_code == 200:
-            data = r.content
-            return RetVal(phantom.APP_SUCCESS, data)
-
-        else:
-            message = "Error from server. Status Code: {0}".format(r.status_code)
-            return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _process_response(self, r, action_result):
-        # store the r_text in debug data, it will get dumped in the logs if the action fails
-        if hasattr(action_result, "add_debug_data"):
-            action_result.add_debug_data({"r_status_code": r.status_code})
-            action_result.add_debug_data({"r_text": r.text})
-            action_result.add_debug_data({"r_headers": r.headers})
-
-        # Process each 'Content-Type' of response separately
-
-        # Process a json response
-        if "json" in r.headers.get("Content-Type", ""):
-            return self._process_json_response(r, action_result)
-
-        # Process an HTML response, Do this no matter what the api talks.
-        # There is a high chance of a PROXY in between phantom and the rest of
-        # world, in case of errors, PROXY's return HTML, this function parses
-        # the error and adds it to the action_result.
-        if "html" in r.headers.get("Content-Type", ""):
-            return self._process_html_response(r, action_result)
-
-        # Try manual octet stream return
-        if r.headers.get("Content-Type", "") == "binary/octet-stream":
-            return self._process_file_response(r, action_result)
-
-        # it's not content-type that is to be parsed, handle an empty response
-        if not r.text:
-            return self._process_empty_response(r, action_result)
-
-        # return 200 response that did not fit any above handle
-        if r.status_code == 200:
-            return self._process_file_response(r, action_result)
-
-        # everything else is actually an error at this point
-        message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
-        )
-
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _make_rest_call(self, endpoint, action_result, method="get", **kwargs):
-        # **kwargs can be any additional parameters that requests.request accepts
-
-        config = self.get_config()
-
-        resp_json = None
-
-        try:
-            request_func = getattr(requests, method)
-        except AttributeError:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Invalid method: {0}".format(method)
-                ),
-                resp_json,
-            )
-
-        # Create a URL to connect to
-        url = self._base_url + endpoint
-
-        try:
-            r = request_func(
-                url,
-                # auth=(username, password),  # basic authentication
-                verify=config.get("verify_server_cert", False),
-                **kwargs,
-            )
-        except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR,
-                    "Error Connecting to server. Details: {0}".format(str(e)),
-                ),
-                resp_json,
-            )
-
-        return self._process_response(r, action_result)
+    @staticmethod
+    def _get_ot_enum(obj_type: str) -> ObjectType:
+        if not obj_type.upper() in ObjectType.__members__:
+            raise RuntimeError(f"Please check object type: {obj_type}")
+        return ObjectType[obj_type.upper()]
 
     def _handle_test_connectivity(self, param):
+        """
+        Makes a call to endpoint to check connectivity.
+        Args:
+            N/A
+        Returns:
+            str: Connectivity pass for fail.
+        """
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # NOTE: test connectivity does _NOT_ take any parameters
-        # i.e. the param dictionary passed to this handler will be empty.
-        # Also typically it does not add any data into an action_result either.
-        # The status and progress messages are more important.
+        # Initialize Pytmv1 client
+        client = self._get_client()
 
-        # self.save_progress("Connecting to endpoint")
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_EXCEPTION_LIST,
-            action_result,
-            params=None,
-            headers=self.header(),
-        )
+        # Make rest call
+        response = client.check_connectivity()
 
-        if phantom.is_fail(ret_val):
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Please check your environment variables.")
             self.save_progress("Test Connectivity Failed.")
             return action_result.get_status()
 
@@ -228,327 +138,211 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def get_computer_id(self, field, value):
-        # get the computer id from Trend Micro Vision One
-
-        body = {"criteria": {"field": field, "value": value}}
-        response = requests.post(
-            f"{self._base_url}{GET_COMPUTER_ID_ENDPOINT}",
-            headers=self.header(),
-            data=json.dumps(body),
-            timeout=30,
-        ).json()
-
-        if response["status"] == "FAIL":
-            return "lookup failed"
-        computer_id = response.get("result").get("computerId")
-
-        return computer_id
-
-    def delistify(self, listed):
-        # Unpack and get the first element in a list of any depth
-        if isinstance(listed, list) or "[" in listed:
-            if isinstance(listed, list):
-                return self.delistify(listed[0])
-            elif "'" in listed:
-                liste = listed.split("'")
-                return self.delistify(liste[1])
-            elif '"' in listed:
-                liste = listed.split('"')
-                return self.delistify(liste[1])
-        else:
-            return listed
-
-    def _handle_get_computer_id(self, param):
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
-
-        # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
-
-        # Param setup
-        ip_hostname_mac = param["ip_hostname_mac"]
-        lookup_type = self.lookup_type(ip_hostname_mac)
-        body = {"criteria": {"field": lookup_type, "value": ip_hostname_mac}}
-
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            GET_COMPUTER_ID_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
-
-        if phantom.is_fail(ret_val):
-            self.save_progress("Computer ID lookup failed.")
-            return action_result.get_status()
-
-        # Add the response into the data section
-        action_result.add_data(response)
-
-        # return success
-        return action_result.set_status(phantom.APP_SUCCESS)
-
-    def lookup_type(self, param):
-
-        # Regex expression for validating IPv4
-        regex = (
-            "(([0-9]|[1-9][0-9]|1[0-9][0-9]|"
-            "2[0-4][0-9]|25[0-5])\\.){3}"
-            "([0-9]|[1-9][0-9]|1[0-9][0-9]|"
-            "2[0-4][0-9]|25[0-5])"
-        )
-
-        # Regex expression for validating IPv6
-        regex1 = "((([0-9a-fA-F]){1,4})\\:){7}" "([0-9a-fA-F]){1,4}"
-
-        # Regex expression for validating MAC
-        regex2 = "([0-9A-Fa-f]{2}[:-]){5}" "([0-9A-Fa-f]{2})"
-
-        p = re.compile(regex)
-        p1 = re.compile(regex1)
-        p2 = re.compile(regex2)
-
-        # Checking if it is a valid IPv4 address
-        if re.search(p, param):
-            return "ip"
-
-        # Checking if it is a valid IPv6 address
-        elif re.search(p1, param):
-            return "ipv6"
-
-        # Checking if it is a valid MAC address
-        elif re.search(p2, param):
-            return "macaddr"
-
-        # Otherwise use hostname type
-        return "hostname"
-
     def _handle_get_endpoint_info(self, param):
+        """
+        Fetches information for an endpoint.
+        Args:
+            endpoint(str): endpoint to be queried
+            query_op(str): query operator ['and', 'or']
+        Returns:
+            List[Any]: Returns a list of objects containing information about an endpoint
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value = param["ip_hostname_mac"]
-        if "-" in value:
-            parts = value.split("-")
-            value = ":".join(parts)
+        # Required Params
+        endpoint = param["ip_hostname_mac"]
+        query_op = param["query_op"]
 
-        # Unpack first item from a list of any depth
-        value = self.delistify(value)
-        field = self.lookup_type(value)
-        computer_id = self.get_computer_id(field, value)
-        body = {"computerId": computer_id}
+        # Initialize pytmv1
+        client = self._get_client()
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            GET_ENDPOINT_INFO_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            params=None,
-            headers=self.header(),
-        )
+        # Choose QueryOp Enum based on user choice
+        if "or" in query_op:
+            query_op = pytmv1.QueryOp.OR
+        elif "and" in query_op:
+            query_op = pytmv1.QueryOp.AND
 
-        if phantom.is_fail(ret_val):
-            self.save_progress("Endpoint info lookup failed.")
+        new_endpoint_data: List[Any] = []
+
+        # Make rest call
+        try:
+            client.consume_endpoint_data(
+                lambda endpoint_data: new_endpoint_data.append(endpoint_data),
+                pytmv1.QueryOp(query_op),
+                endpoint,
+            )
+        except Exception as e:
+            raise RuntimeError(
+                f"Something went wrong while fetching endpoint data: {e}"
+            )
+        # Load json objects to list
+        endpoint_data_resp: List[Dict[str, Any]] = []
+        for endpoint in new_endpoint_data:
+            endpoint_data_resp.append(endpoint.dict())
+
+        if len(endpoint_data_resp) == 0:
+            self.save_progress(
+                f"Endpoint lookup failed, please check endpoint name: {endpoint}"
+            )
             return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"endpoint_data_resp": endpoint_data_resp})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_quarantine_device(self, param):
+        """
+        Action to isolate an endpoint.
+        Args:
+            endpoint_identifiers(List[Dict[str, str]]): Object containing Endpoint name and (optional) description.
+        Returns:
+            Dict[str, List[Any]]: Returns a list of objects containing task_id and HTTP status code
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value = param["ip_hostname_mac"]
-        value = self.delistify(value)
-        field = self.lookup_type(value)
-        computerid = self.get_computer_id(field, value)
-        productid = param["productid"]
-        description = param.get("description", "")
-        body = {
-            "computerId": computerid,
-            "productId": productid,
-            "description": description,
-        }
-
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ISOLATE_CONNECTION_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            params=None,
-            headers=self.header(),
+        # Required Params
+        endpoint_identifiers: List[Dict[str, str]] = json.loads(
+            param["endpoint_identifiers"]
         )
 
-        if phantom.is_fail(ret_val):
-            self.save_progress("Quarantine endpoint failed.")
-            return action_result.get_status()
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in endpoint_identifiers:
+            response = client.isolate_endpoint(
+                pytmv1.EndpointTask(
+                    endpoint_name=i["endpoint"],
+                    description=i.get("description", "Quarantine Device."),
+                )
+            )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please check endpoint params.")
+                raise RuntimeError(f"Error quarantining endpoint: {response.errors}")
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
-        # print(action_result._ActionResult__data)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def process_artifacts(
-        self, indicators, imp_scope, severity, start_time, types, container
+    def _create_new_artifact_from_alert(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
-        # check if artifact exists, create anew if it doesn't
-        artifact_id = indicators.get("id", None)
-        artifact_type = indicators.get("objectType", "")
-        artifact_value = indicators.get("objectValue", "")
-        related_entities = indicators.get("relatedEntities", [])
-        # filter_id = indicators.get('filterId', []) #not going to pass filter_id
+        """
+        Create a new artifact from alert.
+        Args:
+            container_id (int): ID that will be used to query for containers
+            alert (Union[SaeAlert, TiAlert]): SAEAlert or TiAlert object
+        Raises:
+            RuntimeError: Raise error if artifact creation encounters a problem
+        """
+        # if artifacts doesn't already exist, make new artifact bundles
+        if self.artifact_exists(container_id, alert.id):
+            return
 
-        # extract related entity data
-        try:
-            local_scope = {}
-            if artifact_id:
-                for scope in imp_scope:
-                    # make listy dict in case there will be a plethora of related entities
-                    local_scope["entityValue"] = []
-                    local_scope["entityId"] = []
-                    local_scope["relatedEntities"] = []
-                    local_scope["relatedIndicators"] = []
-                    local_scope["entityType"] = []
-                    # extract data
-                    entity_v = scope.get("entityValue", "")
-                    entity_i = scope.get("entityId", "")
-                    related_e = scope.get("relatedEntities", "")  # list
-                    related_i = scope.get("relatedIndicators", "")  # list
-                    entity_t = scope.get("entityType", "")
-                    # append data to listy dict in case artefact is indeed related
-                    if artifact_id in related_i:
-                        local_scope["entityValue"].append(entity_v)
-                        local_scope["entityId"].append(entity_i)
-                        local_scope["relatedEntities"].append(related_e)
-                        local_scope["relatedIndicators"].append(related_i)
-                        local_scope["entityType"].append(entity_t)
-        except Exception as e:
-            self.debug_print(
-                f"The following error happened while localizing artefact impact scope: {e}"
-            )
+        new_artifact = self._create_artifact_content(container_id, alert)
 
-        # if artifacts dont already exist, make new artifact bundles
-        new_artifacts = []
-        try:
-            if not self.artifact_exists(f"TM-{container}-{artifact_id}", container):
-                new_artifacts.append(
-                    self.create_artifact(
-                        artifact_id,
-                        artifact_type,
-                        artifact_value,
-                        related_entities,
-                        local_scope,
-                        severity,
-                        start_time,
-                        types,
-                        container,
-                    )
-                )
-        except Exception as e:
-            self.debug_print(
-                f"The following error happened while creating new artifact bundle: {e}"
-            )
-            pass
+        ret_val, msg, response = self.save_artifacts([new_artifact])
+        if phantom.is_fail(ret_val):
+            self.save_progress(f"Error saving artifacts: {msg}")
+            raise RuntimeError(f"Error saving artifacts: {[new_artifact]}")
 
-        # save artifacts to splunk
-        if new_artifacts:
-            ret_val, msg, response = self.save_artifacts(new_artifacts)
-            if phantom.is_fail(ret_val):
-                self.save_progress(f"Error saving artifacts: {msg}")
-                self.debug_print(f"Error saving artifacts: {new_artifacts}")
+    @staticmethod
+    def create_artifact_identifier(alert_id: str) -> str:
+        """
+        Returns string artifact identifier.
+        Args:
+            alert_id (str): Alert ID.
+        Returns:
+            str: Artifact identifier string.
+        """
+        return f"TM-{alert_id}"
 
-    def create_artifact(
-        self,
-        artifact_id,
-        artifact_type,
-        artifact_value,
-        related_entities,
-        local_scope,
-        severity,
-        start_time,
-        types,
-        container,
+    def _create_artifact_content(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
     ):
-        # create new artifact
-        artifact = {}
-        artifact["name"] = artifact_id
-        artifact["label"] = artifact_type
-        artifact["container_id"] = container
-        artifact["source_data_identifier"] = f"TM-{container}-{artifact_id}"
-        artifact["type"] = local_scope.get("entityType", "network")
-        artifact["severity"] = severity
-        artifact["start_time"] = start_time
+        """
+        Gathers information and adds to artifact.
+        Args:
+            container_id (int): Container ID.
+            alert (Union[SaeAlert, TiAlert]): Type of alert (SaeAlert or TiAlert).
+        Returns:
+            dict[str, Any]: Artifact object.
+        """
+        # Use pytmv1 mapper to populate artifact cef
+        art_cef = pytmv1.mapper.map_cef(alert)
 
-        art_cef = {}
-        # Map attributes returned from TM Vision One into Common Event Format (cef)
-        art_cef["cs1"] = artifact_value
-        art_cef["cs1Label"] = "Artifact Value"
-        art_cef["cs2"] = related_entities
-        art_cef["cs2Label"] = "Related Entities"
-        art_cef["cs3"] = types
-        art_cef["cs3Label"] = "Product ID"
-        hosts_names = []
-        assoc_ips = []
-        if isinstance(local_scope["entityValue"], list):
-            for i in local_scope["entityValue"]:
-                hosts_names.append(i.get("name", ""))
-                assoc_ips.append(i.get("ips", ""))
-        art_cef["sourceHostName"] = hosts_names
-        art_cef["sourceAddress"] = assoc_ips
+        return {
+            "name": alert.id,
+            "label": "ALERT",
+            "container_id": container_id,
+            "source_data_identifier": self.create_artifact_identifier(alert.id),
+            "type": alert.alert_provider,
+            "severity": alert.severity.value,
+            "start_time": alert.created_date_time,
+            "cef": art_cef,
+        }
 
-        artifact["cef"] = art_cef
-
-        return artifact
-
-    def update_container(self, i, old_container):
+    def _update_container_metadata(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
+    ):
+        """
+        Updates an Alert container.
+        Args:
+            container_id (int): ID for the container.
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert
+        Raises:
+            RuntimeError: Raise a runtime error if container update fails.
+        """
         # update old container
-        update = {}
-        update["data"] = i
-        sdi = i.get("workbenchId", "")
-        types = i["detail"].get("alertProvider", "")
-        update["description"] = f"{sdi}: {types}"
-        imp_scope = i["detail"]["impactScope"]
-        severity = i.get("severity", "")
-        start_time = i.get("createdTime", "")
-
-        url = f"{self.get_phantom_base_url()}rest/container/{old_container}"
+        container_alert_metadata: Dict[str, Any] = {
+            "data": alert.dict(),
+            "description": "{}: {}".format(container_id, alert.alert_provider.value),
+        }
         try:
-            requests.post(url, data=json.dumps(update), verify=False, timeout=30)  # nosemgrep
-            # the above requests to create artefacts only work with verify=False
-        except Exception:
-            return phantom.APP_ERROR
+            requests.post(
+                f"{self.get_phantom_base_url()}rest/container/{container_id}",
+                data=json.dumps(container_alert_metadata),
+                verify=False,
+                timeout=30,
+            )  # nosemgrep
+        except Exception as e:
+            raise RuntimeError(
+                "Encountered an error updateding container alert."
+            ) from e
 
-        # add new artifacts
-        for x in i["detail"]["indicators"]:
-            self.process_artifacts(
-                x, imp_scope, severity, start_time, types, container=old_container
-            )
-
-    def artifact_exists(self, sdi, container):
+    def artifact_exists(self, container_id: int, alert_id: str):
+        """
+        Makes a rest call to see if the artifact exists or not.
+        Args:
+            container_id (int): Container ID to filter.
+            alert_id (str): Alert ID.
+        Returns:
+            ID: Returns an ID or None if no ID exists.
+        """
+        # Fetch the source data identifier
+        sdi = self.create_artifact_identifier(alert_id)
         # check if a given artifact exists for in a container
-        url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container}'
-        # make rest call
+        url = f'{self.get_phantom_base_url()}rest/artifact?_filter_source_data_identifier="{sdi}"&_filter_container_id={container_id}'
+        # Make rest call
         try:
             self.debug_print(f"Making request on url: {url}")
             response = requests.get(url, verify=False, timeout=30)  # nosemgrep
@@ -560,1125 +354,1708 @@ class TrendMicroVisionOneConnector(BaseConnector):
         else:
             return None
 
-    def container_exists(self, sdi):
+    def _get_existing_container_id_for_sdi(self, sdi: str) -> Optional[int]:
+        """
+        Fetch container ID if it exists.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert.
+        Raises:
+            RuntimeError: Raise an error if REST call fails.
+        Returns:
+            ID: Return the container ID.
+        """
         # check if TM workbenchID already exists in Splunk
         url = f'{self.get_phantom_base_url()}rest/container?_filter_source_data_identifier="{sdi}"&_filter_asset={self.get_asset_id()}'
-        # make rest call
+        # Make rest call
         try:
             response = requests.get(url, verify=False, timeout=30)  # nosemgrep
-        except Exception:
-            return None
+        except Exception as e:
+            raise RuntimeError(
+                "Encountered an error getting the existing container ID from Phantom."
+            ) from e
+
         # return id or None
-        if response.json().get("data", None):
-            return response.json().get("data", None)[0].get("id", None)
-        else:
+        container_data: dict[str, Any] = response.json()
+        if "data" not in container_data or len(container_data["data"]) == 0:
             return None
+        # This direct access is okay because the values MUST exist otherwise the problem is out of scope.
+        return container_data["data"][0]["id"]
 
-    def create_container(self, i, sdi):
-        # create a new container for a Trend Micro WorkBench incident
-        container = {}
-        container["name"] = i["workbenchName"]
-        container["source_data_identifier"] = sdi
-        container["label"] = self.get_config().get("ingest", {}).get("container_label")
-        container["description"] = i["detail"].get("description", "")
-        container["data"] = i
-        container["type"] = i["detail"].get("alertProvider", "")
-        container["severity"] = i.get("severity", "")
-        container["start_time"] = i.get("createdTime", "")
+    def _get_existing_container_id_for_alert(
+        self, alert: Union[SaeAlert, TiAlert]
+    ) -> Optional[int]:
+        """
+        Fetch container ID if it exists.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert.
+        Raises:
+            RuntimeError: Raise an error if REST call fails.
+        Returns:
+            ID: Return the container ID.
+        """
+        return self._get_existing_container_id_for_sdi(alert.id)
 
-        return container
+    def _create_new_container_payload(
+        self, alert: Union[SaeAlert, TiAlert]
+    ) -> Dict[str, Any]:
+        """
+        Returns information for an Alert
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+        Returns:
+            Dict[str, Any]: All pertinent data used to create container from Alert.
+        """
+        return {
+            "name": alert.model,
+            "source_data_identifier": alert.id,
+            "label": self.config.get("ingest", {}).get("container_label"),
+            "description": alert.description if isinstance(alert, SaeAlert) else "",
+            "type": alert.alert_provider,
+            "severity": alert.severity,
+            "start_time": alert.created_date_time,
+        }
+
+    def _create_or_update_container(self, alert: Union[SaeAlert, TiAlert]) -> int:
+        """
+        Check if the container exists, if not then create a new container.
+        Args:
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+        Raises:
+            RuntimeError: Raise a runtime error if container creation fails.
+        Returns:
+            int: The ID for the created container.
+        """
+        existing_container_id: Optional[
+            int
+        ] = self._get_existing_container_id_for_alert(alert)
+
+        # If a container ID does not already exist, create a new one first, because the update operation
+        # runs regardless of whether the container is new or existing.
+        if existing_container_id is None:
+            # save new container to Splunk using the alert
+            ret_val, msg, cid = self.save_container(
+                self._create_new_container_payload(alert)
+            )
+
+            if phantom.is_fail(ret_val):
+                self.save_progress("Error saving container: {}".format(msg))
+                raise RuntimeError(
+                    "Error saving container: {} -- CID: {}".format(msg, cid)
+                )
+
+            existing_container_id = self._get_existing_container_id_for_alert(alert)
+
+            # Assertion made for type checking. At this point, the container ID will not be None if it was
+            # successfully created.
+            assert existing_container_id is not None
+        return existing_container_id
+
+    def _create_container_artifacts(
+        self, container_id: int, alert: Union[SaeAlert, TiAlert]
+    ):
+        """
+        Create an artifact for a container.
+        Args:
+            container_id (int): ID for the container.
+            alert (Union[SaeAlert, TiAlert]): SaeAlert or TiAlert object.
+        """
+        # add new artifacts
+        self._create_new_artifact_from_alert(container_id, alert)
+
+    def _get_poll_interval(self, param) -> Tuple[str, str]:
+        """
+        Helper function for *On Poll* action to get poll interval.
+        Args:
+            starttime(str): starttime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+            endtime(str): endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+        Returns:
+            Tuple[datetime, datetime]: start and end datetime.
+        """
+        # standard time frame for poll interval
+        default_end_time = (
+            datetime.fromtimestamp(int(datetime.utcnow().timestamp())).isoformat() + "Z"
+        )
+        start_time: str = param.get(
+            "starttime", self._state.get("last_ingestion_time", "2020-06-15T10:00:00Z")
+        )
+        end_time: str = param.get("endtime", default_end_time)
+        return start_time, end_time
 
     def _handle_on_poll(self, param):
+        """
+        Action to poll for Workbench Alerts.
+        Args:
+            start_time(str): starttime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+            end_time(str): endtime string in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC).
+        Raises:
+            RuntimeError: Raise an error if fetching Alerts fails.
+        Returns:
+            List[Dict[str, Any]]: List containing Alert Objects.
+        """
+
         # Log current action
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
-        # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # standard time frame for poll interval
-        nowstamp = int(datetime.datetime.utcnow().timestamp())
-        end = (
-            datetime.datetime.fromtimestamp(nowstamp).isoformat() + ".000Z"
-        )  # default end is now
-        monthago = nowstamp - 2500000  # 2,5 million unix epoch time ~ 1 month
-        start = (
-            datetime.datetime.fromtimestamp(monthago).isoformat() + ".000Z"
-        )  # default start is approx. 1 month ago
+        # Optional Params
+        start_time, end_time = self._get_poll_interval(param)
 
-        # frame time from last run, or do a first run with default timeframe
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        new_alerts: List[Union[SaeAlert, TiAlert]] = []
+
+        # Make rest call
         try:
-            starttime = self._state["last_ingestion_time"]
-        except Exception:
-            starttime = param.get("starttime", start)
-        endtime = param.get("endtime", end)
-        # DEBUG time frame
-        # starttime = '2022-01-01T10:00:00.000Z'
-        # endtime = '2022-04-12T12:00:00.000Z'
-        # DEBUG time frame
-        limit = param.get("limit", 100)
-
-        query_params = {
-            "endTime": endtime,
-            "limit": limit,
-            "offset": 0,
-            "sortBy": "createdTime",
-            "startTime": starttime,
-        }
-
-        ret_val, event_feed = self._make_rest_call(
-            WORKBENCH_HISTORIES,
-            action_result,
-            method="get",
-            headers=self.header(),
-            params=query_params,
-        )
-
-        if event_feed is None:
-            return action_result.get_status()
+            client.consume_alert_list(
+                lambda alert: new_alerts.append(alert),
+                start_time=start_time,
+                end_time=end_time,
+            )
+        except Exception as e:
+            raise RuntimeError("Consume Alert List failed.") from e
 
         # Get events from the TM Vision One and process them as Phantom containers
         try:
-            events = event_feed
-            for i in events["data"]["workbenchRecords"]:
-                sdi = i.get("workbenchId", "")
-
-                # check if container already exists
-                old_container = self.container_exists(sdi)
-                if old_container:
-                    self.debug_print("Updating Containers")
-                    self.update_container(i, old_container)
-                else:
-                    # make new container
-                    container = self.create_container(i, sdi)
-                    # save new container to Splunk
-                    ret_val, msg, cid = self.save_container(container)
-                    # get new containers id
-                    old_container = self.container_exists(sdi)
-                    # update new container with artifacts
-                    self.update_container(i, old_container)
-                    if phantom.is_fail(ret_val):
-                        self.save_progress("Error saving container: {}".format(msg))
-                        self.debug_print(
-                            "Error saving container: {} -- CID: {}".format(msg, cid)
-                        )
+            for alert in new_alerts:
+                # Use the container ID to create or update an Alert container
+                container_id: int = self._create_or_update_container(alert)
+                # Update container metadata
+                self._update_container_metadata(container_id, alert)
+                # Create artifacts for Alert containers
+                self._create_container_artifacts(container_id, alert)
 
             # Log results
-            action_result.add_data(events)
-            summary = action_result.update_summary({})
-            summary["Number of Events Found"] = len(events)
-            self.save_progress("Phantom imported {0} events".format(len(events)))
+            serialized_alerts: List[Dict] = [item.dict() for item in new_alerts]
+            action_result.update_data(serialized_alerts)
+            action_result.set_summary(
+                {"Number of Events Found": len(serialized_alerts)}
+            )
+
+            self.save_progress(
+                "Phantom imported {0} events".format(len(serialized_alerts))
+            )
 
             # remember current timestamp for next run
-            self._state["last_ingestion_time"] = endtime
+            self._state["last_ingestion_time"] = end_time
 
             return action_result.set_status(phantom.APP_SUCCESS)
 
         except Exception as e:
             self.save_progress("Exception = {0}".format(str(e)))
-            return action_result.set_status(
-                phantom.APP_ERROR, "Error getting events. Details: {0}".format(str(e))
-            )
+            raise e
 
     def _handle_unquarantine_device(self, param):
+        """
+        Action to restore endpoint.
+        Args:
+            endpoint_identifiers(List[Dict[str, str]]): endpoint name and optional description.
+        Returns:
+            multi_resp(Dict[str,Any]): Object containing task_id and HTTP status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value = param["ip_hostname_mac"]
-        value = self.delistify(value)
-        field = self.lookup_type(value)
-        computerid = self.get_computer_id(field, value)
-        productid = param["productid"]
-        description = param.get("description", "")
-        body = {
-            "computerId": computerid,
-            "productId": productid,
-            "description": description,
-        }
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            RESTORE_CONNECTION_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            params=None,
-            headers=self.header(),
+        # Required Params
+        endpoint_identifiers: List[Dict[str, str]] = json.loads(
+            param["endpoint_identifiers"]
         )
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in endpoint_identifiers:
+            response = client.restore_endpoint(
+                pytmv1.EndpointTask(
+                    endpoint_name=i["endpoint"],
+                    description=i.get("description", "Restore Device."),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please check endpoint params.")
+                raise RuntimeError(f"Error restoring endpoint: {response.errors}")
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_status_check(self, param):
+        """
+        Action to check the status of a task based on task_id.
+        Args:
+            task_id(str): Unique numeric string that identifies a response task.
+            poll(str): 	If script should wait until the task is finished before returning the result (disabled by default)
+        Returns:
+            Dict[str, int]: object containing task_id and HTTP status code
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        action_id = param["action_id"]
-        param = {"actionId": action_id}
+        # Required Params
+        task_id = param["task_id"]
+        poll = param["poll"]
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            TASK_DETAIL_ENDPOINT,
-            action_result,
-            method="get",
-            params=param,
-            headers=self.header(),
-        )
+        # Optional Params
+        poll_time_sec = param.get("poll_time_sec", 0)
 
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # Start looping for 20 minutes to wait for "ongoing" tasks to finish
-        timer = 1200  # seconds
-        elapsed = 0
-        while timer > 0 and "success" not in response.get("data").get("taskStatus"):
-            # make rest call
-            ret_val, response = self._make_rest_call(
-                TASK_DETAIL_ENDPOINT,
-                action_result,
-                method="get",
-                params=param,
-                headers=self.header(),
+        # Make rest call
+        response = client.get_base_task_result(task_id, poll, poll_time_sec)
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check task_id.")
+            raise RuntimeError(
+                f"Error fetching task status for task {task_id}. Result Code: {response.error}"
             )
-            # sleep 5 secs
-            time.sleep(5)
-            timer -= 5
-            elapsed += 5
-            # abort if failed
-            if phantom.is_fail(ret_val) or "failed" in response.get("data").get(
-                "taskStatus"
-            ):
-                if "failed" in response.get("data").get("taskStatus"):
-                    message = {"taskStatus": response.get("data").get("taskStatus")}
-                    action_result.add_data(message)
-                return action_result.get_status()
-
-        # Add the message into the data section
-        self.debug_print(
-            "Approximate number of seconds waited for task to finish: %s" % elapsed
-        )
-        message = {"taskStatus": response.get("data").get("taskStatus")}
-        action_result.add_data(message)
+        assert response.response is not None
+        action_result.add_data(response.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_add_to_blocklist(self, param):
+        """
+        Action to add item to block list.
+        Args:
+            block_objects(List[Dict[str, str]]): Object object made up of type, value and description.
+        Returns:
+            multi_resp: Object containing task_id and https status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value_type = param["value_type"]
-        target_value = param["target_value"]
-        product_id = param.get("product_id", "sao")
-        description = param.get("description", "Add item to blocklist.")
-        body = {
-            "valueType": value_type,
-            "targetValue": target_value,
-            "productId": product_id,
-            "description": description,
-        }
+        # Required Params
+        block_objects: List[Dict[str, Any]] = json.loads(param["block_objects"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ADD_BLOCKLIST_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for block in block_objects:
+            response = client.add_to_block_list(
+                pytmv1.ObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]),
+                    object_value=block["object_value"],
+                    description=block.get("description", "Add To Blocklist."),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please input params.")
+                raise RuntimeError(
+                    f"Error while adding to block list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_remove_from_blocklist(self, param):
+        """
+        Remove an item from block list.
+        Args:
+            block_objects(List[Dict[str, str]]): Object containing type, value and (optional) description.
+        Returns:
+            multi_resp: Object containing task_id and https status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value_type = param["value_type"]
-        target_value = param["target_value"]
-        product_id = param.get("product_id", "sao")
-        description = param.get("description", "Remove item to blocklist.")
-        body = {
-            "valueType": value_type,
-            "targetValue": target_value,
-            "productId": product_id,
-            "description": description,
-        }
+        # Required Params
+        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            REMOVE_BLOCKLIST_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for block in block_objects:
+            response = client.remove_from_block_list(
+                pytmv1.ObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]),  # type: ignore
+                    object_value=block["object_value"],
+                    description=block.get("description", "Remove From Blocklist."),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please input params.")
+                raise RuntimeError(
+                    f"Error while removing from block list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_quarantine_email_message(self, param):
+        """
+        Action to quarantine an email using the mailBox and messageId or uniqueId
+        Args:
+            email_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
+            or uniqueId and optional description.
+        Returns:
+            multi_resp(List[Dict[str, Any]]): Object containing task_id and HTTP status code.
+        """
         # send progress messages back to the platform
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        message_id = param["message_id"]
-        mailbox = param["mailbox"]
-        message_delivery_time = param.get("message_delivery_time", "")
-        product_id = param.get("product_id", "sao")
-        description = param.get("description", "Quarantine e-mail.")
-        body = {
-            "messageId": message_id,
-            "mailBox": mailbox,
-            "messageDeliveryTime": message_delivery_time,
-            "productId": product_id,
-            "description": description,
-        }
+        # Required Params
+        email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            QUARANTINE_EMAIL_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
-            )
-            return action_result.get_status()
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in email_identifiers:
+            if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
+                response = client.quarantine_email_message(
+                    pytmv1.EmailMessageIdTask(
+                        message_id=i["message_id"],
+                        description=i.get("description", "Quarantine Email Message."),
+                        mail_box=i.get("mailbox", ""),
+                    )
+                )
+            else:
+                response = client.quarantine_email_message(
+                    pytmv1.EmailMessageUIdTask(
+                        unique_id=i["message_id"],
+                        description=i.get("description", "Quarantine Email Message."),
+                    )
+                )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
+                raise RuntimeError(f"Error while quarantining email: {response.errors}")
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_delete_email_message(self, param):
-        # send progress messages back to the platform
+        """
+        Action to delete an email using the mailBox and messageId or uniqueId.
+        Args:
+            email_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
+            or uniqueId and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        message_id = param["message_id"]
-        mailbox = param["mailbox"]
-        message_delivery_time = param.get("message_delivery_time", "")
-        product_id = param.get("product_id", "sao")
-        description = param.get("description", "Delete e-mail.")
-        body = {
-            "messageId": message_id,
-            "mailBox": mailbox,
-            "messageDeliveryTime": message_delivery_time,
-            "productId": product_id,
-            "description": description,
-        }
+        # Required Params
+        email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            DELETE_EMAIL_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
-            )
-            return action_result.get_status()
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in email_identifiers:
+            if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
+                response = client.delete_email_message(
+                    pytmv1.EmailMessageIdTask(
+                        message_id=i["message_id"],
+                        description=i.get("description", "Delete Email Message."),
+                        mail_box=i.get("mailbox", ""),
+                    )
+                )
+            else:
+                response = client.delete_email_message(
+                    pytmv1.EmailMessageUIdTask(
+                        unique_id=i["message_id"],
+                        description=i.get("description", "Delete Email Message."),
+                    )
+                )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
+                raise RuntimeError(f"Error while deleting email: {response.errors}")
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_terminate_process(self, param):
-        # send progress messages back to the platform
+        """
+        Terminates a process that is running on one or more endpoints.
+        Note: You can specify either the computer name ("endpointName") or the GUID of the installed agent program ("agentGuid").
+        Args:
+            process_identifiers(List[Dict[str, str]]): Object containing mailBox/messageId and optional description
+            or uniqueId and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value = param["ip_hostname_mac"]
-        value = self.delistify(value)
-        field = self.lookup_type(value)
-        file_list = []
-        product_id = param.get("product_id", "sao")
-        description = param.get("description", "Terminate process.")
-        file_sha1 = param["file_sha1"]
-        filename = param.get("filename", "")
-        computer_id = self.get_computer_id(field, value)
-        if filename:
-            file_list.append(filename)
-        body = {
-            "computerId": computer_id,
-            "fileSha1": file_sha1,
-            "productId": product_id,
-            "description": description,
-            "filename": file_list,
-        }
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            TERMINATE_PROCESS_ENDPOINT,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
+        # Required Params
+        process_identifiers: List[Dict[str, str]] = json.loads(
+            param["process_identifiers"]
         )
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in process_identifiers:
+            response = client.terminate_process(
+                pytmv1.ProcessTask(
+                    endpoint_name=i["endpoint"],
+                    file_sha1=i["file_sha1"],
+                    description=i.get("description", "Terminate Process."),
+                    file_name=i.get("filename", ""),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check process identifiers."
+                )
+                raise RuntimeError(
+                    f"Error while terminating process: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def exception_list_count(self):
-        # Gets the count of objects present in exception list
-        ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_EXCEPTION_LIST,
-            action_result="",
-            method="get",
-            params=None,
-            headers=self.header(),
-        )
-        # response = json.loads(response.decode('utf-8')) #seems to not be needed anymore
-        list_of_exception = response.get("data").get("exceptionList")
-        exception_count = len(list_of_exception)
-        return exception_count
+    def get_exception_count(self) -> int:
+        """Gets the count of objects present in exception list"""
+        # Initialize Pytmv1
+        client = self._get_client()
 
-    def _handle_add_to_exception(self, param):
-        # send progress messages back to the platform
+        new_exceptions: List[ExceptionObject] = []
+
+        try:
+            client.consume_exception_list(
+                lambda exception: new_exceptions.append(exception)
+            )
+        except Exception as e:
+            self.debug_print("Consume Exception List failed with following exception:")
+            raise RuntimeError("Error while adding to exception list.") from e
+
+        return len(new_exceptions)
+
+    def _handle_add_to_exception(self, param: Dict[str, Any]):
+        """
+        Adds domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs to the Exception List.
+        Args:
+            block_objects(List[Dict[str, str]]): List of objects containing type, value and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        types = param["type"]
-        types = self.delistify(types)
-        value = param["value"]
-        description = param.get("description", "")
-        body = {"data": [{"type": types, "value": value}]}
-        body["data"][0]["description"] = description
+        # Required Params
+        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_EXCEPTION_LIST,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header()
-            # params=None,
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        exception_list = self.exception_list_count()
+        multi_resp: List[MsData] = []
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Make rest call
+        for block in block_objects:
+            response = client.add_to_exception_list(
+                pytmv1.ObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]),  # type: ignore
+                    object_value=block["object_value"],
+                    description=block.get("description", "Add To Exception List."),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                raise RuntimeError(
+                    f"Error while adding to exception list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
+        # Get total exception list count
+        total_exception_count = self.get_exception_count()
         # Add the response into the data section
-        data = {
-            "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0]
-            .split(":")[1]
-            .split("}")[0],
-            # there could be a better way to get the status code
-            "total_items": exception_list,
-        }
-        action_result.add_data(data)
+        action_result.add_data(
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_exception_count,
+            }
+        )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_delete_from_exception(self, param):
-        # send progress messages back to the platform
+        """
+        Deletes the specified objects from the Exception List.
+        Args:
+            block_objects(List[Dict[str, str]]): List of objects containing type, value and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        types = param["type"]
-        types = self.delistify(types)
-        value = param["value"]
-        description = param.get("description", "")
-        body = {"data": [{"type": types, "value": value}]}
-        body["data"][0]["description"] = description
+        # Required Params
+        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            DELETE_OBJECT_FROM_EXCEPTION_LIST,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header()
-            # params=None,
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        exception_list = self.exception_list_count()
+        multi_resp: List[MsData] = []
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Make rest call
+        for block in block_objects:
+            response = client.remove_from_exception_list(
+                pytmv1.ObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]), object_value=block["object_value"]  # type: ignore
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                raise RuntimeError(
+                    f"Error while removing from exception list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
+        # Get total exception list count
+        total_exception_count = self.get_exception_count()
         # Add the response into the data section
-        data = {
-            "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0]
-            .split(":")[1]
-            .split("}")[0],
-            # there could be a better way to get the status code
-            "total_items": exception_list,
-        }
-        action_result.add_data(data)
+        action_result.add_data(
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_exception_count,
+            }
+        )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def suspicious_list_count(self):
-        # Get the count of objects present n suspicious list
-        ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_SUSPICIOUS_LIST,
-            action_result="",
-            method="get",
-            params=None,
-            headers=self.header(),
-        )
-        # response = json.loads(response.decode('utf-8'))
-        list_of_exception = response.get("data").get("suspiciousObjectList")
-        exception_count = len(list_of_exception)
-        return exception_count
+    def get_suspicious_count(self) -> int:
+        """Gets the count of objects present in suspicious list"""
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        new_suspicious: List[SuspiciousObject] = []
+
+        try:
+            client.consume_suspicious_list(
+                lambda suspicious: new_suspicious.append(suspicious)
+            )
+        except Exception as e:
+            self.debug_print("Consume Suspicious List failed with following exception:")
+            raise RuntimeError("Error while fetching suspicious list count.") from e
+
+        return len(new_suspicious)
 
     def _handle_add_to_suspicious(self, param):
-        # send progress messages back to the platform
+        """
+        Adds information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs to the Suspicious Object List.
+        Notes:
+        You can add up to 10,000 suspicious objects of each type to the list.
+        If you try to add elements after reaching the limit of each category, the system automatically deletes
+        the objects with the closest expiration date.
+        Args:
+            block_objects(List[Dict[str, str]]): List of objects containing type, value and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        types = param["type"]
-        types = self.delistify(types)
-        value = param["value"]
-        description = param.get("description", "")
-        scan_action = param.get("scan_action", "")
-        if scan_action and scan_action not in ("log", "block"):
-            raise "{0} is not a valid parameter. Kindly provide valid parameter".format(
-                scan_action
+        # Required Params
+        block_objects: List[Dict[str, Any]] = json.loads(param["block_objects"])
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        for block in block_objects:
+            response = client.add_to_suspicious_list(
+                pytmv1.SuspiciousObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]),
+                    object_value=block["object_value"],
+                    scan_action=block.get("scan_action", "block"),
+                    risk_level=block.get("risk_level", "medium"),
+                    days_to_expiration=block.get("expiry_days", 30),
+                )
             )
-        risk_level = param.get("risk_level", "")
-        if risk_level and risk_level not in ("high", "medium", "low"):
-            raise "{0} is not a valid parameter. Kindly provide valid parameter".format(
-                risk_level
-            )
-        expiry = param.get("expiry", 0)
-        body = {
-            "data": [
-                {
-                    "type": types,
-                    "value": value,
-                    "description": description,
-                    "scanAction": scan_action,
-                    "riskLevel": risk_level,
-                    "expiredDay": expiry,
-                }
-            ]
-        }
+            if self._is_pytmv1_error(response.result_code):
+                raise RuntimeError(
+                    f"Error while adding to suspicious list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ADD_OBJECT_TO_SUSPICIOUS_LIST,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
-
-        suspicious_list = self.suspicious_list_count()
-
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
-            )
-            return action_result.get_status()
-
+        # Get suspicious list count
+        total_suspicious_count = self.get_suspicious_count()
         # Add the response into the data section
-        data = {
-            "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0]
-            .split(":")[1]
-            .split("}")[0],
-            # there could be a better way to get the status code
-            "total_items": suspicious_list,
-        }
-        action_result.add_data(data)
+        action_result.add_data(
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_suspicious_count,
+            }
+        )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_delete_from_suspicious(self, param):
-        # send progress messages back to the platform
+        """
+        Deletes information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses,
+        or URLs from the Suspicious Object List.
+        Args:
+            block_objects(List[Dict[str, str]]): List of objects containing type, value and optional description.
+        Returns:
+            multi_resp(Dict[str, List]): Object containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        types = param["type"]
-        types = self.delistify(types)
-        value = param["value"]
-        body = {"data": [{"type": types, "value": value}]}
+        # Required Params
+        block_objects: List[Dict[str, str]] = json.loads(param["block_objects"])
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            DELETE_OBJECT_FROM_SUSPICIOUS_LIST,
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        suspicious_list = self.suspicious_list_count()
+        multi_resp: List[MsData] = []
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Make rest call
+        for block in block_objects:
+            response = client.remove_from_suspicious_list(
+                pytmv1.ObjectTask(
+                    object_type=self._get_ot_enum(block["object_type"]), object_value=block["object_value"]  # type: ignore
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                raise RuntimeError(
+                    f"Error while removing from suspicious list: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
+        # Get suspicious list count
+        total_suspicious_count = self.get_suspicious_count()
         # Add the response into the data section
-        data = {
-            "message": "success",
-            "status_code": action_result._ActionResult__debug_data[0]
-            .split(":")[1]
-            .split("}")[0],
-            # there could be a better way to get the status code
-            "total_items": suspicious_list,
-        }
-        action_result.add_data(data)
+        action_result.add_data(
+            {
+                "multi_response": [item.dict() for item in multi_resp],
+                "total_count": total_suspicious_count,
+            }
+        )
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_check_analysis_status(self, param):
-        # send progress messages back to the platform
+        """
+        Checks the submission status for item(s) sent to sandbox for analysis.
+        Args:
+            submit_id: The Output ID  generated from Start-Analysis Command.
+        Returns:
+            Dict: Object containing response regarding submission status.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
+        # Required Params
         task_id = param["task_id"]
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            GET_FILE_STATUS.format(taskId=task_id),
-            action_result,
-            method="get",
-            params=None,
-            headers=self.header(),
-        )
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Make rest call
+        response = client.get_sandbox_submission_status(submit_id=task_id)
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check task_id.")
+            raise RuntimeError(
+                f"Error while fetching sandbox submission status: {response.error}"
             )
-            return action_result.get_status()
-
+        assert response.response is not None
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data(response.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def file_to_vault(self, data, filename, container_id, action_result):
-        filename += "@" + str(uuid.uuid4())
-        try:
-            #  Upload file to vault
-            ret_val, response, vault_id = vault.Vault.create_attachment(
-                data, container_id, filename
-            )
-            if ret_val:
-                self.debug_print(
-                    f"Successfully created vault file: {filename} in vault: {vault_id}"
-                )
-                success_info = {
-                    phantom.APP_JSON_VAULT_ID: vault_id,
-                    "file_name": filename,
-                }
-                return phantom.APP_SUCCESS, success_info
-            raise Exception(f"Error during create attachment: {response}")
-        except Exception as err:
-            self.debug_print(err)
-        return action_result.set_status(
-            phantom.APP_ERROR, "Failed to create vault file"
-        )
-
     def _handle_download_analysis_report(self, param):
-        # send progress messages back to the platform
+        """
+        Downloads the analysis results of the specified object as PDF.
+        Args:
+            submit_id(str): Unique alphanumeric string that identifies the analysis results of a submission.
+            poll(str): If script should wait until the task is finished before returning the result (disabled by default).
+        Returns:
+            file(.pdf): A PDF document containing analysis result for specified object.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        report_id = param["report_id"]
-        types = param["type"]
-        if types not in ("vaReport", "investigationPackage", "suspiciousObject"):
-            raise TypeError("Kindly provide valid file 'type'")
-        params = {"type": types}
+        # Required Params
+        submit_id = param["submit_id"]
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            GET_FILE_REPORT.format(reportId=report_id),
-            action_result,
-            method="get",
-            params=params,
-            headers=self.header(),
-            stream=True,
+        # Optional Params
+        poll = param.get("poll", "false")
+        poll_time_sec = param.get("poll_time_sec", 0)
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.download_sandbox_analysis_result(
+            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
         )
 
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check submit_id.")
+            raise RuntimeError(
+                f"Error while downloading sandbox analysis report: {response.error}"
+            )
+        assert response.response is not None
+        # Default filename
+        name = "Trend_Micro_Sandbox_Analysis_Report"
+        file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.pdf"
 
-        if isinstance(response, dict):
-            # add response to results here
-            message = {
-                "message": response.get("message", ""),
-                "code": response.get("code", ""),
-                "data": [],
-            }
-            if len(response.get("data", [])) > 0:
-                for data in response.get("data", {}):
-                    data_value = {
-                        "type": data.get("type", ""),
-                        "value": data.get("value", ""),
-                        "risk_level": data.get("riskLevel", ""),
-                        "analysis_completion_time": data.get(
-                            "analysisCompletionTime", ""
-                        ),
-                        "expired_time": data.get("expiredTime", ""),
-                        "root_file_sha1": data.get("rootFileSha1", ""),
-                    }
-                    message.get("data", {}).append(data_value)
-
-            container = {}
-            container["name"] = report_id
-            container[
-                "source_data_identifier"
-            ] = "File Analysis Report - Suspicious Object"
-            container["label"] = "trendmicro"
-            try:
-                container["severity"] = message["data"][0]["risk_level"].capitalize()
-            except Exception:
-                container["severity"] = "Medium"
-            container["tags"] = "suspiciousObject"
-            ret_val, msg, cid = self.save_container(container)
-
-            artifacts = []
-            for i in message["data"]:
-                artifacts_d = {}
-                artifacts_d["name"] = "Artifact of {}".format(report_id)
-                artifacts_d[
-                    "source_data_identifier"
-                ] = "File Analysis Report - Suspicious Object"
-                artifacts_d["label"] = "trendmicro"
-                artifacts_d["container_id"] = cid
-                artifacts_d["cef"] = i
-                artifacts.append(artifacts_d)
-            ret_val, msg, cid = self.save_artifacts(artifacts)
-
-            self.save_progress("Suspicious Object added to Container")
-
-        else:
-            data = response
-            if types == "vaReport":
-                results = self.file_to_vault(
-                    data,
-                    "Sandbox_Analysis_Report.pdf",
-                    self.get_container_id(),
-                    action_result,
-                )
-            else:
-                results = self.file_to_vault(
-                    data,
-                    "Sandbox_Investigation_Package.zip",
-                    self.get_container_id(),
-                    action_result,
-                )
-
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
-
+        results = Vault.create_attachment(  # noqa: F841
+            response.response.content,
+            self.get_container_id(),
+            file_name,
+        )
         # Add the response into the data section
-        try:
-            action_result.add_data(results)
-        except Exception as e:
-            self.debug_print(e)
-            action_result.add_data(response)
+        action_result.add_data({"file_added": file_name})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_collect_forensic_file(self, param):
-        # send progress messages back to the platform
+        """
+        Collects a file from one or more endpoints and then sends the files to Trend Vision One in a password-protected archive.
+        Note: You can specify either the computer name ("endpointName") or the GUID of the installed agent program ("agentGuid").
+        Args:
+            collect_files(List[Dict[str, str]]): List of Dict objects containing endpoint and filepath to file to be analyzed.
+        Returns:
+            Dict[str, List]: List consisting of dict objects containing task_id and HTTP status code.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        value = param["ip_hostname_mac"]
-        value = self.delistify(value)
-        field = self.lookup_type(value)
-        computer_id = self.get_computer_id(field, value)
-        product_id = param["product_id"].lower()
-        file_path = param["file_path"]  # WARNING! filepath needs to be tuple!!!
-        os = param.get("os")
-        description = param.get("description", "")
+        # Required Params
+        collect_files: List[Dict[str, str]] = json.loads(param["collect_files"])
 
-        body = {
-            "description": description,
-            "productId": product_id,
-            "computerId": computer_id,
-            "filePath": file_path,
-            "os": os,
-        }
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            COLLECT_FORENSIC_FILE,
-            action_result,
-            method="post",
-            params=None,
-            headers=self.header(),
-            data=json.dumps(body),
-        )
+        multi_resp: List[MsData] = []
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        # Make rest call
+        for i in collect_files:
+            response = client.collect_file(
+                pytmv1.FileTask(
+                    endpoint_name=i["endpoint"],
+                    file_path=i["file_path"],
+                    description=i.get("description", "Collect File."),
+                )
             )
-            return action_result.get_status()
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please check inputs.")
+                raise RuntimeError(f"Error while collecting file: {response.errors}")
+
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_forensic_file_info(self, param):
-        # send progress messages back to the platform
+        """
+        Retrieves an object containing the result of collect forensic file task in JSON format.
+        Args:
+            task_id(str): Unique numeric string that identifies a response task (e.g. 00000012).
+            poll(str): If script should wait until the task is finished before returning the result (disabled by default).
+        Returns:
+            file_info(Dict[str, Any]): Dict object containing response data for file collected.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
-        action_id = param["action_id"]
-        param = {"actionId": action_id}
+        # Required Params
+        task_id = param["task_id"]
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            DOWNLOAD_INFORMATION_COLLECTED_FILE,
-            action_result,
-            method="get",
-            params=param,
-            headers=self.header(),
+        # Optional Params
+        poll = param.get("poll", "false")
+        poll_time_sec = param.get("poll_time_sec", 0)
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.get_base_task_result(
+            task_id=task_id,
+            poll=poll,
+            poll_time_sec=poll_time_sec,
         )
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check task_id.")
+            raise RuntimeError(
+                f"Error fetching forensic file info for task {task_id}. Result Code: {response.error}"
             )
-            return action_result.get_status()
+        assert response.response is not None
+        file_info = response.response.dict()
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data(file_info)
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_start_analysis(self, param):
-        # send progress messages back to the platform
+        """
+        Submits a file to the sandbox for analysis.
+        Args:
+            file_url(str): URL pointing to the file
+            file_name(str): Name of the file being submitted.
+            document_password(str): Password encoded in Base64 used to decrypt the submitted file sample.
+            The maximum password length (without encoding) is 128 bytes.
+            archive_password(str): Password encoded in Base64 used to decrypt the submitted archive.
+            The maximum password length (without encoding) is 128 bytes.
+            arguments(str): Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file.
+            The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE)
+            files and script files.
+        Returns:
+            response(Dict[str, Any]): Response object containing ID for submitted object along with digest values.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
+        # Required Params
         file_url = param["file_url"]
         file_name = param["file_name"]
-        data = {}
-        params = {}
-        document_pass = param.get("document_pass", "")
-        if document_pass:
-            data["documentPassword"] = base64.b64encode(
-                document_pass.encode("ascii")
-            ).decode("ascii")
-        else:
-            data["documentPassword"] = ""
-        archive_pass = param.get("archive_pass", "")
-        if archive_pass:
-            data["archivePassword"] = base64.b64encode(
-                archive_pass.encode("ascii")
-            ).decode("ascii")
-        else:
-            data["archivePassword"] = ""
 
-        header = {"Authorization": "Bearer " + self.api_key}
+        # Optional Params
+        document_password = param.get("document_pass", "")
+        archive_password = param.get("archive_pass", "")
+        arguments = param.get("arguments", "None")
 
-        # make rest call
-        try:
-            file_content = requests.get(file_url, allow_redirects=True, timeout=30)
-            files = {
-                "file": (
-                    file_name,
-                    file_content.content,
-                    "application/x-zip-compressed",
-                )
-            }
-            ret_val, response = self._make_rest_call(
-                SUBMIT_FILE_TO_SANDBOX,
-                action_result,
-                method="post",
-                params=params,
-                headers=header,
-                data=data,
-                files=files,
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.submit_file_to_sandbox(
+            file=file_url,
+            file_name=file_name,
+            document_password=document_password,
+            archive_password=archive_password,
+            arguments=arguments,
+        )
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check file_url.")
+            raise RuntimeError(
+                f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
             )
-        # except HTTPError as http_err:
-        #    raise http_err
-        except Exception as e:
-            raise e
-
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
-            )
-            return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data(response)
+        assert response.response is not None
+        action_result.add_data(response.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_add_note(self, param):
-        # Send progress messages back to the platform
+        """
+        Adds a note to the specified Workbench alert
+        Args:
+            workbench_id(str): Numeric string that identifies a Workbench alert (e.g. WB-14-20190709-00003).
+            content(str): Content of the note to be added to Workbench Alert.
+        Returns:
+            result(Dict[str, str]): Contains the ID for newly created not and success message.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
+        # Required Params
         workbench_id = param["workbench_id"]
         content = param["content"]
 
-        body = {"content": content}
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            ADD_NOTE_ENDPOINT.format(workbenchId=workbench_id),
-            action_result,
-            method="post",
-            data=json.dumps(body),
-            headers=self.header(),
-        )
+        # Make rest call
+        response = client.add_alert_note(alert_id=workbench_id, note=content)
 
-        if phantom.is_fail(ret_val):
+        if self._is_pytmv1_error(response.result_code):
             self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+                "Something went wrong, please check workbench_id and content."
             )
-            return action_result.get_status()
+            raise RuntimeError(
+                f"Error adding note to workbench {workbench_id}. Result Code: {response.error}"
+            )
 
+        assert response.response is not None
+        location = response.response.location
+        note_id = location.split("/")[-1]
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"note_id": note_id, "message": "Success"})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_status(self, param):
-        # Send progress messages back to the platform
+        """
+        Modifies the status of an alert or investigation triggered in Workbench.
+        Args:
+            workbench_id(str): Workbench alert ID (e.g. WB-14-20190709-00003)
+            status(str): Status to be updated ("New" "In Progress" "True Positive" "False Positive" "Benign True Positive" "Closed").
+            if_match(str): Target resource will be updated only if it matches ETag of the target one (e.g. "d41d8cd98f00b204e9800998ecf8427e").
+        Returns:
+            message(str): Success or Failure.
+        """
         self.save_progress(
             "In action handler for: {0}".format(self.get_action_identifier())
         )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(param))
 
-        # Param setup
+        # Required Params
         workbench_id = param["workbench_id"]
         status = param["status"]
+        if_match = param["if_match"]
 
-        if status == "new":
-            update_status = 0  # NEW
-        elif status == "in_progress":
-            update_status = 1  # IN_PROGRESS
-        elif status == "resolved_true_positive":
-            update_status = 2  # RESOLVED_TRUE_POSITIVE
-        elif status == "resolved_false_positive":
-            update_status = 3  # RESOLVED_FALSE_POSITIVE
+        # Initialize Pytmv1
+        client = self._get_client()
 
-        body = {"investigationStatus": update_status}
+        # Choose Status Enum
+        sts = status.upper()
+        if sts not in InvestigationStatus.__members__:
+            self.debug_print("Something went wrong, please check input params.")
+            raise RuntimeError(f"Please check status: {status}")
 
-        # make rest call
-        ret_val, response = self._make_rest_call(
-            UPDATE_STATUS_ENDPOINT.format(workbenchId=workbench_id),
-            action_result,
-            method="put",
-            data=json.dumps(body),
-            headers=self.header(),
+        status = InvestigationStatus[sts]
+
+        # Make rest call
+        response = client.edit_alert_status(
+            alert_id=workbench_id, status=status, if_match=if_match
         )
 
-        if phantom.is_fail(ret_val):
-            self.debug_print(
-                "REST call failed, please check your endpoints and/or params"
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong while updating alert status.")
+            raise RuntimeError(
+                f"Error updating alert status for {workbench_id}. Result Code: {response.error}"
             )
-            return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data(response)
+        action_result.add_data({"message": "Success"})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def handle_action(self, param):
-        ret_val = phantom.APP_SUCCESS
+    def _handle_get_alert_details(self, param):
+        """
+        Displays information about the specified alert.
+        Args:
+            workbench_id(str): ID for a specific workbench alert (e.g. WB-14-20190709-00003).
+        Returns:
+            alert_details (Dict[str, Any]): Returns an Alert (SaeAlert or TiAlert) and
+            ETag (an identifier for a specific version of a Workbench alert resource).
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
 
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        workbench_id = param["workbench_id"]
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.get_alert_details(alert_id=workbench_id)
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check workbench_id.")
+            raise RuntimeError(
+                f"Error fetching alert details for {workbench_id}. Result Code: {response.error}"
+            )
+
+        assert response.response is not None
+        etag = response.response.etag
+        alert = response.response.alert.json()
+
+        alert_details: Dict[str, Any] = {"etag": etag, "alert": alert}
+
+        # Add the response into the data section
+        action_result.add_data(alert_details)
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_urls_to_sandbox(self, param):
+        """
+        You can submit a maximum of 10 URLs per request.
+        Args:
+            urls(List[str]): A list of URLS that will be sent to sandbox for analysis.
+        Returns:
+            submit_urls_resp (List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        urls: List[str] = json.loads(param["urls"])
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        submit_urls_resp: List[MsData] = []
+
+        # Make rest call
+        for url in urls:
+            response = client.submit_urls_to_sandbox(url)
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print("Something went wrong, please check urls.")
+                raise RuntimeError(
+                    f"Error while submitting URLs to sandbox: {response.errors}"
+                )
+            assert response.response is not None
+            submit_urls_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data(
+            {"submit_urls_resp": [item.dict() for item in submit_urls_resp]}
+        )
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_enable_account(self, param):
+        """
+        Allows the user to sign in to new application and browser sessions.
+        Args:
+            account_identifiers(List[Dict]): Object containing the accountName and optional description.
+        Returns:
+            multi_response(List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        account_identifiers: List[Dict[str, str]] = json.loads(
+            param["account_identifiers"]
+        )
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in account_identifiers:
+            response = client.enable_account(
+                pytmv1.AccountTask(
+                    account_name=i["account_name"],
+                    description=i.get("description", "Enable User Account."),
+                )
+            )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
+                raise RuntimeError(f"Error while enabling account: {response.errors}")
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_disable_account(self, param):
+        """
+        Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session.
+        Args:
+            account_identifiers(List[Dict]): Object containing the accountName and optional description.
+        Returns:
+            multi_response(List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        account_identifiers: List[Dict[str, str]] = json.loads(
+            param["account_identifiers"]
+        )
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in account_identifiers:
+            response = client.disable_account(
+                pytmv1.AccountTask(
+                    account_name=i["account_name"],
+                    description=i.get("description", "Disable User Account."),
+                )
+            )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
+                raise RuntimeError(
+                    f"Error while disabling user account: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_restore_email_message(self, param):
+        """
+        Restore quarantined email messages.
+        Args:
+            email_identifiers(Dict): Object containing the messageId,mailBox and optional description.
+            The action can also be run using the message uniqueId and optional description.
+        Returns:
+            multi_response(List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        email_identifiers: List[Dict[str, str]] = json.loads(param["email_identifiers"])
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in email_identifiers:
+            if i["message_id"].startswith("<") and i["message_id"].endswith(">"):
+                response = client.restore_email_message(
+                    pytmv1.EmailMessageIdTask(
+                        message_id=i["message_id"],
+                        description=i.get("description", "Restore Email Message."),
+                        mail_box=i.get("mailbox", ""),
+                    )
+                )
+            else:
+                response = client.restore_email_message(
+                    pytmv1.EmailMessageUIdTask(
+                        unique_id=i["message_id"],
+                        description=i.get("description", "Restore Email Message."),
+                    )
+                )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check email identifiers."
+                )
+                raise RuntimeError(
+                    f"Error while restoring email message: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_sign_out_account(self, param):
+        """
+        Signs the user out of all active application and browser sessions.
+        Args:
+            account_identifiers(List[Dict]): Object containing the accountName and optional description.
+        Returns:
+            multi_response(List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        account_identifiers: List[Dict[str, str]] = json.loads(
+            param["account_identifiers"]
+        )
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in account_identifiers:
+            response = client.sign_out_account(
+                pytmv1.AccountTask(
+                    account_name=i["account_name"],
+                    description=i.get("description", "Sign Out Account."),
+                )
+            )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
+                raise RuntimeError(
+                    f"Error while signing out user account: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_force_password_reset(self, param):
+        """
+        Signs the user out of all active application and browser sessions, and forces
+        the user to create a new password during the next sign-in attempt.
+        Args:
+            account_identifiers(List[Dict]): Object containing the accountName and optional description.
+        Returns:
+            multi_response(List[Dict]): Object containing task_id and http status code for the action call.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        account_identifiers: List[Dict[str, str]] = json.loads(
+            param["account_identifiers"]
+        )
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        multi_resp: List[MsData] = []
+
+        # Make rest call
+        for i in account_identifiers:
+            response = client.reset_password_account(
+                pytmv1.AccountTask(
+                    account_name=i["account_name"],
+                    description=i.get("description", "Force Password Reset."),
+                )
+            )
+            if self._is_pytmv1_error(response.result_code):
+                self.debug_print(
+                    "Something went wrong, please check account identifiers."
+                )
+                raise RuntimeError(
+                    f"Error while resetting user account password: {response.errors}"
+                )
+            assert response.response is not None
+            multi_resp.append(response.response.items[0])
+
+        # Add the response into the data section
+        action_result.add_data({"multi_response": [item.dict() for item in multi_resp]})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_sandbox_suspicious_list(self, param):
+        """
+        Downloads the suspicious object list associated to the specified object
+        Note: Suspicious Object Lists are only available for objects with a high risk level
+        Args:
+            submit_id(str): Unique alphanumeric string that identifies the analysis result of a submission.
+            poll(str): If script should wait until the task is finished before returning the result (disabled by default).
+        Returns:
+            sandbox_suspicious_list_resp(List[Dict]): Array response for suspicious object found.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        submit_id = param["submit_id"]
+
+        # Optional Params
+        poll = param.get("poll", "false")
+        poll_time_sec = param.get("poll_time_sec", 0)
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        sandbox_suspicious_list_resp: List[Dict[str, Any]] = []
+        # Make rest call
+        response = client.get_sandbox_suspicious_list(
+            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
+        )
+
+        if self._is_pytmv1_error(response.result_code):
+            raise RuntimeError(
+                f"Error while fetching sandbox suspicious list: {response.error}"
+            )
+        assert response.response is not None
+        for item in response.response.items:
+            sandbox_suspicious_list_resp.append(item.dict())
+
+        # Create Container
+        container = {
+            "name": submit_id,
+            "source_data_identifier": "File Analysis Report - Suspicious Object",
+            "label": "trendmicro",
+            "tags": "suspiciousObject",
+            "severity": sandbox_suspicious_list_resp[0]["risk_level"].capitalize(),
+        }
+
+        ret_val, msg, cid = self.save_container(container)
+
+        artifacts: List[Any] = []
+        for sus_obj in sandbox_suspicious_list_resp:
+            artifacts_d = {
+                "name": "Artifact of {}".format(submit_id),
+                "source_data_identifier": "File Analysis Report - Suspicious Object",
+                "label": "trendmicro",
+                "container_id": cid,
+                "cef": sus_obj,
+            }
+            artifacts.append(artifacts_d)
+        ret_val, msg, cid = self.save_artifacts(artifacts)
+        self.save_progress("Suspicious Object added to Container")
+
+        # Add the response into the data section
+        action_result.add_data(
+            {"sandbox_suspicious_list_resp": sandbox_suspicious_list_resp}
+        )
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_sandbox_analysis_result(self, param):
+        """
+        Displays the analysis results of the specified object in the sandbox.
+        Args:
+            report_id(str): report_id of the sandbox submission retrieved from the sandbox-submission-status command.
+        Returns:
+            Dict: Object containing analysis results for specified ID.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        report_id = param["report_id"]
+
+        # Optional Params
+        poll = param.get("poll", "false")
+        poll_time_sec = param.get("poll_time_sec", 0)
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.get_sandbox_analysis_result(
+            submit_id=report_id,
+            poll=poll,
+            poll_time_sec=poll_time_sec,
+        )
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check report_id.")
+            raise RuntimeError(
+                f"Error fetching sandbox analysis result: {response.error}"
+            )
+        assert response.response is not None
+
+        # Add the response into the data section
+        action_result.add_data({"analysis_result": response.response.dict()})
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_sandbox_investigation_package(self, param):
+        """
+        Downloads the Investigation Package of the specified object sent to sandbox for analysis.
+        Args:
+            submit_id(str): Unique alphanumeric string that identifies the analysis results of a submission.
+            poll(str): If script should wait until the task is finished before returning the result (disabled by default)
+        Returns:
+            file(.zip): Investigation package for the specified object.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Required Params
+        submit_id = param["submit_id"]
+
+        # Optional Params
+        poll = param.get("poll", "false")
+        poll_time_sec = param.get("poll_time_sec", 0)
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Make rest call
+        response = client.download_sandbox_investigation_package(
+            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
+        )
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check submit_id.")
+            raise RuntimeError(
+                f"Error while downloading investigation package: {response.error}"
+            )
+        assert response.response is not None
+        # Make filename with timestamp
+        name = "Trend_Micro_Sandbox_Investigation_Package"
+        file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.zip"
+
+        results = Vault.create_attachment(  # noqa: F841
+            response.response.content,
+            self.get_container_id(),
+            file_name,
+        )
+        # Add the response into the data section
+        action_result.add_data({"file_added": file_name})
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_get_suspicious_list(self, param):
+        """
+        Fetch items in the suspicious list.
+        Returns:
+            List: List of suspicious items.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        new_suspicions: List[SuspiciousObject] = []
+
+        # Make rest call
+        try:
+            client.consume_suspicious_list(
+                lambda suspicion: new_suspicions.append(suspicion)
+            )
+        except Exception as e:
+            self.debug_print(
+                f"Consume Suspicious List failed with following exception: {e}"
+            )
+            raise e
+
+        # Add the response into the data section
+        action_result.add_data(
+            {"suspicious_objects": [item.dict() for item in new_suspicions]}
+        )
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_get_exception_list(self, param):
+        """
+        Fetch items in the exception list.
+        Returns:
+            List: Items in exceptions list.
+        """
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(param))
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        new_exceptions: List[ExceptionObject] = []
+
+        # Make rest call
+        try:
+            client.consume_exception_list(
+                lambda exception: new_exceptions.append(exception)
+            )
+        except Exception as e:
+            self.debug_print(
+                f"Consume Suspicious List failed with following exception: {e}"
+            )
+            raise e
+
+        # Add the response into the data section
+        action_result.add_data(
+            {"exception_objects": [item.dict() for item in new_exceptions]}
+        )
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def handle_action(self, param):
         # Get the action that we are supposed to execute for this App Run
         action_id = self.get_action_identifier()
 
         self.debug_print("action_id", self.get_action_identifier())
+        action_handler: Optional[Callable] = self.supported_actions.get(action_id)
 
-        action_dict = {
-            "get_computer_id": self._handle_get_computer_id,
-            "get_endpoint_info": self._handle_get_endpoint_info,
-            "quarantine_device": self._handle_quarantine_device,
-            "unquarantine_device": self._handle_unquarantine_device,
-            "status_check": self._handle_status_check,
-            "add_to_blocklist": self._handle_add_to_blocklist,
-            "quarantine_email_message": self._handle_quarantine_email_message,
-            "terminate_process": self._handle_terminate_process,
-            "add_to_exception": self._handle_add_to_exception,
-            "add_to_suspicious": self._handle_add_to_suspicious,
-            "delete_from_suspicious": self._handle_delete_from_suspicious,
-            "check_analysis_status": self._handle_check_analysis_status,
-            "download_analysis_report": self._handle_download_analysis_report,
-            "collect_forensic_file": self._handle_collect_forensic_file,
-            "forensic_file_info": self._handle_forensic_file_info,
-            "start_analysis": self._handle_start_analysis,
-            "remove_from_blocklist": self._handle_remove_from_blocklist,
-            "delete_email_message": self._handle_delete_email_message,
-            "delete_from_exception": self._handle_delete_from_exception,
-            "test_connectivity": self._handle_test_connectivity,
-            "on_poll": self._handle_on_poll,
-            "add_note": self._handle_add_note,
-            "update_status": self._handle_update_status,
-        }
+        if action_handler is None:
+            raise ValueError("Action requested ({}) was not found".format(action_id))
 
-        if action_id in action_dict.keys():
-            ret_val = action_dict[action_id](param)
+        action_handler(param)
 
-        return ret_val
+        return phantom.APP_SUCCESS
 
     def initialize(self):
         # Load the state in initialize, use it to store data
@@ -1686,18 +2063,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self._state = self.load_state()
 
         # get the asset config
-        config = self.get_config()
+        self.config = self.get_config()
         """
         # Access values in asset config by the name
 
-        # Required values can be accessed directly
+        # Required Params
         required_config_name = config['required_config_name']
 
         # Optional values should use the .get() function
         optional_config_name = config.get('optional_config_name')
         """
-        self.api_key = config["api_key"]
-        self._base_url = config.get("api_url")
+        self.api_key = self.config["api_key"]
+        self._base_url = self.config["api_url"]
 
         return phantom.APP_SUCCESS
 
@@ -1715,7 +2092,7 @@ def main():
     argparser.add_argument("input_test_json", help="Input Test JSON file")
     argparser.add_argument("-u", "--username", help="username", required=False)
     argparser.add_argument("-p", "--password", help="password", required=False)
-    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
+    argparser.add_argument("-v", "--verify", action="store_true", help="verify", required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -1750,7 +2127,7 @@ def main():
             print("Logging into Platform to get the session id")
             r2 = requests.post(
                 login_url, verify=verify, data=data, headers=headers, timeout=30
-            )
+            )  # nosemgrep
             # the above requests to create artefacts only work with verify=False
             session_id = r2.cookies["sessionid"]
         except Exception as e:
