@@ -370,7 +370,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll",
                     "id": 2,
@@ -1088,7 +1088,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll",
                     "id": 2,
@@ -1231,7 +1231,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll",
                     "id": 2,
@@ -1918,7 +1918,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll",
                     "id": 2,
@@ -1996,7 +1996,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll"
                 },
@@ -2081,7 +2081,7 @@
                         "true",
                         "false"
                     ],
-                    "default": "false",
+                    "default": "true",
                     "order": 1,
                     "name": "poll"
                 },
