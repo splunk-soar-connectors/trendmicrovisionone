@@ -933,13 +933,13 @@ URLS
 
 #### Context Output
 
-| **Path**                          | **Type** | **Description**                                              |
-| --------------------------------- | -------- | ------------------------------------------------------------ |
-| VisionOne.URLs_To_Sandbox.status  | Numeric  | HTTP status code for the action                              |
-| VisionOne.URLs_To_Sandbox.task_id | String   | Unique alphanumeric string that identifies a submission      |
-| VisionOne.URLs_To_Sandbox.url     | String   | The URL submitted to sandbox for analysis                    |
-| VisionOne.URLs_To_Sandbox.id      | String   | Unique alphanumeric string that identifies a submission      |
-| VisionOne.URLs_To_Sandbox.digest  | String   | md5, sha1 and sha256 values generated for the URL submission |
+| **Path**                     | **Type** | **Description**                                              |
+| ---------------------------- | -------- | ------------------------------------------------------------ |
+| action_result.data.*.status  | Numeric  | HTTP status code for the action                              |
+| action_result.data.*.task_id | String   | Unique alphanumeric string that identifies a submission      |
+| action_result.data.*.url     | String   | The URL submitted to sandbox for analysis                    |
+| action_result.data.*.id      | String   | Unique alphanumeric string that identifies a submission      |
+| action_result.data.*.digest  | String   | md5, sha1 and sha256 values generated for the URL submission |
 
 ## Action: 'Enable Account'
 
