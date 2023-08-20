@@ -482,10 +482,11 @@ Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                                |
-| ---------------------------- | -------- | ---------------------------------------------- |
-| action_result.data.*.status  | Numeric  | HTTP status code for the action                |
-| action_result.data.*.task_id | String   | Task ID generated for adding to exception list |
+| **Path**                                        | **Type** | **Description**                        |
+| ----------------------------------------------- | -------- | -------------------------------------- |
+| action_result.data.multi_response.*.status      | Numeric  | HTTP status code for the action        |
+| action_result.data.multi_response.*.task_id     | N/A      | Null                                   |
+| action_result.data.multi_response.*.total_count | Numeric  | Total count of items in exception list |
 
 ## Action: Delete From Exception
 
@@ -518,10 +519,11 @@ Block Objects
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                                           |
-| ---------------------------- | -------- | --------------------------------------------------------- |
-| action_result.data.*.status  | Numeric  | HTTP status code for the action                           |
-| action_result.data.*.task_id | String   | Task ID generated after removing item from exception list |
+| **Path**                                        | **Type** | **Description**                          |
+| ----------------------------------------------- | -------- | ---------------------------------------- |
+| action_result.data.multi_response.*.status      | Numeric  | HTTP status code for the action          |
+| action_result.data.multi_response.*.task_id     | N/A      | Null                                     |
+| action_result.data.multi_response.*.total_count | Numeric  | Total count of objects in exception list |
 
 ## Action: Add To Suspicious
 
@@ -560,10 +562,11 @@ Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional 
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                                        |
-| ---------------------------- | -------- | ------------------------------------------------------ |
-| action_result.data.*.status  | Numeric  | HTTP status code for the action                        |
-| action_result.data.*.task_id | String   | Task ID generated after adding item to suspicious list |
+| **Path**                                        | **Type** | **Description**                           |
+| ----------------------------------------------- | -------- | ----------------------------------------- |
+| action_result.data.multi_response.*.status      | Numeric  | HTTP status code for the action           |
+| action_result.data.multi_response.*.task_id     | N/A      | Null                                      |
+| action_result.data.multi_response.*.total_count | Numeric  | Total count of objects in suspicious list |
 
 ## Action: Delete From Suspicious
 
@@ -596,10 +599,11 @@ Block Objects
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                                            |
-| ---------------------------- | -------- | ---------------------------------------------------------- |
-| action_result.data.*.status  | Numeric  | HTTP status code for the action                            |
-| action_result.data.*.task_id | String   | Task ID generated after removing item from suspicious list |
+| **Path**                                        | **Type** | **Description**                           |
+| ----------------------------------------------- | -------- | ----------------------------------------- |
+| action_result.data.multi_response.*.status      | Numeric  | HTTP status code for the action           |
+| action_result.data.multi_response.*.task_id     | N/A      | Null                                      |
+| action_result.data.multi_response.*.total_count | Numeric  | Total count of objects in suspicious list |
 
 ## Action: Terminate Process
 
@@ -728,7 +732,6 @@ Response Management**
 
 - View, filter, and search (Task List tab)
 - Collect file
-
 
 Type: **investigate**  
 Read only: **False**
@@ -1369,7 +1372,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies a submission.                                          | Required     |
+| submit_id         | Unique alphanumeric string that identifies a submission                                           | Required     |
 | poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
 | poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
 
@@ -1408,9 +1411,16 @@ Read only: **True**
 
 #### Context Output
 
-| **Path**                                | **Type**              | **Description**            |
-| --------------------------------------- | --------------------- | -------------------------- |
-| action_result.data.*.suspicious_objects | [] suspicious_objects | List of Suspicious Objects |
+| **Path**                                     | **Type** | **Description**                                                                                                  |
+| -------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| action_result.data.*.value                   | String   | Value that was submitted to suspicious list.                                                                     |
+| action_result.data.*.type                    | String   | Type of object that was added to suspicious list.                                                                |
+| action_result.data.*.last_modified_date_time | String   | Timestamp in ISO 8601 format that indicates the last time the information about a suspicious object was modified |
+| action_result.data.*.description             | String   | Description of an object.                                                                                        |
+| action_result.data.*.scan_action             | String   | Action that connected products apply after detecting a suspicious object.                                        |
+| action_result.data.*.risk_level              | String   | Risk level of a suspicious object.                                                                               |
+| action_result.data.*.in_exception_list       | String   | Value that indicates if a suspicious object is in the exception list.                                            |
+| action_result.data.*.expired_date_time       | String   | Timestamp in ISO 8601 format that indicates when the suspicious object expires.                                  |
 
 ## Action: Get Exception List
 
@@ -1430,9 +1440,12 @@ Read only: **True**
 
 #### Context Output
 
-| **Path**                               | **Type**            | **Description**           |
-| -------------------------------------- | ------------------- | ------------------------- |
-| action_result.data.*.exception_objects | []exception_objects | List of Exception Objects |
+| **Path**                                     | **Type** | **Description**                                  |
+| -------------------------------------------- | -------- | ------------------------------------------------ |
+| action_result.data.*.value                   | String   | Value that was submitted to exception list.      |
+| action_result.data.*.type                    | String   | Type of object that was added to exception list. |
+| action_result.data.*.last_modified_date_time | String   | The time the object was created.                 |
+| action_result.data.*.description             | String   | Description of an object.                        |
 
 This version of the Trend Micro app is compatible with Splunk SOAR version **5.1.0** and above.
 
