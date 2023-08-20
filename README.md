@@ -59,16 +59,16 @@ specified when configuring a Trend Micro Vision One asset in SOAR.
 3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
 4. ALternatively click on **INSTALL APP** and drop a tarball of the app
 
-| **Parameter**              | **Description**                                                      | **Required** |
-| -------------------------- | -------------------------------------------------------------------- | ------------ |
-| Asset name                 | Unique name for this Trend Micro Vision One instance runner asset    | True         |
-| Asset description          | Short description of the asset's purpose                             | True         |
-| Product vendor             | Trend Micro                                                          | True         |
-| Product name               | Vision One                                                           | True         |
-| Tags                       | Optional tags to use in Playbooks                                    | False        |
-| API_URL                    | Vision One API URL                                                   | True         |
-| API_TOKEN                  | Vision One API Token                                                 | True         |
-| Polling interval (minutes) | How often should security incident events be updated from Vision One | False        |
+| **Parameter**                  | **Description**                                                      | **Required** |
+| ------------------------------ | -------------------------------------------------------------------- | ------------ |
+| **Asset name**                 | Unique name for this Trend Micro Vision One instance runner asset    | True         |
+| **Asset description**          | Short description of the asset's purpose                             | True         |
+| **Product vendor**             | Trend Micro                                                          | True         |
+| **Product name**               | Vision One                                                           | True         |
+| **Tags**                       | Optional tags to use in Playbooks                                    | False        |
+| **API_URL**                    | Vision One API URL                                                   | True         |
+| **API_TOKEN**                  | Vision One API Token                                                 | True         |
+| **Polling interval (minutes)** | How often should security incident events be updated from Vision One | False        |
 
 1. Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
 
