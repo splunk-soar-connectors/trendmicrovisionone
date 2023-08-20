@@ -10,7 +10,6 @@ Minimum Product Version: 5.5.0
 
 Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection
 
-
 # Splunk> Phantom
 
 Welcome to the open-source repository for Splunk> Phantom's trendmicrovisionone App.
@@ -114,7 +113,7 @@ specified when configuring a Trend Micro Vision One asset in SOAR.
 
 You can execute these commands from the Splunk SOAR CLI, as part of an automation, or in a playbook.
 
-## Action: 'Test Connectivity'
+## Action: Test Connectivity
 
 Validate the asset configuration for connectivity using supplied configuration variables.
 
@@ -131,9 +130,20 @@ Read only: **True**
 | -------- | -------- | --------------- |
 | N/A      |          |                 |
 
-## Action: 'Add To Blocklist'
+## Action: Add To Blocklist
 
 Add object(s) to blocklist.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Add to block list
+
+**Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **contain**  
 Read only: **False**
@@ -169,9 +179,20 @@ Note: `description` is optional and a default value is automatically provided.
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter.
 
-## Action: 'Remove From Blocklist'
+## Action: Remove From Blocklist
 
 Remove object(s) from blocklist.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Add to block list
+
+**Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **correct**  
 Read only: **False**
@@ -208,9 +229,15 @@ Note: `description` is optional and a default value is automatically provided.
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## Action: 'Quarantine Email Message'
+## Action: Quarantine Email Message
 
 Quarantine email message(s).
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Quarantine/Restore messages
 
 Type: **contain**  
 Read only: **False**
@@ -250,9 +277,15 @@ Note: `description` is optional and a default value is automatically provided. I
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## Action: 'Delete Email Message'
+## Action: Delete Email Message
 
 Delete email message(s).
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Delete messages
 
 Type: **correct**  
 Read only: **False**
@@ -292,9 +325,15 @@ Note: `description` is optional and a default value is automatically provided. I
 Note: To get the complete task status run polling command `status check` giving
 `taskId` as input parameter.
 
-## Action: 'Quarantine Device'
+## Action: Quarantine Device
 
 Quarantine endpoint(s).
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Isolate endpoint
 
 Type: **contain**  
 Read only: **False**
@@ -332,9 +371,15 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## Action: 'Unquarantine Device'
+## Action: Unquarantine Device
 
 Restore endpoint(s) connectivity.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Isolate endpoint
 
 Type: **correct**  
 Read only: **False**
@@ -372,9 +417,14 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## Action: 'On Poll'
+## Action: On Poll
 
 This polls information about workbench alerts that match the specified criteria in a paginated list.
+
+**API key role permissions required:
+Workbench**
+
+- View, filter, and search
 
 Type: **ingest**  
 Read only: **False**
@@ -401,9 +451,15 @@ End Time
 | -------------------------------------- | --------------------------- | ------------------------------------------------ |
 | action_result.data.*.serialized_alerts | [] List of SAE or TI Alerts | Array of alerts retrieved (awb-workbenchAlertV3) |
 
-## Action: 'Add To Exception'
+## Action: Add To Exception
 
 Add object(s) to exception list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **correct**  
 Read only: **False**
@@ -431,9 +487,15 @@ Note: `description` is optional and a default value is automatically provided.
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                |
 | action_result.data.*.task_id | String   | Task ID generated for adding to exception list |
 
-## Action: 'Delete From Exception'
+## Action: Delete From Exception
 
 Delete object(s) from exception list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **correct**  
 Read only: **False**
@@ -461,9 +523,15 @@ Block Objects
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                           |
 | action_result.data.*.task_id | String   | Task ID generated after removing item from exception list |
 
-## Action: 'Add To Suspicious'
+## Action: Add To Suspicious
 
 Add object(s) to suspicious list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **contain**  
 Read only: **False**
@@ -497,9 +565,15 @@ Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional 
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                        |
 | action_result.data.*.task_id | String   | Task ID generated after adding item to suspicious list |
 
-## Action: 'Delete From Suspicious'
+## Action: Delete From Suspicious
 
 Delete object(s) from suspicious list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
+- Manage lists and configure settings
 
 Type: **correct**  
 Read only: **False**
@@ -527,9 +601,15 @@ Block Objects
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                            |
 | action_result.data.*.task_id | String   | Task ID generated after removing item from suspicious list |
 
-## Action: 'Terminate Process'
+## Action: Terminate Process
 
 Terminate process(es) running on endpoint(s).
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Terminate process
 
 Type: **contain**  
 Read only: **False**
@@ -564,42 +644,15 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout is
 `20 minutes` .
 
-## Action: 'Get Sandbox Submission status'
-
-Get the status of file sent to sandbox for analysis based on task_id.
-
-Type: **investigate**  
-Read only: **False**
-
-| **Argument Name** | **Description**                                                           | **Required** |
-| ----------------- | ------------------------------------------------------------------------- | ------------ |
-| task_id           | ID generated from the trendmicro-visionone-submit-file-to-sandbox command | Required     |
-
-Example input:
-
-```
-Task ID
-  012e4eac-9bd9-4e89-95db-77e02f75a6f3
-```
-
-#### Context Output
-
-| **Path**                                   | **Type** | **Description**                                                                                                                                                |
-| ------------------------------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| action_result.data.*.id                    | String   | Unique alphanumeric string that identifies a submission                                                                                                        |
-| action_result.data.*.status                | String   | Action applied to a submitted object. Possible values: succeeded, running, failed                                                                              |
-| action_result.data.*.action                | String   | Action applied to a submitted object                                                                                                                           |
-| action_result.data.*.error                 | String   | Error code and message for the submission                                                                                                                      |
-| action_result.data.*.digest                | String   | object (sandbox-digest)                                                                                                                                        |
-| action_result.data.*.created_date_time     | String   | Timestamp in ISO 8601 that indicates the object was submitted to the sandbox                                                                                   |
-| action_result.data.*.last_action_date_time | String   | Timestamp in ISO 8601 format that indicates when the information about a submission was last updated                                                           |
-| action_result.data.*.resource_location     | String   | Location of the submitted file                                                                                                                                 |
-| action_result.data.*.is_cached             | Boolean  | Parameter that indicates if an object has been analyzed before by the Sandbox Analysis App. Submissions marked as cached do not count toward the daily reserve |
-| action_result.data.*.arguments             | String   | Arguments for the file submitted                                                                                                                               |
-
-## Action: 'Check Analysis Status'
+## Action: Check Analysis Status
 
 Get the status of a sandbox submission based on task_id.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -630,9 +683,15 @@ Task ID
 | action_result.data.*.arguments             | String   | Arguments for the file submitted                                                                                                                               |
 | action_result.data.*.error                 | String   | Error code and message for the submission                                                                                                                      |
 
-## Action: 'Download Analysis Report'
+## Action: Download Analysis Report
 
 Get the analysis report of a file based on report id.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -660,9 +719,16 @@ Poll Time Sec
 | ------------------------------- | -------- | ----------------------------------- |
 | action_result.data.*.file_added | String   | Name of the PDF file added to Vault |
 
-## Action: 'Collect Forensic File'
+## Action: Collect Forensic File
 
 Collect forensic file.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Collect file
+
 
 Type: **investigate**  
 Read only: **False**
@@ -699,9 +765,15 @@ Note: To get the complete task status run polling command `status check` giving
 timeout in the advanced field of playbook execution. The recommended timeout be
 `20 minutes` .
 
-## Action: 'Forensic File Info'
+## Action: Forensic File Info
 
 Get the download information for collected forensic file.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Download task result
 
 Type: **investigate**  
 Read only: **False**
@@ -749,9 +821,15 @@ Note: The URL received from the
 'trendmicro-visionone-download-information-for-collected-forensic-file' will be valid for only
 `60 seconds`
 
-## Action: 'Start Analysis'
+## Action: Start Analysis
 
 Submit file to sandbox for analysis.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -787,9 +865,15 @@ Arguments
 | action_result.data.*.digest    | String   | object (sandbox-digest)                                        |
 | action_result.data.*.arguments | String   | Command line arguments encoded in Base64 of the submitted file |
 
-## Action: 'Status Check'
+## Action: Status Check
 
 Check the status of a task.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Download task result
 
 Type: **investigate**  
 Read only: **False**
@@ -823,9 +907,14 @@ Poll Time Sec
 | action_result.data.*..description           | String   | Description of a response task                                                                                   |
 | action_result.data.*..account               | String   | User that triggered the response                                                                                 |
 
-## Action: 'Get Endpoint Info'
+## Action: Get Endpoint Info
 
 Gather information about an endpoint.
+
+**API key role permissions required:
+Endpoint Inventory**
+
+- View
 
 Type: **investigate**  
 Read only: **False**
@@ -859,9 +948,14 @@ Query Op
 | action_result.data.*.product_code            | String   | 3-character code that identifies Trend Micro products                              |
 | action_result.data.*.installed_product_codes | String   | 3-character code that identifies the installed Trend Micro products on an endpoint |
 
-## Action: 'Add Note'
+## Action: Add Note
 
 Adds a note to an existing workbench alert.
+
+**API key role permissions required:
+Workbench**
+
+- Modify alert details
 
 Type: **generic**  
 Read only: **False**
@@ -887,9 +981,14 @@ Content
 | action_result.data.*.note_id | String   | ID of the newly created note.          |
 | action_result.data.*.message | String   | Response message for the action taken. |
 
-## Action: 'Update Status'
+## Action: Update Status
 
 Updates the status of an existing workbench alert.
+
+**API key role permissions required:
+Workbench**
+
+- Modify alert details
 
 Type: **correct**  
 Read only: **False**
@@ -919,9 +1018,14 @@ Note: `if_match` is the `etag` value provided by the get-alert-details action.
 | ---------------------------- | -------- | --------------------------------------- |
 | action_result.data.*.message | String   | Message notifying of success or failure |
 
-## Action: 'Get Alert Details'
+## Action: Get Alert Details
 
 Displays information about a specified alert.
+
+**API key role permissions required:
+Workbench**
+
+- View, filter, and search
 
 Type: **investigate**  
 Read only: **False**
@@ -944,9 +1048,15 @@ Workbench ID
 | action_result.data.*.alert | String   | Information associated to the workbenchID provided.                 |
 | action_result.data.*.etag  | String   | An identifier for a specific version of a Workbench alert resource. |
 
-## Action: 'Urls To Sandbox'
+## Action: Urls To Sandbox
 
 Submits URLs to the sandbox for analysis.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -972,9 +1082,15 @@ URLS
 | action_result.data.*.id      | String   | Unique alphanumeric string that identifies a submission |
 | action_result.data.*.digest  | String   | object (sandbox-digest)                                 |
 
-## Action: 'Enable Account'
+## Action: Enable Account
 
 Allow the user(s) to sign in to new application and browser sessions.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Enable/Disable user account, force sign out, force password reset
 
 Type: **correct**  
 Read only: **False**
@@ -1002,9 +1118,15 @@ Note: `description` is optional and a default value is provided.
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                 |
 | action_result.data.*.task_id | String   | Task ID generated after enabling a user account |
 
-## Action: 'Disable Account'
+## Action: Disable Account
 
 Sign out user(s) of all active application and browser sessions, and prevent the user(s) from signing in any new session.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Enable/Disable user account, force sign out, force password reset
 
 Type: **correct**  
 Read only: **False**
@@ -1034,9 +1156,15 @@ Note: `description` is optional and a default value is provided.
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                  |
 | action_result.data.*.task_id | String   | Task ID generated after disabling a user account |
 
-## Action: 'Restore Email Message'
+## Action: Restore Email Message
 
 Restore quarantined email message(s).
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Quarantine/Restore messages
 
 Type: **correct**  
 Read only: **False**
@@ -1071,7 +1199,13 @@ Note: `description` is optional and a default value is provided. When providing 
 | action_result.data.*.status  | Numeric  | HTTP status code for the action            |
 | action_result.data.*.task_id | String   | Task ID generated after restoring an email |
 
-## Action: 'Sign Out Account'
+## Action: Sign Out Account
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Enable/Disable user account, force sign out, force password reset
 
 Sign out user(s) out of all active application and browser sessions.
 
@@ -1101,9 +1235,15 @@ Note: `description` is optional and a default value is provided.
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                  |
 | action_result.data.*.task_id | String   | Task ID generated after signing out user account |
 
-## Action: 'Force Password Reset'
+## Action: Force Password Reset
 
 Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.
+
+**API key role permissions required:
+Response Management**
+
+- View, filter, and search (Task List tab)
+- Enable/Disable user account, force sign out, force password reset
 
 Type: **contain**  
 Read only: **False**
@@ -1131,9 +1271,15 @@ Note: `description` is optional and a default value is provided.
 | action_result.data.*.status  | Numeric  | HTTP status code for the action.                 |
 | action_result.data.*.task_id | String   | Task ID generated after forcing a password reset |
 
-## Action: 'Sandbox Suspicious List'
+## Action: Sandbox Suspicious List
 
 Downloads the suspicious object list associated to the specified object.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -1164,9 +1310,15 @@ Note: Suspicious Object Lists are only available for objects with a high risk le
 | action_result.data.*.status  | Numeric  | HTTP status code for the action                  |
 | action_result.data.*.task_id | String   | Task ID generated after forcing a password reset |
 
-## Action: 'Sandbox Analysis Result'
+## Action: Sandbox Analysis Result
 
 Displays the analysis results of the specified object.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -1202,9 +1354,15 @@ Poll Time Sec
 | action_result.data.*.threat_types                  | String   | The threat type as detected by the sandbox                                            |
 | action_result.data.*.true_file_type                | String   | File Type of the Object                                                               |
 
-## Action: 'Sandbox Investigation Package'
+## Action: Sandbox Investigation Package
 
 Downloads the Investigation Package of the specified object.
+
+**API key role permissions required:
+Sandbox Analysis**
+
+- View, filter, and search
+- Submit objects
 
 Type: **investigate**  
 Read only: **False**
@@ -1232,9 +1390,14 @@ Poll Time Sec
 | ------------------------------- | -------- | ------------------------------------ |
 | action_result.data.*.file_added | String   | Name of the .zip file added to Vault |
 
-## Action: 'Get Suspicious List'
+## Action: Get Suspicious List
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
 
 Type: **investigate**  
 Read only: **True**
@@ -1249,9 +1412,14 @@ Read only: **True**
 | --------------------------------------- | --------------------- | -------------------------- |
 | action_result.data.*.suspicious_objects | [] suspicious_objects | List of Suspicious Objects |
 
-## Action: 'Get Exception List'
+## Action: Get Exception List
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.
+
+**API key role permissions required:
+Suspicious Object Management**
+
+- View, filter, and search
 
 Type: **investigate**  
 Read only: **True**
