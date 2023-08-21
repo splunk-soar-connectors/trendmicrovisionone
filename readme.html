@@ -9,10 +9,23 @@
   either express or implied. See the License for the specific language governing permissions
   and limitations under the License.
 -->
+<h1 id="trend-micro-vision-one-for-splunk-soar">
+  Trend Micro Vision One for Splunk SOAR
+</h1>
+
+<p>
+  Trend Micro Vision One is a purpose-built threat defense platform that
+  provides added value and new benefits beyond XDR solutions, allowing you to
+  see more and respond faster. Providing deep and broad extended detection and
+  response (XDR) capabilities that collect and automatically correlate data
+  across multiple security layers—email, endpoints, servers, cloud workloads,
+  and networks—Trend Micro Vision One prevents the majority of attacks with
+  automated protection
+</p>
 <h1 id="splunk-phantom">Splunk&gt; Phantom</h1>
 <p>
-  Welcome to the open-source repository for Splunk&gt; Phantom’s
-  TrendMicroVisionOne App.
+  Welcome to the open-source repository for Splunk&gt; Phantom's
+  trendmicrovisionone App.
 </p>
 <p>
   Please have a look at our
@@ -40,9 +53,7 @@
 <ul>
   <li>
     <strong>Email</strong> :
-    <a href="mailto:integrations@trendmicro.com" class="email"
-      >integrations@trendmicro.com</a
-    >
+    <a href="mailto:integrations@trendmicro.com">integrations@trendmicro.com</a>
   </li>
 </ul>
 <hr />
@@ -115,11 +126,6 @@
   </li>
 </ol>
 <table>
-  <colgroup>
-    <col style="width: 24%" />
-    <col style="width: 64%" />
-    <col style="width: 11%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Parameter</strong></th>
@@ -129,42 +135,42 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>Asset name</td>
+      <td><strong>Asset name</strong></td>
       <td>Unique name for this Trend Micro Vision One instance runner asset</td>
       <td>True</td>
     </tr>
     <tr class="even">
-      <td>Asset description</td>
-      <td>Short description of the asset’s purpose</td>
+      <td><strong>Asset description</strong></td>
+      <td>Short description of the asset's purpose</td>
       <td>True</td>
     </tr>
     <tr class="odd">
-      <td>Product vendor</td>
+      <td><strong>Product vendor</strong></td>
       <td>Trend Micro</td>
       <td>True</td>
     </tr>
     <tr class="even">
-      <td>Product name</td>
+      <td><strong>Product name</strong></td>
       <td>Vision One</td>
       <td>True</td>
     </tr>
     <tr class="odd">
-      <td>Tags</td>
+      <td><strong>Tags</strong></td>
       <td>Optional tags to use in Playbooks</td>
       <td>False</td>
     </tr>
     <tr class="even">
-      <td>API_URL</td>
+      <td><strong>API_URL</strong></td>
       <td>Vision One API URL</td>
       <td>True</td>
     </tr>
     <tr class="odd">
-      <td>API_TOKEN</td>
+      <td><strong>API_TOKEN</strong></td>
       <td>Vision One API Token</td>
       <td>True</td>
     </tr>
     <tr class="even">
-      <td>Polling interval (minutes)</td>
+      <td><strong>Polling interval (minutes)</strong></td>
       <td>
         How often should security incident events be updated from Vision One
       </td>
@@ -219,17 +225,21 @@
   <a href="#action-forensic-file-info">Forensic File Info</a> - Get the download
   information for collected forensic file<br />
   <a href="#action-start-analysis">Start Analysis</a> - Submit file to sandbox
-  for analysis<br />
+  for analysis. For supported file types, check
+  <a
+    href="https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx"
+    >here</a
+  ><br />
   <a href="#action-add-note">Add Note</a> - Adds a note to an existing workbench
   alert<br />
   <a href="#action-update-status">Update Status</a> - Updates the status of an
-  existing workbench alert
+  existing workbench alert<br />
   <a href="#action-get-alert-details">Get Alert Details</a> - Displays
   information about the specified alert<br />
   <a href="#action-urls-to-sandbox">Urls To Sandbox</a> - Submits URLs to the
   sandbox for analysis<br />
-  <a href="#action-enable-account">Enable Account</a>
-  - Allows the user to sign in to new application and browser sessions<br />
+  <a href="#action-enable-account">Enable Account</a> - Allows the user to sign
+  in to new application and browser sessions<br />
   <a href="#action-disable-account">Disable Account</a> - Signs the user out of
   all active application and browser sessions, and prevents the user from
   signing in any new session<br />
@@ -237,9 +247,9 @@
   quarantined email messages<br />
   <a href="#action-sign-out-account">Sign Out Account</a> - Signs the user out
   of all active application and browser sessions<br />
-  <a href="#action-force-password-reset">Force Password Reset</a>
-  - Signs the user out of all active application and browser sessions, and
-  forces the user to create a new password during the next sign-in attempt<br />
+  <a href="#action-force-password-reset">Force Password Reset</a> - Signs the
+  user out of all active application and browser sessions, and forces the user
+  to create a new password during the next sign-in attempt<br />
   <a href="#action-sandbox-suspicious-list">Sandbox Suspicious List</a> -
   Downloads the suspicious object list associated to the specified object<br />
   <a href="#action-sandbox-analysis-result">Sandbox Analysis Result</a> -
@@ -254,17 +264,17 @@
   in a paginated list<br />
   <a href="#action-get-exception-list">Get Exception List</a> - Retrieves
   information about domains, file SHA-1, file SHA-256, IP addresses, sender
-  addresses, or URLs in the Exception List and displays it in a paginated
-  list<br />
+  addresses, or URLs in the Exception List and displays it in a paginated list
 </p>
 <h2 id="commands">Commands</h2>
 <p>
   You can execute these commands from the Splunk SOAR CLI, as part of an
   automation, or in a playbook.
 </p>
-<h2 id="action-test-connectivity">Action: ‘Test Connectivity’</h2>
+<h2 id="action-test-connectivity">Action: Test Connectivity</h2>
 <p>
   Validate the asset configuration for connectivity using supplied configuration
+  variables.
 </p>
 <p>
   Type: <strong>test</strong><br />
@@ -303,18 +313,24 @@
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-to-blocklist">Action: ‘Add To Blocklist’</h2>
+<h2 id="action-add-to-blocklist">Action: Add To Blocklist</h2>
+<p>Add object(s) to blocklist.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Add to block list</li>
+</ul>
+<p><strong>Suspicious Object Management</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -325,26 +341,27 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
+      <td>Object made up of object_type, object_value and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;block_objects&quot;: [{
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;6.6.6.6&quot;,
-          &quot;description&quot;: &quot;Block IP&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{
+    &quot;object_type&quot;: &quot;ip&quot;,
+    &quot;object_value&quot;: &quot;6.6.6.6&quot;,
+    &quot;description&quot;: &quot;Block IP&quot;
+  },{
+    &quot;object_type&quot;: &quot;domain&quot;,
+    &quot;object_value&quot;: &quot;hello.com&quot;,
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is
+  automatically provided.
+</p>
 <h4 id="context-output-1">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 29%" />
-    <col style="width: 13%" />
-    <col style="width: 57%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -354,11 +371,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.BlockList.multi_response</td>
-      <td>[]multi_response</td>
-      <td>
-        A list containing the http status code and task_id for action taken
-      </td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated for the action</td>
     </tr>
   </tbody>
 </table>
@@ -366,18 +386,24 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-remove-from-blocklist">Action: ‘Remove From Blocklist’</h2>
+<h2 id="action-remove-from-blocklist">Action: Remove From Blocklist</h2>
+<p>Remove object(s) from blocklist.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Add to block list</li>
+</ul>
+<p><strong>Suspicious Object Management</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-1">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -387,27 +413,28 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>block_object</td>
-      <td>Object object made up of type, value and description</td>
+      <td>block_objects</td>
+      <td>Object made up of object_type, object_value and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;block_object&quot;: [{
-          &quot;description&quot;: &quot;Remove from blocklist&quot;,
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;6.6.6.3&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{
+    &quot;description&quot;: &quot;Remove from blocklist&quot;,
+    &quot;object_type&quot;: &quot;ip&quot;,
+    &quot;object_value&quot;: &quot;6.6.6.3&quot;
+  }, {
+    &quot;object_type&quot;: &quot;domain&quot;,
+    &quot;object_value&quot;: &quot;hello.com&quot;,
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is
+  automatically provided.
+</p>
 <h4 id="context-output-2">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 29%" />
-    <col style="width: 13%" />
-    <col style="width: 57%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -417,11 +444,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.BlockList.multi_response</td>
-      <td>[]multi_response</td>
-      <td>
-        A list containing the http status code and task_id for action taken
-      </td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated for the action</td>
     </tr>
   </tbody>
 </table>
@@ -429,19 +459,19 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-quarantine-email-message">Action: ‘Quarantine Email Message’</h2>
-<p>Quarantine the email message</p>
+<h2 id="action-quarantine-email-message">Action: Quarantine Email Message</h2>
+<p>Quarantine email message(s).</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Quarantine/Restore messages</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-2">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 69%" />
-    <col style="width: 12%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -452,28 +482,31 @@
   <tbody>
     <tr class="odd">
       <td>email_identifiers</td>
-      <td>
-        Email Identifiers consisting of message id, mailbox and description
-      </td>
+      <td>Object consisting of message_id, mailbox and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Quarantine email message&quot;,
-          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
-        }]
-}</code></pre>
+<pre><code>Email Identifiers
+Call using Message ID.
+  [{
+    &quot;description&quot;: &quot;Quarantine email message&quot;,
+    &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+  }]
+Call using unique ID.
+  [{
+    &quot;description&quot;: &quot;Quarantine email message&quot;,
+    &quot;message_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is
+  automatically provided. If <code>Unique ID</code> is being passed then the
+  <code>mailbox ID</code> is not needed.
+</p>
 <h4 id="context-output-3">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 35%" />
-    <col style="width: 18%" />
-    <col style="width: 45%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -483,9 +516,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Email.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Quarantine Email Message Response Array</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated for quarantining email message</td>
     </tr>
   </tbody>
 </table>
@@ -493,19 +531,19 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-delete-email-message">Action: ‘Delete Email Message’</h2>
-<p>Delete the email message.</p>
+<h2 id="action-delete-email-message">Action: Delete Email Message</h2>
+<p>Delete email message(s).</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Delete messages</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-3">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 69%" />
-    <col style="width: 12%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -516,28 +554,31 @@
   <tbody>
     <tr class="odd">
       <td>email_identifiers</td>
-      <td>
-        Email Identifiers consisting of message id, mailbox and description
-      </td>
+      <td>Object consisting of message_id, mailbox and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Delete email message&quot;,
-          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
-        }]
-}</code></pre>
+<pre><code>Email Identifiers
+Call using message ID.
+  [{
+    &quot;description&quot;: &quot;Delete email message&quot;,
+    &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+  }]
+Call using unique ID.
+  [{
+    &quot;description&quot;: &quot;Delete email message&quot;,
+    &quot;message_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is
+  automatically provided. If <code>Unique ID</code> is being passed then the
+  <code>mailbox ID</code> is not needed.
+</p>
 <h4 id="context-output-4">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 37%" />
-    <col style="width: 19%" />
-    <col style="width: 43%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -547,9 +588,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Email.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Delete Email Message Response Array</td>
+      <td>action_result.data.*status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*task_id</td>
+      <td>String</td>
+      <td>Task ID generated for deleting email message</td>
     </tr>
   </tbody>
 </table>
@@ -557,19 +603,19 @@
   Note: To get the complete task status run polling command
   <code>status check</code> giving <code>taskId</code> as input parameter.
 </p>
-<h2 id="action-quarantine-device">Action: ‘Quarantine Device’</h2>
-<p>Quarantine the endpoint.</p>
+<h2 id="action-quarantine-device">Action: Quarantine Device</h2>
+<p>Quarantine endpoint(s).</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Isolate endpoint</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-4">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 71%" />
-    <col style="width: 10%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -581,7 +627,7 @@
     <tr class="odd">
       <td>endpoint_identifiers</td>
       <td>
-        Endpoint Identifiers consisting of endpoint(hostname or agentGuid) and
+        Object consisting of endpoint identifier (hostname or agent_guid) and
         description
       </td>
       <td>Required</td>
@@ -589,20 +635,21 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;endpoint_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Test quarantine device&quot;,
-          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
-          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
-        }]
-}</code></pre>
+<pre><code>Endpoint Identifiers
+  [{
+    &quot;endpoint&quot;: &quot;endpoint123&quot;,
+    &quot;description&quot;: &quot;quarantine device&quot;
+  }, {
+    &quot;agent_guid&quot;: &quot;94632-7d79-451d-9ef8-2a2129e2&quot;,
+    &quot;description&quot;: &quot;quarantine device&quot;
+  }]</code></pre>
+<p>
+  Note: <code>endpoint</code> accepts agentGuid or hostname.
+  <code>description</code> is optional and a default value is automatically
+  provided.
+</p>
 <h4 id="context-output-5">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 46%" />
-    <col style="width: 17%" />
-    <col style="width: 36%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -612,9 +659,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Endpoint_Connection.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Quarantine Endpoint Response Array</td>
+      <td>action_result.data.*status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*task_id</td>
+      <td>String</td>
+      <td>Task ID generated for quarantining endpoint</td>
     </tr>
   </tbody>
 </table>
@@ -624,19 +676,19 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-unquarantine-device">Action: ‘Unquarantine Device’</h2>
-<p>Restore the endpoint.</p>
+<h2 id="action-unquarantine-device">Action: Unquarantine Device</h2>
+<p>Restore endpoint(s) connectivity.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Isolate endpoint</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-5">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 71%" />
-    <col style="width: 10%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -648,7 +700,7 @@
     <tr class="odd">
       <td>endpoint_identifiers</td>
       <td>
-        Endpoint Identifiers consisting of endpoint(hostname or agentGuid) and
+        Object consisting of endpoint identifier (hostname or agent_guid) and
         description
       </td>
       <td>Required</td>
@@ -656,20 +708,21 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;endpoint_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Restore endpoint&quot;,
-          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
-          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;
-        }]
-}</code></pre>
+<pre><code>Endpoint Identifiers
+  [{
+    &quot;description&quot;: &quot;Restore endpoint&quot;,
+    &quot;endpoint&quot;: &quot;endpoint123&quot;
+  }, {
+    &quot;agent_guid&quot;: &quot;94632-7d79-451d-9ef8-2a2129e2&quot;,
+    &quot;description&quot;: &quot;Restore endpoint&quot;
+  }]</code></pre>
+<p>
+  Note: <code>endpoint</code> accepts either agent_guid or hostname.
+  <code>description</code> is optional and a default value is automatically
+  provided.
+</p>
 <h4 id="context-output-6">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 48%" />
-    <col style="width: 17%" />
-    <col style="width: 34%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -679,9 +732,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Endpoint_Connection.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Restore Endpoint Response Array</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated for restoring endpoint</td>
     </tr>
   </tbody>
 </table>
@@ -691,22 +749,21 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-on-poll">Action: ‘On Poll’</h2>
+<h2 id="action-on-poll">Action: On Poll</h2>
 <p>
   This polls information about workbench alerts that match the specified
   criteria in a paginated list.
 </p>
+<p><strong>API key role permissions required: Workbench</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+</ul>
 <p>
   Type: <strong>ingest</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-6">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 8%" />
-    <col style="width: 85%" />
-    <col style="width: 5%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -720,7 +777,7 @@
       <td>
         Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
         the start of the data retrieval time range. The available oldest value
-        is “1970-01-01T00:00:00Z”
+        is "1970-01-01T00:00:00Z"
       </td>
       <td>False</td>
     </tr>
@@ -728,25 +785,20 @@
       <td>endtime</td>
       <td>
         Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
-        the end of the data retrieval time range. Ensure that “endDateTime” is
-        not earlier than “startDateTime”
+        the end of the data retrieval time range. Ensure that "endDateTime" is
+        not earlier than "startDateTime"
       </td>
       <td>False</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;starttime&quot;: &quot;2010-01-01T10:00:00Z&quot;,
-  &quot;endtime&quot;: &quot;2023-01-01T10:00:00Z&quot;
-}</code></pre>
+<pre><code>Start Time
+  2020-01-01T10:00:00Z
+End Time
+  2023-01-01T10:00:00Z</code></pre>
 <h4 id="context-output-7">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 36%" />
-    <col style="width: 19%" />
-    <col style="width: 43%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -756,25 +808,29 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.On_Poll.serialized_alerts</td>
-      <td>[]serialized_alerts</td>
-      <td>Array of any alerts (awb-workbenchAlertV3)</td>
+      <td>action_result.data.*.serialized_alerts</td>
+      <td>[] List of SAE or TI Alerts</td>
+      <td>Array of alerts retrieved (awb-workbenchAlertV3)</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-to-exception">Action: ‘Add To Exception’</h2>
-<p>Add object to exception list.</p>
+<h2 id="action-add-to-exception">Action: Add To Exception</h2>
+<p>Add object(s) to exception list.</p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-7">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -785,25 +841,21 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
+      <td>Object made up of object_type, object_value and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;block_objects&quot;: [{
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;1.2.6.9&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{&quot;object_type&quot;: &quot;ip&quot;,&quot;object_value&quot;: &quot;1.2.6.9&quot;, &quot;description&quot;: &quot;Add to exception list&quot;},
+  {&quot;object_type&quot;: &quot;ip&quot;,&quot;object_value&quot;: &quot;1.1.1.1&quot;}]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is
+  automatically provided.
+</p>
 <h4 id="context-output-8">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 42%" />
-    <col style="width: 17%" />
-    <col style="width: 39%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -813,25 +865,39 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Exception_List.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Add To Exception List Response Array</td>
+      <td>action_result.data.multi_response.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.multi_response.*.task_id</td>
+      <td>N/A</td>
+      <td>Null</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.multi_response.*.total_count</td>
+      <td>Numeric</td>
+      <td>Total count of items in exception list</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-delete-from-exception">Action: ‘Delete From Exception’</h2>
-<p>Delete object from exception list.</p>
+<h2 id="action-delete-from-exception">Action: Delete From Exception</h2>
+<p>Delete object(s) from exception list.</p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-8">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -842,25 +908,19 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
+      <td>Object made up of object_type, object_value and description</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;block_object&quot;: [{
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;1.6.6.3&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{
+    &quot;object_type&quot;: &quot;ip&quot;,
+    &quot;object_value&quot;: &quot;1.6.6.3&quot;
+  }]</code></pre>
 <h4 id="context-output-9">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 40%" />
-    <col style="width: 16%" />
-    <col style="width: 42%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -870,25 +930,39 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Exception_List.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Remove From Exception List Response Array</td>
+      <td>action_result.data.multi_response.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.multi_response.*.task_id</td>
+      <td>N/A</td>
+      <td>Null</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.multi_response.*.total_count</td>
+      <td>Numeric</td>
+      <td>Total count of objects in exception list</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-to-suspicious">Action: ‘Add To Suspicious’</h2>
-<p>Add suspicious object to suspicious list.</p>
+<h2 id="action-add-to-suspicious">Action: Add To Suspicious</h2>
+<p>Add object(s) to suspicious list.</p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-9">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 15%" />
-    <col style="width: 73%" />
-    <col style="width: 11%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -900,30 +974,30 @@
     <tr class="odd">
       <td>block_objects</td>
       <td>
-        Object object made up of type, value and scan_action, risk_level and
-        expiry_days
+        Object made up of object_type, object_value and scan_action, risk_level,
+        expiry_days and description
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;suspicious_block_object&quot;: [{
-          &quot;risk_level&quot;: &quot;high&quot;,
-          &quot;expiry_days&quot;: &quot;30&quot;,
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;scan_action&quot;: &quot;block&quot;,
-          &quot;object_value&quot;: &quot;6.6.6.3&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{
+    &quot;object_type&quot;: &quot;ip&quot;,
+    &quot;risk_level&quot;: &quot;high&quot;,
+    &quot;object_value&quot;: &quot;6.6.6.3&quot;
+    &quot;expiry_days&quot;: &quot;30&quot;,
+    &quot;scan_action&quot;: &quot;block&quot;,
+    &quot;description&quot;: &quot;Add to suspicious list&quot;
+  }]</code></pre>
+<p>
+  Note: <code>scan_action</code>, <code>risk_level</code>,
+  <code>expiry_days</code> and <code>description</code> are optional and default
+  values are provided for each.
+</p>
 <h4 id="context-output-10">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 43%" />
-    <col style="width: 17%" />
-    <col style="width: 39%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -933,25 +1007,39 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Suspicious_List.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Add To Suspicious List Response Array</td>
+      <td>action_result.data.multi_response.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.multi_response.*.task_id</td>
+      <td>N/A</td>
+      <td>Null</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.multi_response.*.total_count</td>
+      <td>Numeric</td>
+      <td>Total count of objects in suspicious list</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-delete-from-suspicious">Action: ‘Delete From Suspicious’</h2>
-<p>Delete the suspicious object from suspicious list.</p>
+<h2 id="action-delete-from-suspicious">Action: Delete From Suspicious</h2>
+<p>Delete object(s) from suspicious list.</p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Manage lists and configure settings</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <h4 id="input-10">Input</h4>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 64%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -962,25 +1050,19 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object object made up of type, value and description</td>
+      <td>Object made up of object_type and object_value</td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;block_object&quot;: [{
-          &quot;object_type&quot;: &quot;ip&quot;,
-          &quot;object_value&quot;: &quot;6.6.6.4&quot;
-        }]
-}</code></pre>
+<pre><code>Block Objects
+  [{
+    &quot;object_type&quot;: &quot;ip&quot;,
+    &quot;object_value&quot;: &quot;6.6.6.4&quot;
+  }]</code></pre>
 <h4 id="context-output-11">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 40%" />
-    <col style="width: 16%" />
-    <col style="width: 42%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -990,24 +1072,34 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Suspicious_List.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Delete from Suspicious List Response Array</td>
+      <td>action_result.data.multi_response.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.multi_response.*.task_id</td>
+      <td>N/A</td>
+      <td>Null</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.multi_response.*.total_count</td>
+      <td>Numeric</td>
+      <td>Total count of objects in suspicious list</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-terminate-process">Action: ‘Terminate Process’</h2>
-<p>Terminate the process running on the endpoint.</p>
+<h2 id="action-terminate-process">Action: Terminate Process</h2>
+<p>Terminate process(es) running on endpoint(s).</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Terminate process</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 12%" />
-    <col style="width: 79%" />
-    <col style="width: 7%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1019,28 +1111,27 @@
     <tr class="odd">
       <td>process_identifiers</td>
       <td>
-        Process Identifiers consisting of endpoint(hostname or agentGuid),
-        filesha1, filename(optional) and description(optional)
+        Object consisting of endpoint identifier (hostname or agent_guid),
+        file_sha1, filename and description
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;process_identifiers&quot;: [{
-          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
-          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;,
-          &quot;file_sha1&quot;: &quot;984afc7aaa2718984e15e3b5ab095b519a081321&quot;
-        }]
-}</code></pre>
+<pre><code>Process Identifiers
+  [{
+    &quot;endpoint&quot;: &quot;endpoint123&quot;,
+    &quot;file_sha1&quot;: &quot;984afc7.......95b519a081321&quot;
+    &quot;description&quot;: &quot;terminate process&quot;,
+    &quot;filename&quot;: &quot;exmaplename.txt&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> and <code>filename</code> are optional and a
+  default value is provided.
+</p>
 <h4 id="context-output-12">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 46%" />
-    <col style="width: 17%" />
-    <col style="width: 35%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1050,9 +1141,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Terminate_Process.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Terminate Process Response Array</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated after terminating a process</td>
     </tr>
   </tbody>
 </table>
@@ -1062,134 +1158,18 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout is <code>20 minutes</code> .
 </p>
-<h2 id="action-get-sandbox-submission-status">
-  Action: ‘Get Sandbox Submission status’
-</h2>
-<p>Get the status of file analysis based on task id.</p>
+<h2 id="action-check-analysis-status">Action: Check Analysis Status</h2>
+<p>Get the status of a sandbox submission based on task_id.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 16%" />
-    <col style="width: 71%" />
-    <col style="width: 11%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>task_id</td>
-      <td>
-        ID generated from the trendmicro-visionone-submit-file-to-sandbox
-        command
-      </td>
-      <td>Required</td>
-    </tr>
-  </tbody>
-</table>
-<p>Example input:</p>
-<pre><code>{
-  &quot;task_id&quot;: &quot;012e4eac-9bd9-4e89-95db-77e02f75a6f3&quot;
-}</code></pre>
-<h4 id="context-output-13">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 26%" />
-    <col style="width: 3%" />
-    <col style="width: 69%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Get_Sandbox_Submission_Status.id</td>
-      <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Get_Sandbox_Submission_Status.status</td>
-      <td>String</td>
-      <td>Response code for the action call</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Get_Sandbox_Submission_Status.action</td>
-      <td>String</td>
-      <td>Action applied to a submitted object</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Get_Sandbox_Submission_Status.error</td>
-      <td>Object</td>
-      <td>Error code and message for the submission</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Get_Sandbox_Submission_Status.digest</td>
-      <td>String</td>
-      <td>The hash values for the file analyzed</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Get_Sandbox_Submission_Status.created_date_time</td>
-      <td>String</td>
-      <td>
-        Timestamp in ISO 8601 that indicates the object was submitted to the
-        sandbox
-      </td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Get_Sandbox_Submission_Status.last_action_date_time</td>
-      <td>String</td>
-      <td>
-        Timestamp in ISO 8601 format that indicates when the information about a
-        submission was last updated
-      </td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Get_Sandbox_Submission_Status.resource_location</td>
-      <td>String</td>
-      <td>Location of the submitted file</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Get_Sandbox_Submission_Status.is_cached</td>
-      <td>Boolean</td>
-      <td>
-        Parameter that indicates if an object has been analyzed before by the
-        Sandbox Analysis App. Submissions marked as cached do not count toward
-        the daily reserve
-      </td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Get_Sandbox_Submission_Status.arguments</td>
-      <td>String</td>
-      <td>Arguments for the file submitted</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="action-check-analysis-status">Action: ‘Check Analysis Status’</h2>
-<p>
-  This action retrieves the status of a sandbox submission analysis based on
-  task_id.
-</p>
-<p>
-  Type: <strong>investigate</strong><br />
-  Read only: <strong>False</strong>
-</p>
-<table>
-  <colgroup>
-    <col style="width: 15%" />
-    <col style="width: 73%" />
-    <col style="width: 11%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1209,16 +1189,10 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;task_id&quot;: &quot;8559a7ce-2b85-451b-8742-4b943ad76a22&quot;
-}</code></pre>
-<h4 id="context-output-14">Context Output</h4>
+<pre><code>Task ID
+  8559a7ce-2b85-451b-8742-4b943ad76a22</code></pre>
+<h4 id="context-output-13">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 24%" />
-    <col style="width: 3%" />
-    <col style="width: 72%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1228,17 +1202,20 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Check_Analysis_Status.id</td>
+      <td>action_result.data.*.id</td>
       <td>String</td>
       <td>Unique alphanumeric string that identifies a submission</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Check_Analysis_Status.status</td>
+      <td>action_result.data.*.status</td>
       <td>String</td>
-      <td>Response code for the action call</td>
+      <td>
+        Action applied to a submitted object. Possible values: succeeded,
+        running, failed
+      </td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Check_Analysis_Status.created_date_time</td>
+      <td>action_result.data.*.created_date_time</td>
       <td>String</td>
       <td>
         Timestamp in ISO 8601 that indicates the object was submitted to the
@@ -1246,7 +1223,7 @@
       </td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Check_Analysis_Status.last_action_date_time</td>
+      <td>action_result.data.*.last_action_date_time</td>
       <td>String</td>
       <td>
         Timestamp in ISO 8601 format that indicates when the information about a
@@ -1254,17 +1231,17 @@
       </td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Check_Analysis_Status.action</td>
+      <td>action_result.data.*.action</td>
       <td>String</td>
       <td>Action applied to a submitted object</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Check_Analysis_Status.resource_location</td>
+      <td>action_result.data.*.resource_location</td>
       <td>String</td>
       <td>Location of the submitted file</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Check_Analysis_Status.is_cached</td>
+      <td>action_result.data.*.is_cached</td>
       <td>String</td>
       <td>
         Parameter that indicates if an object has been analyzed before by the
@@ -1273,34 +1250,34 @@
       </td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Check_Analysis_Status.digest</td>
+      <td>action_result.data.*.digest</td>
       <td>String</td>
-      <td>The hash values for the file analyzed</td>
+      <td>object (sandbox-digest)</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Check_Analysis_Status.arguments</td>
+      <td>action_result.data.*.arguments</td>
       <td>String</td>
       <td>Arguments for the file submitted</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Check_Analysis_Status.error</td>
+      <td>action_result.data.*.error</td>
       <td>String</td>
       <td>Error code and message for the submission</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-download-analysis-report">Action: ‘Download Analysis Report’</h2>
+<h2 id="action-download-analysis-report">Action: Download Analysis Report</h2>
 <p>Get the analysis report of a file based on report id.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 13%" />
-    <col style="width: 76%" />
-    <col style="width: 9%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1321,7 +1298,7 @@
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (disabled by default)
+        result (enabled by default)
       </td>
       <td>Optional</td>
     </tr>
@@ -1333,18 +1310,14 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;id&quot;: &quot;8559a7ce-2b85-451b-8742-4b943ad76a22&quot;,
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: 30
-}</code></pre>
-<h4 id="context-output-15">Context Output</h4>
+<pre><code>Submit ID
+  8559a7ce-2b85-451b-8742-4b943ad76a22
+Poll
+  true
+Poll Time Sec
+  30</code></pre>
+<h4 id="context-output-14">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 52%" />
-    <col style="width: 10%" />
-    <col style="width: 36%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1354,24 +1327,24 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Download_Analysis_Report.file</td>
-      <td>File</td>
-      <td>The response is a .pdf file</td>
+      <td>action_result.data.*.file_added</td>
+      <td>String</td>
+      <td>Name of the PDF file added to Vault</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-collect-forensic-file">Action: ‘Collect Forensic File’</h2>
+<h2 id="action-collect-forensic-file">Action: Collect Forensic File</h2>
 <p>Collect forensic file.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Collect file</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 70%" />
-    <col style="width: 12%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1383,28 +1356,28 @@
     <tr class="odd">
       <td>collect_files</td>
       <td>
-        Collect file input JSON containing endpoint, file path and description
+        Object containing endpoint identifier (hostname or agent_guid),
+        file_path and description
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;collect_files&quot;: [{
-          &quot;endpoint_name&quot;: &quot;endpoint123&quot;,
-          &quot;agent_guid&quot;: &quot;cb9c8412-1f64-4fa0-a36b-76bf41a07ede&quot;,
-          &quot;file_path&quot;: &quot;C:/virus.exe&quot;,
-          &quot;description&quot;: &quot;collect malicious file&quot;
-        }]
-}</code></pre>
-<h4 id="context-output-16">Context Output</h4>
+<pre><code>Collect Files
+  [{
+    &quot;endpoint&quot;: &quot;endpoint123&quot;,
+    &quot;file_path&quot;: &quot;C:/virus.exe&quot;,
+    &quot;description&quot;: &quot;collect malicious file&quot;
+  }, {
+    &quot;agent_guid&quot;: &quot;94632-7d79-451d-9ef8-2a2129e2&quot;,
+    &quot;file_path&quot;: &quot;C:/some_file.exe&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+</p>
+<h4 id="context-output-15">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 42%" />
-    <col style="width: 14%" />
-    <col style="width: 43%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1414,9 +1387,14 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Collect_Forensic_File.multi_response</td>
-      <td>[]multi_response</td>
-      <td>Response Array containing http code and task_id</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated after collecting a file</td>
     </tr>
   </tbody>
 </table>
@@ -1426,18 +1404,18 @@
   The above command should be added with execution timeout in the advanced field
   of playbook execution. The recommended timeout be <code>20 minutes</code> .
 </p>
-<h2 id="action-forensic-file-info">Action: ‘Forensic File Info’</h2>
+<h2 id="action-forensic-file-info">Action: Forensic File Info</h2>
 <p>Get the download information for collected forensic file.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Download task result</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 15%" />
-    <col style="width: 72%" />
-    <col style="width: 11%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1454,198 +1432,11 @@
       </td>
       <td>Required</td>
     </tr>
-  </tbody>
-</table>
-<p>Example input:</p>
-<pre><code>{
-  &quot;task_id&quot;: &quot;00000012&quot;
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: 30,
-}</code></pre>
-<h4 id="context-output-17">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 31%" />
-    <col style="width: 5%" />
-    <col style="width: 63%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Forensic_File_Info.id</td>
-      <td>String</td>
-      <td>Unique numeric string that identifies a response task</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Forensic_File_Info.created_date_time</td>
-      <td>String</td>
-      <td>Task completion time</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Forensic_File_Info.last_action_date_time</td>
-      <td>String</td>
-      <td>
-        Timestamp in ISO 8601 format that indicates when the information about a
-        submission was last updated
-      </td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Forensic_File_Info.action</td>
-      <td>String</td>
-      <td>Action applied to a submitted object</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Forensic_File_Info.description</td>
-      <td>String</td>
-      <td>Description of a response task</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Forensic_File_Info.account</td>
-      <td>String</td>
-      <td>User that triggered the response</td>
-    </tr>
-  </tbody>
-</table>
-<p>
-  Note: The URL received from the
-  ‘trendmicro-visionone-download-information-for-collected-forensic-file’ will
-  be valid for only <code>60 seconds</code>
-</p>
-<h2 id="action-start-analysis">Action: ‘Start Analysis’</h2>
-<p>Submit file to sandbox for analysis.</p>
-<p>
-  Type: <strong>investigate</strong><br />
-  Read only: <strong>False</strong>
-</p>
-<table>
-  <colgroup>
-    <col style="width: 6%" />
-    <col style="width: 89%" />
-    <col style="width: 4%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>file_url</td>
-      <td>URL pointing to the location of the file to be submitted.</td>
-      <td>Required</td>
-    </tr>
-    <tr class="even">
-      <td>file_name</td>
-      <td>Name of the file to be analyzed.</td>
-      <td>Required</td>
-    </tr>
-    <tr class="odd">
-      <td>document_pass</td>
-      <td>
-        The password for decrypting the submitted document. The value must be
-        Base64-encoded. The maximum password length is 128 bytes prior to
-        encoding.
-      </td>
-      <td>Optional</td>
-    </tr>
-    <tr class="even">
-      <td>archive_pass</td>
-      <td>
-        The password for decrypting the submitted archive. The value must be
-        Base64-encoded. The maximum password length is 128 bytes prior to
-        encoding.
-      </td>
-      <td>Optional</td>
-    </tr>
-    <tr class="odd">
-      <td>arguments</td>
-      <td>
-        Parameter that allows you to specify Base64-encoded command line
-        arguments to run the submitted file. The maximum argument length before
-        encoding is 1024 bytes. Arguments are only available for Portable
-        Executable (PE) files and script files.
-      </td>
-      <td>Optional</td>
-    </tr>
-  </tbody>
-</table>
-<p>Example input:</p>
-<pre><code>{
-  &quot;file_url&quot;: &quot;file binary&quot;
-  &quot;file_name&quot;: &quot;some_file.bat&quot;,
-  &quot;document_password&quot;: 1234,
-  &quot;archive_password&quot;: 1234,
-  &quot;arguments&quot;: &quot;IFMlYztbQA==&quot;,
-}</code></pre>
-<h4 id="context-output-18">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 32%" />
-    <col style="width: 7%" />
-    <col style="width: 59%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Start_Analysis.id</td>
-      <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Start_Analysis.digest</td>
-      <td>String</td>
-      <td>The hash value of the file</td>
-    </tr>
-    <tr class="odd">
-      <td>VisionOne.Start_Analysis.arguments</td>
-      <td>String</td>
-      <td>Command line arguments encoded in Base64 of the submitted file</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="action-status-check">Action: ‘Status Check’</h2>
-<p>
-  Type: <strong>investigate</strong><br />
-  Read only: <strong>False</strong>
-</p>
-<table>
-  <colgroup>
-    <col style="width: 13%" />
-    <col style="width: 76%" />
-    <col style="width: 9%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>task_id</td>
-      <td>Unique numeric string that identifies a response task.</td>
-      <td>Required</td>
-    </tr>
     <tr class="even">
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (disabled by default)
+        result (enabled by default)
       </td>
       <td>Optional</td>
     </tr>
@@ -1657,18 +1448,14 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;task_id&quot;: &quot;00000012&quot;
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: 30,
-}</code></pre>
-<h4 id="context-output-19">Context Output</h4>
+<pre><code>Task ID
+  00000012
+Poll
+  True
+Poll Time Sec
+  30</code></pre>
+<h4 id="context-output-16">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 28%" />
-    <col style="width: 5%" />
-    <col style="width: 65%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1678,22 +1465,25 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Status_Check.id</td>
+      <td>action_result.data.*.id</td>
       <td>String</td>
       <td>Unique numeric string that identifies a response task</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Status_Check.status</td>
+      <td>action_result.data.*.status</td>
       <td>String</td>
-      <td>success or fail status of task</td>
+      <td>
+        The status of the command sent to the managing server. Possible task
+        statuses: queued, running,succeeded, failed
+      </td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Status_Check.created_date_time</td>
+      <td>action_result.data.*.created_date_time</td>
       <td>String</td>
       <td>Task completion time</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Status_Check.last_action_date_time</td>
+      <td>action_result.data.*.last_action_date_time</td>
       <td>String</td>
       <td>
         Timestamp in ISO 8601 format that indicates when the information about a
@@ -1701,34 +1491,288 @@
       </td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Status_Check.action</td>
+      <td>action_result.data.*.action</td>
       <td>String</td>
       <td>Action applied to a submitted object</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Status_Check.description</td>
+      <td>action_result.data.*.description</td>
       <td>String</td>
       <td>Description of a response task</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Status_Check.account</td>
+      <td>action_result.data.*.account</td>
       <td>String</td>
       <td>User that triggered the response</td>
     </tr>
+    <tr class="even">
+      <td>action_result.data.*.agent_guid</td>
+      <td>String</td>
+      <td>Unique alphanumeric string that identifies an installed agent</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.endpoint_name</td>
+      <td>String</td>
+      <td>Endpoint name of the target endpoint</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.file_path</td>
+      <td>String</td>
+      <td>File path of the file to be collected from the target</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.file_sha1</td>
+      <td>String</td>
+      <td>string (arp-sha1)</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.file_sha256</td>
+      <td>String</td>
+      <td>string (arp-sha256)</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.file_size</td>
+      <td>String</td>
+      <td>Size of the collected file in bytes</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.resource_location</td>
+      <td>String</td>
+      <td>URL to download the collected file</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.expired_date_time</td>
+      <td>String</td>
+      <td>Timestamp in ISO 8601 format</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.password</td>
+      <td>String</td>
+      <td>Password to get the resource</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.error</td>
+      <td>String</td>
+      <td>
+        Object that contains information about the unsuccessful task. response
+      </td>
+    </tr>
   </tbody>
 </table>
-<h2 id="action-get-endpoint-info">Action: ‘Get Endpoint Info’</h2>
-<p>Gather information about an endpoint.</p>
+<p>
+  Note: The URL received from the
+  'trendmicro-visionone-download-information-for-collected-forensic-file' will
+  be valid for only <code>60 seconds</code>
+</p>
+<h2 id="action-start-analysis">Action: Start Analysis</h2>
+<p>Submit file to sandbox for analysis.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 18%" />
-    <col style="width: 68%" />
-    <col style="width: 13%" />
-  </colgroup>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>file_url</td>
+      <td>URL pointing to the location of the file to be submitted</td>
+      <td>Required</td>
+    </tr>
+    <tr class="even">
+      <td>file_name</td>
+      <td>Name of the file to be analyzed</td>
+      <td>Required</td>
+    </tr>
+    <tr class="odd">
+      <td>document_pass</td>
+      <td>
+        The password for decrypting the submitted document. The value must be
+        Base64-encoded. The maximum password length is 128 bytes prior to
+        encoding
+      </td>
+      <td>Optional</td>
+    </tr>
+    <tr class="even">
+      <td>archive_pass</td>
+      <td>
+        The password for decrypting the submitted archive. The value must be
+        Base64-encoded. The maximum password length is 128 bytes prior to
+        encoding
+      </td>
+      <td>Optional</td>
+    </tr>
+    <tr class="odd">
+      <td>arguments</td>
+      <td>
+        Parameter that allows you to specify Base64-encoded command line
+        arguments to run the submitted file. The maximum argument length before
+        encoding is 1024 bytes. Arguments are only available for Portable
+        Executable (PE) files and script files
+      </td>
+      <td>Optional</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>File Url
+  https://someurl.com/file=somefile.bat
+File Name
+  some_file.bat
+Document Password
+  cGFzc3dvcmQK
+Archive Password
+  cGFzc3dvcmQK
+Arguments
+  IFMlYztbQA==</code></pre>
+<h4 id="context-output-17">Context Output</h4>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>action_result.data.*.id</td>
+      <td>String</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.digest</td>
+      <td>String</td>
+      <td>object (sandbox-digest)</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.arguments</td>
+      <td>String</td>
+      <td>Command line arguments encoded in Base64 of the submitted file</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-status-check">Action: Status Check</h2>
+<p>Check the status of a task.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Download task result</li>
+</ul>
+<p>
+  Type: <strong>investigate</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>task_id</td>
+      <td>Unique numeric string that identifies a response task</td>
+      <td>Required</td>
+    </tr>
+    <tr class="even">
+      <td>poll</td>
+      <td>
+        If script should wait until the task is finished before returning the
+        result (enabled by default)
+      </td>
+      <td>Optional</td>
+    </tr>
+    <tr class="odd">
+      <td>poll_time_sec</td>
+      <td>Maximum time to wait for the result to be available</td>
+      <td>Optional</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>Task ID
+  00000012
+Poll
+  True
+Poll Time Sec
+  30</code></pre>
+<h4 id="context-output-18">Context Output</h4>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>action_result.data.*..id</td>
+      <td>String</td>
+      <td>Unique numeric string that identifies a response task</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*..status</td>
+      <td>String</td>
+      <td>
+        The status of the command sent to the managing server. Possible task
+        statuses: queued, running,succeeded, failed
+      </td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*..created_date_time</td>
+      <td>String</td>
+      <td>Task completion time</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*..last_action_date_time</td>
+      <td>String</td>
+      <td>
+        Timestamp in ISO 8601 format that indicates when the information about a
+        submission was last updated
+      </td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*..action</td>
+      <td>String</td>
+      <td>Action applied to a submitted object</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*..description</td>
+      <td>String</td>
+      <td>Description of a response task</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*..account</td>
+      <td>String</td>
+      <td>User that triggered the response</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-get-endpoint-info">Action: Get Endpoint Info</h2>
+<p>Gather information about an endpoint.</p>
+<p><strong>API key role permissions required: Endpoint Inventory</strong></p>
+<ul>
+  <li>View</li>
+</ul>
+<p>
+  Type: <strong>investigate</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<table>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1739,7 +1783,9 @@
   <tbody>
     <tr class="odd">
       <td>endpoint</td>
-      <td>Hostname, macAddress, agentGuid or IP of the endpoint to query</td>
+      <td>
+        List of Hostname, macAddress, agentGuid or IP of the endpoint to query
+      </td>
       <td>Required</td>
     </tr>
     <tr class="even">
@@ -1750,17 +1796,12 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;endpoint&quot;: &quot;127.127.127.127&quot;,
-  &quot;query_op&quot;: &quot; or &quot;
-}</code></pre>
-<h4 id="context-output-20">Context Output</h4>
+<pre><code>Endpoint
+  127.127.127.127,endpoint2,endpoint4
+Query Op
+  or</code></pre>
+<h4 id="context-output-19">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 8%" />
-    <col style="width: 74%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1770,28 +1811,71 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Endpoint_Info.endpoint_data_resp</td>
-      <td>[]endpoint_data_resp</td>
+      <td>action_result.data.*.agent_guid</td>
+      <td>String</td>
+      <td>AgentGuid for the endpoint</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.login_account</td>
+      <td>String</td>
+      <td>Login Account for the endpoint</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.endpoint_name</td>
+      <td>String</td>
+      <td>Hostname of the endpoint</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.mac_address</td>
+      <td>String</td>
+      <td>MacAddress for the endpoint</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.ip</td>
+      <td>String</td>
+      <td>IP address for the endpoint</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.os_name</td>
+      <td>String</td>
+      <td>Operating system installed on an endpoint</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.os_version</td>
+      <td>String</td>
+      <td>Version of the operating system installed on an endpoint</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.os_description</td>
+      <td>String</td>
+      <td>Description of the operating system installed on an endpoint</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.product_code</td>
+      <td>String</td>
+      <td>3-character code that identifies Trend Micro products</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.installed_product_codes</td>
+      <td>String</td>
       <td>
-        Array of Endpoint Data Objects, consisting of agent guid, login account,
-        endpoint name, MAC address, IP, os name, or version, os description,
-        product code and installed product code
+        3-character code that identifies the installed Trend Micro products on
+        an endpoint
       </td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-add-note">Action: ‘Add Note’</h2>
+<h2 id="action-add-note">Action: Add Note</h2>
 <p>Adds a note to an existing workbench alert.</p>
+<p><strong>API key role permissions required: Workbench</strong></p>
+<ul>
+  <li>Modify alert details</li>
+</ul>
 <p>
   Type: <strong>generic</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 38%" />
-    <col style="width: 48%" />
-    <col style="width: 12%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1801,7 +1885,7 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>source data identifier (workbench id)</td>
+      <td>workbench_id</td>
       <td>Workbench id of security incident in Vision One</td>
       <td>Required</td>
     </tr>
@@ -1813,17 +1897,12 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;alert_id&quot;: &quot;WB-14-20190709-00003&quot;,
-  &quot;content&quot;: &quot;Suspected False Positive, please verify&quot;
-}</code></pre>
-<h4 id="context-output-21">Context Output</h4>
+<pre><code>Alert ID
+  WB-14-20190709-00003
+Content
+  Suspected False Positive, please verify</code></pre>
+<h4 id="context-output-20">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 36%" />
-    <col style="width: 11%" />
-    <col style="width: 52%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1833,29 +1912,28 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Add_Note.note_id</td>
+      <td>action_result.data.*.note_id</td>
       <td>String</td>
-      <td>ID of the newly created note.</td>
+      <td>ID of the newly created note</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Add_Note.message</td>
+      <td>action_result.data.*.message</td>
       <td>String</td>
-      <td>Response message for the action taken.</td>
+      <td>Response message for the action taken</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-update-status">Action: ‘Update Status’</h2>
+<h2 id="action-update-status">Action: Update Status</h2>
 <p>Updates the status of an existing workbench alert.</p>
+<p><strong>API key role permissions required: Workbench</strong></p>
+<ul>
+  <li>Modify alert details</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 23%" />
-    <col style="width: 69%" />
-    <col style="width: 7%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1865,37 +1943,89 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>source data identifier (workbench_id)</td>
+      <td>workbench_id</td>
       <td>
         The ID of the workbench alert that you would like to update the status
-        for.
+        for
       </td>
       <td>Required</td>
     </tr>
     <tr class="even">
       <td>status</td>
       <td>
-        The status to assign to the workbench alert: new, in_progress,
-        resolved_false_positive, resolved_true_positive
+        The status to assign to the workbench alert: <code>new</code>,
+        <code>in_progress</code>, <code>resolved_false_positive</code>,
+        <code>resolved_true_positive</code>
       </td>
       <td>Required</td>
     </tr>
     <tr class="odd">
       <td>if_match</td>
       <td>
-        The target resource will be updated only if it matches ETag of the
-        target
+        The target resource will be updated only if it matches
+        <code>ETag</code> of the target
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;id&quot;: &quot;WB-14-20190709-00003&quot;,
-  &quot;if_match&quot;: &quot;33a64df551425fcc55e4d42a148795d9f25f89d4&quot;,
-  &quot;status&quot;: &quot;New&quot;
-}</code></pre>
+<pre><code>Workbench ID
+  WB-14-20190709-00003
+If Match
+  33a64df551425fcc55e4d42a148795d9f25f89d4
+Status
+  New</code></pre>
+<p>
+  Note: <code>if_match</code> is the <code>etag</code> value provided by the
+  get-alert-details action.
+</p>
+<h4 id="context-output-21">Context Output</h4>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>action_result.data.*.message</td>
+      <td>String</td>
+      <td>Message notifying of success or failure</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-get-alert-details">Action: Get Alert Details</h2>
+<p>Displays information about a specified alert.</p>
+<p><strong>API key role permissions required: Workbench</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+</ul>
+<p>
+  Type: <strong>investigate</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>workbench_id</td>
+      <td>ID of the workbench alert you would like to get the details for</td>
+      <td>Required</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>Workbench ID
+  WB-20837-20221111-0000</code></pre>
 <h4 id="context-output-22">Context Output</h4>
 <table>
   <thead>
@@ -1907,84 +2037,31 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Update_Status.message</td>
+      <td>action_result.data.*.alert</td>
       <td>String</td>
-      <td>Success or Fail</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="action-get-alert-details">Action: ‘Get Alert Details’</h2>
-<p>Displays information about the specified alert.</p>
-<p>
-  Type: <strong>investigate</strong><br />
-  Read only: <strong>False</strong>
-</p>
-<table>
-  <colgroup>
-    <col style="width: 32%" />
-    <col style="width: 56%" />
-    <col style="width: 10%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>workbench_id (source data identifier)</td>
-      <td>ID of the workbench alert you would like to get the details for.</td>
-      <td>Required</td>
-    </tr>
-  </tbody>
-</table>
-<p>Example input:</p>
-<pre><code>{
-  &quot;workbench_id&quot;: &quot;WB-20837-20221111-0000&quot;
-}</code></pre>
-<h4 id="context-output-23">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 30%" />
-    <col style="width: 7%" />
-    <col style="width: 62%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Get_Alert_Details.alert</td>
-      <td>String</td>
-      <td>Information associated to the workbenchID provided.</td>
+      <td>Information associated to the workbenchID provided</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Get_Alert_Details.etag</td>
+      <td>action_result.data.*.etag</td>
       <td>String</td>
       <td>
-        An identifier for a specific version of a Workbench alert resource.
+        An identifier for a specific version of a Workbench alert resource
       </td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-urls-to-sandbox">Action: ‘Urls To Sandbox’</h2>
+<h2 id="action-urls-to-sandbox">Action: Urls To Sandbox</h2>
 <p>Submits URLs to the sandbox for analysis.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 13%" />
-    <col style="width: 76%" />
-    <col style="width: 9%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1996,25 +2073,93 @@
     <tr class="odd">
       <td>urls</td>
       <td>
-        Submits URLs to the sandbox for analysis. Note: You can submit a maximum
-        of 10 URLs per request
+        List of URLs to be sent to sandbox for analysis. Note: You can submit a
+        maximum of 10 URLs per request
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;url&quot;: [&quot;www.urlurl.com&quot;,
-        &quot;www.zurlzurl.com&quot;]
-}</code></pre>
+<pre><code>URLS
+  [&quot;www.urlurl.com&quot;,&quot;www.zurlzurl.com&quot;, &quot;https://testurl.com&quot;]</code></pre>
+<h4 id="context-output-23">Context Output</h4>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.url</td>
+      <td>String</td>
+      <td>The URL submitted to sandbox for analysis</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.id</td>
+      <td>String</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.digest</td>
+      <td>String</td>
+      <td>object (sandbox-digest)</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-enable-account">Action: Enable Account</h2>
+<p>Allow the user(s) to sign in to new application and browser sessions.</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Enable/Disable user account, force sign out, force password reset</li>
+</ul>
+<p>
+  Type: <strong>correct</strong><br />
+  Read only: <strong>False</strong>
+</p>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>account_identifiers</td>
+      <td>
+        Object containing <code>account_name</code> and <code>description</code>
+      </td>
+      <td>Required</td>
+    </tr>
+  </tbody>
+</table>
+<p>Example input:</p>
+<pre><code>Account Identifiers
+  [{
+    &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;description&quot;: &quot;Enable user account&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+</p>
 <h4 id="context-output-24">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 33%" />
-    <col style="width: 8%" />
-    <col style="width: 58%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2024,29 +2169,32 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.URLs_To_Sandbox.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.URLs_To_Sandbox.task_id</td>
+      <td>action_result.data.*.task_id</td>
       <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission..</td>
+      <td>Task ID generated after enabling a user account</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-enable-account">Action: ‘Enable Account’</h2>
-<p>Allows the user to sign in to new application and browser sessions.</p>
+<h2 id="action-disable-account">Action: Disable Account</h2>
+<p>
+  Sign out user(s) of all active application and browser sessions, and prevent
+  the user(s) from signing in any new session.
+</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Enable/Disable user account, force sign out, force password reset</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
-<table style="width: 100%">
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 70%" />
-    <col style="width: 11%" />
-  </colgroup>
+<table>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2058,27 +2206,25 @@
     <tr class="odd">
       <td>account_identifiers</td>
       <td>
-        Object containing <code>account_name</code> and optional
-        <code>description</code> of action taken
+        Object containing <code>account_name</code> and <code>description</code>
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;account_identifiers&quot;: [{
-          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;description&quot;: &quot;Enable jdoe account&quot;
-        }]
-}</code></pre>
+<pre><code>Account Identifiers
+  [{
+    &quot;account_name&quot;: &quot;jdoe@testemailtrain.com&quot;,
+    &quot;description&quot;: &quot;Disable user account&quot;},
+  {
+    &quot;account_name&quot;: &quot;jdoe1@testemailtrain.com&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+</p>
 <h4 id="context-output-25">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 32%" />
-    <col style="width: 8%" />
-    <col style="width: 58%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2088,96 +2234,29 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Enable_Account.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Enable_Account.task_id</td>
+      <td>action_result.data.*.task_id</td>
       <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission..</td>
+      <td>Task ID generated after disabling a user account</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-disable-account">Action: ‘Disable Account’</h2>
-<p>
-  Signs the user out of all active application and browser sessions, and
-  prevents the user from signing in any new session.
-</p>
-<p>
-  Type: <strong>correct</strong><br />
-  Read only: <strong>False</strong>
-</p>
-<table style="width: 100%">
-  <colgroup>
-    <col style="width: 17%" />
-    <col style="width: 70%" />
-    <col style="width: 11%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>account_identifiers</td>
-      <td>
-        Object containing <code>account_name</code> and optional
-        <code>description</code> of action taken
-      </td>
-      <td>Required</td>
-    </tr>
-  </tbody>
-</table>
-<p>Example input:</p>
-<pre><code>{
-  &quot;account_identifiers&quot;: [{
-          &quot;account_name&quot;: &quot;jdoe@testemailtrain.com&quot;,
-          &quot;description&quot;: &quot;Disable account&quot;
-        }]
-}</code></pre>
-<h4 id="context-output-26">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 33%" />
-    <col style="width: 8%" />
-    <col style="width: 58%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Disable_Account.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
-    </tr>
-    <tr class="even">
-      <td>VisionOne.Disable_Account.task_id</td>
-      <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission..</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="action-restore-email-message">Action: ‘Restore Email Message’</h2>
-<p>Restore quarantined email messages.</p>
+<h2 id="action-restore-email-message">Action: Restore Email Message</h2>
+<p>Restore quarantined email message(s).</p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Quarantine/Restore messages</li>
+</ul>
 <p>
   Type: <strong>correct</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 10%" />
-    <col style="width: 81%" />
-    <col style="width: 7%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2189,30 +2268,34 @@
     <tr class="odd">
       <td>email_identifiers</td>
       <td>
-        Object containing <code>mailbox</code> (Optional) and
-        <code>message_id</code> and <code>description</code> or
-        <code>description</code> and <code>unique_id</code> of the email to
-        restore
+        Object containing <code>mailbox</code>, <code>message_id</code> and
+        <code>description</code> or <code>unique_id</code> and
+        <code>description</code>
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;email_identifiers&quot;: [{
-          &quot;description&quot;: &quot;Restore email message&quot;,
-          &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;message_id&quot;: &quot;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&quot;
-        }]
-}</code></pre>
-<h4 id="context-output-27">Context Output</h4>
+<pre><code>Email Identifiers
+Call with Message ID
+  [{
+    &quot;description&quot;: &quot;Restore email message&quot;,
+    &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+  }]
+Call with Unique ID
+  [{
+    &quot;description&quot;: &quot;Restore email message&quot;,
+    &quot;message_id&quot;: &quot;DEapmEc2byACqAC-EWg0AAhCCNvg5sEua0n&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+  When providing Unique ID, mailbox is not required. Additionally messages can
+  only be restored if they have not been deleted.
+</p>
+<h4 id="context-output-26">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 37%" />
-    <col style="width: 7%" />
-    <col style="width: 54%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2222,29 +2305,29 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Restore_Email_Message.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Restore_Email_Message.task_id</td>
+      <td>action_result.data.*.task_id</td>
       <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission.</td>
+      <td>Task ID generated after restoring an email</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-sign-out-account">Action: ‘Sign Out Account’</h2>
-<p>Signs the user out of all active application and browser sessions.</p>
+<h2 id="action-sign-out-account">Action: Sign Out Account</h2>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Enable/Disable user account, force sign out, force password reset</li>
+</ul>
+<p>Sign out user(s) out of all active application and browser sessions.</p>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 15%" />
-    <col style="width: 73%" />
-    <col style="width: 10%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2256,27 +2339,23 @@
     <tr class="odd">
       <td>account_identifiers</td>
       <td>
-        Object containing <code>account_name</code> and
-        <code>description</code> (Optional) of the account to sign-out
+        Object containing <code>account_name</code> and <code>description</code>
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;account_identifiers&quot;: [{
-          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;description&quot;: &quot;Sign out account&quot;
-        }]
-}</code></pre>
-<h4 id="context-output-28">Context Output</h4>
+<pre><code>Account Identifiers
+  [{
+    &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;description&quot;: &quot;Sign out account&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+</p>
+<h4 id="context-output-27">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 34%" />
-    <col style="width: 8%" />
-    <col style="width: 57%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2286,32 +2365,32 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Sign_Out_Account.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sign_Out_Account.task_id</td>
+      <td>action_result.data.*.task_id</td>
       <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission..</td>
+      <td>Task ID generated after signing out user account</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-force-password-reset">Action: ‘Force Password Reset’</h2>
+<h2 id="action-force-password-reset">Action: Force Password Reset</h2>
 <p>
   Signs the user out of all active application and browser sessions, and forces
   the user to create a new password during the next sign-in attempt.
 </p>
+<p><strong>API key role permissions required: Response Management</strong></p>
+<ul>
+  <li>View, filter, and search (Task List tab)</li>
+  <li>Enable/Disable user account, force sign out, force password reset</li>
+</ul>
 <p>
   Type: <strong>contain</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 15%" />
-    <col style="width: 73%" />
-    <col style="width: 10%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2323,27 +2402,23 @@
     <tr class="odd">
       <td>account_identifiers</td>
       <td>
-        Object containing <code>account_name</code> and
-        <code>description</code> (Optional) of the account to sign-out
+        Object containing <code>account_name</code> and <code>description</code>
       </td>
       <td>Required</td>
     </tr>
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;account_identifiers&quot;: [{
-          &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
-          &quot;description&quot;: &quot;Force password reset&quot;
-        }]
-}</code></pre>
-<h4 id="context-output-29">Context Output</h4>
+<pre><code>Account Identifiers
+  [{
+    &quot;account_name&quot;: &quot;jdoe@testemailtest.com&quot;,
+    &quot;description&quot;: &quot;Force password reset&quot;
+  }]</code></pre>
+<p>
+  Note: <code>description</code> is optional and a default value is provided.
+</p>
+<h4 id="context-output-28">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 34%" />
-    <col style="width: 8%" />
-    <col style="width: 57%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2353,29 +2428,29 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Sign_Out_Account.status</td>
-      <td>String</td>
-      <td>HTTP status code for the call.</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action.</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sign_Out_Account.task_id</td>
+      <td>action_result.data.*.task_id</td>
       <td>String</td>
-      <td>Unique alphanumeric string that identifies a submission..</td>
+      <td>Task ID generated after forcing a password reset</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-sandbox-suspicious-list">Action: ‘Sandbox Suspicious List’</h2>
+<h2 id="action-sandbox-suspicious-list">Action: Sandbox Suspicious List</h2>
 <p>Downloads the suspicious object list associated to the specified object.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 65%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2393,7 +2468,7 @@
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (disabled by default)
+        result (enabled by default)
       </td>
       <td>Optional</td>
     </tr>
@@ -2405,18 +2480,18 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;submit_id&quot;: &quot;90406723-2b29-4e85-b0b2-ba58af8f63df&quot;
-  &quot;poll&quot;: false,
-  &quot;poll_time_sec&quot;: 0,
-}</code></pre>
-<h4 id="context-output-30">Context Output</h4>
+<pre><code>Submit ID
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  false
+Poll Time Sec
+  0</code></pre>
+<p>
+  Note: Suspicious Object Lists are only available for objects with a high risk
+  level.
+</p>
+<h4 id="context-output-29">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 54%" />
-    <col style="width: 7%" />
-    <col style="width: 38%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2426,24 +2501,29 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Suspicious_List.sandbox_suspicious_list_resp</td>
-      <td>List</td>
-      <td>List of object containing suspicious object</td>
+      <td>action_result.data.*.status</td>
+      <td>Numeric</td>
+      <td>HTTP status code for the action</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.task_id</td>
+      <td>String</td>
+      <td>Task ID generated after forcing a password reset</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-sandbox-analysis-result">Action: ‘Sandbox Analysis Result’</h2>
+<h2 id="action-sandbox-analysis-result">Action: Sandbox Analysis Result</h2>
 <p>Displays the analysis results of the specified object.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 65%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2454,14 +2534,14 @@
   <tbody>
     <tr class="odd">
       <td>report_id</td>
-      <td>Unique alphanumeric string that identifies a submission.</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
       <td>Required</td>
     </tr>
     <tr class="even">
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (disabled by default)
+        result (enabled by default)
       </td>
       <td>Optional</td>
     </tr>
@@ -2473,18 +2553,14 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;report_id&quot;: &quot;90406723-2b29-4e85-b0b2-ba58af8f63df&quot;
-  &quot;poll&quot;: false,
-  &quot;poll_time_sec&quot;: 0,
-}</code></pre>
-<h4 id="context-output-31">Context Output</h4>
+<pre><code>Report ID
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  False
+Poll Time Sec
+  0</code></pre>
+<h4 id="context-output-30">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 40%" />
-    <col style="width: 5%" />
-    <col style="width: 54%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2494,7 +2570,7 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Analysis_Result.id</td>
+      <td>action_result.data.*.id</td>
       <td>String</td>
       <td>
         Unique alphanumeric string that identifies the analysis results of a
@@ -2502,22 +2578,22 @@
       </td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sandbox_Analysis_Result.type</td>
+      <td>action_result.data.*.type</td>
       <td>String</td>
       <td>Object type</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Analysis_Result.digest</td>
+      <td>action_result.data.*.digest</td>
       <td>String</td>
-      <td>The hash values of the analyzed file</td>
+      <td>object (sandbox-digest)</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sandbox_Analysis_Result.risk_level</td>
+      <td>action_result.data.*.risk_level</td>
       <td>String</td>
       <td>The risk level assigned to the object by the sandbox</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Analysis_Result.analysis_completion_date_time</td>
+      <td>action_result.data.*.analysis_completion_date_time</td>
       <td>String</td>
       <td>
         Timestamp in ISO 8601 format that indicates when the analysis was
@@ -2525,41 +2601,41 @@
       </td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sandbox_Analysis_Result.arguments</td>
+      <td>action_result.data.*.arguments</td>
       <td>String</td>
       <td>Command line arguments encoded in Base64 of the submitted file</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Analysis_Result.detection_names</td>
+      <td>action_result.data.*.detection_names</td>
       <td>String</td>
       <td>The name of the threat as detected by the sandbox</td>
     </tr>
     <tr class="even">
-      <td>VisionOne.Sandbox_Analysis_Result.threat_types</td>
+      <td>action_result.data.*.threat_types</td>
       <td>String</td>
       <td>The threat type as detected by the sandbox</td>
     </tr>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Analysis_Result.true_file_type</td>
+      <td>action_result.data.*.true_file_type</td>
       <td>String</td>
       <td>File Type of the Object</td>
     </tr>
   </tbody>
 </table>
 <h2 id="action-sandbox-investigation-package">
-  Action: ‘Sandbox Investigation Package’
+  Action: Sandbox Investigation Package
 </h2>
 <p>Downloads the Investigation Package of the specified object.</p>
+<p><strong>API key role permissions required: Sandbox Analysis</strong></p>
+<ul>
+  <li>View, filter, and search</li>
+  <li>Submit objects</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>False</strong>
 </p>
 <table>
-  <colgroup>
-    <col style="width: 20%" />
-    <col style="width: 65%" />
-    <col style="width: 14%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2570,14 +2646,14 @@
   <tbody>
     <tr class="odd">
       <td>submit_id</td>
-      <td>Unique alphanumeric string that identifies a submission.</td>
+      <td>Unique alphanumeric string that identifies a submission</td>
       <td>Required</td>
     </tr>
     <tr class="even">
       <td>poll</td>
       <td>
         If script should wait until the task is finished before returning the
-        result (disabled by default)
+        result (enabled by default)
       </td>
       <td>Optional</td>
     </tr>
@@ -2589,18 +2665,14 @@
   </tbody>
 </table>
 <p>Example input:</p>
-<pre><code>{
-  &quot;submit_id&quot;: &quot;00000012&quot;,
-  &quot;poll&quot;: true,
-  &quot;poll_time_sec&quot;: 30
-}</code></pre>
-<h4 id="context-output-32">Context Output</h4>
+<pre><code>Submit ID
+  00000012
+Poll
+  true
+Poll Time Sec
+  30</code></pre>
+<h4 id="context-output-31">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 56%" />
-    <col style="width: 10%" />
-    <col style="width: 33%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2610,18 +2682,122 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Sandbox_Investigation_Package.id</td>
-      <td>File</td>
-      <td>The output is a .zip file</td>
+      <td>action_result.data.*.file_added</td>
+      <td>String</td>
+      <td>Name of the .zip file added to Vault</td>
     </tr>
   </tbody>
 </table>
-<h2 id="action-get-suspicious-list">Action: ‘Get Suspicious List’</h2>
+<h2 id="action-get-suspicious-list">Action: Get Suspicious List</h2>
 <p>
   Retrieves information about domains, file SHA-1, file SHA-256, IP addresses,
   email addresses, or URLs in the Suspicious Object List and displays the
   information in a paginated list.
 </p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+</ul>
+<p>
+  Type: <strong>investigate</strong><br />
+  Read only: <strong>True</strong>
+</p>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Argument Name</strong></th>
+      <th><strong>Description</strong></th>
+      <th><strong>Required</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>N/A</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4 id="context-output-32">Context Output</h4>
+<table>
+  <thead>
+    <tr class="header">
+      <th><strong>Path</strong></th>
+      <th><strong>Type</strong></th>
+      <th><strong>Description</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd">
+      <td>action_result.data.*.value</td>
+      <td>String</td>
+      <td>Value that was submitted to suspicious list</td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.type</td>
+      <td>String</td>
+      <td>Type of object that was added to suspicious list</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.last_modified_date_time</td>
+      <td>String</td>
+      <td>
+        Timestamp in ISO 8601 format that indicates the last time the
+        information about a suspicious object was modified
+      </td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.description</td>
+      <td>String</td>
+      <td>Description of an object</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.scan_action</td>
+      <td>String</td>
+      <td>
+        Action that connected products apply after detecting a suspicious object
+      </td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.risk_level</td>
+      <td>String</td>
+      <td>Risk level of a suspicious object</td>
+    </tr>
+    <tr class="odd">
+      <td>action_result.data.*.in_exception_list</td>
+      <td>String</td>
+      <td>
+        Value that indicates if a suspicious object is in the exception list
+      </td>
+    </tr>
+    <tr class="even">
+      <td>action_result.data.*.expired_date_time</td>
+      <td>String</td>
+      <td>
+        Timestamp in ISO 8601 format that indicates when the suspicious object
+        expires
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="action-get-exception-list">Action: Get Exception List</h2>
+<p>
+  Retrieves information about domains, file SHA-1, file SHA-256, IP addresses,
+  sender addresses, or URLs in the Exception List and displays it in a paginated
+  list.
+</p>
+<p>
+  <strong
+    >API key role permissions required: Suspicious Object Management</strong
+  >
+</p>
+<ul>
+  <li>View, filter, and search</li>
+</ul>
 <p>
   Type: <strong>investigate</strong><br />
   Read only: <strong>True</strong>
@@ -2644,11 +2820,6 @@
 </table>
 <h4 id="context-output-33">Context Output</h4>
 <table>
-  <colgroup>
-    <col style="width: 48%" />
-    <col style="width: 20%" />
-    <col style="width: 31%" />
-  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2658,57 +2829,24 @@
   </thead>
   <tbody>
     <tr class="odd">
-      <td>VisionOne.Get_Suspicious_list.suspicious_objects</td>
-      <td>[]suspicious_objects</td>
-      <td>Array of any Suspicious Objects</td>
+      <td>action_result.data.*.value</td>
+      <td>String</td>
+      <td>Value that was submitted to exception list</td>
     </tr>
-  </tbody>
-</table>
-<h2 id="action-get-exception-list">Action: ‘Get Exception List’</h2>
-<p>
-  Retrieves information about domains, file SHA-1, file SHA-256, IP addresses,
-  sender addresses, or URLs in the Exception List and displays it in a paginated
-  list.
-</p>
-<p>
-  Type: <strong>investigate</strong><br />
-  Read only: <strong>True</strong>
-</p>
-<table>
-  <thead>
-    <tr class="header">
-      <th><strong>Argument Name</strong></th>
-      <th><strong>Description</strong></th>
-      <th><strong>Required</strong></th>
+    <tr class="even">
+      <td>action_result.data.*.type</td>
+      <td>String</td>
+      <td>Type of object that was added to exception list</td>
     </tr>
-  </thead>
-  <tbody>
     <tr class="odd">
-      <td>N/A</td>
-      <td></td>
-      <td></td>
+      <td>action_result.data.*.last_modified_date_time</td>
+      <td>String</td>
+      <td>The time the object was created</td>
     </tr>
-  </tbody>
-</table>
-<h4 id="context-output-34">Context Output</h4>
-<table>
-  <colgroup>
-    <col style="width: 48%" />
-    <col style="width: 20%" />
-    <col style="width: 31%" />
-  </colgroup>
-  <thead>
-    <tr class="header">
-      <th><strong>Path</strong></th>
-      <th><strong>Type</strong></th>
-      <th><strong>Description</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="odd">
-      <td>VisionOne.Get_Exception_list.exception_objects</td>
-      <td>[]exception_objects</td>
-      <td>Array of any Exception Objects</td>
+    <tr class="even">
+      <td>action_result.data.*.description</td>
+      <td>String</td>
+      <td>Description of an object</td>
     </tr>
   </tbody>
 </table>
