@@ -837,13 +837,13 @@ Sandbox Analysis**
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                                                                                                                                                                    | **Required** |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| file_url          | URL pointing to the location of the file to be submitted.                                                                                                                                                                                          | Required     |
-| file_name         | Name of the file to be analyzed.                                                                                                                                                                                                                   | Required     |
-| document_pass     | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.                                                                                                  | Optional     |
-| archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding.                                                                                                   | Optional     |
-| arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. | Optional     |
+| **Argument Name** | **Description**                                                                                                                                                                                                                                   | **Required** |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| file_url          | URL pointing to the location of the file to be submitted                                                                                                                                                                                          | Required     |
+| file_name         | Name of the file to be analyzed                                                                                                                                                                                                                   | Required     |
+| document_pass     | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                  | Optional     |
+| archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                   | Optional     |
+| arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional     |
 
 Example input:
 
@@ -883,7 +883,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| task_id           | Unique numeric string that identifies a response task.                                            | Required     |
+| task_id           | Unique numeric string that identifies a response task                                             | Required     |
 | poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
 | poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
 
@@ -979,10 +979,10 @@ Content
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                        |
-| ---------------------------- | -------- | -------------------------------------- |
-| action_result.data.*.note_id | String   | ID of the newly created note.          |
-| action_result.data.*.message | String   | Response message for the action taken. |
+| **Path**                     | **Type** | **Description**                       |
+| ---------------------------- | -------- | ------------------------------------- |
+| action_result.data.*.note_id | String   | ID of the newly created note          |
+| action_result.data.*.message | String   | Response message for the action taken |
 
 ## Action: Update Status
 
@@ -996,11 +996,11 @@ Workbench**
 Type: **correct**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                                | **Required** |
-| ----------------- | -------------------------------------------------------------------------------------------------------------- | ------------ |
-| workbench_id      | The ID of the workbench alert that you would like to update the status for.                                    | Required     |
-| status            | The status to assign to the workbench alert: new, in_progress, resolved_false_positive, resolved_true_positive | Required     |
-| if_match          | The target resource will be updated only if it matches ETag of the target                                      | Required     |
+| **Argument Name** | **Description**                                                                                                        | **Required** |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------ |
+| workbench_id      | The ID of the workbench alert that you would like to update the status for                                             | Required     |
+| status            | The status to assign to the workbench alert: `new`, `in_progress`, `resolved_false_positive`, `resolved_true_positive` | Required     |
+| if_match          | The target resource will be updated only if it matches `ETag` of the target                                            | Required     |
 
 Example input:
 
@@ -1033,9 +1033,9 @@ Workbench**
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                  | **Required** |
-| ----------------- | ---------------------------------------------------------------- | ------------ |
-| workbench_id      | ID of the workbench alert you would like to get the details for. | Required     |
+| **Argument Name** | **Description**                                                 | **Required** |
+| ----------------- | --------------------------------------------------------------- | ------------ |
+| workbench_id      | ID of the workbench alert you would like to get the details for | Required     |
 
 Example input:
 
@@ -1046,10 +1046,10 @@ Workbench ID
 
 #### Context Output
 
-| **Path**                   | **Type** | **Description**                                                     |
-| -------------------------- | -------- | ------------------------------------------------------------------- |
-| action_result.data.*.alert | String   | Information associated to the workbenchID provided.                 |
-| action_result.data.*.etag  | String   | An identifier for a specific version of a Workbench alert resource. |
+| **Path**                   | **Type** | **Description**                                                    |
+| -------------------------- | -------- | ------------------------------------------------------------------ |
+| action_result.data.*.alert | String   | Information associated to the workbenchID provided                 |
+| action_result.data.*.etag  | String   | An identifier for a specific version of a Workbench alert resource |
 
 ## Action: Urls To Sandbox
 
@@ -1328,7 +1328,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| report_id         | Unique alphanumeric string that identifies a submission.                                          | Required     |
+| report_id         | Unique alphanumeric string that identifies a submission                                           | Required     |
 | poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
 | poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
 
@@ -1413,14 +1413,14 @@ Read only: **True**
 
 | **Path**                                     | **Type** | **Description**                                                                                                  |
 | -------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
-| action_result.data.*.value                   | String   | Value that was submitted to suspicious list.                                                                     |
-| action_result.data.*.type                    | String   | Type of object that was added to suspicious list.                                                                |
+| action_result.data.*.value                   | String   | Value that was submitted to suspicious list                                                                      |
+| action_result.data.*.type                    | String   | Type of object that was added to suspicious list                                                                 |
 | action_result.data.*.last_modified_date_time | String   | Timestamp in ISO 8601 format that indicates the last time the information about a suspicious object was modified |
-| action_result.data.*.description             | String   | Description of an object.                                                                                        |
-| action_result.data.*.scan_action             | String   | Action that connected products apply after detecting a suspicious object.                                        |
-| action_result.data.*.risk_level              | String   | Risk level of a suspicious object.                                                                               |
-| action_result.data.*.in_exception_list       | String   | Value that indicates if a suspicious object is in the exception list.                                            |
-| action_result.data.*.expired_date_time       | String   | Timestamp in ISO 8601 format that indicates when the suspicious object expires.                                  |
+| action_result.data.*.description             | String   | Description of an object                                                                                         |
+| action_result.data.*.scan_action             | String   | Action that connected products apply after detecting a suspicious object                                         |
+| action_result.data.*.risk_level              | String   | Risk level of a suspicious object                                                                                |
+| action_result.data.*.in_exception_list       | String   | Value that indicates if a suspicious object is in the exception list                                             |
+| action_result.data.*.expired_date_time       | String   | Timestamp in ISO 8601 format that indicates when the suspicious object expires                                   |
 
 ## Action: Get Exception List
 
@@ -1440,12 +1440,12 @@ Read only: **True**
 
 #### Context Output
 
-| **Path**                                     | **Type** | **Description**                                  |
-| -------------------------------------------- | -------- | ------------------------------------------------ |
-| action_result.data.*.value                   | String   | Value that was submitted to exception list.      |
-| action_result.data.*.type                    | String   | Type of object that was added to exception list. |
-| action_result.data.*.last_modified_date_time | String   | The time the object was created.                 |
-| action_result.data.*.description             | String   | Description of an object.                        |
+| **Path**                                     | **Type** | **Description**                                 |
+| -------------------------------------------- | -------- | ----------------------------------------------- |
+| action_result.data.*.value                   | String   | Value that was submitted to exception list      |
+| action_result.data.*.type                    | String   | Type of object that was added to exception list |
+| action_result.data.*.last_modified_date_time | String   | The time the object was created                 |
+| action_result.data.*.description             | String   | Description of an object                        |
 
 This version of the Trend Micro app is compatible with Splunk SOAR version **5.1.0** and above.
 
