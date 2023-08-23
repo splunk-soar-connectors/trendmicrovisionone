@@ -22,9 +22,10 @@
   and networks—Trend Micro Vision One prevents the majority of attacks with
   automated protection
 </p>
+
 <h1 id="splunk-phantom">Splunk&gt; Phantom</h1>
 <p>
-  Welcome to the open-source repository for Splunk&gt; Phantom's
+  Welcome to the open-source repository for Splunk&gt; Phantom’s
   trendmicrovisionone App.
 </p>
 <p>
@@ -53,7 +54,9 @@
 <ul>
   <li>
     <strong>Email</strong> :
-    <a href="mailto:integrations@trendmicro.com">integrations@trendmicro.com</a>
+    <a href="mailto:integrations@trendmicro.com" class="email"
+      >integrations@trendmicro.com</a
+    >
   </li>
 </ul>
 <hr />
@@ -126,6 +129,11 @@
   </li>
 </ol>
 <table>
+  <colgroup>
+    <col style="width: 27%" />
+    <col style="width: 61%" />
+    <col style="width: 10%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Parameter</strong></th>
@@ -141,7 +149,7 @@
     </tr>
     <tr class="even">
       <td><strong>Asset description</strong></td>
-      <td>Short description of the asset's purpose</td>
+      <td>Short description of the asset’s purpose</td>
       <td>True</td>
     </tr>
     <tr class="odd">
@@ -331,6 +339,11 @@
 </p>
 <h4 id="input">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 18%" />
+    <col style="width: 69%" />
+    <col style="width: 12%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -341,7 +354,10 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object made up of object_type, object_value and description</td>
+      <td>
+        Object made up of <code>object_type</code>,
+        <code>object_value</code> and <code>description</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -362,6 +378,11 @@
 </p>
 <h4 id="context-output-1">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 41%" />
+    <col style="width: 11%" />
+    <col style="width: 47%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -404,6 +425,11 @@
 </p>
 <h4 id="input-1">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 18%" />
+    <col style="width: 69%" />
+    <col style="width: 12%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -414,7 +440,10 @@
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object made up of object_type, object_value and description</td>
+      <td>
+        Object made up of <code>object_type</code>,
+        <code>object_value</code> and <code>description</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -435,6 +464,11 @@
 </p>
 <h4 id="context-output-2">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 41%" />
+    <col style="width: 11%" />
+    <col style="width: 47%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -472,6 +506,11 @@
 </p>
 <h4 id="input-2">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 14%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -482,7 +521,11 @@
   <tbody>
     <tr class="odd">
       <td>email_identifiers</td>
-      <td>Object consisting of message_id, mailbox and description</td>
+      <td>
+        Object containing <code>message_id</code>, <code>mailbox</code> and
+        <code>description</code> or <code>unique_id</code> and
+        <code>description</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -491,14 +534,14 @@
 <pre><code>Email Identifiers
 Call using Message ID.
   [{
-    &quot;description&quot;: &quot;Quarantine email message&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;,
     &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+    &quot;description&quot;: &quot;Quarantine email message&quot;
   }]
 Call using unique ID.
   [{
-    &quot;description&quot;: &quot;Quarantine email message&quot;,
-    &quot;message_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;
+    &quot;unique_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;,
+    &quot;description&quot;: &quot;Quarantine email message&quot;
   }]</code></pre>
 <p>
   Note: <code>description</code> is optional and a default value is
@@ -507,6 +550,11 @@ Call using unique ID.
 </p>
 <h4 id="context-output-3">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 57%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -544,6 +592,11 @@ Call using unique ID.
 </p>
 <h4 id="input-3">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 14%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -554,7 +607,11 @@ Call using unique ID.
   <tbody>
     <tr class="odd">
       <td>email_identifiers</td>
-      <td>Object consisting of message_id, mailbox and description</td>
+      <td>
+        Object containing <code>message_id</code>, <code>mailbox</code> and
+        <code>description</code> or <code>unique_id</code> and
+        <code>description</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -563,14 +620,14 @@ Call using unique ID.
 <pre><code>Email Identifiers
 Call using message ID.
   [{
-    &quot;description&quot;: &quot;Delete email message&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;,
     &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+    &quot;description&quot;: &quot;Delete email message&quot;
   }]
 Call using unique ID.
   [{
-    &quot;description&quot;: &quot;Delete email message&quot;,
-    &quot;message_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;
+    &quot;unique_id&quot;: &quot;AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0&quot;,
+    &quot;description&quot;: &quot;Delete email message&quot;
   }]</code></pre>
 <p>
   Note: <code>description</code> is optional and a default value is
@@ -579,6 +636,11 @@ Call using unique ID.
 </p>
 <h4 id="context-output-4">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 34%" />
+    <col style="width: 10%" />
+    <col style="width: 55%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -616,6 +678,11 @@ Call using unique ID.
 </p>
 <h4 id="input-4">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 15%" />
+    <col style="width: 74%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -627,8 +694,9 @@ Call using unique ID.
     <tr class="odd">
       <td>endpoint_identifiers</td>
       <td>
-        Object consisting of endpoint identifier (hostname or agent_guid) and
-        description
+        Object containing of <code>endpoint</code> (hostname) and
+        <code>description</code> or <code>agent_guid</code> and
+        <code>description</code>
       </td>
       <td>Required</td>
     </tr>
@@ -650,6 +718,11 @@ Call using unique ID.
 </p>
 <h4 id="context-output-5">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 34%" />
+    <col style="width: 10%" />
+    <col style="width: 55%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -689,6 +762,11 @@ Call using unique ID.
 </p>
 <h4 id="input-5">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 15%" />
+    <col style="width: 74%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -700,8 +778,9 @@ Call using unique ID.
     <tr class="odd">
       <td>endpoint_identifiers</td>
       <td>
-        Object consisting of endpoint identifier (hostname or agent_guid) and
-        description
+        Object containing of <code>endpoint</code> (hostname) and
+        <code>description</code> or <code>agent_guid</code> and
+        <code>description</code>
       </td>
       <td>Required</td>
     </tr>
@@ -710,8 +789,8 @@ Call using unique ID.
 <p>Example input:</p>
 <pre><code>Endpoint Identifiers
   [{
-    &quot;description&quot;: &quot;Restore endpoint&quot;,
-    &quot;endpoint&quot;: &quot;endpoint123&quot;
+    &quot;endpoint&quot;: &quot;endpoint123&quot;,
+    &quot;description&quot;: &quot;Restore endpoint&quot;
   }, {
     &quot;agent_guid&quot;: &quot;94632-7d79-451d-9ef8-2a2129e2&quot;,
     &quot;description&quot;: &quot;Restore endpoint&quot;
@@ -723,6 +802,11 @@ Call using unique ID.
 </p>
 <h4 id="context-output-6">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 36%" />
+    <col style="width: 10%" />
+    <col style="width: 52%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -764,6 +848,11 @@ Call using unique ID.
 </p>
 <h4 id="input-6">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 8%" />
+    <col style="width: 85%" />
+    <col style="width: 5%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -777,7 +866,7 @@ Call using unique ID.
       <td>
         Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
         the start of the data retrieval time range. The available oldest value
-        is "1970-01-01T00:00:00Z"
+        is “1970-01-01T00:00:00Z”
       </td>
       <td>False</td>
     </tr>
@@ -785,8 +874,8 @@ Call using unique ID.
       <td>endtime</td>
       <td>
         Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates
-        the end of the data retrieval time range. Ensure that "endDateTime" is
-        not earlier than "startDateTime"
+        the end of the data retrieval time range. Ensure that “endDateTime” is
+        not earlier than “startDateTime”
       </td>
       <td>False</td>
     </tr>
@@ -799,6 +888,11 @@ End Time
   2023-01-01T10:00:00Z</code></pre>
 <h4 id="context-output-7">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 23%" />
+    <col style="width: 42%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -831,6 +925,11 @@ End Time
 </p>
 <h4 id="input-7">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 17%" />
+    <col style="width: 70%" />
+    <col style="width: 12%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -841,7 +940,10 @@ End Time
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object made up of object_type, object_value and description</td>
+      <td>
+        Object consisting of <code>object_type</code>,
+        <code>object_value</code> and <code>description</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -856,6 +958,11 @@ End Time
 </p>
 <h4 id="context-output-8">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 50%" />
+    <col style="width: 8%" />
+    <col style="width: 40%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -898,6 +1005,11 @@ End Time
 </p>
 <h4 id="input-8">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 21%" />
+    <col style="width: 63%" />
+    <col style="width: 15%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -908,7 +1020,9 @@ End Time
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object made up of object_type, object_value and description</td>
+      <td>
+        Object consisting of <code>object_type</code>, <code>object_value</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -921,6 +1035,11 @@ End Time
   }]</code></pre>
 <h4 id="context-output-9">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 49%" />
+    <col style="width: 8%" />
+    <col style="width: 42%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -963,6 +1082,11 @@ End Time
 </p>
 <h4 id="input-9">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 11%" />
+    <col style="width: 79%" />
+    <col style="width: 8%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -974,8 +1098,10 @@ End Time
     <tr class="odd">
       <td>block_objects</td>
       <td>
-        Object made up of object_type, object_value and scan_action, risk_level,
-        expiry_days and description
+        Object consisting of <code>object_type</code>,
+        <code>object_value</code> and <code>scan_action</code>,
+        <code>risk_level</code>, <code>expiry_days</code> and
+        <code>description</code>
       </td>
       <td>Required</td>
     </tr>
@@ -998,6 +1124,11 @@ End Time
 </p>
 <h4 id="context-output-10">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 48%" />
+    <col style="width: 8%" />
+    <col style="width: 42%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1040,6 +1171,11 @@ End Time
 </p>
 <h4 id="input-10">Input</h4>
 <table>
+  <colgroup>
+    <col style="width: 20%" />
+    <col style="width: 64%" />
+    <col style="width: 14%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1050,7 +1186,10 @@ End Time
   <tbody>
     <tr class="odd">
       <td>block_objects</td>
-      <td>Object made up of object_type and object_value</td>
+      <td>
+        Object consisting of <code>object_type</code> and
+        <code>object_value</code>
+      </td>
       <td>Required</td>
     </tr>
   </tbody>
@@ -1063,6 +1202,11 @@ End Time
   }]</code></pre>
 <h4 id="context-output-11">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 48%" />
+    <col style="width: 8%" />
+    <col style="width: 42%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1100,6 +1244,11 @@ End Time
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 14%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1111,8 +1260,9 @@ End Time
     <tr class="odd">
       <td>process_identifiers</td>
       <td>
-        Object consisting of endpoint identifier (hostname or agent_guid),
-        file_sha1, filename and description
+        Object consisting of <code>endpoint</code> (hostname) or
+        <code>agent_guid</code>, <code>file_sha1</code>,
+        <code>filename</code> and <code>description</code>
       </td>
       <td>Required</td>
     </tr>
@@ -1132,6 +1282,11 @@ End Time
 </p>
 <h4 id="context-output-12">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 34%" />
+    <col style="width: 9%" />
+    <col style="width: 55%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1170,6 +1325,11 @@ End Time
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 15%" />
+    <col style="width: 73%" />
+    <col style="width: 11%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1193,6 +1353,11 @@ End Time
   8559a7ce-2b85-451b-8742-4b943ad76a22</code></pre>
 <h4 id="context-output-13">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 20%" />
+    <col style="width: 3%" />
+    <col style="width: 75%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1278,6 +1443,11 @@ End Time
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1318,6 +1488,11 @@ Poll Time Sec
   30</code></pre>
 <h4 id="context-output-14">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 41%" />
+    <col style="width: 10%" />
+    <col style="width: 47%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1345,6 +1520,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 14%" />
+    <col style="width: 74%" />
+    <col style="width: 10%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1356,8 +1536,9 @@ Poll Time Sec
     <tr class="odd">
       <td>collect_files</td>
       <td>
-        Object containing endpoint identifier (hostname or agent_guid),
-        file_path and description
+        Object containing <code>endpoint</code> (hostname) or
+        <code>agent_guid</code>, <code>file_path</code> and
+        <code>description</code>
       </td>
       <td>Required</td>
     </tr>
@@ -1378,6 +1559,11 @@ Poll Time Sec
 </p>
 <h4 id="context-output-15">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 36%" />
+    <col style="width: 10%" />
+    <col style="width: 53%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1416,6 +1602,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1456,6 +1647,11 @@ Poll Time Sec
   30</code></pre>
 <h4 id="context-output-16">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 25%" />
+    <col style="width: 4%" />
+    <col style="width: 69%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1561,7 +1757,7 @@ Poll Time Sec
 </table>
 <p>
   Note: The URL received from the
-  'trendmicro-visionone-download-information-for-collected-forensic-file' will
+  ‘trendmicro-visionone-download-information-for-collected-forensic-file’ will
   be valid for only <code>60 seconds</code>
 </p>
 <h2 id="action-start-analysis">Action: Start Analysis</h2>
@@ -1576,6 +1772,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 6%" />
+    <col style="width: 89%" />
+    <col style="width: 4%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1637,6 +1838,11 @@ Arguments
   IFMlYztbQA==</code></pre>
 <h4 id="context-output-17">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 30%" />
+    <col style="width: 8%" />
+    <col style="width: 62%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1674,6 +1880,11 @@ Arguments
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1711,6 +1922,11 @@ Poll Time Sec
   30</code></pre>
 <h4 id="context-output-18">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 26%" />
+    <col style="width: 4%" />
+    <col style="width: 68%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1773,6 +1989,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 15%" />
+    <col style="width: 72%" />
+    <col style="width: 11%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1784,7 +2005,8 @@ Poll Time Sec
     <tr class="odd">
       <td>endpoint</td>
       <td>
-        List of Hostname, macAddress, agentGuid or IP of the endpoint to query
+        List of <code>hostname</code>, <code>macAddress</code>,
+        <code>agentGuid</code> or <code>IP</code> of the endpoint to query
       </td>
       <td>Required</td>
     </tr>
@@ -1802,6 +2024,11 @@ Query Op
   or</code></pre>
 <h4 id="context-output-19">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 32%" />
+    <col style="width: 5%" />
+    <col style="width: 61%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1876,6 +2103,11 @@ Query Op
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 22%" />
+    <col style="width: 61%" />
+    <col style="width: 15%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1903,6 +2135,11 @@ Content
   Suspected False Positive, please verify</code></pre>
 <h4 id="context-output-20">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 38%" />
+    <col style="width: 10%" />
+    <col style="width: 50%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -1934,6 +2171,11 @@ Content
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 11%" />
+    <col style="width: 80%" />
+    <col style="width: 8%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -1982,6 +2224,11 @@ Status
 </p>
 <h4 id="context-output-21">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 37%" />
+    <col style="width: 10%" />
+    <col style="width: 52%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2008,6 +2255,11 @@ Status
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 18%" />
+    <col style="width: 68%" />
+    <col style="width: 13%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2028,6 +2280,11 @@ Status
   WB-20837-20221111-0000</code></pre>
 <h4 id="context-output-22">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 26%" />
+    <col style="width: 8%" />
+    <col style="width: 66%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2062,6 +2319,11 @@ Status
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 12%" />
+    <col style="width: 77%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2085,6 +2347,11 @@ Status
   [&quot;www.urlurl.com&quot;,&quot;www.zurlzurl.com&quot;, &quot;https://testurl.com&quot;]</code></pre>
 <h4 id="context-output-23">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 30%" />
+    <col style="width: 8%" />
+    <col style="width: 60%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2132,6 +2399,11 @@ Status
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 61%" />
+    <col style="width: 14%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2160,6 +2432,11 @@ Status
 </p>
 <h4 id="context-output-24">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 56%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2195,6 +2472,11 @@ Status
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 61%" />
+    <col style="width: 14%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2225,6 +2507,11 @@ Status
 </p>
 <h4 id="context-output-25">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 57%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2257,6 +2544,11 @@ Status
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 14%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2268,7 +2560,7 @@ Status
     <tr class="odd">
       <td>email_identifiers</td>
       <td>
-        Object containing <code>mailbox</code>, <code>message_id</code> and
+        Object containing <code>message_id</code>, <code>mailbox</code> and
         <code>description</code> or <code>unique_id</code> and
         <code>description</code>
       </td>
@@ -2280,14 +2572,14 @@ Status
 <pre><code>Email Identifiers
 Call with Message ID
   [{
-    &quot;description&quot;: &quot;Restore email message&quot;,
+    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;,
     &quot;mailbox&quot;: &quot;jdoe@testemailtest.com&quot;,
-    &quot;message_id&quot;: &quot;&lt;AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA&gt;&quot;
+    &quot;description&quot;: &quot;Restore email message&quot;
   }]
 Call with Unique ID
   [{
-    &quot;description&quot;: &quot;Restore email message&quot;,
-    &quot;message_id&quot;: &quot;DEapmEc2byACqAC-EWg0AAhCCNvg5sEua0n&quot;
+    &quot;unique_id&quot;: &quot;DEapmEc2byACqAC-EWg0AAhCCNvg5sEua0n&quot;,
+    &quot;description&quot;: &quot;Restore email message&quot;
   }]</code></pre>
 <p>
   Note: <code>description</code> is optional and a default value is provided.
@@ -2296,6 +2588,11 @@ Call with Unique ID
 </p>
 <h4 id="context-output-26">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 35%" />
+    <col style="width: 10%" />
+    <col style="width: 53%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2328,6 +2625,11 @@ Call with Unique ID
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 61%" />
+    <col style="width: 14%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2356,6 +2658,11 @@ Call with Unique ID
 </p>
 <h4 id="context-output-27">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 57%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2391,6 +2698,11 @@ Call with Unique ID
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 61%" />
+    <col style="width: 14%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2419,6 +2731,11 @@ Call with Unique ID
 </p>
 <h4 id="context-output-28">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 57%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2451,6 +2768,11 @@ Call with Unique ID
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2492,6 +2814,11 @@ Poll Time Sec
 </p>
 <h4 id="context-output-29">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 33%" />
+    <col style="width: 9%" />
+    <col style="width: 57%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2524,6 +2851,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2561,6 +2893,11 @@ Poll Time Sec
   0</code></pre>
 <h4 id="context-output-30">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 34%" />
+    <col style="width: 5%" />
+    <col style="width: 59%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2636,6 +2973,11 @@ Poll Time Sec
   Read only: <strong>False</strong>
 </p>
 <table>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 76%" />
+    <col style="width: 9%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Argument Name</strong></th>
@@ -2673,6 +3015,11 @@ Poll Time Sec
   30</code></pre>
 <h4 id="context-output-31">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 41%" />
+    <col style="width: 10%" />
+    <col style="width: 48%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2724,6 +3071,11 @@ Poll Time Sec
 </table>
 <h4 id="context-output-32">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 26%" />
+    <col style="width: 4%" />
+    <col style="width: 68%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>
@@ -2820,6 +3172,11 @@ Poll Time Sec
 </table>
 <h4 id="context-output-33">Context Output</h4>
 <table>
+  <colgroup>
+    <col style="width: 44%" />
+    <col style="width: 8%" />
+    <col style="width: 47%" />
+  </colgroup>
   <thead>
     <tr class="header">
       <th><strong>Path</strong></th>

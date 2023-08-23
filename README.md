@@ -150,9 +150,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                             | **Required** |
-| ----------------- | ----------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type, object_value and description | Required     |
+| **Argument Name** | **Description**                                                   | **Required** |
+| ----------------- | ----------------------------------------------------------------- | ------------ |
+| block_objects     | Object made up of `object_type`, `object_value` and `description` | Required     |
 
 Example input:
 
@@ -199,9 +199,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                             | **Required** |
-| ----------------- | ----------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type, object_value and description | Required     |
+| **Argument Name** | **Description**                                                   | **Required** |
+| ----------------- | ----------------------------------------------------------------- | ------------ |
+| block_objects     | Object made up of `object_type`, `object_value` and `description` | Required     |
 
 Example input:
 
@@ -244,9 +244,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
-| email_identifiers | Object consisting of message_id, mailbox and description | Required     |
+| **Argument Name** | **Description**                                                                              | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
 
 Example input:
 
@@ -254,14 +254,14 @@ Example input:
 Email Identifiers
 Call using Message ID.
   [{
-    "description": "Quarantine email message",
+    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>",
     "mailbox": "jdoe@testemailtest.com",
-    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>"
+    "description": "Quarantine email message"
   }]
 Call using unique ID.
   [{
-    "description": "Quarantine email message",
-    "message_id": "AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0"
+    "unique_id": "AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0",
+    "description": "Quarantine email message"
   }]
 ```
 
@@ -292,9 +292,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                          | **Required** |
-| ----------------- | -------------------------------------------------------- | ------------ |
-| email_identifiers | Object consisting of message_id, mailbox and description | Required     |
+| **Argument Name** | **Description**                                                                              | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
 
 Example input:
 
@@ -302,14 +302,14 @@ Example input:
 Email Identifiers
 Call using message ID.
   [{
-    "description": "Delete email message",
+    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>",
     "mailbox": "jdoe@testemailtest.com",
-    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>"
+    "description": "Delete email message"
   }]
 Call using unique ID.
   [{
-    "description": "Delete email message",
-    "message_id": "AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0"
+    "unique_id": "AAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0",
+    "description": "Delete email message"
   }]
 ```
 
@@ -340,9 +340,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name**    | **Description**                                                                   | **Required** |
-| -------------------- | --------------------------------------------------------------------------------- | ------------ |
-| endpoint_identifiers | Object consisting of endpoint identifier (hostname or agent_guid) and description | Required     |
+| **Argument Name**    | **Description**                                                                                | **Required** |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
+| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required     |
 
 Example input:
 
@@ -386,17 +386,17 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name**    | **Description**                                                                   | **Required** |
-| -------------------- | --------------------------------------------------------------------------------- | ------------ |
-| endpoint_identifiers | Object consisting of endpoint identifier (hostname or agent_guid) and description | Required     |
+| **Argument Name**    | **Description**                                                                                | **Required** |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
+| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required     |
 
 Example input:
 
 ```
 Endpoint Identifiers
   [{
-    "description": "Restore endpoint",
-    "endpoint": "endpoint123"
+    "endpoint": "endpoint123",
+    "description": "Restore endpoint"
   }, {
     "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
     "description": "Restore endpoint"
@@ -466,9 +466,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                             | **Required** |
-| ----------------- | ----------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type, object_value and description | Required     |
+| **Argument Name** | **Description**                                                      | **Required** |
+| ----------------- | -------------------------------------------------------------------- | ------------ |
+| block_objects     | Object consisting of `object_type`, `object_value` and `description` | Required     |
 
 Example input:
 
@@ -503,9 +503,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                             | **Required** |
-| ----------------- | ----------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type, object_value and description | Required     |
+| **Argument Name** | **Description**                                    | **Required** |
+| ----------------- | -------------------------------------------------- | ------------ |
+| block_objects     | Object consisting of `object_type`, `object_value` | Required     |
 
 Example input:
 
@@ -540,9 +540,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                                                                      | **Required** |
-| ----------------- | ---------------------------------------------------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type, object_value and scan_action, risk_level, expiry_days and description | Required     |
+| **Argument Name** | **Description**                                                                                                     | **Required** |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------- | ------------ |
+| block_objects     | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | Required     |
 
 Example input:
 
@@ -583,9 +583,9 @@ Read only: **False**
 
 #### Input
 
-| **Argument Name** | **Description**                                | **Required** |
-| ----------------- | ---------------------------------------------- | ------------ |
-| block_objects     | Object made up of object_type and object_value | Required     |
+| **Argument Name** | **Description**                                       | **Required** |
+| ----------------- | ----------------------------------------------------- | ------------ |
+| block_objects     | Object consisting of `object_type` and `object_value` | Required     |
 
 Example input:
 
@@ -618,9 +618,9 @@ Response Management**
 Type: **contain**  
 Read only: **False**
 
-| **Argument Name**   | **Description**                                                                                        | **Required** |
-| ------------------- | ------------------------------------------------------------------------------------------------------ | ------------ |
-| process_identifiers | Object consisting of endpoint identifier (hostname or agent_guid), file_sha1, filename and description | Required     |
+| **Argument Name**   | **Description**                                                                                       | **Required** |
+| ------------------- | ----------------------------------------------------------------------------------------------------- | ------------ |
+| process_identifiers | Object consisting of `endpoint` (hostname) or `agent_guid`, `file_sha1`, `filename` and `description` | Required     |
 
 Example input:
 
@@ -736,9 +736,9 @@ Response Management**
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                           | **Required** |
-| ----------------- | ----------------------------------------------------------------------------------------- | ------------ |
-| collect_files     | Object containing endpoint identifier (hostname or agent_guid), file_path and description | Required     |
+| **Argument Name** | **Description**                                                                        | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------- | ------------ |
+| collect_files     | Object containing `endpoint` (hostname) or `agent_guid`, `file_path` and `description` | Required     |
 
 Example input:
 
@@ -922,10 +922,10 @@ Endpoint Inventory**
 Type: **investigate**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                        | **Required** |
-| ----------------- | ---------------------------------------------------------------------- | ------------ |
-| endpoint          | List of Hostname, macAddress, agentGuid or IP of the endpoint to query | Required     |
-| query_op          | Logical operator to employ in the query. (AND/OR)                      | Required     |
+| **Argument Name** | **Description**                                                                | **Required** |
+| ----------------- | ------------------------------------------------------------------------------ | ------------ |
+| endpoint          | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required     |
+| query_op          | Logical operator to employ in the query. (AND/OR)                              | Required     |
 
 Example input:
 
@@ -1174,7 +1174,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                              | **Required** |
 | ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
-| email_identifiers | Object containing `mailbox`, `message_id` and `description` or `unique_id` and `description` | Required     |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
 
 Example input:
 
@@ -1182,14 +1182,14 @@ Example input:
 Email Identifiers
 Call with Message ID
   [{
-    "description": "Restore email message",
+    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>",
     "mailbox": "jdoe@testemailtest.com",
-    "message_id": "<AAkALgAAAAAAHYQDEapmEc2byACqAC-EWg0AAhCCNvg5sEua0nNjgfLS2AABNpgTSQAA>"
+    "description": "Restore email message"
   }]
 Call with Unique ID
   [{
-    "description": "Restore email message",
-    "message_id": "DEapmEc2byACqAC-EWg0AAhCCNvg5sEua0n"
+    "unique_id": "DEapmEc2byACqAC-EWg0AAhCCNvg5sEua0n",
+    "description": "Restore email message"
   }]
 ```
 

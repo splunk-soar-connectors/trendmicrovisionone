@@ -34,9 +34,9 @@ else:
     from phantom.base_connector import BaseConnector
     from phantom.vault import Vault
 
-from pytmv1 import (AccountTask, CollectFileTaskResp, EmailMessageIdTask, EmailMessageUIdTask, EndpointTask, ExceptionObject, FileTask,
-                    InvestigationStatus, ObjectTask, ObjectType, ProcessTask, ResultCode, SaeAlert, SuspiciousObject, SuspiciousObjectTask,
-                    TiAlert)
+from pytmv1 import (AccountTask, AccountTaskResp, BlockListTaskResp, CollectFileTaskResp, EmailMessageIdTask, EmailMessageTaskResp,
+                    EmailMessageUIdTask, EndpointTask, EndpointTaskResp, ExceptionObject, FileTask, InvestigationStatus, ObjectTask, ObjectType,
+                    ProcessTask, ResultCode, SaeAlert, SuspiciousObject, SuspiciousObjectTask, TerminateProcessTaskResp, TiAlert)
 
 
 class RetVal(tuple):
@@ -114,6 +114,20 @@ class TrendMicroVisionOneConnector(BaseConnector):
             raise RuntimeError(f"Please check object type: {obj_type}")
         return ObjectType[obj_type.upper()]
 
+    @staticmethod
+    def get_task_type(action: str) -> Any:
+        task_dict: Dict[Any, List[str]] = {
+            AccountTaskResp: ["enableAccount", "disableAccount", "forceSignOut", "resetPassword"],
+            BlockListTaskResp: ["block", "restoreBlock"],
+            EmailMessageTaskResp: ["quarantineMessage", "restoreMessage", "deleteMessage"],
+            EndpointTaskResp: ["isolate", "restoreIsolate"],
+            TerminateProcessTaskResp: ["terminateProcess"],
+        }
+
+        for key, values in task_dict.items():
+            if action in values:
+                return key
+
     def _handle_test_connectivity(self, param):
         """
         Makes a call to endpoint to check connectivity.
@@ -160,7 +174,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         endpoint = param["ip_hostname_mac"]
-        endpoint_list = endpoint.split(",")
+        listify_endpoints = endpoint.split(",")
+        endpoint_list = [value.strip() for value in listify_endpoints]
         query_op = param["query_op"]
 
         # Initialize pytmv1
@@ -234,7 +249,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         description=endpt.get("description", "Quarantine Device"),
                     )
                 )
-            else:
+            elif endpt.get("agent_guid"):
                 endpt_tasks.append(
                     EndpointTask(
                         agent_guid=endpt["agent_guid"],
@@ -291,7 +306,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         description=endpt.get("description", "Unquarantine Device"),
                     )
                 )
-            else:
+            elif endpt.get("agent_guid"):
                 endpt_tasks.append(
                     EndpointTask(
                         agent_guid=endpt["agent_guid"],
@@ -647,14 +662,25 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Make rest call
         response = client.get_base_task_result(task_id, poll, poll_time_sec)
+        assert response.response is not None
+        response_dict = response.response.dict()
+        action = response_dict["action"]
+        action_type = self.get_task_type(action)
+        # Make task specific call using action_type
+        resp = client.get_task_result(
+            task_id=task_id,
+            class_=action_type,
+            poll=poll,
+            poll_time_sec=poll_time_sec,
+        )
 
-        if self._is_pytmv1_error(response.result_code):
+        if self._is_pytmv1_error(resp.result_code):
             self.debug_print("Something went wrong, please check task_id.")
             raise RuntimeError(
-                f"Error fetching task status for task {task_id}. Result Code: {response.error}"
+                f"Error fetching task status for task {task_id}. Result Code: {resp.error}"
             )
-        assert response.response is not None
-        action_result.add_data(response.response.dict())
+        assert resp.response is not None
+        action_result.add_data(resp.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -783,10 +809,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Create email task list
         for email in email_identifiers:
-            if email["message_id"].startswith("<") and email["message_id"].endswith(
-                ">"
-            ):
-                email_tasks.append(  # type: ignore
+            if email.get("message_id"):
+                email_tasks.append(
                     EmailMessageIdTask(
                         message_id=email["message_id"],
                         description=email.get(
@@ -795,10 +819,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         mail_box=email.get("mailbox", ""),
                     )
                 )
-            else:
-                email_tasks.append(  # type: ignore
+            elif email.get("unique_id"):
+                email_tasks.append(
                     EmailMessageUIdTask(
-                        unique_id=email["message_id"],
+                        unique_id=email["unique_id"],
                         description=email.get(
                             "description", "Quarantine Email Message."
                         ),
@@ -845,20 +869,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Create email task list
         for email in email_identifiers:
-            if email["message_id"].startswith("<") and email["message_id"].endswith(
-                ">"
-            ):
-                email_tasks.append(  # type: ignore
+            if email.get("endpoint"):
+                email_tasks.append(
                     EmailMessageIdTask(
                         message_id=email["message_id"],
                         description=email.get("description", "Delete Email Message."),
                         mail_box=email.get("mailbox", ""),
                     )
                 )
-            else:
-                email_tasks.append(  # type: ignore
+            elif email.get("unique_id"):
+                email_tasks.append(
                     EmailMessageUIdTask(
-                        unique_id=email["message_id"],
+                        unique_id=email["unique_id"],
                         description=email.get("description", "Delete Email Message."),
                     )
                 )
@@ -915,7 +937,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         file_name=process.get("filename", ""),
                     )
                 )
-            else:
+            elif process.get("agent_guid"):
                 process_tasks.append(
                     ProcessTask(
                         agent_guid=process["agent_guid"],
