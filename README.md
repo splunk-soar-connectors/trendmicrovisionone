@@ -1308,10 +1308,14 @@ Note: Suspicious Object Lists are only available for objects with a high risk le
 
 #### Context Output
 
-| **Path**                     | **Type** | **Description**                                  |
-| ---------------------------- | -------- | ------------------------------------------------ |
-| action_result.data.*.status  | Numeric  | HTTP status code for the action                  |
-| action_result.data.*.task_id | String   | Task ID generated after forcing a password reset |
+| **Path**                                           | **Type** | **Description**                                 |
+| -------------------------------------------------- | -------- | ----------------------------------------------- |
+| action_result.data.*.risk_level                    | String   | Risk Level of suspicious object                 |
+| action_result.data.*.analysis_completion_date_time | String   | Analyze time of suspicious object               |
+| action_result.data.*.expired_date_time             | String   | Expire time of suspicious object                |
+| action_result.data.*.root_sha1                     | String   | Sample sha1 generate this suspicious object     |
+| action_result.data.*.type                          | String   | Type of item submitted to sandbox for analysis  |
+| action_result.data.*.value                         | String   | Value of item submitted to sandbox for analysis |
 
 ## Action: Sandbox Analysis Result
 
