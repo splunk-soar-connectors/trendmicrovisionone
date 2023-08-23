@@ -996,11 +996,11 @@ Workbench**
 Type: **correct**  
 Read only: **False**
 
-| **Argument Name** | **Description**                                                                                                        | **Required** |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------ |
-| workbench_id      | The ID of the workbench alert that you would like to update the status for                                             | True         |
-| status            | The status to assign to the workbench alert: `new`, `in_progress`, `resolved_false_positive`, `resolved_true_positive` | True         |
-| if_match          | The target resource will be updated only if it matches `ETag` of the target                                            | True         |
+| **Argument Name** | **Description**                                                                                                                        | **Required** |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| workbench_id      | The ID of the workbench alert that you would like to update the status for                                                             | True         |
+| status            | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | True         |
+| if_match          | The target resource will be updated only if it matches `ETag` of the target                                                            | True         |
 
 Example input:
 
