@@ -652,10 +652,10 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Required Params
         task_id = param["task_id"]
-        poll = param["poll"]
 
         # Optional Params
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1272,8 +1272,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         submit_id = param["submit_id"]
 
         # Optional Params
-        poll = param.get("poll", "false")
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1380,8 +1380,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         task_id = param["task_id"]
 
         # Optional Params
-        poll = param.get("poll", "false")
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1915,8 +1915,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         submit_id = param["submit_id"]
 
         # Optional Params
-        poll = param.get("poll", "false")
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1985,8 +1985,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         report_id = param["report_id"]
 
         # Optional Params
-        poll = param.get("poll", True)
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -2031,8 +2031,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         submit_id = param["submit_id"]
 
         # Optional Params
-        poll = param.get("poll", True)
-        poll_time_sec = param.get("poll_time_sec", 0)
+        poll = param.get("poll", "true")
+        poll_time_sec = param.get("poll_time_sec", 30)
 
         # Initialize Pytmv1
         client = self._get_client()

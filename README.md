@@ -152,7 +152,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                   | **Required** |
 | ----------------- | ----------------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of `object_type`, `object_value` and `description` | Required     |
+| block_objects     | Object made up of `object_type`, `object_value` and `description` | True         |
 
 Example input:
 
@@ -201,7 +201,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                   | **Required** |
 | ----------------- | ----------------------------------------------------------------- | ------------ |
-| block_objects     | Object made up of `object_type`, `object_value` and `description` | Required     |
+| block_objects     | Object made up of `object_type`, `object_value` and `description` | True         |
 
 Example input:
 
@@ -246,7 +246,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                              | **Required** |
 | ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
-| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | True         |
 
 Example input:
 
@@ -294,7 +294,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                              | **Required** |
 | ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
-| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | True         |
 
 Example input:
 
@@ -342,7 +342,7 @@ Read only: **False**
 
 | **Argument Name**    | **Description**                                                                                | **Required** |
 | -------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
-| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required     |
+| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | True         |
 
 Example input:
 
@@ -388,7 +388,7 @@ Read only: **False**
 
 | **Argument Name**    | **Description**                                                                                | **Required** |
 | -------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
-| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required     |
+| endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | True         |
 
 Example input:
 
@@ -468,7 +468,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                      | **Required** |
 | ----------------- | -------------------------------------------------------------------- | ------------ |
-| block_objects     | Object consisting of `object_type`, `object_value` and `description` | Required     |
+| block_objects     | Object consisting of `object_type`, `object_value` and `description` | True         |
 
 Example input:
 
@@ -505,7 +505,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                    | **Required** |
 | ----------------- | -------------------------------------------------- | ------------ |
-| block_objects     | Object consisting of `object_type`, `object_value` | Required     |
+| block_objects     | Object consisting of `object_type`, `object_value` | True         |
 
 Example input:
 
@@ -542,7 +542,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                                     | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------- | ------------ |
-| block_objects     | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | Required     |
+| block_objects     | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | True         |
 
 Example input:
 
@@ -585,7 +585,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                       | **Required** |
 | ----------------- | ----------------------------------------------------- | ------------ |
-| block_objects     | Object consisting of `object_type` and `object_value` | Required     |
+| block_objects     | Object consisting of `object_type` and `object_value` | True         |
 
 Example input:
 
@@ -620,7 +620,7 @@ Read only: **False**
 
 | **Argument Name**   | **Description**                                                                                       | **Required** |
 | ------------------- | ----------------------------------------------------------------------------------------------------- | ------------ |
-| process_identifiers | Object consisting of `endpoint` (hostname) or `agent_guid`, `file_sha1`, `filename` and `description` | Required     |
+| process_identifiers | Object consisting of `endpoint` (hostname) or `agent_guid`, `file_sha1`, `filename` and `description` | True         |
 
 Example input:
 
@@ -663,7 +663,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                 | **Required** |
 | ----------------- | ------------------------------------------------------------------------------- | ------------ |
-| task_id           | Unique alphanumeric string that identifies the analysis results of a submission | Required     |
+| task_id           | Unique alphanumeric string that identifies the analysis results of a submission | True         |
 
 Example input:
 
@@ -702,9 +702,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies the analysis results of a submission                   | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| submit_id         | Unique alphanumeric string that identifies the analysis results of a submission                   | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
@@ -738,7 +738,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                        | **Required** |
 | ----------------- | -------------------------------------------------------------------------------------- | ------------ |
-| collect_files     | Object containing `endpoint` (hostname) or `agent_guid`, `file_path` and `description` | Required     |
+| collect_files     | Object containing `endpoint` (hostname) or `agent_guid`, `file_path` and `description` | True         |
 
 Example input:
 
@@ -783,9 +783,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| task_id           | task_id output from the collect forensic file command used to collect the file                    | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| task_id           | task_id output from the collect forensic file command used to collect the file                    | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
@@ -839,11 +839,11 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                                                                                                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| file_url          | URL pointing to the location of the file to be submitted                                                                                                                                                                                          | Required     |
-| file_name         | Name of the file to be analyzed                                                                                                                                                                                                                   | Required     |
-| document_pass     | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                  | Optional     |
-| archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                   | Optional     |
-| arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional     |
+| file_url          | URL pointing to the location of the file to be submitted                                                                                                                                                                                          | True         |
+| file_name         | Name of the file to be analyzed                                                                                                                                                                                                                   | True         |
+| document_pass     | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                  | False        |
+| archive_pass      | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding                                                                                                   | False        |
+| arguments         | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | False        |
 
 Example input:
 
@@ -883,9 +883,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| task_id           | Unique numeric string that identifies a response task                                             | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| task_id           | Unique numeric string that identifies a response task                                             | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
@@ -924,8 +924,8 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                | **Required** |
 | ----------------- | ------------------------------------------------------------------------------ | ------------ |
-| endpoint          | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required     |
-| query_op          | Logical operator to employ in the query. (AND/OR)                              | Required     |
+| endpoint          | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | True         |
+| query_op          | Logical operator to employ in the query. (AND/OR)                              | True         |
 
 Example input:
 
@@ -965,8 +965,8 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                 | **Required** |
 | ----------------- | ----------------------------------------------- | ------------ |
-| workbench_id      | Workbench id of security incident in Vision One | Required     |
-| content           | note to be added to the workbench event         | Required     |
+| workbench_id      | Workbench id of security incident in Vision One | True         |
+| content           | note to be added to the workbench event         | True         |
 
 Example input:
 
@@ -998,9 +998,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                                        | **Required** |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------ |
-| workbench_id      | The ID of the workbench alert that you would like to update the status for                                             | Required     |
-| status            | The status to assign to the workbench alert: `new`, `in_progress`, `resolved_false_positive`, `resolved_true_positive` | Required     |
-| if_match          | The target resource will be updated only if it matches `ETag` of the target                                            | Required     |
+| workbench_id      | The ID of the workbench alert that you would like to update the status for                                             | True         |
+| status            | The status to assign to the workbench alert: `new`, `in_progress`, `resolved_false_positive`, `resolved_true_positive` | True         |
+| if_match          | The target resource will be updated only if it matches `ETag` of the target                                            | True         |
 
 Example input:
 
@@ -1035,7 +1035,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                 | **Required** |
 | ----------------- | --------------------------------------------------------------- | ------------ |
-| workbench_id      | ID of the workbench alert you would like to get the details for | Required     |
+| workbench_id      | ID of the workbench alert you would like to get the details for | True         |
 
 Example input:
 
@@ -1066,7 +1066,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                        | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------------ | ------------ |
-| urls              | List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request | Required     |
+| urls              | List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request | True         |
 
 Example input:
 
@@ -1100,7 +1100,7 @@ Read only: **False**
 
 | **Argument Name**   | **Description**                                    | **Required** |
 | ------------------- | -------------------------------------------------- | ------------ |
-| account_identifiers | Object containing `account_name` and `description` | Required     |
+| account_identifiers | Object containing `account_name` and `description` | True         |
 
 Example input:
 
@@ -1136,7 +1136,7 @@ Read only: **False**
 
 | **Argument Name**   | **Description**                                    | **Required** |
 | ------------------- | -------------------------------------------------- | ------------ |
-| account_identifiers | Object containing `account_name` and `description` | Required     |
+| account_identifiers | Object containing `account_name` and `description` | True         |
 
 Example input:
 
@@ -1174,7 +1174,7 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                              | **Required** |
 | ----------------- | -------------------------------------------------------------------------------------------- | ------------ |
-| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required     |
+| email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | True         |
 
 Example input:
 
@@ -1217,7 +1217,7 @@ Read only: **False**
 
 | **Argument Name**   | **Description**                                    | **Required** |
 | ------------------- | -------------------------------------------------- | ------------ |
-| account_identifiers | Object containing `account_name` and `description` | Required     |
+| account_identifiers | Object containing `account_name` and `description` | True         |
 
 Example input:
 
@@ -1253,7 +1253,7 @@ Read only: **False**
 
 | **Argument Name**   | **Description**                                    | **Required** |
 | ------------------- | -------------------------------------------------- | ------------ |
-| account_identifiers | Object containing `account_name` and `description` | Required     |
+| account_identifiers | Object containing `account_name` and `description` | True         |
 
 Example input:
 
@@ -1289,9 +1289,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies a submission.                                          | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| submit_id         | Unique alphanumeric string that identifies a submission.                                          | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
@@ -1332,9 +1332,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| report_id         | Unique alphanumeric string that identifies a submission                                           | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| report_id         | Unique alphanumeric string that identifies a submission                                           | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
@@ -1376,9 +1376,9 @@ Read only: **False**
 
 | **Argument Name** | **Description**                                                                                   | **Required** |
 | ----------------- | ------------------------------------------------------------------------------------------------- | ------------ |
-| submit_id         | Unique alphanumeric string that identifies a submission                                           | Required     |
-| poll              | If script should wait until the task is finished before returning the result (enabled by default) | Optional     |
-| poll_time_sec     | Maximum time to wait for the result to be available                                               | Optional     |
+| submit_id         | Unique alphanumeric string that identifies a submission                                           | True         |
+| poll              | If script should wait until the task is finished before returning the result (enabled by default) | False        |
+| poll_time_sec     | Maximum time to wait for the result to be available                                               | False        |
 
 Example input:
 
