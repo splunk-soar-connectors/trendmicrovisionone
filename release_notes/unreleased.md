@@ -1,11 +1,8 @@
 **Unreleased**
 
-* Updated integration to use Trend Micro Vision One V3 API endpoints.
-* Added action to fetch exception and suspicious list.
-* Added action to submit URLs to sandbox for analysis.
-* Sandbox analysis action has been split into download analysis report, download suspicious list and download investigation package.
-* Added domain actions that allow enabling, disabling user accounts in addition to forcing sign-outs and password resets for compromised accounts.
-* Integrated with `Pytmv1` library to ensure uniformity for each action per Trend standards.
-* Updated get_endpoint_info action to accept multiple endpoints comma separated string.
+* Updated get_endpoint_info action to accept multiple endpoints using a comma separated string.
 * Updated forensic file info to provide missing response values.
+* Update action descriptions for all actions.
+* Updated input descriptions for actions in README.md
+* Updated readme.html.
 * Updated pytmv1 to latest release (**0.5.6**).
