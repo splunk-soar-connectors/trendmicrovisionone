@@ -869,7 +869,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Create email task list
         for email in email_identifiers:
-            if email.get("endpoint"):
+            if email.get("message_id"):
                 email_tasks.append(
                     EmailMessageIdTask(
                         message_id=email["message_id"],
@@ -1762,9 +1762,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Create email task list
         for email in email_identifiers:
-            if email["message_id"].startswith("<") and email["message_id"].endswith(
-                ">"
-            ):
+            if email.get("message_id"):
                 email_tasks.append(
                     EmailMessageIdTask(
                         message_id=email["message_id"],
@@ -1772,7 +1770,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                         mail_box=email.get("mailbox", ""),
                     )
                 )
-            else:
+            elif email.get("unique_id"):
                 email_tasks.append(
                     EmailMessageUIdTask(
                         unique_id=email["message_id"],
