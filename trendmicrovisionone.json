@@ -2466,10 +2466,6 @@
         "input_file": "wheels/py3/pytmv1-0.5.6-py3-none-any.whl"
       },
       {
-        "module": "requests",
-        "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
-      },
-      {
         "module": "soupsieve",
         "input_file": "wheels/py3/soupsieve-2.4.1-py3-none-any.whl"
       },
