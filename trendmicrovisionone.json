@@ -74,6 +74,8 @@
           "required": true,
           "primary": true,
           "contains": ["and", "or"],
+          "value_list": ["and", "or"],
+          "default": "or",
           "order": 1,
           "name": "query_op",
           "id": 2,

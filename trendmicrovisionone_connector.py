@@ -383,6 +383,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "type": alert.alert_provider,
             "severity": alert.severity.value,
             "start_time": alert.created_date_time,
+            "indicators": [ind.dict() for ind in alert.indicators],
             "cef": art_cef,
         }
 
