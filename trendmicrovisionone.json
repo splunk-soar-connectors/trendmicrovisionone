@@ -1508,6 +1508,14 @@
           "description": "The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required)",
           "data_type": "string",
           "required": true,
+          "value_list": [
+            "new",
+            "in_progress",
+            "true_positive",
+            "false_positive",
+            "benign_true_positive",
+            "closed"
+          ],
           "order": 1,
           "name": "status",
           "id": 2,
