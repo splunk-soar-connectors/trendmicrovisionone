@@ -62,7 +62,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["ip", "mac address", "host name"],
+          "contains": ["ip", "mac address", "host name", "agent_guid"],
           "order": 0,
           "name": "ip_hostname_mac",
           "id": 1,
@@ -86,6 +86,7 @@
         {
           "data_path": "action_result.data.*.agent_guid",
           "data_type": "string",
+          "contains": ["agent_guid"],
           "column_name": "Agent Guid",
           "column_order": 0
         },
@@ -98,18 +99,21 @@
         {
           "data_path": "action_result.data.*.endpoint_name.value",
           "data_type": "string",
+          "contains": ["host name"],
           "column_name": "Endpoint Name",
           "column_order": 2
         },
         {
           "data_path": "action_result.data.*.mac_address.value",
           "data_type": "string",
+          "contains": ["mac address"],
           "column_name": "Mac Address",
           "column_order": 3
         },
         {
           "data_path": "action_result.data.*.ip.value",
           "data_type": "string",
+          "contains": ["ip"],
           "column_name": "IP",
           "column_order": 4
         },
@@ -164,11 +168,7 @@
         }
       ],
       "render": {
-        "width": 12,
-        "type": "custom",
-        "view": "trendmicrovisionone_view.display_view",
-        "title": "Endpoint Info",
-        "height": 5
+        "type": "table"
       },
       "versions": "EQ(*)"
     },
@@ -185,7 +185,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["ip", "mac address", "host name"],
+          "contains": ["ip", "mac address", "host name", "agent_guid"],
           "order": 0,
           "name": "endpoint_identifiers",
           "id": 1,
@@ -201,6 +201,7 @@
         },
         {
           "data_path": "action_result.data.*.task_id",
+          "contains": ["task_status_id"],
           "data_type": "string",
           "column_name": "Task ID",
           "column_order": 1
@@ -242,7 +243,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["ip", "mac address", "host name"],
+          "contains": ["ip", "mac address", "host name", "agent_guid"],
           "order": 0,
           "name": "endpoint_identifiers",
           "id": 1,
@@ -259,6 +260,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -329,7 +331,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["task_id"],
+          "contains": ["task_status_id"],
           "order": 0,
           "name": "task_id",
           "id": 1,
@@ -361,7 +363,6 @@
         {
           "data_path": "action_result.data.*.id",
           "data_type": "string",
-          "contains": ["id"],
           "column_name": "ID",
           "column_order": 0
         },
@@ -437,6 +438,7 @@
           "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "block_objects",
           "id": 1,
@@ -453,6 +455,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -492,6 +495,7 @@
           "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "block_objects",
           "id": 1,
@@ -508,6 +512,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -547,6 +552,7 @@
           "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "email_identifiers",
           "id": 1,
@@ -563,6 +569,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -602,6 +609,7 @@
           "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "email_identifiers",
           "id": 1,
@@ -618,6 +626,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -657,17 +666,12 @@
           "description": "Object consisting of endpoint (hostname) or agent_guid, file_sha1, filename and description. (Required)",
           "data_type": "string",
           "required": true,
-          "contains": [
-            "endpointName (Required)",
-            "fileSha1 (Required)",
-            "fileName (Optional)",
-            "description (Optional)"
-          ],
+          "primary": true,
+          "contains": ["host name", "file_sha1", "file_name"],
           "order": 0,
           "name": "process_identifiers",
           "id": 1,
-          "param_name": "process_identifiers",
-          "primary": true
+          "param_name": "process_identifiers"
         }
       },
       "output": [
@@ -680,6 +684,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -727,7 +732,7 @@
       },
       "output": [
         {
-          "data_path": "action_result..data.*.multi_response.*.status",
+          "data_path": "action_result.data.*.multi_response.*.status",
           "data_type": "numeric",
           "column_name": "Status",
           "column_order": 0
@@ -800,6 +805,12 @@
           "column_order": 1
         },
         {
+          "data_path": "action_result.data.*.total_count",
+          "data_type": "numeric",
+          "column_name": "Total Count",
+          "column_order": 2
+        },
+        {
           "data_path": "action_result.status",
           "data_type": "string",
           "column_name": "Status",
@@ -835,6 +846,7 @@
           "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and scan_action, risk_level, expiry_days and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "block_objects",
           "id": 1,
@@ -851,6 +863,7 @@
         {
           "data_path": "action_result.data.*.multi_response.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -896,6 +909,7 @@
           "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "block_objects",
           "id": 1,
@@ -912,8 +926,15 @@
         {
           "data_path": "action_result.data.*.multi_response.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.total_count",
+          "data_type": "numeric",
+          "column_name": "Total Count",
+          "column_order": 2
         },
         {
           "data_path": "action_result.status",
@@ -963,7 +984,7 @@
         {
           "data_path": "action_result.parameter.task_id",
           "data_type": "string",
-          "contains": ["task_id"],
+          "contains": ["submit_id", "report_id"],
           "column_name": "Task ID",
           "column_order": 0
         },
@@ -1009,7 +1030,9 @@
           "description": "ID of the sandbox submission retrieved from check_analysis_status action. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
+          "contains": ["submit_id"],
           "name": "submit_id",
           "id": 1,
           "param_name": "submit_id"
@@ -1045,6 +1068,7 @@
         {
           "data_path": "action_result.parameter.submit_id",
           "data_type": "string",
+          "contains": ["submit_id"],
           "column_name": "Submit ID",
           "column_order": 1
         },
@@ -1085,7 +1109,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["endpoint", "file_path", "description"],
+          "contains": ["host name", "agent_guid", "file_path", "description"],
           "order": 0,
           "name": "collect_files",
           "id": 1,
@@ -1102,6 +1126,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["forensic_id"],
           "column_name": "Task ID",
           "column_order": 1
         },
@@ -1141,7 +1166,9 @@
           "description": "Task ID output from collect_forensic_file action. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
+          "contains": ["forensic_id"],
           "name": "task_id",
           "id": 1,
           "param_name": "task_id"
@@ -1306,8 +1333,10 @@
           "description": "URL pointing to the location of the file to be submitted. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "file_url",
+          "contains": ["file_url"],
           "id": 1,
           "param_name": "file_url"
         },
@@ -1348,6 +1377,7 @@
       "output": [
         {
           "data_path": "action_result.data.*.id",
+          "contains": ["task_id"],
           "data_type": "string",
           "column_name": "ID",
           "column_order": 0
@@ -1401,7 +1431,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["source_data_identifier"],
+          "contains": ["workbench_id"],
           "order": 0,
           "name": "workbench_id",
           "id": 1,
@@ -1421,6 +1451,7 @@
         {
           "data_path": "action_result.data.*.note_id",
           "data_type": "string",
+          "contains": ["note_id"],
           "column_name": "Note ID",
           "column_order": 0
         },
@@ -1467,7 +1498,7 @@
           "data_type": "string",
           "required": true,
           "primary": true,
-          "contains": ["source_data_identifier"],
+          "contains": ["workbench_id"],
           "order": 0,
           "name": "workbench_id",
           "id": 1,
@@ -1535,7 +1566,9 @@
           "description": "ID of the workbench alert you would like to get the details for. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
+          "contains": ["workbench_id"],
           "name": "workbench_id"
         }
       },
@@ -1543,12 +1576,14 @@
         {
           "data_path": "action_result.parameter.workbench_id",
           "data_type": "string",
+          "contains": ["workbench_id"],
           "column_name": "Workbench ID",
           "column_order": 0
         },
         {
           "data_path": "action_result.data.*.etag",
           "data_type": "string",
+          "contains": ["etag"],
           "column_name": "Etag",
           "column_order": 1
         },
@@ -1594,6 +1629,7 @@
           "description": "List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "urls",
           "id": 1,
@@ -1616,6 +1652,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["submit_id", "report_id", "task_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1674,6 +1711,7 @@
           "description": "Object containing account_name and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "account_identifiers",
           "id": 1,
@@ -1696,6 +1734,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1736,6 +1775,7 @@
           "description": "Object containing account_name and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "account_identifiers"
         }
@@ -1756,6 +1796,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1796,6 +1837,7 @@
           "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "email_identifiers"
         }
@@ -1816,6 +1858,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1856,6 +1899,7 @@
           "description": "Object containing account_name and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "account_identifiers"
         }
@@ -1876,6 +1920,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1916,6 +1961,7 @@
           "description": "Object containing account_name and description. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "account_identifiers"
         }
@@ -1936,6 +1982,7 @@
         {
           "data_path": "action_result.data.*.task_id",
           "data_type": "string",
+          "contains": ["task_status_id"],
           "column_name": "Task ID",
           "column_order": 2
         },
@@ -1976,8 +2023,10 @@
           "description": "Unique alphanumeric string that identifies the analysis results of a submission. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "submit_id",
+          "contains": ["submit_id"],
           "id": 1,
           "param_name": "submit_id"
         },
@@ -2006,6 +2055,7 @@
         {
           "data_path": "action_result.parameter.submit_id",
           "data_type": "string",
+          "contains": ["submit_id"],
           "column_name": "Submit ID",
           "column_order": 0
         },
@@ -2030,6 +2080,7 @@
         {
           "data_path": "action_result.data.*.root_sha1",
           "data_type": "string",
+          "contains": ["file_sha1"],
           "column_name": "Root Sha1",
           "column_order": 4
         },
@@ -2082,8 +2133,10 @@
           "description": "Unique alphanumeric string that identifies the analysis results of a submission. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
           "order": 0,
           "name": "report_id",
+          "contains": ["report_id"],
           "id": 1,
           "param_name": "report_id"
         },
@@ -2111,6 +2164,7 @@
       "output": [
         {
           "data_path": "action_result.data.*.id",
+          "contains": ["report_id", "submit_id"],
           "data_type": "string",
           "column_name": "ID",
           "column_order": 0
@@ -2205,6 +2259,8 @@
           "description": "Unique alphanumeric string that identifies the analysis results of a submission. (Required)",
           "data_type": "string",
           "required": true,
+          "primary": true,
+          "contains": ["submit_id"],
           "id": 1,
           "order": 0,
           "name": "submit_id"
