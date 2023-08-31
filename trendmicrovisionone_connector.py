@@ -806,7 +806,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        email_tasks: List[Any] = []  # type: ignore
+        email_tasks: List[EmailMessageIdTask | EmailMessageUIdTask] = []
 
         # Create email task list
         for email in email_identifiers:
@@ -831,7 +831,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
 
         # Make rest call
-        response = client.quarantine_email_message(*email_tasks)  # type: ignore
+        response = client.quarantine_email_message(*email_tasks)
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check email identifiers.")
             raise RuntimeError(f"Error while quarantining email: {response.errors}")
@@ -866,7 +866,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        email_tasks: List[Any] = []
+        email_tasks: List[EmailMessageIdTask | EmailMessageUIdTask] = []
 
         # Create email task list
         for email in email_identifiers:
@@ -887,7 +887,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
 
         # Make rest call
-        response = client.delete_email_message(*email_tasks)  # type: ignore
+        response = client.delete_email_message(*email_tasks)
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check email identifiers.")
             raise RuntimeError(f"Error while deleting email: {response.errors}")
@@ -1596,7 +1596,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             )
 
         assert response.response is not None
-        etag = response.response.etag
+        etag = response.response.etag.replace('"', "")
         alert = response.response.alert.dict()
 
         alert_details: Dict[str, Any] = {"etag": etag, "alert": alert}
@@ -1759,7 +1759,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
-        email_tasks: List[Any] = []
+        email_tasks: List[EmailMessageIdTask | EmailMessageUIdTask] = []
 
         # Create email task list
         for email in email_identifiers:
