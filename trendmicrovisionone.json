@@ -985,14 +985,62 @@
           "data_path": "action_result.parameter.task_id",
           "data_type": "string",
           "contains": ["submit_id", "report_id"],
-          "column_name": "Task ID",
+          "column_name": "ID",
           "column_order": 0
+        },
+        {
+          "data_path": "action_result.data.*.status",
+          "data_type": "string",
+          "column_name": "Status",
+          "column_order": 1
+        },
+        {
+          "data_path": "action_result.data.*.action",
+          "data_type": "string",
+          "column_name": "Action",
+          "column_order": 2
+        },
+        {
+          "data_path": "action_result.data.*.created_date_time",
+          "data_type": "string",
+          "column_name": "Created Date Time",
+          "column_order": 3
+        },
+        {
+          "data_path": "action_result.data.*.last_action_date_time",
+          "data_type": "string",
+          "column_name": "Last Action Date Time",
+          "column_order": 4
+        },
+        {
+          "data_path": "action_result.data.*.is_cached",
+          "data_type": "string",
+          "column_name": "Is Cached",
+          "column_order": 5
+        },
+        {
+          "data_path": "action_result.data.*.digest",
+          "data_type": "string",
+          "column_name": "Digest",
+          "column_order": 6
+        },
+        {
+          "data_path": "action_result.data.*.arguments",
+          "data_type": "string",
+          "column_name": "Arguments",
+          "column_order": 7
+        },
+        {
+          "data_path": "action_result.data.*.resource_location",
+          "data_type": "string",
+          "column_name": "Resource Location",
+          "column_order": 8
         },
         {
           "data_path": "action_result.data.*.status",
           "data_type": "numeric",
           "column_name": "Status",
-          "column_order": 1
+          "column_order": 9
         },
         {
           "data_path": "action_result.status",

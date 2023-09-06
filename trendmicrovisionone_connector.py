@@ -1329,7 +1329,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Create file task list
         file_tasks: List[FileTask] = []
 
-        # Make rest call
+        # Create file task list
         for file in collect_files:
             if file.get("endpoint"):
                 file_tasks.append(
@@ -1348,6 +1348,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                     )  # type: ignore
                 )
 
+        # Make rest call
         response = client.collect_file(*file_tasks)
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check inputs.")
