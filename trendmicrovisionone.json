@@ -66,7 +66,7 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ],
                     "order": 0,
                     "name": "ip_hostname_mac",
@@ -79,7 +79,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "query_op"
+                        "query op"
                     ],
                     "value_list": [
                         "and",
@@ -110,21 +110,21 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ]
                 },
                 {
                     "data_path": "action_result.parameter.query_op",
                     "data_type": "string",
                     "contains": [
-                        "query_op"
+                        "query op"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.agent_guid",
                     "data_type": "string",
                     "contains": [
-                        "agent_guid"
+                        "agent guid"
                     ],
                     "column_name": "Agent Guid",
                     "column_order": 0
@@ -219,7 +219,7 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ],
                     "order": 0,
                     "name": "endpoint_identifiers",
@@ -244,7 +244,7 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ]
                 },
                 {
@@ -256,7 +256,7 @@
                 {
                     "data_path": "action_result.data.*.task_id",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "data_type": "string",
                     "column_name": "Task ID",
@@ -301,7 +301,7 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ],
                     "order": 0,
                     "name": "endpoint_identifiers",
@@ -326,7 +326,7 @@
                         "ip",
                         "mac address",
                         "host name",
-                        "agent_guid"
+                        "agent guid"
                     ]
                 },
                 {
@@ -339,7 +339,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -410,7 +410,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "order": 0,
                     "name": "task_id",
@@ -463,7 +463,7 @@
                     "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ]
                 },
                 {
@@ -572,7 +572,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -641,7 +641,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -710,7 +710,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -779,7 +779,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -821,8 +821,8 @@
                     "primary": true,
                     "contains": [
                         "host name",
-                        "file_sha1",
-                        "file_name"
+                        "file sha1",
+                        "file name"
                     ],
                     "order": 0,
                     "name": "process_identifiers",
@@ -845,8 +845,8 @@
                     "data_type": "string",
                     "contains": [
                         "host name",
-                        "file_sha1",
-                        "file_name"
+                        "file sha1",
+                        "file name"
                     ]
                 },
                 {
@@ -859,7 +859,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -1072,7 +1072,7 @@
                     "data_path": "action_result.data.*.multi_response.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -1147,7 +1147,7 @@
                     "data_path": "action_result.data.*.multi_response.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -1194,7 +1194,9 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "task_id"
+                        "submit id",
+                        "report id",
+                        "task id"
                     ],
                     "order": 0,
                     "name": "task_id",
@@ -1216,8 +1218,9 @@
                     "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
                     "contains": [
-                        "submit_id",
-                        "report_id"
+                        "submit id",
+                        "report id",
+                        "task id"
                     ],
                     "column_name": "ID",
                     "column_order": 0
@@ -1313,7 +1316,7 @@
                     "primary": true,
                     "order": 0,
                     "contains": [
-                        "submit_id"
+                        "submit id"
                     ],
                     "name": "submit_id",
                     "id": 1,
@@ -1364,7 +1367,7 @@
                     "data_path": "action_result.parameter.submit_id",
                     "data_type": "string",
                     "contains": [
-                        "submit_id"
+                        "submit id"
                     ],
                     "column_name": "Submit ID",
                     "column_order": 1
@@ -1412,8 +1415,8 @@
                     "primary": true,
                     "contains": [
                         "host name",
-                        "agent_guid",
-                        "file_path",
+                        "agent guid",
+                        "file path",
                         "description"
                     ],
                     "order": 0,
@@ -1437,8 +1440,8 @@
                     "data_type": "string",
                     "contains": [
                         "host name",
-                        "agent_guid",
-                        "file_path",
+                        "agent guid",
+                        "file path",
                         "description"
                     ]
                 },
@@ -1452,7 +1455,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "forensic_id"
+                        "forensic id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 1
@@ -1494,7 +1497,7 @@
                     "primary": true,
                     "order": 0,
                     "contains": [
-                        "forensic_id"
+                        "forensic id"
                     ],
                     "name": "task_id",
                     "id": 1,
@@ -1545,7 +1548,7 @@
                     "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
                     "contains": [
-                        "forensic_id"
+                        "forensic id"
                     ]
                 },
                 {
@@ -1688,7 +1691,7 @@
                     "order": 0,
                     "name": "file_url",
                     "contains": [
-                        "file_url"
+                        "file url"
                     ],
                     "id": 1,
                     "param_name": "file_url"
@@ -1757,7 +1760,7 @@
                     "data_path": "action_result.parameter.file_url",
                     "data_type": "string",
                     "contains": [
-                        "file_url"
+                        "file url"
                     ]
                 },
                 {
@@ -1775,7 +1778,7 @@
                 {
                     "data_path": "action_result.data.*.id",
                     "contains": [
-                        "task_id"
+                        "task id"
                     ],
                     "data_type": "string",
                     "column_name": "ID",
@@ -1817,7 +1820,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ],
                     "order": 0,
                     "name": "workbench_id",
@@ -1852,7 +1855,7 @@
                     "data_path": "action_result.parameter.workbench_id",
                     "data_type": "string",
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ]
                 },
                 {
@@ -1865,7 +1868,7 @@
                     "data_path": "action_result.data.*.note_id",
                     "data_type": "string",
                     "contains": [
-                        "note_id"
+                        "note id"
                     ],
                     "column_name": "Note ID",
                     "column_order": 0
@@ -1906,7 +1909,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ],
                     "order": 0,
                     "name": "workbench_id",
@@ -1969,7 +1972,7 @@
                     "data_path": "action_result.parameter.workbench_id",
                     "data_type": "string",
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ]
                 },
                 {
@@ -2015,7 +2018,7 @@
                     "primary": true,
                     "order": 0,
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ],
                     "name": "workbench_id"
                 }
@@ -2034,7 +2037,7 @@
                     "data_path": "action_result.parameter.workbench_id",
                     "data_type": "string",
                     "contains": [
-                        "workbench_id"
+                        "workbench id"
                     ],
                     "column_name": "Workbench ID",
                     "column_order": 0
@@ -2133,9 +2136,9 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "submit_id",
-                        "report_id",
-                        "task_id"
+                        "submit id",
+                        "report id",
+                        "task id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2213,7 +2216,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2283,7 +2286,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2353,7 +2356,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2423,7 +2426,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2493,7 +2496,7 @@
                     "data_path": "action_result.data.*.task_id",
                     "data_type": "string",
                     "contains": [
-                        "task_status_id"
+                        "task status id"
                     ],
                     "column_name": "Task ID",
                     "column_order": 2
@@ -2536,7 +2539,7 @@
                     "order": 0,
                     "name": "submit_id",
                     "contains": [
-                        "submit_id"
+                        "submit id"
                     ],
                     "id": 1,
                     "param_name": "submit_id"
@@ -2587,7 +2590,7 @@
                     "data_path": "action_result.parameter.submit_id",
                     "data_type": "string",
                     "contains": [
-                        "submit_id"
+                        "submit id"
                     ],
                     "column_name": "Submit ID",
                     "column_order": 0
@@ -2614,7 +2617,7 @@
                     "data_path": "action_result.data.*.root_sha1",
                     "data_type": "string",
                     "contains": [
-                        "file_sha1"
+                        "file sha1"
                     ],
                     "column_name": "Root SHA1",
                     "column_order": 4
@@ -2669,7 +2672,7 @@
                     "order": 0,
                     "name": "report_id",
                     "contains": [
-                        "report_id"
+                        "report id"
                     ],
                     "id": 1,
                     "param_name": "report_id"
@@ -2723,7 +2726,10 @@
                     "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
                     "column_name": "Report ID",
-                    "column_order": 7
+                    "column_order": 7,
+                    "contains": [
+                        "report id"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.analysis_completion_date_time",
@@ -2746,8 +2752,8 @@
                 {
                     "data_path": "action_result.data.*.id",
                     "contains": [
-                        "report_id",
-                        "submit_id"
+                        "report id",
+                        "submit id"
                     ],
                     "data_type": "string",
                     "column_name": "ID",
@@ -2807,7 +2813,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "submit_id"
+                        "submit id"
                     ],
                     "id": 1,
                     "order": 0,
@@ -2863,7 +2869,10 @@
                     "data_path": "action_result.parameter.submit_id",
                     "data_type": "string",
                     "column_name": "Submit ID",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "submit id"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.file_added",
@@ -3075,18 +3084,6 @@
                 "input_file": "wheels/py3/beautifulsoup4-4.11.2-py3-none-any.whl"
             },
             {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2023.7.22-py3-none-any.whl"
-            },
-            {
-                "module": "charset_normalizer",
-                "input_file": "wheels/py3/charset_normalizer-2.0.12-py3-none-any.whl"
-            },
-            {
-                "module": "idna",
-                "input_file": "wheels/py3/idna-3.4-py3-none-any.whl"
-            },
-            {
                 "module": "pydantic",
                 "input_file": "wheels/py39/pydantic-1.10.12-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
@@ -3095,20 +3092,12 @@
                 "input_file": "wheels/py3/pytmv1-0.5.6-py3-none-any.whl"
             },
             {
-                "module": "requests",
-                "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
-            },
-            {
                 "module": "soupsieve",
                 "input_file": "wheels/py3/soupsieve-2.5-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
                 "input_file": "wheels/py3/typing_extensions-4.8.0-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.16-py2.py3-none-any.whl"
             }
         ]
     }
