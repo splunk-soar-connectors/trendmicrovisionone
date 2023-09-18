@@ -94,6 +94,33 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 10,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.ip_hostname_mac",
+                    "data_type": "string",
+                    "contains": [
+                        "ip",
+                        "mac address",
+                        "host name",
+                        "agent_guid"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.query_op",
+                    "data_type": "string",
+                    "contains": [
+                        "query_op"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.agent_guid",
                     "data_type": "string",
                     "contains": [
@@ -101,12 +128,6 @@
                     ],
                     "column_name": "Agent Guid",
                     "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.login_account.value",
-                    "data_type": "string",
-                    "column_name": "Login Account",
-                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.endpoint_name.value",
@@ -118,15 +139,6 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.data.*.mac_address.value",
-                    "data_type": "string",
-                    "contains": [
-                        "mac address"
-                    ],
-                    "column_name": "Mac Address",
-                    "column_order": 3
-                },
-                {
                     "data_path": "action_result.data.*.ip.value",
                     "data_type": "string",
                     "contains": [
@@ -134,6 +146,21 @@
                     ],
                     "column_name": "IP",
                     "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.login_account.value",
+                    "data_type": "string",
+                    "column_name": "Login Account",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.mac_address.value",
+                    "data_type": "string",
+                    "contains": [
+                        "mac address"
+                    ],
+                    "column_name": "Mac Address",
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.os_name",
@@ -154,26 +181,8 @@
                     "column_order": 7
                 },
                 {
-                    "data_path": "action_result.*.installed_product_codes",
-                    "data_type": "string",
-                    "column_name": "Product Code",
-                    "column_order": 8
-                },
-                {
-                    "data_path": "action_result.*.os_description",
-                    "data_type": "string",
-                    "column_name": "OS Description",
-                    "column_order": 9
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 10,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -220,6 +229,25 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.endpoint_identifiers",
+                    "data_type": "string",
+                    "contains": [
+                        "ip",
+                        "mac address",
+                        "host name",
+                        "agent_guid"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -235,13 +263,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -288,6 +311,25 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.endpoint_identifiers",
+                    "data_type": "string",
+                    "contains": [
+                        "ip",
+                        "mac address",
+                        "host name",
+                        "agent_guid"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -303,13 +345,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -397,7 +434,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -407,40 +443,28 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.id",
-                    "data_type": "string",
-                    "column_name": "ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status",
+                    "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.created_date_time",
-                    "data_type": "string",
-                    "column_name": "Created Date Time",
-                    "column_order": 2
+                    "data_path": "action_result.parameter.poll",
+                    "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.last_action_date_time=",
-                    "data_type": "string",
-                    "column_name": "Last Action Date Time=",
-                    "column_order": 3
+                    "data_path": "action_result.parameter.poll_time_sec",
+                    "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.action",
+                    "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
-                    "column_name": "Action",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.description",
-                    "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 5
+                    "contains": [
+                        "task_status_id"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.account",
@@ -449,13 +473,44 @@
                     "column_order": 6
                 },
                 {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.data.*.action",
+                    "data_type": "string",
+                    "column_name": "Action",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.created_date_time",
+                    "data_type": "string",
+                    "column_name": "Created Date Time",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string",
+                    "column_name": "Description",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string",
+                    "column_name": "ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.last_action_date_time=",
+                    "data_type": "string",
+                    "column_name": "Last Action Date Time=",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -487,7 +542,6 @@
                     "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "block_objects",
                     "id": 1,
@@ -495,6 +549,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
@@ -511,13 +578,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -549,7 +611,6 @@
                     "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "block_objects",
                     "id": 1,
@@ -557,6 +618,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
@@ -573,13 +647,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -611,7 +680,6 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "email_identifiers",
                     "id": 1,
@@ -619,6 +687,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.email_identifiers",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
@@ -635,13 +716,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -673,7 +749,6 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "email_identifiers",
                     "id": 1,
@@ -681,6 +756,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.email_identifiers",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
@@ -697,13 +785,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -749,6 +832,24 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.process_identifiers",
+                    "data_type": "string",
+                    "contains": [
+                        "host name",
+                        "file_sha1",
+                        "file_name"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -764,13 +865,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -810,6 +906,19 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.multi_response.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -828,13 +937,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -874,6 +978,19 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.multi_response.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -892,13 +1009,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -930,7 +1042,6 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and scan_action, risk_level, expiry_days and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "block_objects",
                     "id": 1,
@@ -938,6 +1049,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.multi_response.*.status",
                     "data_type": "numeric",
@@ -960,13 +1084,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -998,7 +1117,6 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "block_objects",
                     "id": 1,
@@ -1006,6 +1124,19 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.block_objects",
+                    "data_type": "string"
+                },
                 {
                     "data_path": "action_result.data.*.multi_response.*.status",
                     "data_type": "numeric",
@@ -1028,13 +1159,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1078,6 +1204,15 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
                     "contains": [
@@ -1088,16 +1223,16 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1
-                },
-                {
                     "data_path": "action_result.data.*.action",
                     "data_type": "string",
                     "column_name": "Action",
                     "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.arguments",
+                    "data_type": "string",
+                    "column_name": "Arguments",
+                    "column_order": 7
                 },
                 {
                     "data_path": "action_result.data.*.created_date_time",
@@ -1106,10 +1241,10 @@
                     "column_order": 3
                 },
                 {
-                    "data_path": "action_result.data.*.last_action_date_time",
+                    "data_path": "action_result.data.*.digest",
                     "data_type": "string",
-                    "column_name": "Last Action Date Time",
-                    "column_order": 4
+                    "column_name": "Digest",
+                    "column_order": 6
                 },
                 {
                     "data_path": "action_result.data.*.is_cached",
@@ -1118,16 +1253,10 @@
                     "column_order": 5
                 },
                 {
-                    "data_path": "action_result.data.*.digest",
+                    "data_path": "action_result.data.*.last_action_date_time",
                     "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.data.*.arguments",
-                    "data_type": "string",
-                    "column_name": "Arguments",
-                    "column_order": 7
+                    "column_name": "Last Action Date Time",
+                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.resource_location",
@@ -1137,18 +1266,19 @@
                 },
                 {
                     "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
                     "column_order": 9
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1205,7 +1335,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -1215,10 +1344,21 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.file_added",
+                    "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "File Added",
-                    "column_order": 0
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.poll",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.poll_time_sec",
+                    "data_type": "numeric"
                 },
                 {
                     "data_path": "action_result.parameter.submit_id",
@@ -1230,13 +1370,14 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.data.*.file_added",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "column_name": "File Added",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1283,6 +1424,25 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.collect_files",
+                    "data_type": "string",
+                    "contains": [
+                        "host name",
+                        "agent_guid",
+                        "file_path",
+                        "description"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.status",
                     "data_type": "numeric",
                     "column_name": "Status",
@@ -1298,13 +1458,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1361,7 +1516,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -1371,40 +1525,28 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.id",
-                    "data_type": "string",
-                    "column_name": "ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.status",
+                    "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.created_date_time",
-                    "data_type": "string",
-                    "column_name": "Created Date Time",
-                    "column_order": 2
+                    "data_path": "action_result.parameter.poll",
+                    "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.last_action_date_time",
-                    "data_type": "string",
-                    "column_name": "Last Action Date Time",
-                    "column_order": 3
+                    "data_path": "action_result.parameter.poll_time_sec",
+                    "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.action",
+                    "data_path": "action_result.parameter.task_id",
                     "data_type": "string",
-                    "column_name": "Action",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.description",
-                    "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 5
+                    "contains": [
+                        "forensic_id"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.account",
@@ -1413,16 +1555,46 @@
                     "column_order": 6
                 },
                 {
+                    "data_path": "action_result.data.*.action",
+                    "data_type": "string",
+                    "column_name": "Action",
+                    "column_order": 4
+                },
+                {
                     "data_path": "action_result.data.*.agent_guid",
                     "data_type": "string",
                     "column_name": "Agent Guid",
                     "column_order": 7
                 },
                 {
+                    "data_path": "action_result.data.*.created_date_time",
+                    "data_type": "string",
+                    "column_name": "Created Date Time",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string",
+                    "column_name": "Description",
+                    "column_order": 5
+                },
+                {
                     "data_path": "action_result.data.*.endpoint_name",
                     "data_type": "string",
                     "column_name": "Endpoint Name",
                     "column_order": 8
+                },
+                {
+                    "data_path": "action_result.data.*.error",
+                    "data_type": "string",
+                    "column_name": "Error",
+                    "column_order": 16
+                },
+                {
+                    "data_path": "action_result.data.*.expired_date_time",
+                    "data_type": "string",
+                    "column_name": "Expired Date Time",
+                    "column_order": 14
                 },
                 {
                     "data_path": "action_result.data.*.file_path",
@@ -1433,13 +1605,13 @@
                 {
                     "data_path": "action_result.data.*.file_sha1",
                     "data_type": "string",
-                    "column_name": "File Sha1",
+                    "column_name": "File SHA1",
                     "column_order": 10
                 },
                 {
                     "data_path": "action_result.data.*.file_sha256",
                     "data_type": "string",
-                    "column_name": "File Sha256",
+                    "column_name": "File SHA256",
                     "column_order": 11
                 },
                 {
@@ -1449,16 +1621,16 @@
                     "column_order": 12
                 },
                 {
-                    "data_path": "action_result.data.*.resource_location",
+                    "data_path": "action_result.data.*.id",
                     "data_type": "string",
-                    "column_name": "Resource Location",
-                    "column_order": 13
+                    "column_name": "ID",
+                    "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.expired_date_time",
+                    "data_path": "action_result.data.*.last_action_date_time",
                     "data_type": "string",
-                    "column_name": "Expired Date Time",
-                    "column_order": 14
+                    "column_name": "Last Action Date Time",
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.password",
@@ -1467,19 +1639,20 @@
                     "column_order": 15
                 },
                 {
-                    "data_path": "action_result.data.*.error",
+                    "data_path": "action_result.data.*.resource_location",
                     "data_type": "string",
-                    "column_name": "Error",
-                    "column_order": 16
+                    "column_name": "Resource Location",
+                    "column_order": 13
                 },
                 {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.data.*.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1556,6 +1729,50 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.archive_pass",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.arguments",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.document_pass",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.file_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.file_url",
+                    "data_type": "string",
+                    "contains": [
+                        "file_url"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.arguments",
+                    "data_type": "string",
+                    "column_name": "Arguments",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.digest",
+                    "data_type": "string",
+                    "column_name": "Digest",
+                    "column_order": 1
+                },
+                {
                     "data_path": "action_result.data.*.id",
                     "contains": [
                         "task_id"
@@ -1565,25 +1782,8 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.digest",
-                    "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.arguments",
-                    "data_type": "string",
-                    "column_name": "Arguments",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1636,6 +1836,32 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.content",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.workbench_id",
+                    "data_type": "string",
+                    "contains": [
+                        "workbench_id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.message",
+                    "data_type": "string",
+                    "column_name": "Message",
+                    "column_order": 1
+                },
+                {
                     "data_path": "action_result.data.*.note_id",
                     "data_type": "string",
                     "contains": [
@@ -1645,19 +1871,8 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1731,12 +1946,6 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.message",
-                    "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 0
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
@@ -1744,6 +1953,34 @@
                         "success",
                         "failed"
                     ]
+                },
+                {
+                    "data_path": "action_result.parameter.if_match",
+                    "data_type": "string",
+                    "contains": [
+                        "etag"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.workbench_id",
+                    "data_type": "string",
+                    "contains": [
+                        "workbench_id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.message",
+                    "data_type": "string",
+                    "column_name": "Message",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1785,6 +2022,15 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.workbench_id",
                     "data_type": "string",
                     "contains": [
@@ -1792,6 +2038,12 @@
                     ],
                     "column_name": "Workbench ID",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.alert",
+                    "data_type": "string",
+                    "column_name": "Alert",
+                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.etag",
@@ -1803,19 +2055,8 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.data.*.alert",
-                    "data_type": "string",
-                    "column_name": "Alert",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1847,7 +2088,6 @@
                     "description": "List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "urls",
                     "id": 1,
@@ -1856,10 +2096,32 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 6,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.urls",
                     "data_type": "string",
                     "column_name": "Urls",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.digest",
+                    "data_type": "string",
+                    "column_name": "Digest",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string",
+                    "column_name": "ID",
+                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.status",
@@ -1885,26 +2147,8 @@
                     "column_order": 3
                 },
                 {
-                    "data_path": "action_result.data.*.id",
-                    "data_type": "string",
-                    "column_name": "ID",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.digest",
-                    "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 6,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -1936,7 +2180,6 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "account_identifiers",
                     "id": 1,
@@ -1944,6 +2187,16 @@
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 3,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
                 {
                     "data_path": "action_result.parameter.account_identifiers",
                     "data_type": "string",
@@ -1966,14 +2219,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2005,12 +2252,21 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "account_identifiers"
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 3,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
                 {
                     "data_path": "action_result.parameter.account_identifiers",
                     "data_type": "string",
@@ -2033,14 +2289,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2072,12 +2322,21 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "email_identifiers"
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 3,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
                 {
                     "data_path": "action_result.parameter.email_identifiers",
                     "data_type": "string",
@@ -2100,14 +2359,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2139,12 +2392,21 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "account_identifiers"
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 3,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
                 {
                     "data_path": "action_result.parameter.account_identifiers",
                     "data_type": "string",
@@ -2167,14 +2429,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2206,12 +2462,21 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 0,
                     "name": "account_identifiers"
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 3,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
                 {
                     "data_path": "action_result.parameter.account_identifiers",
                     "data_type": "string",
@@ -2234,14 +2499,8 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 3,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2298,7 +2557,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -2308,6 +2566,24 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 7,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.poll",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.poll_time_sec",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.parameter.submit_id",
                     "data_type": "string",
                     "contains": [
@@ -2315,12 +2591,6 @@
                     ],
                     "column_name": "Submit ID",
                     "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.risk_level",
-                    "data_type": "string",
-                    "column_name": "Risk Level",
-                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.analysis_completion_date_time",
@@ -2335,12 +2605,18 @@
                     "column_order": 3
                 },
                 {
+                    "data_path": "action_result.data.*.risk_level",
+                    "data_type": "string",
+                    "column_name": "Risk Level",
+                    "column_order": 1
+                },
+                {
                     "data_path": "action_result.data.*.root_sha1",
                     "data_type": "string",
                     "contains": [
                         "file_sha1"
                     ],
-                    "column_name": "Root Sha1",
+                    "column_name": "Root SHA1",
                     "column_order": 4
                 },
                 {
@@ -2356,14 +2632,8 @@
                     "column_order": 6
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 7,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2420,7 +2690,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -2430,56 +2699,13 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.id",
-                    "contains": [
-                        "report_id",
-                        "submit_id"
-                    ],
+                    "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.type",
-                    "data_type": "string",
-                    "column_name": "Type",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.analysis_completion_date_time",
-                    "data_type": "string",
-                    "column_name": "Analysis Completion Date Time",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.risk_level",
-                    "data_type": "string",
-                    "column_name": "Risk Level",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.true_file_type",
-                    "data_type": "string",
-                    "column_name": "True File Type",
-                    "column_order": 4
-                },
-                {
-                    "data_path": "action_result.data.*.digest",
-                    "data_type": "string",
-                    "column_name": "Digest",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.arguments",
-                    "data_type": "string",
-                    "column_name": "Arguments",
-                    "column_order": 6
-                },
-                {
-                    "data_path": "action_result.parameter.report_id",
-                    "data_type": "string",
-                    "column_name": "Report ID",
-                    "column_order": 7
+                    "column_name": "Status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.poll",
@@ -2494,13 +2720,60 @@
                     "column_order": 9
                 },
                 {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "column_name": "Report ID",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.analysis_completion_date_time",
+                    "data_type": "string",
+                    "column_name": "Analysis Completion Date Time",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.arguments",
+                    "data_type": "string",
+                    "column_name": "Arguments",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.digest",
+                    "data_type": "string",
+                    "column_name": "Digest",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "contains": [
+                        "report_id",
+                        "submit_id"
+                    ],
+                    "data_type": "string",
+                    "column_name": "ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.risk_level",
+                    "data_type": "string",
+                    "column_name": "Risk Level",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.true_file_type",
+                    "data_type": "string",
+                    "column_name": "True File Type",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string",
+                    "column_name": "Type",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2556,7 +2829,6 @@
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
-                    "required": false,
                     "default": 30,
                     "order": 2,
                     "name": "poll_time_sec",
@@ -2566,16 +2838,14 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.submit_id",
+                    "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Submit ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.file_added",
-                    "data_type": "string",
-                    "column_name": "File Added",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 4,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.poll",
@@ -2590,14 +2860,20 @@
                     "column_order": 3
                 },
                 {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.parameter.submit_id",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 4,
-                    "example_values": [
-                        "success",
-                        "failed"
-                    ]
+                    "column_name": "Submit ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.file_added",
+                    "data_type": "string",
+                    "column_name": "File Added",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2637,40 +2913,16 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.value",
-                    "data_type": "string",
-                    "column_name": "Value",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.type",
-                    "data_type": "string",
-                    "column_name": "Type",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.last_modified_date_time",
-                    "data_type": "string",
-                    "column_name": "Last Modified Date Time",
-                    "column_order": 3
-                },
-                {
                     "data_path": "action_result.data.*.description",
                     "data_type": "string",
                     "column_name": "Description",
                     "column_order": 4
                 },
                 {
-                    "data_path": "action_result.data.*.scan_action",
+                    "data_path": "action_result.data.*.expired_date_time",
                     "data_type": "string",
-                    "column_name": "Scan Action",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.risk_level",
-                    "data_type": "string",
-                    "column_name": "Risk Level",
-                    "column_order": 6
+                    "column_name": "Expired Date Time",
+                    "column_order": 8
                 },
                 {
                     "data_path": "action_result.data.*.in_exception_list",
@@ -2679,10 +2931,38 @@
                     "column_order": 7
                 },
                 {
-                    "data_path": "action_result.data.*.expired_date_time",
+                    "data_path": "action_result.data.*.last_modified_date_time",
                     "data_type": "string",
-                    "column_name": "Expired Date Time",
-                    "column_order": 8
+                    "column_name": "Last Modified Date Time",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.risk_level",
+                    "data_type": "string",
+                    "column_name": "Risk Level",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.scan_action",
+                    "data_type": "string",
+                    "column_name": "Scan Action",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string",
+                    "column_name": "Type",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.value",
+                    "data_type": "string",
+                    "column_name": "Value",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2722,16 +3002,10 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.value",
+                    "data_path": "action_result.data.*.description",
                     "data_type": "string",
-                    "column_name": "Value",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.type",
-                    "data_type": "string",
-                    "column_name": "Type",
-                    "column_order": 2
+                    "column_name": "Description",
+                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.last_modified_date_time",
@@ -2740,10 +3014,20 @@
                     "column_order": 3
                 },
                 {
-                    "data_path": "action_result.data.*.description",
+                    "data_path": "action_result.data.*.type",
                     "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 4
+                    "column_name": "Type",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.value",
+                    "data_type": "string",
+                    "column_name": "Value",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
