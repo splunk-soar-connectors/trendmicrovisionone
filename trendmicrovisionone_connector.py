@@ -1445,7 +1445,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Get file contents
-        _file = requests.get(file_url)
+        _file = requests.get(file_url, allow_redirects=True, timeout=30)
 
         # Make rest call
         response = client.submit_file_to_sandbox(
