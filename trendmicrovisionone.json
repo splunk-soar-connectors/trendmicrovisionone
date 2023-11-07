@@ -24,17 +24,13 @@
             "data_type": "string",
             "required": true,
             "default": "https://api.xdr.trendmicro.com",
-            "order": 0,
-            "name": "api_url",
-            "id": 0
+            "order": 0
         },
         "api_key": {
             "description": "Vision One API Token",
             "data_type": "password",
             "required": true,
-            "order": 1,
-            "name": "api_key",
-            "id": 1
+            "order": 1
         }
     },
     "actions": [
@@ -68,10 +64,7 @@
                         "host name",
                         "agent guid"
                     ],
-                    "order": 0,
-                    "name": "ip_hostname_mac",
-                    "id": 1,
-                    "param_name": "ip_hostname_mac"
+                    "order": 0
                 },
                 "query_op": {
                     "description": "Query Operator. (Required)",
@@ -86,10 +79,7 @@
                         "or"
                     ],
                     "default": "or",
-                    "order": 1,
-                    "name": "query_op",
-                    "id": 2,
-                    "param_name": "query_op"
+                    "order": 1
                 }
             },
             "output": [
@@ -232,10 +222,7 @@
                         "host name",
                         "agent guid"
                     ],
-                    "order": 0,
-                    "name": "endpoint_identifiers",
-                    "id": 1,
-                    "param_name": "endpoint_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -314,10 +301,7 @@
                         "host name",
                         "agent guid"
                     ],
-                    "order": 0,
-                    "name": "endpoint_identifiers",
-                    "id": 1,
-                    "param_name": "endpoint_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -389,18 +373,12 @@
                     "description": "Make sure time format matches following example. 2020-06-15T10:00:00Z",
                     "data_type": "string",
                     "order": 0,
-                    "name": "starttime",
-                    "id": 1,
-                    "param_name": "starttime",
                     "descriptionError": false
                 },
                 "endtime": {
                     "description": "Make sure time format matches following example. 2020-06-15T12:00:00Z",
                     "data_type": "string",
                     "order": 1,
-                    "name": "endtime",
-                    "id": 2,
-                    "param_name": "endtime",
                     "descriptionError": false
                 }
             },
@@ -423,10 +401,7 @@
                     "contains": [
                         "task status id"
                     ],
-                    "order": 0,
-                    "name": "task_id",
-                    "id": 1,
-                    "param_name": "task_id"
+                    "order": 0
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -437,19 +412,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
@@ -553,10 +522,7 @@
                     "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -622,10 +588,7 @@
                     "description": "Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -691,10 +654,7 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "email_identifiers",
-                    "id": 1,
-                    "param_name": "email_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -760,10 +720,7 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "email_identifiers",
-                    "id": 1,
-                    "param_name": "email_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -835,10 +792,7 @@
                         "file sha1",
                         "file name"
                     ],
-                    "order": 0,
-                    "name": "process_identifiers",
-                    "id": 1,
-                    "param_name": "process_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -909,10 +863,7 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -981,10 +932,7 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -1053,10 +1001,7 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and scan_action, risk_level, expiry_days and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -1128,10 +1073,7 @@
                     "description": "Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "block_objects",
-                    "id": 1,
-                    "param_name": "block_objects"
+                    "order": 0
                 }
             },
             "output": [
@@ -1209,10 +1151,7 @@
                         "report id",
                         "task id"
                     ],
-                    "order": 0,
-                    "name": "task_id",
-                    "id": 1,
-                    "param_name": "task_id"
+                    "order": 0
                 }
             },
             "output": [
@@ -1322,10 +1261,7 @@
                     "order": 0,
                     "contains": [
                         "submit id"
-                    ],
-                    "name": "submit_id",
-                    "id": 1,
-                    "param_name": "submit_id"
+                    ]
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -1335,19 +1271,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
@@ -1424,10 +1354,7 @@
                         "file path",
                         "description"
                     ],
-                    "order": 0,
-                    "name": "collect_files",
-                    "id": 1,
-                    "param_name": "collect_files"
+                    "order": 0
                 }
             },
             "output": [
@@ -1503,10 +1430,7 @@
                     "order": 0,
                     "contains": [
                         "forensic id"
-                    ],
-                    "name": "task_id",
-                    "id": 1,
-                    "param_name": "task_id"
+                    ]
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -1516,19 +1440,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
@@ -1695,45 +1613,30 @@
                     "required": true,
                     "primary": true,
                     "order": 0,
-                    "name": "file_url",
                     "contains": [
                         "file url"
-                    ],
-                    "id": 1,
-                    "param_name": "file_url"
+                    ]
                 },
                 "file_name": {
                     "description": "Name of the file to be analyzed. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 1,
-                    "name": "file_name",
-                    "id": 2,
-                    "param_name": "file_name"
+                    "order": 1
                 },
                 "document_pass": {
                     "description": "The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
                     "data_type": "string",
-                    "order": 2,
-                    "name": "document_pass",
-                    "id": 3,
-                    "param_name": "document_pass"
+                    "order": 2
                 },
                 "archive_pass": {
                     "description": "The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional)",
                     "data_type": "string",
-                    "order": 3,
-                    "name": "archive_pass",
-                    "id": 4,
-                    "param_name": "archive_pass"
+                    "order": 3
                 },
                 "arguments": {
                     "description": "Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. (Optional)",
                     "data_type": "string",
-                    "order": 4,
-                    "name": "arguments",
-                    "id": 5,
-                    "param_name": "arguments"
+                    "order": 4
                 }
             },
             "output": [
@@ -1828,19 +1731,13 @@
                     "contains": [
                         "workbench id"
                     ],
-                    "order": 0,
-                    "name": "workbench_id",
-                    "id": 1,
-                    "param_name": "workbench_id"
+                    "order": 0
                 },
                 "content": {
                     "description": "Note to be added to workbench event. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 1,
-                    "name": "content",
-                    "id": 2,
-                    "param_name": "content"
+                    "order": 1
                 }
             },
             "output": [
@@ -1917,10 +1814,7 @@
                     "contains": [
                         "workbench id"
                     ],
-                    "order": 0,
-                    "name": "workbench_id",
-                    "id": 1,
-                    "param_name": "workbench_id"
+                    "order": 0
                 },
                 "status": {
                     "description": "The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required)",
@@ -1934,10 +1828,7 @@
                         "benign_true_positive",
                         "closed"
                     ],
-                    "order": 1,
-                    "name": "status",
-                    "id": 2,
-                    "param_name": "status"
+                    "order": 1
                 },
                 "if_match": {
                     "description": "Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required)",
@@ -1947,10 +1838,7 @@
                     "contains": [
                         "etag"
                     ],
-                    "order": 2,
-                    "name": "if_match",
-                    "id": 3,
-                    "param_name": "if_match"
+                    "order": 2
                 }
             },
             "output": [
@@ -2025,8 +1913,7 @@
                     "order": 0,
                     "contains": [
                         "workbench id"
-                    ],
-                    "name": "workbench_id"
+                    ]
                 }
             },
             "output": [
@@ -2097,10 +1984,7 @@
                     "description": "List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "urls",
-                    "id": 1,
-                    "param_name": "urls"
+                    "order": 0
                 }
             },
             "output": [
@@ -2189,10 +2073,7 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "account_identifiers",
-                    "id": 1,
-                    "param_name": "account_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -2261,8 +2142,7 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "account_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -2331,8 +2211,7 @@
                     "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "email_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -2401,8 +2280,7 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "account_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -2471,8 +2349,7 @@
                     "description": "Object containing account_name and description. (Required)",
                     "data_type": "string",
                     "required": true,
-                    "order": 0,
-                    "name": "account_identifiers"
+                    "order": 0
                 }
             },
             "output": [
@@ -2543,12 +2420,9 @@
                     "required": true,
                     "primary": true,
                     "order": 0,
-                    "name": "submit_id",
                     "contains": [
                         "submit id"
-                    ],
-                    "id": 1,
-                    "param_name": "submit_id"
+                    ]
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -2558,19 +2432,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
@@ -2676,12 +2544,9 @@
                     "required": true,
                     "primary": true,
                     "order": 0,
-                    "name": "report_id",
                     "contains": [
                         "report id"
-                    ],
-                    "id": 1,
-                    "param_name": "report_id"
+                    ]
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -2691,19 +2556,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
@@ -2822,9 +2681,7 @@
                     "contains": [
                         "submit id"
                     ],
-                    "id": 1,
-                    "order": 0,
-                    "name": "submit_id"
+                    "order": 0
                 },
                 "poll": {
                     "description": "If script should wait until the task is finished before returning the result, enabled by default",
@@ -2834,19 +2691,13 @@
                         "false"
                     ],
                     "default": "true",
-                    "order": 1,
-                    "name": "poll",
-                    "id": 2,
-                    "param_name": "poll"
+                    "order": 1
                 },
                 "poll_time_sec": {
                     "description": "Maximum time to wait for the result to be available",
                     "data_type": "numeric",
                     "default": 30,
-                    "order": 2,
-                    "name": "poll_time_sec",
-                    "id": 3,
-                    "param_name": "poll_time_sec"
+                    "order": 2
                 }
             },
             "output": [
