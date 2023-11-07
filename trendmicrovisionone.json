@@ -11,7 +11,7 @@
     "product_version_regex": ".*",
     "publisher": "Trend Micro",
     "license": "Copyright (c) Trend Micro, 2022-2023",
-    "app_version": "2.1.0",
+    "app_version": "2.2.0",
     "utctime_updated": "2023-05-20T10:58:51.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
@@ -3091,16 +3091,8 @@
                 "input_file": "wheels/py3/beautifulsoup4-4.11.2-py3-none-any.whl"
             },
             {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2023.7.22-py3-none-any.whl"
-            },
-            {
                 "module": "charset_normalizer",
                 "input_file": "wheels/py3/charset_normalizer-2.0.12-py3-none-any.whl"
-            },
-            {
-                "module": "idna",
-                "input_file": "wheels/py3/idna-3.4-py3-none-any.whl"
             },
             {
                 "module": "pydantic",
@@ -3111,20 +3103,12 @@
                 "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
             },
             {
-                "module": "requests",
-                "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
-            },
-            {
                 "module": "soupsieve",
                 "input_file": "wheels/py3/soupsieve-2.5-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
                 "input_file": "wheels/py3/typing_extensions-4.8.0-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.18-py2.py3-none-any.whl"
             }
         ]
     }
