@@ -2,7 +2,7 @@
 # Trend Micro Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
-Connector Version: 2.1.0  
+Connector Version: 2.2.0  
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
