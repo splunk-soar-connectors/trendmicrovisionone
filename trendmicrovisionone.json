@@ -86,7 +86,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -229,7 +228,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -308,7 +306,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -425,7 +422,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -529,7 +525,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -595,7 +590,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -661,7 +655,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -727,7 +720,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -799,7 +791,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -870,7 +861,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -939,7 +929,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1008,7 +997,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1080,7 +1068,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1158,7 +1145,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1284,7 +1270,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1361,7 +1346,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1453,7 +1437,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1473,7 +1456,8 @@
                     "contains": [
                         "forensic id"
                     ],
-                    "column_order": 0
+                    "column_order": 0,
+                    "column_name": "Task ID"
                 },
                 {
                     "data_path": "action_result.data.*.account",
@@ -1643,7 +1627,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1744,7 +1727,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
@@ -1846,6 +1828,7 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
+                    "column_order": 0,
                     "example_values": [
                         "success",
                         "failed"
@@ -1873,7 +1856,7 @@
                     "data_path": "action_result.data.*.message",
                     "data_type": "string",
                     "column_name": "Message",
-                    "column_order": 0
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.summary",
@@ -1920,7 +1903,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
                     "example_values": [
                         "success",
                         "failed"
