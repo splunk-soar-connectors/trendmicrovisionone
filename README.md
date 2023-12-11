@@ -2,11 +2,11 @@
 # Trend Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
-Connector Version: 2.2.0  
+Connector Version: 2.2.1  
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.1.1
+Minimum Product Version: 6.1.1  
 
 Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
