@@ -1,7 +1,7 @@
 {
     "appid": "f36c99d8-16ed-4b65-be03-d93511d721dd",
-    "name": "Trend Micro Vision One for Splunk SOAR",
-    "description": "Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Micro Vision One prevents the majority of attacks with automated protection",
+    "name": "Trend Vision One for Splunk SOAR",
+    "description": "Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers\u2014email, endpoints, servers, cloud workloads, and networks\u2014Trend Vision One prevents the majority of attacks with automated protection",
     "type": "endpoint",
     "product_vendor": "Trend Micro",
     "logo": "logo_trendmicrovisionone.svg",
@@ -15,7 +15,7 @@
     "utctime_updated": "2023-05-20T10:58:51.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "5.5.0",
+    "min_phantom_version": "6.1.1",
     "app_wizard_version": "1.0.0",
     "fips_compliant": false,
     "configuration": {
@@ -510,7 +510,7 @@
             "action": "add to blocklist",
             "identifier": "add_to_blocklist",
             "description": "Adds an item to the Suspicious Objects list in Vision One",
-            "verbose": "Adds an item from the Trend Micro Vision One Suspicious Objects list.",
+            "verbose": "Adds an item from the Trend Vision One Suspicious Objects list.",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -575,7 +575,7 @@
             "action": "remove from blocklist",
             "identifier": "remove_from_blocklist",
             "description": "Removes an item from the Suspicious Objects list",
-            "verbose": "Removes an item from the Trend Micro Vision One Suspicious Objects list.",
+            "verbose": "Removes an item from the Trend Vision One Suspicious Objects list.",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -645,7 +645,7 @@
             "read_only": false,
             "parameters": {
                 "email_identifiers": {
-                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
+                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
                     "order": 0
@@ -710,7 +710,7 @@
             "read_only": false,
             "parameters": {
                 "email_identifiers": {
-                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
+                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
                     "order": 0
@@ -1702,7 +1702,7 @@
             "action": "add note",
             "identifier": "add_note",
             "description": "Adds a note to an existing workbench alert",
-            "verbose": "Adds a note to an existing workbench alert in Trend Micro Vision One.",
+            "verbose": "Adds a note to an existing workbench alert in Trend Vision One.",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -1784,7 +1784,7 @@
             "action": "update status",
             "identifier": "update_status",
             "description": "Updates the status of an existing workbench alert",
-            "verbose": "Updates the status of an existing workbench alert in Trend Micro Vision One.",
+            "verbose": "Updates the status of an existing workbench alert in Trend Vision One.",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -2190,7 +2190,7 @@
             "read_only": false,
             "parameters": {
                 "email_identifiers": {
-                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required)",
+                    "description": "Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required)",
                     "data_type": "string",
                     "required": true,
                     "order": 0

@@ -1,7 +1,7 @@
-Trend Micro Vision One for Splunk SOAR
+Trend Vision One for Splunk SOAR
 ======================================
 
-Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection
+Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
 Splunk> Phantom
 ===============
@@ -34,25 +34,25 @@ The app uses HTTPS protocol for communicating with the VisionOne API server. Bel
 
 ### Configuration Variables
 
-The below configuration variables are required for this Connector to operate. These variables are specified when configuring a Trend Micro Vision One asset in SOAR.
+The below configuration variables are required for this Connector to operate. These variables are specified when configuring a Trend Vision One asset in SOAR.
 
 | VARIABLE | REQUIRED | TYPE | DESCRIPTION |
 | --- | --- | --- | --- |
 | **api_url** | required | string | The URL for your ETP instance |
 | **api_key** | required | password | API key |
 
-Configure Trend Micro Vision One on Splunk SOAR
+Configure Trend Vision One on Splunk SOAR
 -----------------------------------------------
 
 1.  Navigate to **Apps** \> **Unconfigured Apps** .
-2.  Search for Trend Micro Vision One.
+2.  Search for Trend Vision One.
 3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
 4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
 
   
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
-| **Asset name** | Unique name for this Trend Micro Vision One instance runner asset | True |
+| **Asset name** | Unique name for this Trend Vision One instance runner asset | True |
 | **Asset description** | Short description of the asset’s purpose | True |
 | **Product vendor** | Trend Micro | True |
 | **Product name** | Vision One | True |
@@ -1414,6 +1414,6 @@ This version of the Trend Micro app is compatible with Splunk SOAR version **5.1
 Authentication Information
 --------------------------
 
-The app uses HTTPS protocol for communicating with the Trend Micro Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
+The app uses HTTPS protocol for communicating with the Trend Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
 
 * * *
