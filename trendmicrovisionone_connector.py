@@ -52,7 +52,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self._state: Dict[str, Any] = {}
         self.config: Dict[str, Any] = {}
 
-        self.app = "Trend Micro Vision One V3"
+        self.app = "Trend Vision One V3"
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.

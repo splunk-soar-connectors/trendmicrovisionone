@@ -1,19 +1,19 @@
 [comment]: # "Auto-generated SOAR connector documentation"
-# Trend Micro Vision One for Splunk SOAR
+# Trend Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
-Connector Version: 2.2.0  
+Connector Version: 2.2.1  
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 5.5.0  
+Minimum Product Version: 6.1.1  
 
-Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection
+Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
-Trend Micro Vision One for Splunk SOAR
+Trend Vision One for Splunk SOAR
 ======================================
 
-Trend Micro Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Micro Vision One prevents the majority of attacks with automated protection
+Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
 Splunk> Phantom
 ===============
@@ -46,25 +46,25 @@ The app uses HTTPS protocol for communicating with the VisionOne API server. Bel
 
 ### Configuration Variables
 
-The below configuration variables are required for this Connector to operate. These variables are specified when configuring a Trend Micro Vision One asset in SOAR.
+The below configuration variables are required for this Connector to operate. These variables are specified when configuring a Trend Vision One asset in SOAR.
 
 | VARIABLE | REQUIRED | TYPE | DESCRIPTION |
 | --- | --- | --- | --- |
 | **api_url** | required | string | The URL for your ETP instance |
 | **api_key** | required | password | API key |
 
-Configure Trend Micro Vision One on Splunk SOAR
+Configure Trend Vision One on Splunk SOAR
 -----------------------------------------------
 
 1.  Navigate to **Apps** \> **Unconfigured Apps** .
-2.  Search for Trend Micro Vision One.
+2.  Search for Trend Vision One.
 3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
 4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
 
   
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
-| **Asset name** | Unique name for this Trend Micro Vision One instance runner asset | True |
+| **Asset name** | Unique name for this Trend Vision One instance runner asset | True |
 | **Asset description** | Short description of the asset’s purpose | True |
 | **Product vendor** | Trend Micro | True |
 | **Product name** | Vision One | True |
@@ -1426,7 +1426,7 @@ This version of the Trend Micro app is compatible with Splunk SOAR version **5.1
 Authentication Information
 --------------------------
 
-The app uses HTTPS protocol for communicating with the Trend Micro Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
+The app uses HTTPS protocol for communicating with the Trend Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
 
 * * *
 
@@ -1630,7 +1630,7 @@ Adds an item to the Suspicious Objects list in Vision One
 Type: **contain**  
 Read only: **False**
 
-Adds an item from the Trend Micro Vision One Suspicious Objects list.
+Adds an item from the Trend Vision One Suspicious Objects list.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
@@ -1655,7 +1655,7 @@ Removes an item from the Suspicious Objects list
 Type: **correct**  
 Read only: **False**
 
-Removes an item from the Trend Micro Vision One Suspicious Objects list.
+Removes an item from the Trend Vision One Suspicious Objects list.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
@@ -1685,7 +1685,7 @@ Retrieve data from the quarantine email message and send the result to dashboard
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
@@ -1710,7 +1710,7 @@ Retrieve data from the delete email message and relay result to Splunk.
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
@@ -2021,7 +2021,7 @@ Adds a note to an existing workbench alert
 Type: **generic**  
 Read only: **False**
 
-Adds a note to an existing workbench alert in Trend Micro Vision One.
+Adds a note to an existing workbench alert in Trend Vision One.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
@@ -2048,7 +2048,7 @@ Updates the status of an existing workbench alert
 Type: **correct**  
 Read only: **False**
 
-Updates the status of an existing workbench alert in Trend Micro Vision One.
+Updates the status of an existing workbench alert in Trend Vision One.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
@@ -2196,7 +2196,7 @@ Quarantine/Restore messages.
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Micro Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
