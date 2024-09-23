@@ -2182,7 +2182,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if self._is_pytmv1_error(response.result_code):
-            self.debug_print("Something went wrong, please check file_url.")
+            self.debug_print(f"Something went wrong, please check vault_id: {vault_id} and file_name: {file_name}.")
             raise RuntimeError(
                 f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
             )
