@@ -42,6 +42,7 @@ UNQUARANTINE_DEVICE_COMMAND = "trendmicro-visionone-unquarantine-device"
 REMOVE_BLOCKLIST_COMMAND = "trendmicro-visionone-remove-from-block-list"
 FORCE_PASSWORD_RESET_COMMAND = "trendmicro-visionone-force-password-reset"  # pragma: allowlist secret
 QUARANTINE_EMAIL_COMMAND = "trendmicro-visionone-quarantine-email-message"
+VAULT_SANDBOX_ANALYSIS_COMMAND = "trendmicro-visionone-vault-sandbox-analysis"
 ADD_EXCEPTION_LIST_COMMAND = "trendmicro-visionone-add-objects-to-exception-list"
 ADD_SUSPICIOUS_LIST_COMMAND = "trendmicro-visionone-add-objects-to-suspicious-list"
 DELETE_EXCEPTION_LIST_COMMAND = "trendmicro-visionone-delete-objects-from-exception-list"

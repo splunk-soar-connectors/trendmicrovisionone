@@ -32,6 +32,7 @@ else:
     from phantom import app as phantom
     from phantom.action_result import ActionResult
     from phantom.base_connector import BaseConnector
+    from phantom import vault
     from phantom.vault import Vault
 
 from pytmv1 import (AccountTask, AccountTaskResp, BlockListTaskResp, CollectFileTaskResp, EmailMessageIdTask, EmailMessageTaskResp,
@@ -86,12 +87,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "remove_from_blocklist": self._handle_remove_from_blocklist,
             "collect_forensic_file": self._handle_collect_forensic_file,
             "restore_email_message": self._handle_restore_email_message,
+            "check_analysis_status": self._handle_check_analysis_status,
             "delete_from_suspicious": self._handle_delete_from_suspicious,
+            "vault_sandbox_analysis": self._handle_vault_sandbox_analysis,
             "sandbox_analysis_result": self._handle_sandbox_analysis_result,
             "sandbox_suspicious_list": self._handle_sandbox_suspicious_list,
             "download_analysis_report": self._handle_download_analysis_report,
             "quarantine_email_message": self._handle_quarantine_email_message,
-            "check_analysis_status": self._handle_check_analysis_status,
             "sandbox_investigation_package": self._handle_sandbox_investigation_package,
         }
 
@@ -2134,6 +2136,60 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Add the response into the data section
         for item in new_exceptions:
             action_result.add_data(item.dict())
+
+        # Return success
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_vault_sandbox_analysis(self, param):
+        # use self.save_progress(...) to send progress messages back to the platform
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        # Required Params
+        vault_id = param['vault_id']
+        file_name = param['file_name']
+        # Optional Params
+        doc_pass = param.get("document_pass", "")
+        arc_pass = param.get("archive_pass", "")
+        arguments = param.get("arguments", "None")
+
+        # Initialize Pytmv1
+        client = self._get_client()
+
+        # Get file contents
+        vault_info = vault.vault_info(vault_id=vault_id, file_name=file_name)
+        file_contents = b""
+        file_path = ""
+        try:
+            file_path = vault_info[2][0]["path"]
+        except FileNotFoundError:
+            return f"Error: No valid file path returned. '{file_path}' does not exist."
+        try:
+            with open(file_path, "rb") as f:
+                file_contents = f.read()
+        except IOError:
+            return f"Error: Could not read the file '{file_path}'."
+
+        # Make rest call
+        response = client.submit_file_to_sandbox(
+            file=file_contents,
+            file_name=file_name,
+            document_password=doc_pass,
+            archive_password=arc_pass,
+            arguments=arguments,
+        )
+
+        if self._is_pytmv1_error(response.result_code):
+            self.debug_print("Something went wrong, please check file_url.")
+            raise RuntimeError(
+                f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
+            )
+        assert response.response is not None
+
+        # Add the response into the data section
+        action_result.add_data(response.response.dict())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)

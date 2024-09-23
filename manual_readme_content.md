@@ -1416,4 +1416,47 @@ Authentication Information
 
 The app uses HTTPS protocol for communicating with the Trend Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
 
+Action: Vault Sandbox Analysis
+----------------------
+
+Submit file from vault to sandbox for analysis.
+
+**API key role permissions required: Sandbox Analysis**
+
+* View, filter, and search
+* Submit objects
+
+Type: **investigate**  
+Read only: **False**
+
+| **Argument Name** | **Description** | **Required** |
+| --- | --- | --- |
+| vault_id | ID of the vault where the file is located | Required |
+| file_name | Name of the file to be analyzed | Required |
+| document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| arguments | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional |
+
+Example input:
+
+    Vault ID
+      984afc7aaa2718984e15e3b5ab095b519a081321
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
+
+#### Context Output
+
+  
+| **Path** | **Type** | **Description** |
+| --- | --- | --- |
+| action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
+| action_result.data.*.digest | String | object (sandbox-digest) |
+| action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
+
 * * *

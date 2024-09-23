@@ -102,7 +102,8 @@ Configure Trend Vision One on Splunk SOAR
 [Get Alert Details](#action-get-alert-details) \- Displays information about the specified alert  
 [Urls To Sandbox](#action-urls-to-sandbox) \- Submits URLs to the sandbox for analysis  
 [Enable Account](#action-enable-account) \- Allows the user to sign in to new application and browser sessions  
-[Disable Account](#action-disable-account) \- Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session  
+[Disable Account](#action-disable-account) \- Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
+[Vault Sandbox Analysis](#action-vault-sandbox-analysis) \- Submit file from Splunk vault to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)
 [Restore Email Message](#action-restore-email-message) \- Restore quarantined email messages  
 [Sign Out Account](#action-sign-out-account) \- Signs the user out of all active application and browser sessions  
 [Force Password Reset](#action-force-password-reset) \- Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt  
@@ -2410,4 +2411,46 @@ action_result.data.\*.value | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |  
+summary.total_objects_successful | numeric |  |
+
+## action: 'vault sandbox analysis'
+----------------------
+
+Submit file from Splunk vault to sandbox for analysis.
+
+**API key role permissions required: Sandbox Analysis**
+
+* View, filter, and search
+* Submit objects
+
+Type: **investigate**  
+Read only: **False**
+
+#### Action Parameters
+| **Argument Name** | **Description** | **Required** |
+| --- | --- | --- |
+| vault_id | ID of the vault where the file is located | Required |
+| file_name | Name of the file to be analyzed | Required |
+| document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| arguments | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional |
+
+Example input:
+
+    Vault ID
+      984afc7aaa2718984e15e3b5ab095b519a081321
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
+
+#### Action Output
+| **Path** | **Type** | **Description** |
+| --- | --- | --- |
+| action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
+| action_result.data.*.digest | String | object (sandbox-digest) |
+| action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
