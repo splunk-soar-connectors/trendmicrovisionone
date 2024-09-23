@@ -103,7 +103,7 @@ Configure Trend Vision One on Splunk SOAR
 [Urls To Sandbox](#action-urls-to-sandbox) \- Submits URLs to the sandbox for analysis  
 [Enable Account](#action-enable-account) \- Allows the user to sign in to new application and browser sessions  
 [Disable Account](#action-disable-account) \- Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
-[Vault Sandbox Analysis](#action-vault-sandbox-analysis) \- Submit file from Splunk vault to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)
+[Vault Sandbox Analysis](#action-vault-sandbox-analysis) \- Submit file from Splunk vault to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
 [Restore Email Message](#action-restore-email-message) \- Restore quarantined email messages  
 [Sign Out Account](#action-sign-out-account) \- Signs the user out of all active application and browser sessions  
 [Force Password Reset](#action-force-password-reset) \- Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt  
