@@ -104,7 +104,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         self.add_action_result(error_result)
 
     def _get_client(self) -> pytmv1.Client:
-        return pytmv1.client(self.app, self.api_key, self._base_url)  # type: ignore
+        return pytmv1.init(self.app, self.api_key, self._base_url)
 
     @staticmethod
     def _is_pytmv1_error(result_code: ResultCode) -> bool:
