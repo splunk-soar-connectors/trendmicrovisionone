@@ -417,7 +417,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         """
         # update old container
         container_alert_metadata: Dict[str, Any] = {
-            "data": alert.dict(),
+            "data": alert.model_dump(),
             "description": "{}: {}".format(container_id, alert.alert_provider.value),
         }
         try:
@@ -632,7 +632,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 self._create_container_artifacts(container_id, alert)
 
             # Log results
-            serialized_alerts: List[Dict] = [item.dict() for item in new_alerts]
+            serialized_alerts: List[Dict] = [item.model_dump() for item in new_alerts]
             action_result.update_data(serialized_alerts)
             action_result.set_summary(
                 {"Number of Events Found": len(serialized_alerts)}
@@ -678,25 +678,40 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Initialize Pytmv1
         client = self._get_client()
 
+        # Excluded task action list
+        excluded_tasks: list[str] = [
+            "collectEvidence",
+            "collectNetworkAnalysisPackage",
+            "isolateForMultiple",
+            "restoreIsolateForMultiple",
+            "dumpProcessMemory",
+            "remoteShell",
+            "runInvestigationKit",
+            "runCustomScriptForMultiple",
+            "runOsquery",
+            "runYaraRules",
+        ]
+
         # Make rest call
         response = client.task.get_result(task_id, poll, poll_time_sec)
+        # Get task action type
         action = self.unwrap(response.response).action
-        action_type = self.get_task_type(action)
-        # Make task specific call using action_type
-        resp = client.task.get_result_class(
-            task_id=task_id,
-            class_=action_type,
-            poll=poll,
-            poll_time_sec=poll_time_sec,
-        )
+        if action not in excluded_tasks:
+            action_type = self.get_task_type(action)
+            # Make task specific call using action_type
+            response = client.task.get_result_class(
+                task_id=task_id,
+                class_=action_type,
+                poll=poll,
+                poll_time_sec=poll_time_sec,
+            )
         # Check if an error occurred
-        if self._is_pytmv1_error(resp.result_code):
+        if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check task_id.")
             raise RuntimeError(
-                f"Error fetching task status for task {task_id}. Result Code: {resp.error}"
+                f"Error fetching task status for task {task_id}. Result Code: {response.error}"
             )
-        assert resp.response is not None
-        action_result.add_data(resp.response.dict())
+        action_result.add_data(self.unwrap(response.response).model_dump())
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
