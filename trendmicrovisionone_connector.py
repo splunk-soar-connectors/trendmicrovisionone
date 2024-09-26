@@ -192,9 +192,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        endpoint = param["ip_hostname_mac"]
-        listify_endpoints = endpoint.split(",")
-        endpoint_list = [value.strip() for value in listify_endpoints]
+        endpoint = json.loads(param["ip_hostname_mac"])
         query_op = param["query_op"]
 
         # Initialize pytmv1
@@ -203,10 +201,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Choose QueryOp Enum based on user choice
         if query_op.lower() == "or":
             query_op = pytmv1.QueryOp.OR
-        elif query_op.lower() == "and":
-            query_op = pytmv1.QueryOp.AND
         else:
-            raise RuntimeError(f"Please provide valid query operator: {query_op}")
+            query_op = pytmv1.QueryOp.AND
 
         new_endpoint_data: List[Any] = []
 
@@ -215,7 +211,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             client.endpoint.consume_data(
                 lambda endpoint_data: new_endpoint_data.append(endpoint_data),
                 query_op,
-                *endpoint_list,
+                **endpoint,
             )
         except Exception as e:
             raise RuntimeError(
