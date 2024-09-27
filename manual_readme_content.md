@@ -44,12 +44,11 @@ The below configuration variables are required for this Connector to operate. Th
 Configure Trend Vision One on Splunk SOAR
 -----------------------------------------------
 
-1.  Navigate to **Apps** \> **Unconfigured Apps** .
-2.  Search for Trend Vision One.
-3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
-4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
+1. Navigate to **Apps** \> **Unconfigured Apps** .
+2. Search for Trend Vision One.
+3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
+4. ALternatively click on **INSTALL APP** and drop a tarball of the app
 
-  
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
 | **Asset name** | Unique name for this Trend Vision One instance runner asset | True |
@@ -61,7 +60,7 @@ Configure Trend Vision One on Splunk SOAR
 | **API_TOKEN** | Vision One API Token | True |
 | **Polling interval (minutes)** | How often should security incident events be updated from Vision One | False |
 
-1.  Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
+1. Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
 
 ### Supported Actions
 
@@ -144,7 +143,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -165,7 +163,6 @@ Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -193,7 +190,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -214,7 +210,6 @@ Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -237,7 +232,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -261,7 +255,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -284,7 +277,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -308,7 +300,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -331,7 +322,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -351,7 +341,6 @@ Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a 
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -374,7 +363,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -394,7 +382,6 @@ Note: `endpoint` accepts either agent_guid or hostname. `description` is optiona
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -416,7 +403,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | starttime | Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates the start of the data retrieval time range. The available oldest value is “1970-01-01T00:00:00Z” | False |
@@ -431,7 +417,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.serialized\_alerts | \[\] List of SAE or TI Alerts | Array of alerts retrieved (awb-workbenchAlertV3) |
@@ -451,7 +436,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `description` | Required |
@@ -466,7 +450,6 @@ Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -488,7 +471,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` | Required |
@@ -503,7 +485,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -525,7 +506,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | Required |
@@ -546,7 +526,6 @@ Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional 
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -568,7 +547,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type` and `object_value` | Required |
@@ -583,7 +561,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -621,7 +598,6 @@ Note: `description` and `filename` are optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -653,7 +629,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -697,7 +672,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the PDF file added to Vault |
@@ -735,7 +709,6 @@ Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -773,7 +746,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique numeric string that identifies a response task |
@@ -832,7 +804,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -869,7 +840,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*..id | String | Unique numeric string that identifies a response task |
@@ -894,7 +864,7 @@ Read only: **False**
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| endpoint | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required |
+| endpoint | Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>). | Required |
 | query_op | Logical operator to employ in the query. (AND/OR) | Required |
 
 Example input:
@@ -906,7 +876,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.agent\_guid | String | AgentGuid for the endpoint |
@@ -946,7 +915,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.note\_id | String | ID of the newly created note |
@@ -983,7 +951,6 @@ Note: `if_match` is the `etag` value provided by the get-alert-details action.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.message | String | Message notifying of success or failure |
@@ -1011,7 +978,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.alert | String | Information associated to the workbenchID provided |
@@ -1041,7 +1007,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1079,7 +1044,6 @@ Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1116,7 +1080,6 @@ Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1158,7 +1121,6 @@ Note: `description` is optional and a default value is provided. When providing 
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1193,7 +1155,6 @@ Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1228,7 +1189,6 @@ Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action. |
@@ -1266,7 +1226,6 @@ Note: Suspicious Object Lists are only available for objects with a high risk le
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.risk\_level | String | Risk Level of suspicious object |
@@ -1306,7 +1265,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies the analysis results of a submitted object |
@@ -1349,7 +1307,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the .zip file added to Vault |
@@ -1372,7 +1329,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to suspicious list |
@@ -1402,7 +1358,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to exception list |
@@ -1453,7 +1408,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |

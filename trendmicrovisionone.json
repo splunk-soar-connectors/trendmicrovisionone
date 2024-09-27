@@ -59,7 +59,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC/AgentGuid of the endpoint(s) to query. (Required)",
+                    "description": "Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
