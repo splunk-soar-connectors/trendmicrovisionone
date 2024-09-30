@@ -20,7 +20,7 @@
     "utctime_updated": "2023-12-11T11:50:25.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "6.1.1",
+    "min_phantom_version": "6.2.1",
     "app_wizard_version": "1.0.0",
     "fips_compliant": false,
     "configuration": {
