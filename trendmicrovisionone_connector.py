@@ -119,9 +119,18 @@ class TrendMicroVisionOneConnector(BaseConnector):
     @staticmethod
     def get_task_type(action: str) -> Any:
         task_dict: Dict[Any, List[str]] = {
-            AccountTaskResp: ["enableAccount", "disableAccount", "forceSignOut", "resetPassword"],
+            AccountTaskResp: [
+                "enableAccount",
+                "disableAccount",
+                "forceSignOut",
+                "resetPassword",
+            ],
             BlockListTaskResp: ["block", "restoreBlock"],
-            EmailMessageTaskResp: ["quarantineMessage", "restoreMessage", "deleteMessage"],
+            EmailMessageTaskResp: [
+                "quarantineMessage",
+                "restoreMessage",
+                "deleteMessage",
+            ],
             EndpointTaskResp: ["isolate", "restoreIsolate"],
             TerminateProcessTaskResp: ["terminateProcess"],
         }
@@ -513,9 +522,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             int: The ID for the created container.
         """
-        existing_container_id: Optional[
-            int
-        ] = self._get_existing_container_id_for_alert(alert)
+        existing_container_id: Optional[int] = (
+            self._get_existing_container_id_for_alert(alert)
+        )
 
         # If a container ID does not already exist, create a new one first, because the update operation
         # runs regardless of whether the container is new or existing.
@@ -2142,14 +2151,16 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     def _handle_vault_sandbox_analysis(self, param):
         # use self.save_progress(...) to send progress messages back to the platform
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
-        vault_id = param['vault_id']
-        file_name = param['file_name']
+        vault_id = param["vault_id"]
+        file_name = param["file_name"]
         # Optional Params
         doc_pass = param.get("document_pass", "")
         arc_pass = param.get("archive_pass", "")
@@ -2160,6 +2171,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Get file contents
         vault_info = vault.vault_info(vault_id=vault_id, file_name=file_name)
+        file_found: bool = vault_info[0]
+        if file_found is False:
+            raise RuntimeError(
+                f"VAULT RESPONSE: {vault_info[1]}. Please check arguments."
+            )
         file_contents = b""
         file_path = ""
         try:
@@ -2182,7 +2198,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
 
         if self._is_pytmv1_error(response.result_code):
-            self.debug_print(f"Something went wrong, please check vault_id: {vault_id} and file_name: {file_name}.")
+            self.debug_print(
+                f"Something went wrong, please check vault_id: {vault_id} and file_name: {file_name}."
+            )
             raise RuntimeError(
                 f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
             )
