@@ -1,0 +1,2 @@
+**Unreleased**
+* Added new action 'vault sandbox analysis' to enable user to submit item from Splunk Vault to XDR portal for analysis.

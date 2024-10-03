@@ -16,7 +16,7 @@
         }
     ],
     "license": "Copyright (c) Trend Micro, 2022-2023",
-    "app_version": "2.2.1",
+    "app_version": "2.3.0",
     "utctime_updated": "2023-12-11T11:50:25.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
@@ -158,7 +158,7 @@
                     "contains": [
                         "mac address"
                     ],
-                    "column_name": "Mac Address",
+                    "column_name": "MAC Address",
                     "column_order": 5
                 },
                 {
@@ -2917,64 +2917,29 @@
                     "contains": [
                         "vault id"
                     ],
-                    "value_list": [],
-                    "default": "",
-                    "order": 0,
-                    "name": "vault_id",
-                    "id": 1,
-                    "param_name": "vault_id"
+                    "order": 0
                 },
                 "file_name": {
                     "description": "File name of vault item",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 1,
-                    "name": "file_name",
-                    "id": 2,
-                    "param_name": "file_name"
+                    "primary": true,
+                    "order": 1
                 },
                 "document_pass": {
                     "description": "Password for the document",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 2,
-                    "name": "document_pass",
-                    "id": 3,
-                    "param_name": "document_pass"
+                    "order": 2
                 },
                 "archive_pass": {
                     "description": "Password for the archive",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 3,
-                    "name": "archive_pass",
-                    "id": 4,
-                    "param_name": "archive_pass"
+                    "order": 3
                 },
                 "arguments": {
-                    "description": "Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.",
+                    "description": "Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
-                    "order": 4,
-                    "name": "arguments",
-                    "id": 5,
-                    "param_name": "arguments"
+                    "order": 4
                 }
             },
             "output": [
@@ -2984,42 +2949,42 @@
                     "contains": [
                         "vault id"
                     ],
-                    "column_name": "vault_id",
+                    "column_name": "Vault ID",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.file_name",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "file_name",
+                    "column_name": "File Name",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.document_pass",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "document_pass",
+                    "column_name": "Document Pass",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.archive_pass",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "archive_pass",
+                    "column_name": "Archive Pass",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.parameter.arguments",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "arguments",
+                    "column_name": "Arguments",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 5
+                    "column_name": "Status",
+                    "column_order": 5,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.arguments",
@@ -3064,16 +3029,8 @@
     "pip_dependencies": {
         "wheel": [
             {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
-            },
-            {
                 "module": "chardet",
                 "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
             },
             {
                 "module": "pytmv1",
@@ -3084,28 +3041,16 @@
     "pip39_dependencies": {
         "wheel": [
             {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.11.2-py3-none-any.whl"
-            },
-            {
-                "module": "charset_normalizer",
-                "input_file": "wheels/py3/charset_normalizer-2.0.12-py3-none-any.whl"
-            },
-            {
                 "module": "pydantic",
-                "input_file": "wheels/py39/pydantic-1.10.13-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/pydantic-1.10.18-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytmv1",
                 "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
             },
             {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.5-py3-none-any.whl"
-            },
-            {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.8.0-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.12.2-py3-none-any.whl"
             }
         ]
     }
