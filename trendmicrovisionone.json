@@ -2907,7 +2907,7 @@
             "description": "Send vault item to sandbox for analysis",
             "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action.",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "vault_id": {
                     "description": "ID of item in vault",
