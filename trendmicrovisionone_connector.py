@@ -1822,7 +1822,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             elif email.get("unique_id"):
                 email_tasks.append(
                     EmailMessageUIdRequest(
-                        unique_id=email["message_id"],
+                        unique_id=email["unique_id"],
                         description=email.get("description", "Restore Email Message."),
                     )
                 )
