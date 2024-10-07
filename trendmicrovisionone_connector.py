@@ -1828,7 +1828,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 )
 
         # Make rest call
-        response = client.email.quarantine(*email_tasks)
+        response = client.email.restore(*email_tasks)
         quarantine_resp: pytmv1.MultiResp = self.unwrap(response.response)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
