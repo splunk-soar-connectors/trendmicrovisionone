@@ -32,8 +32,8 @@ else:
     from phantom import app as phantom
     from phantom.action_result import ActionResult
     from phantom.base_connector import BaseConnector
-    from phantom import vault
     from phantom.vault import Vault
+    from phantom import vault
 
 from pytmv1 import (AccountTask, AccountTaskResp, BlockListTaskResp, CollectFileTaskResp, EmailMessageIdTask, EmailMessageTaskResp,
                     EmailMessageUIdTask, EndpointTask, EndpointTaskResp, ExceptionObject, FileTask, InvestigationStatus, ObjectTask, ObjectType,
