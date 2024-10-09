@@ -35,9 +35,29 @@ else:
     from phantom.vault import Vault
     from phantom import vault
 
-from pytmv1 import (AccountTask, AccountTaskResp, BlockListTaskResp, CollectFileTaskResp, EmailMessageIdTask, EmailMessageTaskResp,
-                    EmailMessageUIdTask, EndpointTask, EndpointTaskResp, ExceptionObject, FileTask, InvestigationStatus, ObjectTask, ObjectType,
-                    ProcessTask, ResultCode, SaeAlert, SuspiciousObject, SuspiciousObjectTask, TerminateProcessTaskResp, TiAlert)
+from pytmv1 import (
+    AccountTask,
+    AccountTaskResp,
+    BlockListTaskResp,
+    CollectFileTaskResp,
+    EmailMessageIdTask,
+    EmailMessageTaskResp,
+    EmailMessageUIdTask,
+    EndpointTask,
+    EndpointTaskResp,
+    ExceptionObject,
+    FileTask,
+    InvestigationStatus,
+    ObjectTask,
+    ObjectType,
+    ProcessTask,
+    ResultCode,
+    SaeAlert,
+    SuspiciousObject,
+    SuspiciousObjectTask,
+    TerminateProcessTaskResp,
+    TiAlert,
+)
 
 
 class RetVal(tuple):
