@@ -2523,13 +2523,13 @@ Read only: **False**
 
 #### Action Parameters
 
-| **Argument Name** | **Description** | **Required** |
-| --- | --- | --- |
-| vault_id | ID of the vault where the file is located | Required |
-| file_name | Name of the file to be analyzed | Required |
-| document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
-| archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
-| arguments | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional |
+PARAMETER | DESCRIPTION | REQUIRED | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+ **vault_id** | ID of the vault where the file is located | Required | string | `vault id`
+ **file_name** | Name of the file to be analyzed | Required | string | `file name`
+ **document_pass** | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional | string
+ **archive_pass** | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |string
+ **arguments** | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional | string
 
 Example input:
 
@@ -2546,8 +2546,17 @@ Example input:
 
 #### Action Output
 
-| **Path** | **Type** | **Description** |
-| --- | --- | --- |
-| action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
-| action_result.data.*.digest | String | object (sandbox-digest) |
-| action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
+action_result.data.*.digest | String | object (sandbox-digest) |
+action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
+action_result.parameter.vault_id | string |  `vault id`  |  
+action_result.parameter.file_name | string |  `file name` |  
+action_result.parameter.document_pass | string |  |  
+action_result.parameter.archive_pass | string |  |  
+action_result.parameter.arguments | string |  |  
+action_result.status | string |  |   success  failed
+action_result.message | string |  |  
+summary.total_objects | numeric |  |  
+summary.total_objects_successful | numeric |  |
