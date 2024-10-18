@@ -2463,7 +2463,7 @@ Send vault item to sandbox for analysis
 Type: **investigate**  
 Read only: **True**
 
-Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files
+Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS

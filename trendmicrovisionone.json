@@ -2905,7 +2905,7 @@
             "action": "vault sandbox analysis",
             "identifier": "vault_sandbox_analysis",
             "description": "Send vault item to sandbox for analysis",
-            "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files",
+            "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
