@@ -2461,9 +2461,9 @@ summary.total_objects_successful | numeric |  |
 Send vault item to sandbox for analysis
 
 Type: **investigate**  
-Read only: **False**
+Read only: **True**
 
-Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action.
+Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
@@ -2472,7 +2472,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **file_name** |  required  | File name of vault item | string | 
 **document_pass** |  optional  | Password for the document | string | 
 **archive_pass** |  optional  | Password for the archive | string | 
-**arguments** |  optional  | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | string | 
+**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES

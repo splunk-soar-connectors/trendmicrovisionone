@@ -15,7 +15,7 @@
             "name": "Shakti Shah"
         }
     ],
-    "license": "Copyright (c) Trend Micro, 2022-2023",
+    "license": "Copyright (c) Trend Micro, 2022-2024",
     "app_version": "2.3.0",
     "utctime_updated": "2023-12-11T11:50:25.000000Z",
     "package_name": "phantom_trendmicrovisionone",
@@ -2905,7 +2905,7 @@
             "action": "vault sandbox analysis",
             "identifier": "vault_sandbox_analysis",
             "description": "Send vault item to sandbox for analysis",
-            "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action.",
+            "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -2923,7 +2923,6 @@
                     "description": "File name of vault item",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
                     "order": 1
                 },
                 "document_pass": {
@@ -2937,7 +2936,7 @@
                     "order": 3
                 },
                 "arguments": {
-                    "description": "Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files",
+                    "description": "Allows you to specify Base64-encoded command line arguments to run the submitted file",
                     "data_type": "string",
                     "order": 4
                 }
