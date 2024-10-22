@@ -2,11 +2,11 @@
 # Trend Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
-Connector Version: 2.2.1  
+Connector Version: 2.3.0  
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.1.1  
+Minimum Product Version: 6.2.1  
 
 Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
@@ -97,6 +97,7 @@ Configure Trend Vision One on Splunk SOAR
 [Collect Forensic File](#action-collect-forensic-file) \- Collect forensic file  
 [Forensic File Info](#action-forensic-file-info) \- Get the download information for collected forensic file  
 [Start Analysis](#action-start-analysis) \- Submit file to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
+[Vault Sandbox Analysis](#action-vault-sandbox-analysis) \- Submit file from Splunk vault to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
 [Add Note](#action-add-note) \- Adds a note to an existing workbench alert  
 [Update Status](#action-update-status) \- Updates the status of an existing workbench alert  
 [Get Alert Details](#action-get-alert-details) \- Displays information about the specified alert  
@@ -1428,6 +1429,49 @@ Authentication Information
 
 The app uses HTTPS protocol for communicating with the Trend Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
 
+Action: Vault Sandbox Analysis
+----------------------
+
+Submit file from vault to sandbox for analysis.
+
+**API key role permissions required: Sandbox Analysis**
+
+* View, filter, and search
+* Submit objects
+
+Type: **investigate**  
+Read only: **False**
+
+| **Argument Name** | **Description** | **Required** |
+| --- | --- | --- |
+| vault_id | ID of the vault where the file is located | Required |
+| file_name | Name of the file to be analyzed | Required |
+| document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| arguments | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional |
+
+Example input:
+
+    Vault ID
+      984afc7aaa2718984e15e3b5ab095b519a081321
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
+
+#### Context Output
+
+  
+| **Path** | **Type** | **Description** |
+| --- | --- | --- |
+| action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
+| action_result.data.*.digest | String | object (sandbox-digest) |
+| action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
+
 * * *
 
 ### Configuration Variables
@@ -1473,6 +1517,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 [sandbox investigation package](#action-sandbox-investigation-package) - Downloads the Investigation Package of the specified object  
 [get suspicious list](#action-get-suspicious-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list  
 [get exception list](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list  
+[vault sandbox analysis](#action-vault-sandbox-analysis) - Send vault item to sandbox for analysis  
 
 ## action: 'test connectivity'
 Validate the asset configuration for connectivity using supplied configuration
@@ -2408,6 +2453,39 @@ action_result.data.\*.last_modified_date_time | string |  |
 action_result.data.\*.type | string |  |  
 action_result.data.\*.value | string |  |  
 action_result.summary | string |  |  
+action_result.message | string |  |  
+summary.total_objects | numeric |  |  
+summary.total_objects_successful | numeric |  |    
+
+## action: 'vault sandbox analysis'
+Send vault item to sandbox for analysis
+
+Type: **investigate**  
+Read only: **True**
+
+Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**vault_id** |  required  | ID of item in vault | string |  `vault id` 
+**file_name** |  required  | File name of vault item | string | 
+**document_pass** |  optional  | Password for the document | string | 
+**archive_pass** |  optional  | Password for the archive | string | 
+**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.parameter.vault_id | string |  `vault id`  |  
+action_result.parameter.file_name | string |  |  
+action_result.parameter.document_pass | string |  |  
+action_result.parameter.archive_pass | string |  |  
+action_result.parameter.arguments | string |  |  
+action_result.status | string |  |   success  failed 
+action_result.data.\*.arguments | string |  |  
+action_result.data.\*.digest | string |  |  
+action_result.data.\*.id | string |  `task id`  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
 summary.total_objects_successful | numeric |  |  
