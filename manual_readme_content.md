@@ -85,6 +85,7 @@ Configure Trend Vision One on Splunk SOAR
 [Collect Forensic File](#action-collect-forensic-file) \- Collect forensic file  
 [Forensic File Info](#action-forensic-file-info) \- Get the download information for collected forensic file  
 [Start Analysis](#action-start-analysis) \- Submit file to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
+[Vault Sandbox Analysis](#action-vault-sandbox-analysis) \- Submit file from Splunk vault to sandbox for analysis. For supported file types, check [here](https://docs.trendmicro.com/en-us/enterprise/trend-vision-one-olh/threat-intelligence-/sandbox-analysis/sandbox-supported-fi.aspx)  
 [Add Note](#action-add-note) \- Adds a note to an existing workbench alert  
 [Update Status](#action-update-status) \- Updates the status of an existing workbench alert  
 [Get Alert Details](#action-get-alert-details) \- Displays information about the specified alert  
@@ -1415,5 +1416,48 @@ Authentication Information
 --------------------------
 
 The app uses HTTPS protocol for communicating with the Trend Vision One server. For authentication a Vision One API Token is used by the Splunk SOAR Connector.
+
+Action: Vault Sandbox Analysis
+----------------------
+
+Submit file from vault to sandbox for analysis.
+
+**API key role permissions required: Sandbox Analysis**
+
+* View, filter, and search
+* Submit objects
+
+Type: **investigate**  
+Read only: **False**
+
+| **Argument Name** | **Description** | **Required** |
+| --- | --- | --- |
+| vault_id | ID of the vault where the file is located | Required |
+| file_name | Name of the file to be analyzed | Required |
+| document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
+| arguments | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files | Optional |
+
+Example input:
+
+    Vault ID
+      984afc7aaa2718984e15e3b5ab095b519a081321
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
+
+#### Context Output
+
+  
+| **Path** | **Type** | **Description** |
+| --- | --- | --- |
+| action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
+| action_result.data.*.digest | String | object (sandbox-digest) |
+| action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
 
 * * *

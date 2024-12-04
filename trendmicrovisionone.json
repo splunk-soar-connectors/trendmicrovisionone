@@ -10,12 +10,17 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Trend Micro",
-    "license": "Copyright (c) Trend Micro, 2022-2023",
-    "app_version": "2.2.1",
+    "contributors": [
+        {
+            "name": "Shakti Shah"
+        }
+    ],
+    "license": "Copyright (c) Trend Micro, 2022-2024",
+    "app_version": "2.3.0",
     "utctime_updated": "2023-12-11T11:50:25.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "6.1.1",
+    "min_phantom_version": "6.2.2",
     "app_wizard_version": "1.0.0",
     "fips_compliant": false,
     "configuration": {
@@ -153,7 +158,7 @@
                     "contains": [
                         "mac address"
                     ],
-                    "column_name": "Mac Address",
+                    "column_name": "MAC Address",
                     "column_order": 5
                 },
                 {
@@ -2895,21 +2900,136 @@
                 "type": "table"
             },
             "versions": "EQ(*)"
+        },
+        {
+            "action": "vault sandbox analysis",
+            "identifier": "vault_sandbox_analysis",
+            "description": "Send vault item to sandbox for analysis",
+            "verbose": "Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "vault_id": {
+                    "description": "ID of item in vault",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "vault id"
+                    ],
+                    "order": 0
+                },
+                "file_name": {
+                    "description": "File name of vault item",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 1
+                },
+                "document_pass": {
+                    "description": "Password for the document",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "archive_pass": {
+                    "description": "Password for the archive",
+                    "data_type": "string",
+                    "order": 3
+                },
+                "arguments": {
+                    "description": "Allows you to specify Base64-encoded command line arguments to run the submitted file",
+                    "data_type": "string",
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.vault_id",
+                    "data_type": "string",
+                    "contains": [
+                        "vault id"
+                    ],
+                    "column_name": "Vault ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.file_name",
+                    "data_type": "string",
+                    "column_name": "File Name",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.document_pass",
+                    "data_type": "string",
+                    "column_name": "Document Pass",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.parameter.archive_pass",
+                    "data_type": "string",
+                    "column_name": "Archive Pass",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.parameter.arguments",
+                    "data_type": "string",
+                    "column_name": "Arguments",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 5,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.arguments",
+                    "data_type": "string",
+                    "column_name": "Arguments",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.digest",
+                    "data_type": "string",
+                    "column_name": "Digest",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.id",
+                    "contains": [
+                        "task id"
+                    ],
+                    "data_type": "string",
+                    "column_name": "ID",
+                    "column_order": 8
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
         }
     ],
     "pip_dependencies": {
         "wheel": [
             {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.10.0-py3-none-any.whl"
-            },
-            {
                 "module": "chardet",
                 "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
             },
             {
                 "module": "pytmv1",
@@ -2920,28 +3040,16 @@
     "pip39_dependencies": {
         "wheel": [
             {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.11.2-py3-none-any.whl"
-            },
-            {
-                "module": "charset_normalizer",
-                "input_file": "wheels/py3/charset_normalizer-2.0.12-py3-none-any.whl"
-            },
-            {
                 "module": "pydantic",
-                "input_file": "wheels/py39/pydantic-1.10.13-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/pydantic-1.10.18-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytmv1",
                 "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
             },
             {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.5-py3-none-any.whl"
-            },
-            {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.8.0-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.12.2-py3-none-any.whl"
             }
         ]
     }
