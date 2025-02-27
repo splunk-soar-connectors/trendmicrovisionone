@@ -1,6 +1,6 @@
 # File: trendmicrovisionone_connector.py
 
-# Copyright (c) Trend Micro, 2022-2023
+# Copyright (c) Trend Micro, 2022-2024
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,14 +30,30 @@ if TYPE_CHECKING:
     from stubs.base_connector import BaseConnector
 else:
     from phantom import app as phantom
+    from phantom import vault
     from phantom.action_result import ActionResult
     from phantom.base_connector import BaseConnector
     from phantom.vault import Vault
-    from phantom import vault
 
-from pytmv1 import (AccountRequest, CollectFileRequest, CollectFileTaskResp, EmailMessageIdRequest, EmailMessageUIdRequest, EndpointRequest,
-                    ExceptionObject, InvestigationStatus, ObjectRequest, ObjectType, ResultCode, SaeAlert, SuspiciousObject,
-                    SuspiciousObjectRequest, TerminateProcessRequest, TiAlert)
+from pytmv1 import (
+    AccountRequest,
+    AlertStatus,
+    CollectFileRequest,
+    CollectFileTaskResp,
+    EmailMessageIdRequest,
+    EmailMessageUIdRequest,
+    EndpointRequest,
+    ExceptionObject,
+    InvestigationResult,
+    ObjectRequest,
+    ObjectType,
+    ResultCode,
+    SaeAlert,
+    SuspiciousObject,
+    SuspiciousObjectRequest,
+    TerminateProcessRequest,
+    TiAlert,
+)
 
 
 class RetVal(tuple):
@@ -166,9 +182,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Please check your environment variables.")
-            self.save_progress(
-                "Test Connectivity Failed. Please check your environment variables."
-            )
+            self.save_progress("Test Connectivity Failed. Please check your environment variables.")
             return action_result.get_status()
 
         # Return success
@@ -184,9 +198,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             list[Any]: Returns a list of objects containing information about an endpoint
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -214,13 +226,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 **endpoint,
             )
         except Exception as e:
-            raise RuntimeError(
-                f"Something went wrong while fetching endpoint data: {e}"
-            )
+            raise RuntimeError(f"Something went wrong while fetching endpoint data: {e}")
         if len(new_endpoint_data) == 0:
-            self.save_progress(
-                f"Endpoint lookup failed, please check endpoint name: {endpoint}"
-            )
+            self.save_progress(f"Endpoint lookup failed, please check endpoint name: {endpoint}")
             return action_result.get_status()
         # Load json objects to list
         for endpoint in new_endpoint_data:
@@ -238,17 +246,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
             dict[str, list[Any]]: Returns a list of objects containing task_id and HTTP status code
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        endpoint_identifiers: list[dict[str, str]] = json.loads(
-            param["endpoint_identifiers"]
-        )
+        endpoint_identifiers: list[dict[str, str]] = json.loads(param["endpoint_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -296,17 +300,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
             multi_resp(dict[str,Any]): Object containing task_id and HTTP status code.
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        endpoint_identifiers: list[dict[str, str]] = json.loads(
-            param["endpoint_identifiers"]
-        )
+        endpoint_identifiers: list[dict[str, str]] = json.loads(param["endpoint_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -345,9 +345,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _create_new_artifact_from_alert(
-        self, container_id: int, alert: Union[SaeAlert, TiAlert]
-    ):
+    def _create_new_artifact_from_alert(self, container_id: int, alert: Union[SaeAlert, TiAlert]):
         """
         Create a new artifact from alert.
         Args:
@@ -378,9 +376,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         """
         return f"TM-{alert_id}"
 
-    def _create_artifact_content(
-        self, container_id: int, alert: Union[SaeAlert, TiAlert]
-    ):
+    def _create_artifact_content(self, container_id: int, alert: Union[SaeAlert, TiAlert]):
         """
         Gathers information and adds to artifact.
         Args:
@@ -404,9 +400,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "cef": art_cef,
         }
 
-    def _update_container_metadata(
-        self, container_id: int, alert: Union[SaeAlert, TiAlert]
-    ):
+    def _update_container_metadata(self, container_id: int, alert: Union[SaeAlert, TiAlert]):
         """
         Updates an Alert container.
         Args:
@@ -428,9 +422,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 timeout=30,
             )  # nosemgrep
         except Exception as e:
-            raise RuntimeError(
-                "Encountered an error updateding container alert."
-            ) from e
+            raise RuntimeError("Encountered an error updateding container alert.") from e
 
     def artifact_exists(self, container_id: int, alert_id: str):
         """
@@ -473,9 +465,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         try:
             response = requests.get(url, verify=False, timeout=30)  # nosemgrep
         except Exception as e:
-            raise RuntimeError(
-                "Encountered an error getting the existing container ID from Phantom."
-            ) from e
+            raise RuntimeError("Encountered an error getting the existing container ID from Phantom.") from e
 
         # return id or None
         container_data: dict[str, Any] = response.json()
@@ -484,9 +474,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # This direct access is okay because the values MUST exist otherwise the problem is out of scope.
         return container_data["data"][0]["id"]
 
-    def _get_existing_container_id_for_alert(
-        self, alert: Union[SaeAlert, TiAlert]
-    ) -> Optional[int]:
+    def _get_existing_container_id_for_alert(self, alert: Union[SaeAlert, TiAlert]) -> Optional[int]:
         """
         Fetch container ID if it exists.
         Args:
@@ -498,9 +486,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         """
         return self._get_existing_container_id_for_sdi(alert.id)
 
-    def _create_new_container_payload(
-        self, alert: Union[SaeAlert, TiAlert]
-    ) -> dict[str, Any]:
+    def _create_new_container_payload(self, alert: Union[SaeAlert, TiAlert]) -> dict[str, Any]:
         """
         Returns information for an Alert
         Args:
@@ -528,23 +514,17 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             int: The ID for the created container.
         """
-        existing_container_id: Optional[int] = (
-            self._get_existing_container_id_for_alert(alert)
-        )
+        existing_container_id: Optional[int] = self._get_existing_container_id_for_alert(alert)
 
         # If a container ID does not already exist, create a new one first, because the update operation
         # runs regardless of whether the container is new or existing.
         if existing_container_id is None:
             # save new container to Splunk using the alert
-            ret_val, msg, cid = self.save_container(
-                self._create_new_container_payload(alert)
-            )
+            ret_val, msg, cid = self.save_container(self._create_new_container_payload(alert))
 
             if phantom.is_fail(ret_val):
                 self.save_progress("Error saving container: {}".format(msg))
-                raise RuntimeError(
-                    "Error saving container: {} -- CID: {}".format(msg, cid)
-                )
+                raise RuntimeError("Error saving container: {} -- CID: {}".format(msg, cid))
 
             existing_container_id = self._get_existing_container_id_for_alert(alert)
 
@@ -553,9 +533,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             assert existing_container_id is not None
         return existing_container_id
 
-    def _create_container_artifacts(
-        self, container_id: int, alert: Union[SaeAlert, TiAlert]
-    ):
+    def _create_container_artifacts(self, container_id: int, alert: Union[SaeAlert, TiAlert]):
         """
         Create an artifact for a container.
         Args:
@@ -575,12 +553,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
             Tuple[datetime, datetime]: start and end datetime.
         """
         # standard time frame for poll interval
-        default_end_time = (
-            datetime.fromtimestamp(int(datetime.utcnow().timestamp())).isoformat() + "Z"
-        )
-        start_time: str = param.get(
-            "starttime", self._state.get("last_ingestion_time", "2020-06-15T10:00:00Z")
-        )
+        default_end_time = datetime.fromtimestamp(int(datetime.utcnow().timestamp())).isoformat() + "Z"
+        start_time: str = param.get("starttime", self._state.get("last_ingestion_time", "2020-06-15T10:00:00Z"))
         end_time: str = param.get("endtime", default_end_time)
         return start_time, end_time
 
@@ -597,9 +571,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         """
 
         # Log current action
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(param))
 
@@ -632,17 +604,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 self._create_container_artifacts(container_id, alert)
 
             # Log results
-            serialized_alerts: list[dict[str, Any]] = [
-                item.model_dump() for item in new_alerts
-            ]
+            serialized_alerts: list[dict[str, Any]] = [item.model_dump() for item in new_alerts]
             action_result.update_data(serialized_alerts)
-            action_result.set_summary(
-                {"Number of Events Found": len(serialized_alerts)}
-            )
+            action_result.set_summary({"Number of Events Found": len(serialized_alerts)})
 
-            self.save_progress(
-                "Phantom imported {0} events".format(len(serialized_alerts))
-            )
+            self.save_progress("Phantom imported {0} events".format(len(serialized_alerts)))
 
             # remember current timestamp for next run
             self._state["last_ingestion_time"] = end_time
@@ -663,9 +629,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             dict[str, int]: object containing task_id and HTTP status code
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -710,9 +674,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check task_id.")
-            raise RuntimeError(
-                f"Error fetching task status for task {task_id}. Result Code: {response.error}"
-            )
+            raise RuntimeError(f"Error fetching task status for task {task_id}. Result Code: {response.error}")
         action_result.add_data(self.unwrap(response.response).model_dump())
 
         # Return success
@@ -727,9 +689,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             multi_resp: Object containing task_id and https status code.
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -776,9 +736,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             multi_resp: Object containing task_id and https status code.
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -805,9 +763,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please input params.")
-            raise RuntimeError(
-                f"Error while removing items from block list: {response.errors}"
-            )
+            raise RuntimeError(f"Error while removing items from block list: {response.errors}")
         remove_block_resp_obj: pytmv1.MultiResp = self.unwrap(response.response)
 
         # Add the response into the data section
@@ -827,9 +783,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             multi_resp(list[dict[str, Any]]): Object containing task_id and HTTP status code.
         """
         # send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -848,9 +802,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 email_tasks.append(
                     EmailMessageIdRequest(
                         message_id=email["message_id"],
-                        description=email.get(
-                            "description", "Quarantine Email Message."
-                        ),
+                        description=email.get("description", "Quarantine Email Message."),
                         mail_box=email.get("mailbox", ""),
                     )
                 )
@@ -858,9 +810,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 email_tasks.append(
                     EmailMessageUIdRequest(
                         unique_id=email["unique_id"],
-                        description=email.get(
-                            "description", "Quarantine Email Message."
-                        ),
+                        description=email.get("description", "Quarantine Email Message."),
                     )
                 )
 
@@ -888,9 +838,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -946,17 +894,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        process_identifiers: list[dict[str, str]] = json.loads(
-            param["process_identifiers"]
-        )
+        process_identifiers: list[dict[str, str]] = json.loads(param["process_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1007,9 +951,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         new_exceptions: list[ExceptionObject] = []
 
         try:
-            client.object.consume_exception(
-                lambda exception: new_exceptions.append(exception)
-            )
+            client.object.consume_exception(lambda exception: new_exceptions.append(exception))
         except Exception as e:
             self.debug_print("Consume Exception List failed with following exception:")
             raise RuntimeError("Error while adding to exception list.") from e
@@ -1024,9 +966,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1054,9 +994,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check block objects.")
-            raise RuntimeError(
-                f"Error while adding object to exception list: {response.errors}"
-            )
+            raise RuntimeError(f"Error while adding object to exception list: {response.errors}")
         add_excp_resp: pytmv1.MultiResp = self.unwrap(response.response)
 
         # Get total exception list count
@@ -1080,9 +1018,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1109,9 +1045,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check block objects.")
-            raise RuntimeError(
-                f"Error while removing object from exception list: {response.errors}"
-            )
+            raise RuntimeError(f"Error while removing object from exception list: {response.errors}")
         rmv_excp_resp: pytmv1.MultiResp = self.unwrap(response.response)
 
         # Get total exception list count
@@ -1135,9 +1069,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         new_suspicious: list[SuspiciousObject] = []
 
         try:
-            client.object.consume_suspicious(
-                lambda suspicious: new_suspicious.append(suspicious)
-            )
+            client.object.consume_suspicious(lambda suspicious: new_suspicious.append(suspicious))
         except Exception as e:
             self.debug_print("Consume Suspicious List failed with following exception:")
             raise RuntimeError("Error while fetching suspicious list count.") from e
@@ -1156,9 +1088,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1186,9 +1116,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.object.add_suspicious(*suspicious_tasks)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
-            raise RuntimeError(
-                f"Error while adding to suspicious list: {response.errors}"
-            )
+            raise RuntimeError(f"Error while adding to suspicious list: {response.errors}")
         add_sus_resp: pytmv1.MultiResp = self.unwrap(response.response)
 
         # Get suspicious list count
@@ -1213,9 +1141,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_resp(dict[str, List]): Object containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1241,9 +1167,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.object.delete_suspicious(*suspicious_tasks)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
-            raise RuntimeError(
-                f"Error while removing from suspicious list: {response.errors}"
-            )
+            raise RuntimeError(f"Error while removing from suspicious list: {response.errors}")
         dlt_sus_resp: pytmv1.MultiResp = self.unwrap(response.response)
 
         # Get suspicious list count
@@ -1267,9 +1191,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             dict: Object containing response regarding submission status.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1285,9 +1207,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check task_id.")
-            raise RuntimeError(
-                f"Error while fetching sandbox submission status: {response.error}"
-            )
+            raise RuntimeError(f"Error while fetching sandbox submission status: {response.error}")
         resp_obj: pytmv1.SandboxSubmissionStatusResp = self.unwrap(response.response)
         # Add the response into the data section
         action_result.add_data(resp_obj.model_dump())
@@ -1304,9 +1224,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             file(.pdf): A PDF document containing analysis result for specified object.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1322,15 +1240,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.sandbox.download_analysis_result(
-            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
-        )
+        response = client.sandbox.download_analysis_result(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check submit_id.")
-            raise RuntimeError(
-                f"Error while downloading sandbox analysis report: {response.error}"
-            )
+            raise RuntimeError(f"Error while downloading sandbox analysis report: {response.error}")
         analysis_resp: pytmv1.BytesResp = self.unwrap(response.response)
         # Extract content value on successful call
         data = analysis_resp.content
@@ -1358,9 +1272,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             dict[str, List]: List consisting of dict objects containing task_id and HTTP status code.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1417,9 +1329,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             file_info(dict[str, Any]): dict object containing response data for file collected.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1445,9 +1355,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check task_id.")
-            raise RuntimeError(
-                f"Error fetching forensic file info for task {task_id}. Result Code: {response.error}"
-            )
+            raise RuntimeError(f"Error fetching forensic file info for task {task_id}. Result Code: {response.error}")
         # Add the response into the data section
         action_result.add_data(resp_obj.model_dump())
 
@@ -1470,9 +1378,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             response(dict[str, Any]): Response object containing ID for submitted object along with digest values.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1503,9 +1409,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check file_url.")
-            raise RuntimeError(
-                f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
-            )
+            raise RuntimeError(f"Error submitting file to sandbox for analysis. Result Code: {response.error}")
         sub_file_resp: pytmv1.SubmitFileToSandboxResp = self.unwrap(response.response)
         # Add the response into the data section
         action_result.add_data(sub_file_resp.model_dump())
@@ -1522,9 +1426,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             result(dict[str, str]): Contains the ID for newly created not and success message.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1540,12 +1442,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         response = client.note.create(alert_id=workbench_id, note_content=content)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
-            self.debug_print(
-                "Something went wrong, please check workbench_id and content."
-            )
-            raise RuntimeError(
-                f"Error adding note to workbench {workbench_id}. Result Code: {response.error}"
-            )
+            self.debug_print("Something went wrong, please check workbench_id and content.")
+            raise RuntimeError(f"Error adding note to workbench {workbench_id}. Result Code: {response.error}")
 
         note_resp: pytmv1.AddAlertNoteResp = self.unwrap(response.response)
         # Add the response into the data section
@@ -1569,9 +1467,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             message(str): Success or Failure.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1579,32 +1475,25 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Required Params
         workbench_id = param["workbench_id"]
         status = param["status"]
+        inv_result = param["inv_result"]
         if_match = param["if_match"]
 
         # Initialize Pytmv1
         client = self._get_client()
 
         # Choose Status Enum
-        sts = status.upper()
-        if sts not in InvestigationStatus.__members__:
-            self.debug_print("Something went wrong, please check input params.")
-            raise RuntimeError(f"Please check status: {status}")
-        status = InvestigationStatus[sts]
-
+        sts = AlertStatus[status.upper()]
+        # Choose Investigation Enum
+        inv_res = InvestigationResult[inv_result.upper()]
         # Make rest call
-        response = client.alert.update_status(
-            alert_id=workbench_id, status=status, if_match=if_match
-        )
+        response = client.alert.update_status(alert_id=workbench_id, status=sts, etag=if_match, inv_result=inv_res)
+
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong while updating alert status.")
-            raise RuntimeError(
-                f"Error updating alert status for {workbench_id}. Result Code: {response.error}"
-            )
+            raise RuntimeError(f"Error updating alert status for {workbench_id}. Result Code: {response.error}")
         # Add the response into the data section
-        action_result.add_data(
-            {"message": f"Successfully updated status for {workbench_id} to {status}."}
-        )
+        action_result.add_data({"message": f"Successfully updated status for {workbench_id} to {status}."})
 
         # Return success
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -1618,9 +1507,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             alert_details (dict[str, Any]): Returns an Alert (SaeAlert or TiAlert) and
             ETag (an identifier for a specific version of a Workbench alert resource).
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1636,9 +1523,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check workbench_id.")
-            raise RuntimeError(
-                f"Error fetching alert details for {workbench_id}. Result Code: {response.error}"
-            )
+            raise RuntimeError(f"Error fetching alert details for {workbench_id}. Result Code: {response.error}")
 
         etag = self.unwrap(response.response).etag
         alert = self.unwrap(response.response).data.model_dump()
@@ -1659,9 +1544,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             submit_urls_resp (list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1678,9 +1561,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check urls.")
-            raise RuntimeError(
-                f"Error while submitting URLs to sandbox: {response.errors}"
-            )
+            raise RuntimeError(f"Error while submitting URLs to sandbox: {response.errors}")
 
         for item in urls_resp.items:
             action_result.add_data(item.model_dump())
@@ -1696,17 +1577,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_response(list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        account_identifiers: list[dict[str, str]] = json.loads(
-            param["account_identifiers"]
-        )
+        account_identifiers: list[dict[str, str]] = json.loads(param["account_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1744,17 +1621,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_response(list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        account_identifiers: list[dict[str, str]] = json.loads(
-            param["account_identifiers"]
-        )
+        account_identifiers: list[dict[str, str]] = json.loads(param["account_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1794,9 +1667,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_response(list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1850,17 +1721,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_response(list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        account_identifiers: list[dict[str, str]] = json.loads(
-            param["account_identifiers"]
-        )
+        account_identifiers: list[dict[str, str]] = json.loads(param["account_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1881,9 +1748,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check account identifiers.")
-            raise RuntimeError(
-                f"Error while signing out user account: {response.errors}"
-            )
+            raise RuntimeError(f"Error while signing out user account: {response.errors}")
 
         # Add the response into the data section
         for item in resp_obj.items:
@@ -1901,17 +1766,13 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             multi_response(list[dict]): Object containing task_id and http status code for the action call.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
 
         # Required Params
-        account_identifiers: list[dict[str, str]] = json.loads(
-            param["account_identifiers"]
-        )
+        account_identifiers: list[dict[str, str]] = json.loads(param["account_identifiers"])
 
         # Initialize Pytmv1
         client = self._get_client()
@@ -1933,9 +1794,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check account identifiers.")
-            raise RuntimeError(
-                f"Error while resetting user account password: {response.errors}"
-            )
+            raise RuntimeError(f"Error while resetting user account password: {response.errors}")
 
         # Add the response into the data section
         for item in resp_obj.items:
@@ -1954,9 +1813,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             sandbox_suspicious_list_resp(list[dict]): Array response for suspicious object found.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -1973,15 +1830,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         sandbox_suspicious_list_resp: list[dict[str, Any]] = []
         # Make rest call
-        response = client.sandbox.list_suspicious(
-            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
-        )
+        response = client.sandbox.list_suspicious(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
         sus_list_resp: pytmv1.ListSandboxSuspiciousResp = self.unwrap(response.response)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
-            raise RuntimeError(
-                f"Error while fetching sandbox suspicious list: {response.error}"
-            )
+            raise RuntimeError(f"Error while fetching sandbox suspicious list: {response.error}")
         for item in sus_list_resp.items:
             sandbox_suspicious_list_resp.append(item.model_dump())
 
@@ -2024,9 +1877,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             dict: Object containing analysis results for specified ID.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -2050,9 +1901,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check report_id.")
-            raise RuntimeError(
-                f"Error fetching sandbox analysis result: {response.error}"
-            )
+            raise RuntimeError(f"Error fetching sandbox analysis result: {response.error}")
 
         # Add the response into the data section
         action_result.add_data(self.unwrap(response.response).model_dump())
@@ -2069,9 +1918,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             file(.zip): Investigation package for the specified object.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -2087,15 +1934,11 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.sandbox.download_investigation_package(
-            submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec
-        )
+        response = client.sandbox.download_investigation_package(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check submit_id.")
-            raise RuntimeError(
-                f"Error while downloading investigation package: {response.error}"
-            )
+            raise RuntimeError(f"Error while downloading investigation package: {response.error}")
         investigation_resp: pytmv1.BytesResp = self.unwrap(response.response)
         # Make filename with timestamp
         name = "Trend_Micro_Sandbox_Investigation_Package"
@@ -2118,9 +1961,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             List: List of suspicious items.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -2132,13 +1973,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Make rest call
         try:
-            client.object.consume_suspicious(
-                lambda suspicion: new_suspicions.append(suspicion)
-            )
+            client.object.consume_suspicious(lambda suspicion: new_suspicions.append(suspicion))
         except Exception as e:
-            self.debug_print(
-                f"Consume Suspicious List failed with following exception: {e}"
-            )
+            self.debug_print(f"Consume Suspicious List failed with following exception: {e}")
             raise e
 
         # Add the response into the data section
@@ -2154,9 +1991,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         Returns:
             List: Items in exceptions list.
         """
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(param))
@@ -2168,13 +2003,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Make rest call
         try:
-            client.object.consume_exception(
-                lambda exception: new_exceptions.append(exception)
-            )
+            client.object.consume_exception(lambda exception: new_exceptions.append(exception))
         except Exception as e:
-            self.debug_print(
-                f"Consume Suspicious List failed with following exception: {e}"
-            )
+            self.debug_print(f"Consume Suspicious List failed with following exception: {e}")
             raise e
 
         # Add the response into the data section
@@ -2186,14 +2017,14 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
     def _handle_vault_sandbox_analysis(self, param):
         # use self.save_progress(...) to send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required Params
+        vault_id = param["vault_id"]
+        file_name = param["file_name"]
         vault_id = param["vault_id"]
         file_name = param["file_name"]
         # Optional Params
@@ -2208,9 +2039,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         vault_info = vault.vault_info(vault_id=vault_id, file_name=file_name)
         file_found: bool = vault_info[0]
         if file_found is False:
-            raise RuntimeError(
-                f"VAULT RESPONSE: {vault_info[1]}. Please check arguments."
-            )
+            raise RuntimeError(f"VAULT RESPONSE: {vault_info[1]}. Please check arguments.")
         file_contents = b""
         file_path = ""
         try:
@@ -2233,12 +2062,8 @@ class TrendMicroVisionOneConnector(BaseConnector):
         )
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
-            self.debug_print(
-                f"Something went wrong, please check vault_id: {vault_id} and file_name: {file_name}."
-            )
-            raise RuntimeError(
-                f"Error submitting file to sandbox for analysis. Result Code: {response.error}"
-            )
+            self.debug_print(f"Something went wrong, please check vault_id: {vault_id} and file_name: {file_name}.")
+            raise RuntimeError(f"Error submitting file to sandbox for analysis. Result Code: {response.error}")
 
         # Add the response into the data section
         action_result.add_data(self.unwrap(response.response).model_dump())
@@ -2335,9 +2160,7 @@ def main():
             headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(
-                login_url, verify=verify, data=data, headers=headers, timeout=30
-            )  # nosemgrep
+            r2 = requests.post(login_url, verify=verify, data=data, headers=headers, timeout=30)  # nosemgrep
             # the above requests to create artefacts only work with verify=False
             session_id = r2.cookies["sessionid"]
         except Exception as e:
