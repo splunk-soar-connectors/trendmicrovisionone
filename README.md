@@ -970,17 +970,20 @@ Read only: **False**
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | workbench_id | The ID of the workbench alert that you would like to update the status for | Required |
-| status | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | Required |
+| status | The status to assign to the workbench alert: `open`, `in_progress`, `closed` | Required |
+| inv_result | The findings of a case or investigation: `no_findings`, `noteworthy`, `true_positive`, `false_positive`, `benign_true_positive` | Required |
 | if_match | The target resource will be updated only if it matches `ETag` of the target | Required |
 
 Example input:
 
     Workbench ID
       WB-14-20190709-00003
+    Status
+      in_progress
+    Inv Result
+      true_positive
     If Match
       33a64df551425fcc55e4d42a148795d9f25f89d4
-    Status
-      New
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
 
@@ -1455,7 +1458,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -2549,9 +2551,10 @@ action_result.data.\*.value | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
 ## action: 'vault sandbox analysis'
+
 Send vault item to sandbox for analysis
 
 Type: **investigate**  
@@ -2560,15 +2563,17 @@ Read only: **True**
 Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**vault_id** |  required  | ID of item in vault | string |  `vault id` 
-**file_name** |  required  | File name of vault item | string | 
-**document_pass** |  optional  | Password for the document | string | 
-**archive_pass** |  optional  | Password for the archive | string | 
-**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string | 
+**vault_id** |  required  | ID of item in vault | string |  `vault id`
+**file_name** |  required  | File name of vault item | string |
+**document_pass** |  optional  | Password for the document | string |
+**archive_pass** |  optional  | Password for the archive | string |
+**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.parameter.vault_id | string |  `vault id`  |  
@@ -2576,7 +2581,7 @@ action_result.parameter.file_name | string |  |
 action_result.parameter.document_pass | string |  |  
 action_result.parameter.archive_pass | string |  |  
 action_result.parameter.arguments | string |  |  
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.data.\*.arguments | string |  |  
 action_result.data.\*.digest | string |  |  
 action_result.data.\*.id | string |  `task id`  |  

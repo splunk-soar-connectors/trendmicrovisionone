@@ -935,17 +935,20 @@ Read only: **False**
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | workbench_id | The ID of the workbench alert that you would like to update the status for | Required |
-| status | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | Required |
+| status | The status to assign to the workbench alert: `open`, `in_progress`, `closed` | Required |
+| inv_result | The findings of a case or investigation: `no_findings`, `noteworthy`, `true_positive`, `false_positive`, `benign_true_positive` | Required |
 | if_match | The target resource will be updated only if it matches `ETag` of the target | Required |
 
 Example input:
 
     Workbench ID
       WB-14-20190709-00003
+    Status
+      in_progress
+    Inv Result
+      true_positive
     If Match
       33a64df551425fcc55e4d42a148795d9f25f89d4
-    Status
-      New
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
 

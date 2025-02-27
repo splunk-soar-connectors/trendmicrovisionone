@@ -1801,21 +1801,34 @@
                     "contains": [
                         "workbench id"
                     ],
-                    "order": 0
+                    "order": 0,
+                    "name": "workbench_id"
                 },
                 "status": {
-                    "description": "The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required)",
+                    "description": "The status of a case or investigation",
                     "data_type": "string",
                     "required": true,
                     "value_list": [
-                        "new",
+                        "open",
                         "in_progress",
-                        "true_positive",
-                        "false_positive",
-                        "benign_true_positive",
                         "closed"
                     ],
-                    "order": 1
+                    "order": 1,
+                    "name": "status"
+                },
+                "inv_result": {
+                    "description": "The findings of a case or investigation",
+                    "data_type": "string",
+                    "required": true,
+                    "value_list": [
+                        "no_findings",
+                        "noteworthy",
+                        "true_posivite",
+                        "false_positive",
+                        "benign_true_positive"
+                    ],
+                    "order": 2,
+                    "name": "inv_result"
                 },
                 "if_match": {
                     "description": "Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required)",
@@ -1825,7 +1838,8 @@
                     "contains": [
                         "etag"
                     ],
-                    "order": 2
+                    "order": 3,
+                    "name": "if_match"
                 }
             },
             "output": [
