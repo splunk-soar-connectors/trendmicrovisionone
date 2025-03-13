@@ -44,12 +44,11 @@ The below configuration variables are required for this Connector to operate. Th
 Configure Trend Vision One on Splunk SOAR
 -----------------------------------------------
 
-1.  Navigate to **Apps** \> **Unconfigured Apps** .
-2.  Search for Trend Vision One.
-3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
-4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
+1. Navigate to **Apps** \> **Unconfigured Apps** .
+2. Search for Trend Vision One.
+3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
+4. ALternatively click on **INSTALL APP** and drop a tarball of the app
 
-  
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
 | **Asset name** | Unique name for this Trend Vision One instance runner asset | True |
@@ -61,7 +60,7 @@ Configure Trend Vision One on Splunk SOAR
 | **API_TOKEN** | Vision One API Token | True |
 | **Polling interval (minutes)** | How often should security incident events be updated from Vision One | False |
 
-1.  Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
+1. Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
 
 ### Supported Actions
 
@@ -144,7 +143,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -152,20 +150,19 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "6.6.6.6",
-          "description": "Block IP"
-        },{
-          "object_type": "domain",
-          "object_value": "hello.com",
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "6.6.6.6",
+        "description": "Block IP"
+      },{
+        "object_type": "domain",
+        "object_value": "hello.com",
+      }]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -193,7 +190,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -201,20 +197,19 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "description": "Remove from blocklist",
-          "object_type": "ip",
-          "object_value": "6.6.6.3"
-        }, {
-          "object_type": "domain",
-          "object_value": "hello.com",
-        }]
+      [{
+        "description": "Remove from blocklist",
+        "object_type": "ip",
+        "object_value": "6.6.6.3"
+      }, {
+        "object_type": "domain",
+        "object_value": "hello.com",
+      }]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -237,7 +232,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -261,7 +255,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -284,7 +277,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -308,7 +300,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -331,7 +322,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -339,19 +329,18 @@ Read only: **False**
 Example input:
 
     Endpoint Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "description": "quarantine device"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "description": "quarantine device"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "description": "quarantine device"
+      }, {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "description": "quarantine device"
+      }]
 
 Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -374,7 +363,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -382,19 +370,18 @@ Read only: **False**
 Example input:
 
     Endpoint Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "description": "Restore endpoint"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "description": "Restore endpoint"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "description": "Restore endpoint"
+      }, {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "description": "Restore endpoint"
+      }]
 
 Note: `endpoint` accepts either agent_guid or hostname. `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -416,7 +403,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | starttime | Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates the start of the data retrieval time range. The available oldest value is “1970-01-01T00:00:00Z” | False |
@@ -425,13 +411,12 @@ Read only: **False**
 Example input:
 
     Start Time
-        2020-01-01T10:00:00Z
-      End Time
-        2023-01-01T10:00:00Z
+      2020-01-01T10:00:00Z
+    End Time
+      2023-01-01T10:00:00Z
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.serialized\_alerts | \[\] List of SAE or TI Alerts | Array of alerts retrieved (awb-workbenchAlertV3) |
@@ -451,7 +436,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `description` | Required |
@@ -459,14 +443,13 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
-        {"object_type": "ip","object_value": "1.1.1.1"}]
+      [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
+      {"object_type": "ip","object_value": "1.1.1.1"}]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -488,7 +471,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` | Required |
@@ -496,14 +478,13 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "1.6.6.3"
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "1.6.6.3"
+      }]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -525,7 +506,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | Required |
@@ -533,20 +513,19 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "risk_level": "high",
-          "object_value": "6.6.6.3"
-          "expiry_days": "30",
-          "scan_action": "block",
-          "description": "Add to suspicious list"
-        }]
+      [{
+        "object_type": "ip",
+        "risk_level": "high",
+        "object_value": "6.6.6.3"
+        "expiry_days": "30",
+        "scan_action": "block",
+        "description": "Add to suspicious list"
+      }]
 
 Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional and default values are provided for each.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -568,7 +547,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type` and `object_value` | Required |
@@ -576,14 +554,13 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "6.6.6.4"
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "6.6.6.4"
+      }]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
@@ -610,18 +587,17 @@ Read only: **False**
 Example input:
 
     Process Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "file_sha1": "984afc7.......95b519a081321"
-          "description": "terminate process",
-          "filename": "exmaplename.txt"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "file_sha1": "984afc7.......95b519a081321"
+        "description": "terminate process",
+        "filename": "exmaplename.txt"
+      }]
 
 Note: `description` and `filename` are optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -649,11 +625,10 @@ Read only: **False**
 Example input:
 
     Task ID
-        8559a7ce-2b85-451b-8742-4b943ad76a22
+      8559a7ce-2b85-451b-8742-4b943ad76a22
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -689,15 +664,14 @@ Read only: **False**
 Example input:
 
     Submit ID
-        8559a7ce-2b85-451b-8742-4b943ad76a22
-      Poll
-        true
-      Poll Time Sec
-        30
+      8559a7ce-2b85-451b-8742-4b943ad76a22
+    Poll
+      true
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the PDF file added to Vault |
@@ -722,20 +696,19 @@ Read only: **False**
 Example input:
 
     Collect Files
-        [{
-          "endpoint": "endpoint123",
-          "file_path": "C:/virus.exe",
-          "description": "collect malicious file"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "file_path": "C:/some_file.exe"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "file_path": "C:/virus.exe",
+        "description": "collect malicious file"
+      }, {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "file_path": "C:/some_file.exe"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -765,15 +738,14 @@ Read only: **False**
 Example input:
 
     Task ID
-        00000012
-      Poll
-        True
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      True
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique numeric string that identifies a response task |
@@ -820,19 +792,18 @@ Read only: **False**
 Example input:
 
     File Url
-        https://someurl.com/file=somefile.bat
-      File Name
-        some_file.bat
-      Document Password
-        cGFzc3dvcmQK
-      Archive Password
-        cGFzc3dvcmQK
-      Arguments
-        IFMlYztbQA==
+      https://someurl.com/file=somefile.bat
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -861,15 +832,14 @@ Read only: **False**
 Example input:
 
     Task ID
-        00000012
-      Poll
-        True
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      True
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*..id | String | Unique numeric string that identifies a response task |
@@ -894,19 +864,18 @@ Read only: **False**
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| endpoint | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required |
+| endpoint | Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>). | Required |
 | query_op | Logical operator to employ in the query. (AND/OR) | Required |
 
 Example input:
 
     Endpoint
-        127.127.127.127,endpoint2,endpoint4
-      Query Op
-        or
+      {"endpointName":"test-endpoint1", "ip":"52.72.139.96"}
+    Query Op
+      or
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.agent\_guid | String | AgentGuid for the endpoint |
@@ -940,13 +909,12 @@ Read only: **False**
 Example input:
 
     Alert ID
-        WB-14-20190709-00003
-      Content
-        Suspected False Positive, please verify
+      WB-14-20190709-00003
+    Content
+      Suspected False Positive, please verify
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.note\_id | String | ID of the newly created note |
@@ -967,23 +935,25 @@ Read only: **False**
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | workbench_id | The ID of the workbench alert that you would like to update the status for | Required |
-| status | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | Required |
+| status | The status to assign to the workbench alert: `open`, `in_progress`, `closed` | Required |
+| inv_result | The findings of a case or investigation: `no_findings`, `noteworthy`, `true_positive`, `false_positive`, `benign_true_positive` | Required |
 | if_match | The target resource will be updated only if it matches `ETag` of the target | Required |
 
 Example input:
 
     Workbench ID
-        WB-14-20190709-00003
-      If Match
-        33a64df551425fcc55e4d42a148795d9f25f89d4
-      Status
-        New
+      WB-14-20190709-00003
+    Status
+      in_progress
+    Inv Result
+      true_positive
+    If Match
+      33a64df551425fcc55e4d42a148795d9f25f89d4
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.message | String | Message notifying of success or failure |
@@ -1007,11 +977,10 @@ Read only: **False**
 Example input:
 
     Workbench ID
-        WB-20837-20221111-0000
+      WB-20837-20221111-0000
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.alert | String | Information associated to the workbenchID provided |
@@ -1037,11 +1006,10 @@ Read only: **False**
 Example input:
 
     URLS
-        ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
+      ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1070,16 +1038,15 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Enable user account"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Enable user account"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1105,18 +1072,17 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtrain.com",
-          "description": "Disable user account"},
-        {
-          "account_name": "jdoe1@testemailtrain.com"
-        }]
+      [{
+        "account_name": "jdoe@testemailtrain.com",
+        "description": "Disable user account"},
+      {
+        "account_name": "jdoe1@testemailtrain.com"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1158,7 +1124,6 @@ Note: `description` is optional and a default value is provided. When providing 
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1184,16 +1149,15 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Sign out account"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Sign out account"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1219,16 +1183,15 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Force password reset"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Force password reset"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action. |
@@ -1256,17 +1219,16 @@ Read only: **False**
 Example input:
 
     Submit ID
-        90406723-2b29-4e85-b0b2-ba58af8f63df
-      Poll
-        false
-      Poll Time Sec
-        0
+      90406723-2b29-4e85-b0b2-ba58af8f63df
+    Poll
+      false
+    Poll Time Sec
+      0
 
 Note: Suspicious Object Lists are only available for objects with a high risk level.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.risk\_level | String | Risk Level of suspicious object |
@@ -1298,15 +1260,14 @@ Read only: **False**
 Example input:
 
     Report ID
-        90406723-2b29-4e85-b0b2-ba58af8f63df
-      Poll
-        False
-      Poll Time Sec
-        0
+      90406723-2b29-4e85-b0b2-ba58af8f63df
+    Poll
+      False
+    Poll Time Sec
+      0
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies the analysis results of a submitted object |
@@ -1341,15 +1302,14 @@ Read only: **False**
 Example input:
 
     Submit ID
-        00000012
-      Poll
-        true
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      true
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the .zip file added to Vault |
@@ -1372,7 +1332,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to suspicious list |
@@ -1402,7 +1361,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to exception list |
@@ -1453,7 +1411,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |

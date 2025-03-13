@@ -1,4 +1,4 @@
-[comment]: # "Auto-generated SOAR connector documentation"
+
 # Trend Vision One for Splunk SOAR
 
 Publisher: Trend Micro  
@@ -6,7 +6,7 @@ Connector Version: 2.3.0
 Product Vendor: Trend Micro  
 Product Name: VisionOne  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.2.2  
+Minimum Product Version: 6.3.0
 
 Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
 
@@ -56,12 +56,11 @@ The below configuration variables are required for this Connector to operate. Th
 Configure Trend Vision One on Splunk SOAR
 -----------------------------------------------
 
-1.  Navigate to **Apps** \> **Unconfigured Apps** .
-2.  Search for Trend Vision One.
-3.  Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
-4.  ALternatively click on **INSTALL APP** and drop a tarball of the app
+1. Navigate to **Apps** \> **Unconfigured Apps** .
+2. Search for Trend Vision One.
+3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
+4. ALternatively click on **INSTALL APP** and drop a tarball of the app
 
-  
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
 | **Asset name** | Unique name for this Trend Vision One instance runner asset | True |
@@ -73,7 +72,7 @@ Configure Trend Vision One on Splunk SOAR
 | **API_TOKEN** | Vision One API Token | True |
 | **Polling interval (minutes)** | How often should security incident events be updated from Vision One | False |
 
-1.  Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
+1. Click **TEST CONNECTIVITY** to validate the URLs, token, and connection.
 
 ### Supported Actions
 
@@ -118,7 +117,8 @@ Commands
 
 You can execute these commands from the Splunk SOAR CLI, as part of an automation, or in a playbook.
 
-Action: Test Connectivity
+## Action: Test Connectivity
+
 -------------------------
 
 Validate the asset configuration for connectivity using supplied configuration variables.
@@ -136,7 +136,8 @@ Read only: **True**
 | --- | --- | --- |
 | N/A |     |     |
 
-Action: Add To Blocklist
+## Action: Add To Blocklist
+
 ------------------------
 
 Add object(s) to blocklist.
@@ -156,7 +157,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -164,20 +164,19 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "6.6.6.6",
-          "description": "Block IP"
-        },{
-          "object_type": "domain",
-          "object_value": "hello.com",
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "6.6.6.6",
+        "description": "Block IP"
+      },{
+        "object_type": "domain",
+        "object_value": "hello.com",
+      }]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -185,7 +184,8 @@ Note: `description` is optional and a default value is automatically provided.
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter.
 
-Action: Remove From Blocklist
+## Action: Remove From Blocklist
+
 -----------------------------
 
 Remove object(s) from blocklist.
@@ -205,7 +205,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object made up of `object_type`, `object_value` and `description` | Required |
@@ -213,20 +212,19 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "description": "Remove from blocklist",
-          "object_type": "ip",
-          "object_value": "6.6.6.3"
-        }, {
-          "object_type": "domain",
-          "object_value": "hello.com",
-        }]
+      [{
+        "description": "Remove from blocklist",
+        "object_type": "ip",
+        "object_value": "6.6.6.3"
+      }, {
+        "object_type": "domain",
+        "object_value": "hello.com",
+      }]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -234,7 +232,8 @@ Note: `description` is optional and a default value is automatically provided.
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter.
 
-Action: Quarantine Email Message
+## Action: Quarantine Email Message
+
 --------------------------------
 
 Quarantine email message(s).
@@ -249,7 +248,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -273,7 +271,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -281,7 +278,8 @@ Note: `description` is optional and a default value is automatically provided. I
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter.
 
-Action: Delete Email Message
+## Action: Delete Email Message
+
 ----------------------------
 
 Delete email message(s).
@@ -296,7 +294,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | email_identifiers | Object containing `message_id`, `mailbox` and `description` or `unique_id` and `description` | Required |
@@ -320,7 +317,6 @@ Note: `description` is optional and a default value is automatically provided. I
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -328,7 +324,8 @@ Note: `description` is optional and a default value is automatically provided. I
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter.
 
-Action: Quarantine Device
+## Action: Quarantine Device
+
 -------------------------
 
 Quarantine endpoint(s).
@@ -343,7 +340,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -351,19 +347,18 @@ Read only: **False**
 Example input:
 
     Endpoint Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "description": "quarantine device"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "description": "quarantine device"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "description": "quarantine device"
+      }, {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "description": "quarantine device"
+      }]
 
 Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*status | Numeric | HTTP status code for the action |
@@ -371,7 +366,8 @@ Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a 
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter. Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes` .
 
-Action: Unquarantine Device
+## Action: Unquarantine Device
+
 ---------------------------
 
 Restore endpoint(s) connectivity.
@@ -386,7 +382,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | endpoint_identifiers | Object containing of `endpoint` (hostname) and `description` or `agent_guid` and `description` | Required |
@@ -394,19 +389,19 @@ Read only: **False**
 Example input:
 
     Endpoint Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "description": "Restore endpoint"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "description": "Restore endpoint"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "description": "Restore endpoint"
+      },
+      {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "description": "Restore endpoint"
+      }]
 
 Note: `endpoint` accepts either agent_guid or hostname. `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -414,7 +409,8 @@ Note: `endpoint` accepts either agent_guid or hostname. `description` is optiona
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter. Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes` .
 
-Action: On Poll
+## Action: On Poll
+
 ---------------
 
 This polls information about workbench alerts that match the specified criteria in a paginated list.
@@ -428,7 +424,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | starttime | Datetime in ISO 8601 format (yyyy-MM-ddThh:mm:ssZ in UTC) that indicates the start of the data retrieval time range. The available oldest value is “1970-01-01T00:00:00Z” | False |
@@ -437,18 +432,18 @@ Read only: **False**
 Example input:
 
     Start Time
-        2020-01-01T10:00:00Z
-      End Time
-        2023-01-01T10:00:00Z
+      2020-01-01T10:00:00Z
+    End Time
+      2023-01-01T10:00:00Z
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.serialized\_alerts | \[\] List of SAE or TI Alerts | Array of alerts retrieved (awb-workbenchAlertV3) |
 
-Action: Add To Exception
+## Action: Add To Exception
+
 ------------------------
 
 Add object(s) to exception list.
@@ -463,7 +458,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `description` | Required |
@@ -471,21 +465,21 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
-        {"object_type": "ip","object_value": "1.1.1.1"}]
+      [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
+      {"object_type": "ip","object_value": "1.1.1.1"}]
 
 Note: `description` is optional and a default value is automatically provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.multi\_response.*.task_id | N/A | Null |
 | action\_result.data.multi\_response.*.total_count | Numeric | Total count of items in exception list |
 
-Action: Delete From Exception
+## Action: Delete From Exception
+
 -----------------------------
 
 Delete object(s) from exception list.
@@ -500,7 +494,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` | Required |
@@ -508,21 +501,21 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "1.6.6.3"
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "1.6.6.3"
+      }]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.multi\_response.*.task_id | N/A | Null |
 | action\_result.data.multi\_response.*.total_count | Numeric | Total count of objects in exception list |
 
-Action: Add To Suspicious
+## Action: Add To Suspicious
+
 -------------------------
 
 Add object(s) to suspicious list.
@@ -537,7 +530,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type`, `object_value` and `scan_action`, `risk_level`, `expiry_days` and `description` | Required |
@@ -545,27 +537,27 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "risk_level": "high",
-          "object_value": "6.6.6.3"
-          "expiry_days": "30",
-          "scan_action": "block",
-          "description": "Add to suspicious list"
-        }]
+      [{
+        "object_type": "ip",
+        "risk_level": "high",
+        "object_value": "6.6.6.3"
+        "expiry_days": "30",
+        "scan_action": "block",
+        "description": "Add to suspicious list"
+      }]
 
 Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional and default values are provided for each.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.multi\_response.*.task_id | N/A | Null |
 | action\_result.data.multi\_response.*.total_count | Numeric | Total count of objects in suspicious list |
 
-Action: Delete From Suspicious
+## Action: Delete From Suspicious
+
 ------------------------------
 
 Delete object(s) from suspicious list.
@@ -580,7 +572,6 @@ Read only: **False**
 
 #### Input
 
-  
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | block_objects | Object consisting of `object_type` and `object_value` | Required |
@@ -588,21 +579,21 @@ Read only: **False**
 Example input:
 
     Block Objects
-        [{
-          "object_type": "ip",
-          "object_value": "6.6.6.4"
-        }]
+      [{
+        "object_type": "ip",
+        "object_value": "6.6.6.4"
+      }]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.multi\_response.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.multi\_response.*.task_id | N/A | Null |
 | action\_result.data.multi\_response.*.total_count | Numeric | Total count of objects in suspicious list |
 
-Action: Terminate Process
+## Action: Terminate Process
+
 -------------------------
 
 Terminate process(es) running on endpoint(s).
@@ -622,18 +613,17 @@ Read only: **False**
 Example input:
 
     Process Identifiers
-        [{
-          "endpoint": "endpoint123",
-          "file_sha1": "984afc7.......95b519a081321"
-          "description": "terminate process",
-          "filename": "exmaplename.txt"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "file_sha1": "984afc7.......95b519a081321"
+        "description": "terminate process",
+        "filename": "exmaplename.txt"
+      }]
 
 Note: `description` and `filename` are optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -641,7 +631,8 @@ Note: `description` and `filename` are optional and a default value is provided.
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter. Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout is `20 minutes` .
 
-Action: Check Analysis Status
+## Action: Check Analysis Status
+
 -----------------------------
 
 Get the status of a sandbox submission based on task_id.
@@ -661,11 +652,10 @@ Read only: **False**
 Example input:
 
     Task ID
-        8559a7ce-2b85-451b-8742-4b943ad76a22
+      8559a7ce-2b85-451b-8742-4b943ad76a22
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -679,7 +669,8 @@ Example input:
 | action_result.data.*.arguments | String | Arguments for the file submitted |
 | action_result.data.*.error | String | Error code and message for the submission |
 
-Action: Download Analysis Report
+## Action: Download Analysis Report
+
 --------------------------------
 
 Get the analysis report of a file based on report id.
@@ -701,20 +692,20 @@ Read only: **False**
 Example input:
 
     Submit ID
-        8559a7ce-2b85-451b-8742-4b943ad76a22
-      Poll
-        true
-      Poll Time Sec
-        30
+      8559a7ce-2b85-451b-8742-4b943ad76a22
+    Poll
+      true
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the PDF file added to Vault |
 
-Action: Collect Forensic File
+## Action: Collect Forensic File
+
 -----------------------------
 
 Collect forensic file.
@@ -734,20 +725,19 @@ Read only: **False**
 Example input:
 
     Collect Files
-        [{
-          "endpoint": "endpoint123",
-          "file_path": "C:/virus.exe",
-          "description": "collect malicious file"
-        }, {
-          "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-          "file_path": "C:/some_file.exe"
-        }]
+      [{
+        "endpoint": "endpoint123",
+        "file_path": "C:/virus.exe",
+        "description": "collect malicious file"
+      }, {
+        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+        "file_path": "C:/some_file.exe"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -755,7 +745,8 @@ Note: `description` is optional and a default value is provided.
 
 Note: To get the complete task status run polling command `status check` giving `taskId` as input parameter. Note: The above command should be added with execution timeout in the advanced field of playbook execution. The recommended timeout be `20 minutes` .
 
-Action: Forensic File Info
+## Action: Forensic File Info
+
 --------------------------
 
 Get the download information for collected forensic file.
@@ -777,15 +768,14 @@ Read only: **False**
 Example input:
 
     Task ID
-        00000012
-      Poll
-        True
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      True
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique numeric string that identifies a response task |
@@ -808,7 +798,8 @@ Example input:
 
 Note: The URL received from the ‘trendmicro-visionone-download-information-for-collected-forensic-file’ will be valid for only `60 seconds`
 
-Action: Start Analysis
+## Action: Start Analysis
+
 ----------------------
 
 Submit file to sandbox for analysis.
@@ -832,26 +823,26 @@ Read only: **False**
 Example input:
 
     File Url
-        https://someurl.com/file=somefile.bat
-      File Name
-        some_file.bat
-      Document Password
-        cGFzc3dvcmQK
-      Archive Password
-        cGFzc3dvcmQK
-      Arguments
-        IFMlYztbQA==
+      https://someurl.com/file=somefile.bat
+    File Name
+      some_file.bat
+    Document Password
+      cGFzc3dvcmQK
+    Archive Password
+      cGFzc3dvcmQK
+    Arguments
+      IFMlYztbQA==
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
 | action_result.data.*.digest | String | object (sandbox-digest) |
 | action_result.data.*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
 
-Action: Status Check
+## Action: Status Check
+
 --------------------
 
 Check the status of a task.
@@ -873,15 +864,14 @@ Read only: **False**
 Example input:
 
     Task ID
-        00000012
-      Poll
-        True
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      True
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*..id | String | Unique numeric string that identifies a response task |
@@ -892,7 +882,8 @@ Example input:
 | action_result.data.*..description | String | Description of a response task |
 | action_result.data.*..account | String | User that triggered the response |
 
-Action: Get Endpoint Info
+## Action: Get Endpoint Info
+
 -------------------------
 
 Gather information about an endpoint.
@@ -906,19 +897,18 @@ Read only: **False**
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| endpoint | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required |
+| Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>). | Required |
 | query_op | Logical operator to employ in the query. (AND/OR) | Required |
 
 Example input:
 
     Endpoint
-        127.127.127.127,endpoint2,endpoint4
-      Query Op
-        or
+      {"endpointName":"test-endpoint1", "ip":"52.72.139.96"}
+    Query Op
+      or
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.agent\_guid | String | AgentGuid for the endpoint |
@@ -932,7 +922,8 @@ Example input:
 | action\_result.data.*.product\_code | String | 3-character code that identifies Trend Micro products |
 | action\_result.data.*.installed\_product_codes | String | 3-character code that identifies the installed Trend Micro products on an endpoint |
 
-Action: Add Note
+## Action: Add Note
+
 ----------------
 
 Adds a note to an existing workbench alert.
@@ -952,19 +943,19 @@ Read only: **False**
 Example input:
 
     Alert ID
-        WB-14-20190709-00003
-      Content
-        Suspected False Positive, please verify
+      WB-14-20190709-00003
+    Content
+      Suspected False Positive, please verify
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.note\_id | String | ID of the newly created note |
 | action_result.data.*.message | String | Response message for the action taken |
 
-Action: Update Status
+## Action: Update Status
+
 ---------------------
 
 Updates the status of an existing workbench alert.
@@ -979,28 +970,31 @@ Read only: **False**
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | workbench_id | The ID of the workbench alert that you would like to update the status for | Required |
-| status | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | Required |
+| status | The status to assign to the workbench alert: `open`, `in_progress`, `closed` | Required |
+| inv_result | The findings of a case or investigation: `no_findings`, `noteworthy`, `true_positive`, `false_positive`, `benign_true_positive` | Required |
 | if_match | The target resource will be updated only if it matches `ETag` of the target | Required |
 
 Example input:
 
     Workbench ID
-        WB-14-20190709-00003
-      If Match
-        33a64df551425fcc55e4d42a148795d9f25f89d4
-      Status
-        New
+      WB-14-20190709-00003
+    Status
+      in_progress
+    Inv Result
+      true_positive
+    If Match
+      33a64df551425fcc55e4d42a148795d9f25f89d4
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.message | String | Message notifying of success or failure |
 
-Action: Get Alert Details
+## Action: Get Alert Details
+
 -------------------------
 
 Displays information about a specified alert.
@@ -1019,17 +1013,17 @@ Read only: **False**
 Example input:
 
     Workbench ID
-        WB-20837-20221111-0000
+      WB-20837-20221111-0000
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.alert | String | Information associated to the workbenchID provided |
 | action_result.data.*.etag | String | An identifier for a specific version of a Workbench alert resource |
 
-Action: Urls To Sandbox
+## Action: Urls To Sandbox
+
 -----------------------
 
 Submits URLs to the sandbox for analysis.
@@ -1049,11 +1043,10 @@ Read only: **False**
 Example input:
 
     URLS
-        ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
+      ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
@@ -1062,7 +1055,8 @@ Example input:
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
 | action_result.data.*.digest | String | object (sandbox-digest) |
 
-Action: Enable Account
+## Action: Enable Account
+
 ----------------------
 
 Allow the user(s) to sign in to new application and browser sessions.
@@ -1082,22 +1076,22 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Enable user account"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Enable user account"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.*.task\_id | String | Task ID generated after enabling a user account |
 
-Action: Disable Account
+## Action: Disable Account
+
 -----------------------
 
 Sign out user(s) of all active application and browser sessions, and prevent the user(s) from signing in any new session.
@@ -1117,24 +1111,24 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtrain.com",
-          "description": "Disable user account"},
-        {
-          "account_name": "jdoe1@testemailtrain.com"
-        }]
+      [{
+        "account_name": "jdoe@testemailtrain.com",
+        "description": "Disable user account"},
+      {
+        "account_name": "jdoe1@testemailtrain.com"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.*.task\_id | String | Task ID generated after disabling a user account |
 
-Action: Restore Email Message
+## Action: Restore Email Message
+
 -----------------------------
 
 Restore quarantined email message(s).
@@ -1170,13 +1164,13 @@ Note: `description` is optional and a default value is provided. When providing 
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.*.task\_id | String | Task ID generated after restoring an email |
 
-Action: Sign Out Account
+## Action: Sign Out Account
+
 ------------------------
 
 **API key role permissions required: Response Management**
@@ -1196,22 +1190,22 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Sign out account"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Sign out account"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action |
 | action\_result.data.*.task\_id | String | Task ID generated after signing out user account |
 
-Action: Force Password Reset
+## Action: Force Password Reset
+
 ----------------------------
 
 Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt.
@@ -1231,22 +1225,22 @@ Read only: **False**
 Example input:
 
     Account Identifiers
-        [{
-          "account_name": "jdoe@testemailtest.com",
-          "description": "Force password reset"
-        }]
+      [{
+        "account_name": "jdoe@testemailtest.com",
+        "description": "Force password reset"
+      }]
 
 Note: `description` is optional and a default value is provided.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.status | Numeric | HTTP status code for the action. |
 | action\_result.data.*.task\_id | String | Task ID generated after forcing a password reset |
 
-Action: Sandbox Suspicious List
+## Action: Sandbox Suspicious List
+
 -------------------------------
 
 Downloads the suspicious object list associated to the specified object.
@@ -1268,17 +1262,16 @@ Read only: **False**
 Example input:
 
     Submit ID
-        90406723-2b29-4e85-b0b2-ba58af8f63df
-      Poll
-        false
-      Poll Time Sec
-        0
+      90406723-2b29-4e85-b0b2-ba58af8f63df
+    Poll
+      false
+    Poll Time Sec
+      0
 
 Note: Suspicious Object Lists are only available for objects with a high risk level.
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.risk\_level | String | Risk Level of suspicious object |
@@ -1288,7 +1281,8 @@ Note: Suspicious Object Lists are only available for objects with a high risk le
 | action_result.data.*.type | String | Type of item submitted to sandbox for analysis |
 | action_result.data.*.value | String | Value of item submitted to sandbox for analysis |
 
-Action: Sandbox Analysis Result
+## Action: Sandbox Analysis Result
+
 -------------------------------
 
 Displays the analysis results of the specified object.
@@ -1310,15 +1304,14 @@ Read only: **False**
 Example input:
 
     Report ID
-        90406723-2b29-4e85-b0b2-ba58af8f63df
-      Poll
-        False
-      Poll Time Sec
-        0
+      90406723-2b29-4e85-b0b2-ba58af8f63df
+    Poll
+      False
+    Poll Time Sec
+      0
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies the analysis results of a submitted object |
@@ -1331,7 +1324,8 @@ Example input:
 | action\_result.data.*.threat\_types | String | The threat type as detected by the sandbox |
 | action\_result.data.*.true\_file_type | String | File Type of the Object |
 
-Action: Sandbox Investigation Package
+## Action: Sandbox Investigation Package
+
 -------------------------------------
 
 Downloads the Investigation Package of the specified object.
@@ -1353,20 +1347,20 @@ Read only: **False**
 Example input:
 
     Submit ID
-        00000012
-      Poll
-        true
-      Poll Time Sec
-        30
+      00000012
+    Poll
+      true
+    Poll Time Sec
+      30
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action\_result.data.*.file\_added | String | Name of the .zip file added to Vault |
 
-Action: Get Suspicious List
+## Action: Get Suspicious List
+
 ---------------------------
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.
@@ -1384,7 +1378,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to suspicious list |
@@ -1396,7 +1389,8 @@ Read only: **True**
 | action\_result.data.*.in\_exception_list | String | Value that indicates if a suspicious object is in the exception list |
 | action\_result.data.*.expired\_date_time | String | Timestamp in ISO 8601 format that indicates when the suspicious object expires |
 
-Action: Get Exception List
+## Action: Get Exception List
+
 --------------------------
 
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.
@@ -1414,7 +1408,6 @@ Read only: **True**
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.value | String | Value that was submitted to exception list |
@@ -1465,7 +1458,6 @@ Example input:
 
 #### Context Output
 
-  
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | action_result.data.*.id | String | Unique alphanumeric string that identifies a submission |
@@ -1475,14 +1467,16 @@ Example input:
 * * *
 
 ### Configuration Variables
+
 The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a VisionOne asset in SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
-**api_url** |  required  | string | Vision One API URL (e.g. https://api.xdr.trendmicro.com)
+**api_url** |  required  | string | Vision One API URL (e.g. <https://api.xdr.trendmicro.com>)
 **api_key** |  required  | password | Vision One API Token
 
 ### Supported Actions  
+
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
 [get endpoint info](#action-get-endpoint-info) - Gather information about an endpoint  
 [quarantine device](#action-quarantine-device) - Quarantine the endpoint  
@@ -1519,7 +1513,8 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 [get exception list](#action-get-exception-list) - Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list  
 [vault sandbox analysis](#action-vault-sandbox-analysis) - Send vault item to sandbox for analysis  
 
-## action: 'test connectivity'
+## Action: 'test connectivity'
+
 Validate the asset configuration for connectivity using supplied configuration
 
 Type: **test**  
@@ -1528,12 +1523,15 @@ Read only: **True**
 Validate the asset configuration for connectivity using supplied configuration.
 
 #### Action Parameters
+
 No parameters are required for this action
 
 #### Action Output
+
 No Output  
 
-## action: 'get endpoint info'
+## Action: 'get endpoint info'
+
 Gather information about an endpoint
 
 Type: **generic**  
@@ -1542,15 +1540,17 @@ Read only: **False**
 Gather information about an endpoint.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip_hostname_mac** |  required  | Hostname/IP/MAC/AgentGuid of the endpoint(s) to query. (Required) | string |  `ip`  `mac address`  `host name`  `agent guid` 
-**query_op** |  required  | Query Operator. (Required) | string |  `query op` 
+**ip_hostname_mac** |  required  | Hostname/IP/MAC/AgentGuid of the endpoint(s) to query. (Required) | string |  `ip`  `mac address`  `host name`  `agent guid`
+**query_op** |  required  | Query Operator. (Required) | string |  `query op`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.ip_hostname_mac | string |  `ip`  `mac address`  `host name`  `agent guid`  |  
 action_result.parameter.query_op | string |  `query op`  |  
 action_result.data.\*.agent_guid | string |  `agent guid`  |  
@@ -1566,9 +1566,10 @@ action_result.data.\*.product_code | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'quarantine device'
+## Action: 'quarantine device'
+
 Quarantine the endpoint
 
 Type: **contain**  
@@ -1577,23 +1578,26 @@ Read only: **False**
 Quarantine the endpoint.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**endpoint_identifiers** |  required  | Object containing endpoint (hostname) and description or agent_guid and description. (Required) | string |  `ip`  `mac address`  `host name`  `agent guid` 
+**endpoint_identifiers** |  required  | Object containing endpoint (hostname) and description or agent_guid and description. e.g. {"endpoint":"test-endpoint","description":"isolate endpoint"}] | string |  `ip`  `macAddress`  `endpointName`  `agentGuid`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.endpoint_identifiers | string |  `ip`  `mac address`  `host name`  `agent guid`  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'unquarantine device'
+## Action: 'unquarantine device'
+
 Unquarantine the endpoint
 
 Type: **correct**  
@@ -1602,23 +1606,26 @@ Read only: **False**
 Unquarantine the endpoint.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**endpoint_identifiers** |  required  | Object containing endpoint (hostname) and description or agent_guid and description. (Required) | string |  `ip`  `mac address`  `host name`  `agent guid` 
+**endpoint_identifiers** |  required  | Object containing endpoint (hostname) and description or agent_guid and description. (Required) | string |  `ip`  `mac address`  `host name`  `agent guid`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.endpoint_identifiers | string |  `ip`  `mac address`  `host name`  `agent guid`  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'on poll'
+## Action: 'on poll'
+
 Callback action for the on_poll ingest functionality
 
 Type: **ingest**  
@@ -1627,15 +1634,18 @@ Read only: **True**
 Callback action for the on_poll ingest functionality.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**starttime** |  optional  | Make sure time format matches following example. 2020-06-15T10:00:00Z | string | 
-**endtime** |  optional  | Make sure time format matches following example. 2020-06-15T12:00:00Z | string | 
+**starttime** |  optional  | Make sure time format matches following example. 2020-06-15T10:00:00Z | string |
+**endtime** |  optional  | Make sure time format matches following example. 2020-06-15T12:00:00Z | string |
 
 #### Action Output
+
 No Output  
 
-## action: 'status check'
+## Action: 'status check'
+
 Checks the status of a task
 
 Type: **investigate**  
@@ -1644,16 +1654,18 @@ Read only: **False**
 Checks the status of a particular task.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**task_id** |  required  | ID of the task you would like to get the status of. (Required) | string |  `task status id` 
-**poll** |  required  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**task_id** |  required  | ID of the task you would like to get the status of. (Required) | string |  `task status id`
+**poll** |  required  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.task_id | string |  `task status id`  |  
@@ -1667,9 +1679,10 @@ action_result.data.\*.status | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'add to blocklist'
+## Action: 'add to blocklist'
+
 Adds an item to the Suspicious Objects list in Vision One
 
 Type: **contain**  
@@ -1678,23 +1691,26 @@ Read only: **False**
 Adds an item from the Trend Vision One Suspicious Objects list.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required) | string | 
+**block_objects** |  required  | Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'remove from blocklist'
+## Action: 'remove from blocklist'
+
 Removes an item from the Suspicious Objects list
 
 Type: **correct**  
@@ -1703,23 +1719,26 @@ Read only: **False**
 Removes an item from the Trend Vision One Suspicious Objects list.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required) | string | 
+**block_objects** |  required  | Object made up of object_type (domain,ip,file_sha1,url,sender_mail_address), object_value and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'quarantine email message'
+## Action: 'quarantine email message'
+
 Quarantine the email message
 
 Type: **contain**  
@@ -1728,23 +1747,26 @@ Read only: **False**
 Retrieve data from the quarantine email message and send the result to dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.email_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'delete email message'
+## Action: 'delete email message'
+
 Delete the email message
 
 Type: **correct**  
@@ -1753,23 +1775,26 @@ Read only: **False**
 Retrieve data from the delete email message and relay result to Splunk.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.email_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'terminate process'
+## Action: 'terminate process'
+
 Terminate the process running on the endpoint
 
 Type: **contain**  
@@ -1778,23 +1803,26 @@ Read only: **False**
 Terminate the process running on the endpoint and send results to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**process_identifiers** |  required  | Object consisting of endpoint (hostname) or agent_guid, file_sha1, filename and description. (Required) | string |  `host name`  `file sha1`  `file name` 
+**process_identifiers** |  required  | Object consisting of endpoint (hostname) or agent_guid, file_sha1, filename and description. (Required) | string |  `host name`  `file sha1`  `file name`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.process_identifiers | string |  `host name`  `file sha1`  `file name`  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'add to exception'
+## Action: 'add to exception'
+
 Add object to exception list
 
 Type: **correct**  
@@ -1803,14 +1831,16 @@ Read only: **False**
 Add the exception object to the exception list and send the result to Splunk.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and description. (Required) | string | 
+**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.multi_response.\*.status | numeric |  |  
 action_result.data.\*.multi_response.\*.task_id | string |  |  
@@ -1818,9 +1848,10 @@ action_result.data.\*.total_count | numeric |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'delete from exception'
+## Action: 'delete from exception'
+
 Delete object from exception list
 
 Type: **correct**  
@@ -1829,14 +1860,16 @@ Read only: **False**
 Delete the exception object from the exception list and relay data to Splunk.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required) | string | 
+**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.multi_response.\*.status | numeric |  |  
 action_result.data.\*.multi_response.\*.task_id | string |  |  
@@ -1844,9 +1877,10 @@ action_result.data.\*.total_count | numeric |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'add to suspicious'
+## Action: 'add to suspicious'
+
 Add suspicious object to suspicious list
 
 Type: **contain**  
@@ -1855,14 +1889,16 @@ Read only: **False**
 Add suspicious object to suspicious list and send the result to dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and scan_action, risk_level, expiry_days and description. (Required) | string | 
+**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address), object_value and scan_action, risk_level, expiry_days and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.multi_response.\*.status | numeric |  |  
 action_result.data.\*.multi_response.\*.task_id | string |  `task status id`  |  
@@ -1870,9 +1906,10 @@ action_result.data.\*.total_count | numeric |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'delete from suspicious'
+## Action: 'delete from suspicious'
+
 Delete the suspicious object from suspicious list
 
 Type: **correct**  
@@ -1881,14 +1918,16 @@ Read only: **False**
 Delete the suspicious object from suspicious list and send the result to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required) | string | 
+**block_objects** |  required  | Object consisting of object_type (domain,ip,url,file_sha1,file_sha256,sender_mail_address) and object_value. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.block_objects | string |  |  
 action_result.data.\*.multi_response.\*.status | numeric |  |  
 action_result.data.\*.multi_response.\*.task_id | string |  `task status id`  |  
@@ -1896,9 +1935,10 @@ action_result.data.\*.total_count | numeric |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'check analysis status'
+## Action: 'check analysis status'
+
 Get the status of file analysis based on task id
 
 Type: **investigate**  
@@ -1907,14 +1947,16 @@ Read only: **False**
 Get the status of file analysis based on task id and send result to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**task_id** |  required  | ID generated from the start_analysis action. Submission ID in Vision One. (Required) | string |  `submit id`  `report id`  `task id` 
+**task_id** |  required  | ID generated from the start_analysis action. Submission ID in Vision One. (Required) | string |  `submit id`  `report id`  `task id`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.task_id | string |  `submit id`  `report id`  `task id`  |  
 action_result.data.\*.action | string |  |  
 action_result.data.\*.arguments | string |  |  
@@ -1927,9 +1969,10 @@ action_result.data.\*.status | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'download analysis report'
+## Action: 'download analysis report'
+
 Get the analysis report of a file based on report id
 
 Type: **investigate**  
@@ -1938,16 +1981,18 @@ Read only: **False**
 Get the analysis report of a file based on report id and send the results to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**submit_id** |  required  | ID of the sandbox submission retrieved from check_analysis_status action. (Required) | string |  `submit id` 
-**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**submit_id** |  required  | ID of the sandbox submission retrieved from check_analysis_status action. (Required) | string |  `submit id`
+**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.submit_id | string |  `submit id`  |  
@@ -1955,9 +2000,10 @@ action_result.data.\*.file_added | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'collect forensic file'
+## Action: 'collect forensic file'
+
 Collect forensic file
 
 Type: **investigate**  
@@ -1966,23 +2012,26 @@ Read only: **False**
 Collect forensic file and send result to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**collect_files** |  required  | Object containing endpoint (hostname) or agent_guid, file_path and description. (Required) | string |  `host name`  `agent guid`  `file path`  `description` 
+**collect_files** |  required  | Object containing endpoint (hostname) or agent_guid, file_path and description. (Required) | string |  `host name`  `agent guid`  `file path`  `description`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.collect_files | string |  `host name`  `agent guid`  `file path`  `description`  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `forensic id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'forensic file info'
+## Action: 'forensic file info'
+
 Get the download information for collected forensic file
 
 Type: **investigate**  
@@ -1991,16 +2040,18 @@ Read only: **False**
 Get the download information for collected forensic file and send the result to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**task_id** |  required  | Task ID output from collect_forensic_file action. (Required) | string |  `forensic id` 
-**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**task_id** |  required  | Task ID output from collect_forensic_file action. (Required) | string |  `forensic id`
+**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.task_id | string |  `forensic id`  |  
@@ -2024,9 +2075,10 @@ action_result.data.\*.status | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'start analysis'
+## Action: 'start analysis'
+
 Submit file to sandbox for analysis
 
 Type: **investigate**  
@@ -2035,18 +2087,20 @@ Read only: **False**
 Submit file to sandbox for analysis and send the result to the dashboard.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**file_url** |  required  | URL pointing to the location of the file to be submitted. (Required) | string |  `file url` 
-**file_name** |  required  | Name of the file to be analyzed. (Required) | string | 
-**document_pass** |  optional  | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional) | string | 
-**archive_pass** |  optional  | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional) | string | 
-**arguments** |  optional  | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. (Optional) | string | 
+**file_url** |  required  | URL pointing to the location of the file to be submitted. (Required) | string |  `file url`
+**file_name** |  required  | Name of the file to be analyzed. (Required) | string |
+**document_pass** |  optional  | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional) | string |
+**archive_pass** |  optional  | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding. (Optional) | string |
+**arguments** |  optional  | Parameter that allows you to specify Base64-encoded command line arguments to run the submitted file. The maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files. (Optional) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.archive_pass | string |  |  
 action_result.parameter.arguments | string |  |  
 action_result.parameter.document_pass | string |  |  
@@ -2058,9 +2112,10 @@ action_result.data.\*.id | string |  `task id`  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'add note'
+## Action: 'add note'
+
 Adds a note to an existing workbench alert
 
 Type: **generic**  
@@ -2069,15 +2124,17 @@ Read only: **False**
 Adds a note to an existing workbench alert in Trend Vision One.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**workbench_id** |  required  | Workbench id of security incident in Vision One. (Required) | string |  `workbench id` 
-**content** |  required  | Note to be added to workbench event. (Required) | string | 
+**workbench_id** |  required  | Workbench id of security incident in Vision One. (Required) | string |  `workbench id`
+**content** |  required  | Note to be added to workbench event. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.content | string |  |  
 action_result.parameter.workbench_id | string |  `workbench id`  |  
 action_result.data.\*.message | string |  |  
@@ -2085,9 +2142,10 @@ action_result.data.\*.note_id | string |  `note id`  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'update status'
+## Action: 'update status'
+
 Updates the status of an existing workbench alert
 
 Type: **correct**  
@@ -2096,16 +2154,18 @@ Read only: **False**
 Updates the status of an existing workbench alert in Trend Vision One.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**workbench_id** |  required  | The ID of the workbench alert that you would like to update the status for. (Required) | string |  `workbench id` 
-**status** |  required  | The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required) | string | 
-**if_match** |  required  | Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required) | string |  `etag` 
+**workbench_id** |  required  | The ID of the workbench alert that you would like to update the status for. (Required) | string |  `workbench id`
+**status** |  required  | The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required) | string |
+**if_match** |  required  | Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required) | string |  `etag`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.if_match | string |  `etag`  |  
 action_result.parameter.status | string |  |  
 action_result.parameter.workbench_id | string |  `workbench id`  |  
@@ -2113,9 +2173,10 @@ action_result.data.\*.message | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'get alert details'
+## Action: 'get alert details'
+
 Displays information about the specified alert
 
 Type: **investigate**  
@@ -2124,40 +2185,45 @@ Read only: **False**
 Displays information about the specified alert.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**workbench_id** |  required  | ID of the workbench alert you would like to get the details for. (Required) | string |  `workbench id` 
+**workbench_id** |  required  | ID of the workbench alert you would like to get the details for. (Required) | string |  `workbench id`
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.workbench_id | string |  `workbench id`  |  
 action_result.data.\*.alert | string |  |  
 action_result.data.\*.etag | string |  `etag`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'urls to sandbox'
+## Action: 'urls to sandbox'
+
 Submits URLs to the sandbox for analysis
 
 Type: **investigate**  
 Read only: **False**
 
-Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request. For more information about the supported URL format, see https://docs.trendmicro.com/en-us/enterprise/trend-micro-xdr-help/SandboxAnalysis.
+Submits URLs to the sandbox for analysis. You can submit a maximum of 10 URLs per request. For more information about the supported URL format, see <https://docs.trendmicro.com/en-us/enterprise/trend-micro-xdr-help/SandboxAnalysis>.
 Note: Using Sandbox Analysis requires credits.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**urls** |  required  | List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request. (Required) | string | 
+**urls** |  required  | List of URLs to be sent to sandbox for analysis. Note: You can submit a maximum of 10 URLs per request. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.urls | string |  |  
 action_result.data.\*.digest | string |  |  
 action_result.data.\*.id | string |  |  
@@ -2167,9 +2233,10 @@ action_result.data.\*.url | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'enable account'
+## Action: 'enable account'
+
 Allows the user to sign in to new application and browser sessions
 
 Type: **correct**  
@@ -2181,23 +2248,26 @@ Azure AD
 Active Directory (on-premises).
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**account_identifiers** |  required  | Object containing account_name and description. (Required) | string | 
+**account_identifiers** |  required  | Object containing account_name and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.account_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'disable account'
+## Action: 'disable account'
+
 Signs the user out of all active application and browser sessions, and prevents the user from signing in any new session
 
 Type: **contain**  
@@ -2209,23 +2279,26 @@ Azure AD
 Active Directory (on-premises).
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**account_identifiers** |  required  | Object containing account_name and description. (Required) | string | 
+**account_identifiers** |  required  | Object containing account_name and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.account_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'restore email message'
+## Action: 'restore email message'
+
 Restore quarantined email messages
 
 Type: **correct**  
@@ -2239,23 +2312,26 @@ View, filter, and search (Task List tab)
 Quarantine/Restore messages.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string | 
+**email_identifiers** |  required  | Email Message ID (<mailMsgId>), Mailbox ID and description or Unique Message ID (msgUuid) and description from Trend Vision One message activity data. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.email_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'sign out account'
+## Action: 'sign out account'
+
 Signs the user out of all active application and browser sessions
 
 Type: **contain**  
@@ -2266,23 +2342,26 @@ Supported IAM systems:
 Azure AD.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**account_identifiers** |  required  | Object containing account_name and description. (Required) | string | 
+**account_identifiers** |  required  | Object containing account_name and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.account_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'force password reset'
+## Action: 'force password reset'
+
 Signs the user out of all active application and browser sessions, and forces the user to create a new password during the next sign-in attempt
 
 Type: **contain**  
@@ -2294,23 +2373,26 @@ Azure AD
 Active Directory (on-premises).
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**account_identifiers** |  required  | Object containing account_name and description. (Required) | string | 
+**account_identifiers** |  required  | Object containing account_name and description. (Required) | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.account_identifiers | string |  |  
 action_result.data.\*.status | numeric |  |  
 action_result.data.\*.task_id | string |  `task status id`  |  
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'sandbox suspicious list'
+## Action: 'sandbox suspicious list'
+
 Downloads the suspicious object list associated to the specified object
 
 Type: **investigate**  
@@ -2319,16 +2401,18 @@ Read only: **False**
 Downloads the suspicious object list associated to the specified object. Note: Suspicious Object Lists are only available for objects with a high risk level.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**submit_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `submit id` 
-**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**submit_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `submit id`
+**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.submit_id | string |  `submit id`  |  
@@ -2341,9 +2425,10 @@ action_result.data.\*.value | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'sandbox analysis result'
+## Action: 'sandbox analysis result'
+
 Displays the analysis results of the specified object
 
 Type: **investigate**  
@@ -2352,16 +2437,18 @@ Read only: **False**
 Displays the analysis results of the specified object.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**report_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `report id` 
-**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**report_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `report id`
+**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.report_id | string |  `report id`  |  
@@ -2375,9 +2462,10 @@ action_result.data.\*.type | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'sandbox investigation package'
+## Action: 'sandbox investigation package'
+
 Downloads the Investigation Package of the specified object
 
 Type: **investigate**  
@@ -2386,16 +2474,18 @@ Read only: **False**
 Downloads the Investigation Package of the specified object using the unique alphanumeric string that identifies the analysis results of a submission.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**submit_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `submit id` 
-**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string | 
-**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric | 
+**submit_id** |  required  | Unique alphanumeric string that identifies the analysis results of a submission. (Required) | string |  `submit id`
+**poll** |  optional  | If script should wait until the task is finished before returning the result, enabled by default | string |
+**poll_time_sec** |  optional  | Maximum time to wait for the result to be available | numeric |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.parameter.poll | string |  |  
 action_result.parameter.poll_time_sec | numeric |  |  
 action_result.parameter.submit_id | string |  `submit id`  |  
@@ -2403,9 +2493,10 @@ action_result.data.\*.file_added | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'get suspicious list'
+## Action: 'get suspicious list'
+
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list
 
 Type: **investigate**  
@@ -2414,12 +2505,14 @@ Read only: **True**
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, email addresses, or URLs in the Suspicious Object List and displays the information in a paginated list.
 
 #### Action Parameters
+
 No parameters are required for this action
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.data.\*.description | string |  |  
 action_result.data.\*.expired_date_time | string |  |  
 action_result.data.\*.in_exception_list | string |  |  
@@ -2431,9 +2524,10 @@ action_result.data.\*.value | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
-## action: 'get exception list'
+## Action: 'get exception list'
+
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list
 
 Type: **investigate**  
@@ -2442,12 +2536,14 @@ Read only: **True**
 Retrieves information about domains, file SHA-1, file SHA-256, IP addresses, sender addresses, or URLs in the Exception List and displays it in a paginated list.
 
 #### Action Parameters
+
 No parameters are required for this action
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.data.\*.description | string |  |  
 action_result.data.\*.last_modified_date_time | string |  |  
 action_result.data.\*.type | string |  |  
@@ -2455,9 +2551,10 @@ action_result.data.\*.value | string |  |
 action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
-summary.total_objects_successful | numeric |  |    
+summary.total_objects_successful | numeric |  |
 
 ## action: 'vault sandbox analysis'
+
 Send vault item to sandbox for analysis
 
 Type: **investigate**  
@@ -2466,15 +2563,17 @@ Read only: **True**
 Sends vault item to sandbox for analysis. Provide file name and vault id to perform the action. For the 'arguments' parameter, the maximum argument length before encoding is 1024 bytes. Arguments are only available for Portable Executable (PE) files and script files.
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**vault_id** |  required  | ID of item in vault | string |  `vault id` 
-**file_name** |  required  | File name of vault item | string | 
-**document_pass** |  optional  | Password for the document | string | 
-**archive_pass** |  optional  | Password for the archive | string | 
-**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string | 
+**vault_id** |  required  | ID of item in vault | string |  `vault id`
+**file_name** |  required  | File name of vault item | string |
+**document_pass** |  optional  | Password for the document | string |
+**archive_pass** |  optional  | Password for the archive | string |
+**arguments** |  optional  | Allows you to specify Base64-encoded command line arguments to run the submitted file | string |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.parameter.vault_id | string |  `vault id`  |  
@@ -2482,7 +2581,7 @@ action_result.parameter.file_name | string |  |
 action_result.parameter.document_pass | string |  |  
 action_result.parameter.archive_pass | string |  |  
 action_result.parameter.arguments | string |  |  
-action_result.status | string |  |   success  failed 
+action_result.status | string |  |   success  failed
 action_result.data.\*.arguments | string |  |  
 action_result.data.\*.digest | string |  |  
 action_result.data.\*.id | string |  `task id`  |  

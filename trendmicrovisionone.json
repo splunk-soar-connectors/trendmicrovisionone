@@ -20,7 +20,7 @@
     "utctime_updated": "2023-12-11T11:50:25.000000Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
-    "min_phantom_version": "6.2.2",
+    "min_phantom_version": "6.3.0",
     "app_wizard_version": "1.0.0",
     "fips_compliant": false,
     "configuration": {
@@ -59,7 +59,7 @@
             "read_only": false,
             "parameters": {
                 "ip_hostname_mac": {
-                    "description": "Hostname/IP/MAC/AgentGuid of the endpoint(s) to query. (Required)",
+                    "description": "Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1801,21 +1801,34 @@
                     "contains": [
                         "workbench id"
                     ],
-                    "order": 0
+                    "order": 0,
+                    "name": "workbench_id"
                 },
                 "status": {
-                    "description": "The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required)",
+                    "description": "The status of a case or investigation",
                     "data_type": "string",
                     "required": true,
                     "value_list": [
-                        "new",
+                        "open",
                         "in_progress",
-                        "true_positive",
-                        "false_positive",
-                        "benign_true_positive",
                         "closed"
                     ],
-                    "order": 1
+                    "order": 1,
+                    "name": "status"
+                },
+                "inv_result": {
+                    "description": "The findings of a case or investigation",
+                    "data_type": "string",
+                    "required": true,
+                    "value_list": [
+                        "no_findings",
+                        "noteworthy",
+                        "true_posivite",
+                        "false_positive",
+                        "benign_true_positive"
+                    ],
+                    "order": 2,
+                    "name": "inv_result"
                 },
                 "if_match": {
                     "description": "Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required)",
@@ -1825,7 +1838,8 @@
                     "contains": [
                         "etag"
                     ],
-                    "order": 2
+                    "order": 3,
+                    "name": "if_match"
                 }
             },
             "output": [
@@ -3033,19 +3047,27 @@
             },
             {
                 "module": "pytmv1",
-                "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
+                "input_file": "wheels/py3/pytmv1-0.9.1-py3-none-any.whl"
             }
         ]
     },
     "pip39_dependencies": {
         "wheel": [
             {
+                "module": "annotated_types",
+                "input_file": "wheels/py3/annotated_types-0.7.0-py3-none-any.whl"
+            },
+            {
                 "module": "pydantic",
-                "input_file": "wheels/py39/pydantic-1.10.18-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py3/pydantic-2.5.3-py3-none-any.whl"
+            },
+            {
+                "module": "pydantic_core",
+                "input_file": "wheels/py39/pydantic_core-2.14.6-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytmv1",
-                "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
+                "input_file": "wheels/py3/pytmv1-0.9.1-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
