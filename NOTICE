@@ -1,0 +1,55 @@
+Splunk SOAR Trend Vision One for Splunk SOAR
+Copyright (c) Trend Micro, 2022-2025
+
+Third Party Software Attributions:
+
+Name: beautifulsoup4
+Version: 4.11.2
+Author: Leonard Richardson
+License: MIT
+
+Name: certifi
+Version: 2025.1.31
+Author: Kenneth Reitz
+License: MPL-2.0
+
+Name: charset-normalizer
+Version: 2.0.12
+Author: Ahmed TAHRI @Ousret
+License: MIT
+
+Name: idna
+Version: 3.10
+Author: 
+License: 
+
+Name: pydantic
+Version: 1.10.21
+Author: 
+License: MIT
+
+Name: pytmv1
+Version: 0.6.2
+Author: 
+License: 
+
+Name: requests
+Version: 2.27.1
+Author: Kenneth Reitz
+License: Apache 2.0
+
+Name: soupsieve
+Version: 2.6
+Author: 
+License: 
+
+Name: typing_extensions
+Version: 4.13.0
+Author: 
+License: 
+
+Name: urllib3
+Version: 1.26.20
+Author: Andrey Petrov
+License: MIT
+
