@@ -3025,23 +3025,11 @@
             "versions": "EQ(*)"
         }
     ],
-    "pip_dependencies": {
-        "wheel": [
-            {
-                "module": "chardet",
-                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "pytmv1",
-                "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
-            }
-        ]
-    },
     "pip39_dependencies": {
         "wheel": [
             {
                 "module": "pydantic",
-                "input_file": "wheels/py39/pydantic-1.10.18-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/pydantic-1.10.21-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytmv1",
@@ -3049,7 +3037,23 @@
             },
             {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.12.2-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.13.2-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "pydantic",
+                "input_file": "wheels/py313/pydantic-1.10.21-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "pytmv1",
+                "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
+            },
+            {
+                "module": "typing_extensions",
+                "input_file": "wheels/py3/typing_extensions-4.13.2-py3-none-any.whl"
             }
         ]
     }
