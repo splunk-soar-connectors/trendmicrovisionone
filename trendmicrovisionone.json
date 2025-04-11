@@ -16,8 +16,8 @@
         }
     ],
     "license": "Copyright (c) Trend Micro, 2022-2025",
-    "app_version": "2.3.0",
-    "utctime_updated": "2023-12-11T11:50:25.000000Z",
+    "app_version": "2.3.1",
+    "utctime_updated": "2025-04-11T15:17:17.606982Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
     "min_phantom_version": "6.2.2",

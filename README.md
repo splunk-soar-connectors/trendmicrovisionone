@@ -1,7 +1,7 @@
 # Trend Vision One for Splunk SOAR
 
 Publisher: Trend Micro \
-Connector Version: 2.3.0 \
+Connector Version: 2.3.1 \
 Product Vendor: Trend Micro \
 Product Name: VisionOne \
 Minimum Product Version: 6.2.2
