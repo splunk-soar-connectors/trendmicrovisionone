@@ -1,3 +1,14 @@
+Splunk SOAR App: Trend Vision One for Splunk SOAR
+Copyright (c) Trend Micro, 2022-2025
+Third Party Software Attributions:
+
+@@@@============================================================================
+
+Library: pytmv1 - 0.6.2
+Homepage: https://github.com/TrendATI/pytmv1
+License: Apache Software License
+License Text:
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -186,7 +197,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright (c) Trend Micro, 2022-2025
+   Copyright 2022 Trend Micro
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

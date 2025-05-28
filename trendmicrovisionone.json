@@ -15,9 +15,9 @@
             "name": "Shakti Shah"
         }
     ],
-    "license": "Copyright (c) Trend Micro, 2022-2024",
-    "app_version": "2.3.0",
-    "utctime_updated": "2023-12-11T11:50:25.000000Z",
+    "license": "Copyright (c) Trend Micro, 2022-2025",
+    "app_version": "2.3.1",
+    "utctime_updated": "2025-04-11T15:17:17.606982Z",
     "package_name": "phantom_trendmicrovisionone",
     "main_module": "trendmicrovisionone_connector.py",
     "min_phantom_version": "6.3.0",
@@ -3071,7 +3071,23 @@
             },
             {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.12.2-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.13.2-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "pydantic",
+                "input_file": "wheels/py313/pydantic-1.10.21-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "pytmv1",
+                "input_file": "wheels/py3/pytmv1-0.6.2-py3-none-any.whl"
+            },
+            {
+                "module": "typing_extensions",
+                "input_file": "wheels/py3/typing_extensions-4.13.2-py3-none-any.whl"
             }
         ]
     }
