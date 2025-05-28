@@ -18,7 +18,7 @@
 import json
 import sys
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any, Callable, Optional, Tuple, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Callable, Optional, TypeVar, Union
 
 import pytmv1
 import requests
@@ -29,8 +29,7 @@ if TYPE_CHECKING:
     from stubs.action_result import ActionResult
     from stubs.base_connector import BaseConnector
 else:
-    from phantom import app as phantom
-    from phantom import vault
+    from phantom import app as phantom, vault
     from phantom.action_result import ActionResult
     from phantom.base_connector import BaseConnector
     from phantom.vault import Vault
@@ -412,7 +411,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # update old container
         container_alert_metadata: dict[str, Any] = {
             "data": alert.model_dump(),
-            "description": "{}: {}".format(container_id, alert.alert_provider.value),
+            "description": f"{container_id}: {alert.alert_provider.value}",
         }
         try:
             requests.post(
@@ -1252,7 +1251,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         name = "Trend_Micro_Sandbox_Analysis_Report"
         file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.pdf"
 
-        results = Vault.create_attachment(  # noqa: F841
+        results = Vault.create_attachment(
             data,
             self.get_container_id(),
             file_name,
@@ -1944,7 +1943,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         name = "Trend_Micro_Sandbox_Investigation_Package"
         file_name = f"{name}_{datetime.now(timezone.utc).replace(microsecond=0).strftime('%Y-%m-%d:%H:%M:%S')}.zip"
 
-        results = Vault.create_attachment(  # noqa: F841
+        results = Vault.create_attachment(
             investigation_resp.content,
             self.get_container_id(),
             file_name,

@@ -1801,8 +1801,7 @@
                     "contains": [
                         "workbench id"
                     ],
-                    "order": 0,
-                    "name": "workbench_id"
+                    "order": 0
                 },
                 "status": {
                     "description": "The status of a case or investigation",
@@ -1813,8 +1812,7 @@
                         "in_progress",
                         "closed"
                     ],
-                    "order": 1,
-                    "name": "status"
+                    "order": 1
                 },
                 "inv_result": {
                     "description": "The findings of a case or investigation",
@@ -1827,8 +1825,7 @@
                         "false_positive",
                         "benign_true_positive"
                     ],
-                    "order": 2,
-                    "name": "inv_result"
+                    "order": 2
                 },
                 "if_match": {
                     "description": "Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required)",
@@ -1838,8 +1835,7 @@
                     "contains": [
                         "etag"
                     ],
-                    "order": 3,
-                    "name": "if_match"
+                    "order": 3
                 }
             },
             "output": [
@@ -1870,6 +1866,10 @@
                     "contains": [
                         "workbench id"
                     ]
+                },
+                {
+                    "data_path": "action_result.parameter.inv_result",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.message",
@@ -3022,6 +3022,10 @@
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {

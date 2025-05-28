@@ -39,10 +39,10 @@ The below configuration variables are required for this Connector to operate. Th
 
 ## Configure Trend Vision One on Splunk SOAR
 
-1. Navigate to **Apps** \> **Unconfigured Apps** .
-2. Search for Trend Vision One.
-3. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
-4. ALternatively click on **INSTALL APP** and drop a tarball of the app
+1. Navigate to **Apps** > **Unconfigured Apps** .
+1. Search for Trend Vision One.
+1. Click **CONFIGURE NEW ASSET** to create and configure a new integration instance.
+1. ALternatively click on **INSTALL APP** and drop a tarball of the app
 
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
@@ -141,15 +141,17 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{
-        "object_type": "ip",
-        "object_value": "6.6.6.6",
-        "description": "Block IP"
-      },{
-        "object_type": "domain",
-        "object_value": "hello.com",
-      }]
+```
+Block Objects
+  [{
+    "object_type": "ip",
+    "object_value": "6.6.6.6",
+    "description": "Block IP"
+  },{
+    "object_type": "domain",
+    "object_value": "hello.com",
+  }]
+```
 
 Note: `description` is optional and a default value is automatically provided.
 
@@ -187,15 +189,17 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{
-        "description": "Remove from blocklist",
-        "object_type": "ip",
-        "object_value": "6.6.6.3"
-      }, {
-        "object_type": "domain",
-        "object_value": "hello.com",
-      }]
+```
+Block Objects
+  [{
+    "description": "Remove from blocklist",
+    "object_type": "ip",
+    "object_value": "6.6.6.3"
+  }, {
+    "object_type": "domain",
+    "object_value": "hello.com",
+  }]
+```
 
 Note: `description` is optional and a default value is automatically provided.
 
@@ -320,14 +324,16 @@ Read only: **False**
 
 Example input:
 
-    Endpoint Identifiers
-      [{
-        "endpoint": "endpoint123",
-        "description": "quarantine device"
-      }, {
-        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-        "description": "quarantine device"
-      }]
+```
+Endpoint Identifiers
+  [{
+    "endpoint": "endpoint123",
+    "description": "quarantine device"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "description": "quarantine device"
+  }]
+```
 
 Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a default value is automatically provided.
 
@@ -360,14 +366,16 @@ Read only: **False**
 
 Example input:
 
-    Endpoint Identifiers
-      [{
-        "endpoint": "endpoint123",
-        "description": "Restore endpoint"
-      }, {
-        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-        "description": "Restore endpoint"
-      }]
+```
+Endpoint Identifiers
+  [{
+    "endpoint": "endpoint123",
+    "description": "Restore endpoint"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "description": "Restore endpoint"
+  }]
+```
 
 Note: `endpoint` accepts either agent_guid or hostname. `description` is optional and a default value is automatically provided.
 
@@ -400,10 +408,12 @@ Read only: **False**
 
 Example input:
 
-    Start Time
-      2020-01-01T10:00:00Z
-    End Time
-      2023-01-01T10:00:00Z
+```
+Start Time
+  2020-01-01T10:00:00Z
+End Time
+  2023-01-01T10:00:00Z
+```
 
 #### Context Output
 
@@ -431,9 +441,11 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
-      {"object_type": "ip","object_value": "1.1.1.1"}]
+```
+Block Objects
+  [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
+  {"object_type": "ip","object_value": "1.1.1.1"}]
+```
 
 Note: `description` is optional and a default value is automatically provided.
 
@@ -465,11 +477,13 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{
-        "object_type": "ip",
-        "object_value": "1.6.6.3"
-      }]
+```
+Block Objects
+  [{
+    "object_type": "ip",
+    "object_value": "1.6.6.3"
+  }]
+```
 
 #### Context Output
 
@@ -499,15 +513,17 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{
-        "object_type": "ip",
-        "risk_level": "high",
-        "object_value": "6.6.6.3"
-        "expiry_days": "30",
-        "scan_action": "block",
-        "description": "Add to suspicious list"
-      }]
+```
+Block Objects
+  [{
+    "object_type": "ip",
+    "risk_level": "high",
+    "object_value": "6.6.6.3"
+    "expiry_days": "30",
+    "scan_action": "block",
+    "description": "Add to suspicious list"
+  }]
+```
 
 Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional and default values are provided for each.
 
@@ -539,11 +555,13 @@ Read only: **False**
 
 Example input:
 
-    Block Objects
-      [{
-        "object_type": "ip",
-        "object_value": "6.6.6.4"
-      }]
+```
+Block Objects
+  [{
+    "object_type": "ip",
+    "object_value": "6.6.6.4"
+  }]
+```
 
 #### Context Output
 
@@ -571,13 +589,15 @@ Read only: **False**
 
 Example input:
 
-    Process Identifiers
-      [{
-        "endpoint": "endpoint123",
-        "file_sha1": "984afc7.......95b519a081321"
-        "description": "terminate process",
-        "filename": "exmaplename.txt"
-      }]
+```
+Process Identifiers
+  [{
+    "endpoint": "endpoint123",
+    "file_sha1": "984afc7.......95b519a081321"
+    "description": "terminate process",
+    "filename": "exmaplename.txt"
+  }]
+```
 
 Note: `description` and `filename` are optional and a default value is provided.
 
@@ -608,8 +628,10 @@ Read only: **False**
 
 Example input:
 
-    Task ID
-      8559a7ce-2b85-451b-8742-4b943ad76a22
+```
+Task ID
+  8559a7ce-2b85-451b-8742-4b943ad76a22
+```
 
 #### Context Output
 
@@ -646,12 +668,14 @@ Read only: **False**
 
 Example input:
 
-    Submit ID
-      8559a7ce-2b85-451b-8742-4b943ad76a22
-    Poll
-      true
-    Poll Time Sec
-      30
+```
+Submit ID
+  8559a7ce-2b85-451b-8742-4b943ad76a22
+Poll
+  true
+Poll Time Sec
+  30
+```
 
 #### Context Output
 
@@ -677,15 +701,17 @@ Read only: **False**
 
 Example input:
 
-    Collect Files
-      [{
-        "endpoint": "endpoint123",
-        "file_path": "C:/virus.exe",
-        "description": "collect malicious file"
-      }, {
-        "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-        "file_path": "C:/some_file.exe"
-      }]
+```
+Collect Files
+  [{
+    "endpoint": "endpoint123",
+    "file_path": "C:/virus.exe",
+    "description": "collect malicious file"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "file_path": "C:/some_file.exe"
+  }]
+```
 
 Note: `description` is optional and a default value is provided.
 
@@ -718,12 +744,14 @@ Read only: **False**
 
 Example input:
 
-    Task ID
-      00000012
-    Poll
-      True
-    Poll Time Sec
-      30
+```
+Task ID
+  00000012
+Poll
+  True
+Poll Time Sec
+  30
+```
 
 #### Context Output
 
@@ -771,16 +799,18 @@ Read only: **False**
 
 Example input:
 
-    File Url
-      https://someurl.com/file=somefile.bat
-    File Name
-      some_file.bat
-    Document Password
-      cGFzc3dvcmQK
-    Archive Password
-      cGFzc3dvcmQK
-    Arguments
-      IFMlYztbQA==
+```
+File Url
+  https://someurl.com/file=somefile.bat
+File Name
+  some_file.bat
+Document Password
+  cGFzc3dvcmQK
+Archive Password
+  cGFzc3dvcmQK
+Arguments
+  IFMlYztbQA==
+```
 
 #### Context Output
 
@@ -810,12 +840,14 @@ Read only: **False**
 
 Example input:
 
-    Task ID
-      00000012
-    Poll
-      True
-    Poll Time Sec
-      30
+```
+Task ID
+  00000012
+Poll
+  True
+Poll Time Sec
+  30
+```
 
 #### Context Output
 
@@ -847,10 +879,12 @@ Read only: **False**
 
 Example input:
 
-    Endpoint
-      {"endpointName":"test-endpoint1", "ip":"52.72.139.96"}
-    Query Op
-      or
+```
+Endpoint
+  {"endpointName":"test-endpoint1", "ip":"52.72.139.96"}
+Query Op
+  or
+```
 
 #### Context Output
 
@@ -885,10 +919,12 @@ Read only: **False**
 
 Example input:
 
-    Alert ID
-      WB-14-20190709-00003
-    Content
-      Suspected False Positive, please verify
+```
+Alert ID
+  WB-14-20190709-00003
+Content
+  Suspected False Positive, please verify
+```
 
 #### Context Output
 
@@ -917,14 +953,16 @@ Read only: **False**
 
 Example input:
 
-    Workbench ID
-      WB-14-20190709-00003
-    Status
-      in_progress
-    Inv Result
-      true_positive
-    If Match
-      33a64df551425fcc55e4d42a148795d9f25f89d4
+```
+Workbench ID
+  WB-14-20190709-00003
+Status
+  in_progress
+Inv Result
+  true_positive
+If Match
+  33a64df551425fcc55e4d42a148795d9f25f89d4
+```
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
 
@@ -951,8 +989,10 @@ Read only: **False**
 
 Example input:
 
-    Workbench ID
-      WB-20837-20221111-0000
+```
+Workbench ID
+  WB-20837-20221111-0000
+```
 
 #### Context Output
 
@@ -979,8 +1019,10 @@ Read only: **False**
 
 Example input:
 
-    URLS
-      ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
+```
+URLS
+  ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
+```
 
 #### Context Output
 
@@ -1010,11 +1052,13 @@ Read only: **False**
 
 Example input:
 
-    Account Identifiers
-      [{
-        "account_name": "jdoe@testemailtest.com",
-        "description": "Enable user account"
-      }]
+```
+Account Identifiers
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Enable user account"
+  }]
+```
 
 Note: `description` is optional and a default value is provided.
 
@@ -1043,13 +1087,15 @@ Read only: **False**
 
 Example input:
 
-    Account Identifiers
-      [{
-        "account_name": "jdoe@testemailtrain.com",
-        "description": "Disable user account"},
-      {
-        "account_name": "jdoe1@testemailtrain.com"
-      }]
+```
+Account Identifiers
+  [{
+    "account_name": "jdoe@testemailtrain.com",
+    "description": "Disable user account"},
+  {
+    "account_name": "jdoe1@testemailtrain.com"
+  }]
+```
 
 Note: `description` is optional and a default value is provided.
 
@@ -1120,11 +1166,13 @@ Read only: **False**
 
 Example input:
 
-    Account Identifiers
-      [{
-        "account_name": "jdoe@testemailtest.com",
-        "description": "Sign out account"
-      }]
+```
+Account Identifiers
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Sign out account"
+  }]
+```
 
 Note: `description` is optional and a default value is provided.
 
@@ -1153,11 +1201,13 @@ Read only: **False**
 
 Example input:
 
-    Account Identifiers
-      [{
-        "account_name": "jdoe@testemailtest.com",
-        "description": "Force password reset"
-      }]
+```
+Account Identifiers
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Force password reset"
+  }]
+```
 
 Note: `description` is optional and a default value is provided.
 
@@ -1188,12 +1238,14 @@ Read only: **False**
 
 Example input:
 
-    Submit ID
-      90406723-2b29-4e85-b0b2-ba58af8f63df
-    Poll
-      false
-    Poll Time Sec
-      0
+```
+Submit ID
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  false
+Poll Time Sec
+  0
+```
 
 Note: Suspicious Object Lists are only available for objects with a high risk level.
 
@@ -1228,12 +1280,14 @@ Read only: **False**
 
 Example input:
 
-    Report ID
-      90406723-2b29-4e85-b0b2-ba58af8f63df
-    Poll
-      False
-    Poll Time Sec
-      0
+```
+Report ID
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  False
+Poll Time Sec
+  0
+```
 
 #### Context Output
 
@@ -1269,12 +1323,14 @@ Read only: **False**
 
 Example input:
 
-    Submit ID
-      00000012
-    Poll
-      true
-    Poll Time Sec
-      30
+```
+Submit ID
+  00000012
+Poll
+  true
+Poll Time Sec
+  30
+```
 
 #### Context Output
 
@@ -1383,4 +1439,4 @@ Arguments
 | action_result.data.*.digest | String | object (sandbox-digest) |
 | action_result.data.\*.arguments | String | Command line arguments encoded in Base64 of the submitted file |
 
-* * *
+______________________________________________________________________
