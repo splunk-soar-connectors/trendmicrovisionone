@@ -4,9 +4,13 @@ Publisher: Trend Micro \
 Connector Version: 2.3.1 \
 Product Vendor: Trend Micro \
 Product Name: VisionOne \
-Minimum Product Version: 6.2.2
+Minimum Product Version: 6.3.0
 
 Trend Vision One is a purpose-built threat defense platform that provides added value and new benefits beyond XDR solutions, allowing you to see more and respond faster. Providing deep and broad extended detection and response (XDR) capabilities that collect and automatically correlate data across multiple security layers—email, endpoints, servers, cloud workloads, and networks—Trend Vision One prevents the majority of attacks with automated protection
+
+## Playbook Backward Compatibility
+
+- A new action parameter 'inv_result' has been added in the 'update status' actions. Hence, it is requested to the end-user to please update their existing playbooks by re-inserting | modifying | deleting the corresponding action blocks.
 
 # Trend Vision One for Splunk SOAR
 
@@ -153,14 +157,14 @@ Example input:
 
 ```
 Block Objects
-    [{
-      "object_type": "ip",
-      "object_value": "6.6.6.6",
-      "description": "Block IP"
-    },{
-      "object_type": "domain",
-      "object_value": "hello.com",
-    }]
+  [{
+    "object_type": "ip",
+    "object_value": "6.6.6.6",
+    "description": "Block IP"
+  },{
+    "object_type": "domain",
+    "object_value": "hello.com",
+  }]
 ```
 
 Note: `description` is optional and a default value is automatically provided.
@@ -201,14 +205,14 @@ Example input:
 
 ```
 Block Objects
-    [{
-      "description": "Remove from blocklist",
-      "object_type": "ip",
-      "object_value": "6.6.6.3"
-    }, {
-      "object_type": "domain",
-      "object_value": "hello.com",
-    }]
+  [{
+    "description": "Remove from blocklist",
+    "object_type": "ip",
+    "object_value": "6.6.6.3"
+  }, {
+    "object_type": "domain",
+    "object_value": "hello.com",
+  }]
 ```
 
 Note: `description` is optional and a default value is automatically provided.
@@ -336,13 +340,13 @@ Example input:
 
 ```
 Endpoint Identifiers
-    [{
-      "endpoint": "endpoint123",
-      "description": "quarantine device"
-    }, {
-      "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-      "description": "quarantine device"
-    }]
+  [{
+    "endpoint": "endpoint123",
+    "description": "quarantine device"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "description": "quarantine device"
+  }]
 ```
 
 Note: `endpoint` accepts agentGuid or hostname. `description` is optional and a default value is automatically provided.
@@ -378,13 +382,13 @@ Example input:
 
 ```
 Endpoint Identifiers
-    [{
-      "endpoint": "endpoint123",
-      "description": "Restore endpoint"
-    }, {
-      "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-      "description": "Restore endpoint"
-    }]
+  [{
+    "endpoint": "endpoint123",
+    "description": "Restore endpoint"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "description": "Restore endpoint"
+  }]
 ```
 
 Note: `endpoint` accepts either agent_guid or hostname. `description` is optional and a default value is automatically provided.
@@ -420,9 +424,9 @@ Example input:
 
 ```
 Start Time
-    2020-01-01T10:00:00Z
-  End Time
-    2023-01-01T10:00:00Z
+  2020-01-01T10:00:00Z
+End Time
+  2023-01-01T10:00:00Z
 ```
 
 #### Context Output
@@ -453,8 +457,8 @@ Example input:
 
 ```
 Block Objects
-    [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
-    {"object_type": "ip","object_value": "1.1.1.1"}]
+  [{"object_type": "ip","object_value": "1.2.6.9", "description": "Add to exception list"},
+  {"object_type": "ip","object_value": "1.1.1.1"}]
 ```
 
 Note: `description` is optional and a default value is automatically provided.
@@ -489,10 +493,10 @@ Example input:
 
 ```
 Block Objects
-    [{
-      "object_type": "ip",
-      "object_value": "1.6.6.3"
-    }]
+  [{
+    "object_type": "ip",
+    "object_value": "1.6.6.3"
+  }]
 ```
 
 #### Context Output
@@ -525,14 +529,14 @@ Example input:
 
 ```
 Block Objects
-    [{
-      "object_type": "ip",
-      "risk_level": "high",
-      "object_value": "6.6.6.3"
-      "expiry_days": "30",
-      "scan_action": "block",
-      "description": "Add to suspicious list"
-    }]
+  [{
+    "object_type": "ip",
+    "risk_level": "high",
+    "object_value": "6.6.6.3"
+    "expiry_days": "30",
+    "scan_action": "block",
+    "description": "Add to suspicious list"
+  }]
 ```
 
 Note: `scan_action`, `risk_level`, `expiry_days` and `description` are optional and default values are provided for each.
@@ -567,10 +571,10 @@ Example input:
 
 ```
 Block Objects
-    [{
-      "object_type": "ip",
-      "object_value": "6.6.6.4"
-    }]
+  [{
+    "object_type": "ip",
+    "object_value": "6.6.6.4"
+  }]
 ```
 
 #### Context Output
@@ -601,12 +605,12 @@ Example input:
 
 ```
 Process Identifiers
-    [{
-      "endpoint": "endpoint123",
-      "file_sha1": "984afc7.......95b519a081321"
-      "description": "terminate process",
-      "filename": "exmaplename.txt"
-    }]
+  [{
+    "endpoint": "endpoint123",
+    "file_sha1": "984afc7.......95b519a081321"
+    "description": "terminate process",
+    "filename": "exmaplename.txt"
+  }]
 ```
 
 Note: `description` and `filename` are optional and a default value is provided.
@@ -640,7 +644,7 @@ Example input:
 
 ```
 Task ID
-    8559a7ce-2b85-451b-8742-4b943ad76a22
+  8559a7ce-2b85-451b-8742-4b943ad76a22
 ```
 
 #### Context Output
@@ -680,11 +684,11 @@ Example input:
 
 ```
 Submit ID
-    8559a7ce-2b85-451b-8742-4b943ad76a22
-  Poll
-    true
-  Poll Time Sec
-    30
+  8559a7ce-2b85-451b-8742-4b943ad76a22
+Poll
+  true
+Poll Time Sec
+  30
 ```
 
 #### Context Output
@@ -713,14 +717,14 @@ Example input:
 
 ```
 Collect Files
-    [{
-      "endpoint": "endpoint123",
-      "file_path": "C:/virus.exe",
-      "description": "collect malicious file"
-    }, {
-      "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
-      "file_path": "C:/some_file.exe"
-    }]
+  [{
+    "endpoint": "endpoint123",
+    "file_path": "C:/virus.exe",
+    "description": "collect malicious file"
+  }, {
+    "agent_guid": "94632-7d79-451d-9ef8-2a2129e2",
+    "file_path": "C:/some_file.exe"
+  }]
 ```
 
 Note: `description` is optional and a default value is provided.
@@ -756,11 +760,11 @@ Example input:
 
 ```
 Task ID
-    00000012
-  Poll
-    True
-  Poll Time Sec
-    30
+  00000012
+Poll
+  True
+Poll Time Sec
+  30
 ```
 
 #### Context Output
@@ -811,15 +815,15 @@ Example input:
 
 ```
 File Url
-    https://someurl.com/file=somefile.bat
-  File Name
-    some_file.bat
-  Document Password
-    cGFzc3dvcmQK
-  Archive Password
-    cGFzc3dvcmQK
-  Arguments
-    IFMlYztbQA==
+  https://someurl.com/file=somefile.bat
+File Name
+  some_file.bat
+Document Password
+  cGFzc3dvcmQK
+Archive Password
+  cGFzc3dvcmQK
+Arguments
+  IFMlYztbQA==
 ```
 
 #### Context Output
@@ -852,11 +856,11 @@ Example input:
 
 ```
 Task ID
-    00000012
-  Poll
-    True
-  Poll Time Sec
-    30
+  00000012
+Poll
+  True
+Poll Time Sec
+  30
 ```
 
 #### Context Output
@@ -884,16 +888,16 @@ Read only: **False**
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| endpoint | List of `hostname`, `macAddress`, `agentGuid` or `IP` of the endpoint to query | Required |
+| endpoint | Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>). | Required |
 | query_op | Logical operator to employ in the query. (AND/OR) | Required |
 
 Example input:
 
 ```
 Endpoint
-    127.127.127.127,endpoint2,endpoint4
-  Query Op
-    or
+  {"endpointName":"test-endpoint1", "ip":"52.72.139.96"}
+Query Op
+  or
 ```
 
 #### Context Output
@@ -931,9 +935,9 @@ Example input:
 
 ```
 Alert ID
-    WB-14-20190709-00003
-  Content
-    Suspected False Positive, please verify
+  WB-14-20190709-00003
+Content
+  Suspected False Positive, please verify
 ```
 
 #### Context Output
@@ -957,18 +961,21 @@ Read only: **False**
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
 | workbench_id | The ID of the workbench alert that you would like to update the status for | Required |
-| status | The status to assign to the workbench alert: `new`, `in_progress`, `true_positive`, `false_positive`, `benign_true_positive`, `closed` | Required |
+| status | The status to assign to the workbench alert: `open`, `in_progress`, `closed` | Required |
+| inv_result | The findings of a case or investigation: `no_findings`, `noteworthy`, `true_positive`, `false_positive`, `benign_true_positive` | Required |
 | if_match | The target resource will be updated only if it matches `ETag` of the target | Required |
 
 Example input:
 
 ```
 Workbench ID
-    WB-14-20190709-00003
-  If Match
-    33a64df551425fcc55e4d42a148795d9f25f89d4
-  Status
-    New
+  WB-14-20190709-00003
+Status
+  in_progress
+Inv Result
+  true_positive
+If Match
+  33a64df551425fcc55e4d42a148795d9f25f89d4
 ```
 
 Note: `if_match` is the `etag` value provided by the get-alert-details action.
@@ -998,7 +1005,7 @@ Example input:
 
 ```
 Workbench ID
-    WB-20837-20221111-0000
+  WB-20837-20221111-0000
 ```
 
 #### Context Output
@@ -1028,7 +1035,7 @@ Example input:
 
 ```
 URLS
-    ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
+  ["www.urlurl.com","www.zurlzurl.com", "https://testurl.com"]
 ```
 
 #### Context Output
@@ -1061,10 +1068,10 @@ Example input:
 
 ```
 Account Identifiers
-    [{
-      "account_name": "jdoe@testemailtest.com",
-      "description": "Enable user account"
-    }]
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Enable user account"
+  }]
 ```
 
 Note: `description` is optional and a default value is provided.
@@ -1096,12 +1103,12 @@ Example input:
 
 ```
 Account Identifiers
-    [{
-      "account_name": "jdoe@testemailtrain.com",
-      "description": "Disable user account"},
-    {
-      "account_name": "jdoe1@testemailtrain.com"
-    }]
+  [{
+    "account_name": "jdoe@testemailtrain.com",
+    "description": "Disable user account"},
+  {
+    "account_name": "jdoe1@testemailtrain.com"
+  }]
 ```
 
 Note: `description` is optional and a default value is provided.
@@ -1175,10 +1182,10 @@ Example input:
 
 ```
 Account Identifiers
-    [{
-      "account_name": "jdoe@testemailtest.com",
-      "description": "Sign out account"
-    }]
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Sign out account"
+  }]
 ```
 
 Note: `description` is optional and a default value is provided.
@@ -1210,10 +1217,10 @@ Example input:
 
 ```
 Account Identifiers
-    [{
-      "account_name": "jdoe@testemailtest.com",
-      "description": "Force password reset"
-    }]
+  [{
+    "account_name": "jdoe@testemailtest.com",
+    "description": "Force password reset"
+  }]
 ```
 
 Note: `description` is optional and a default value is provided.
@@ -1247,11 +1254,11 @@ Example input:
 
 ```
 Submit ID
-    90406723-2b29-4e85-b0b2-ba58af8f63df
-  Poll
-    false
-  Poll Time Sec
-    0
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  false
+Poll Time Sec
+  0
 ```
 
 Note: Suspicious Object Lists are only available for objects with a high risk level.
@@ -1289,11 +1296,11 @@ Example input:
 
 ```
 Report ID
-    90406723-2b29-4e85-b0b2-ba58af8f63df
-  Poll
-    False
-  Poll Time Sec
-    0
+  90406723-2b29-4e85-b0b2-ba58af8f63df
+Poll
+  False
+Poll Time Sec
+  0
 ```
 
 #### Context Output
@@ -1332,11 +1339,11 @@ Example input:
 
 ```
 Submit ID
-    00000012
-  Poll
-    true
-  Poll Time Sec
-    30
+  00000012
+Poll
+  true
+Poll Time Sec
+  30
 ```
 
 #### Context Output
@@ -1525,7 +1532,7 @@ Gather information about an endpoint.
 
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip_hostname_mac** | required | Hostname/IP/MAC/AgentGuid of the endpoint(s) to query. (Required) | string | `ip` `mac address` `host name` `agent guid` |
+**ip_hostname_mac** | required | Filter (A dictionary object with key/value used to create a query string) for retrieving a subset of endpoint information. Multiple endpoints can be queried but unique keys need to be supplied (e.g. `endpointName`, `ip`, etc.). For complete list of keys check (<https://automation.trendmicro.com/xdr/api-v3#tag/Search/paths/~1v3.0~1eiqs~1endpoints/get>) | string | `ip` `mac address` `host name` `agent guid` |
 **query_op** | required | Query Operator. (Required) | string | `query op` |
 
 #### Action Output
@@ -2140,7 +2147,8 @@ Updates the status of an existing workbench alert in Trend Vision One.
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **workbench_id** | required | The ID of the workbench alert that you would like to update the status for. (Required) | string | `workbench id` |
-**status** | required | The status to assign to the workbench alert: new, in_progress, true_positive, false_positive, benign_true_positive, closed. (Required) | string | |
+**status** | required | The status of a case or investigation | string | |
+**inv_result** | required | The findings of a case or investigation | string | |
 **if_match** | required | Target resource will be updated only if it matches ETag of the target one. Etag is one of the outputs from get_alert_details. (Required) | string | `etag` |
 
 #### Action Output
@@ -2151,6 +2159,7 @@ action_result.status | string | | success failed |
 action_result.parameter.if_match | string | `etag` | |
 action_result.parameter.status | string | | |
 action_result.parameter.workbench_id | string | `workbench id` | |
+action_result.parameter.inv_result | string | | |
 action_result.data.\*.message | string | | |
 action_result.summary | string | | |
 action_result.message | string | | |
@@ -2568,6 +2577,7 @@ action_result.data.\*.arguments | string | | |
 action_result.data.\*.digest | string | | |
 action_result.data.\*.id | string | `task id` | |
 action_result.message | string | | |
+action_result.summary | string | | |
 summary.total_objects | numeric | | |
 summary.total_objects_successful | numeric | | |
 
