@@ -32,11 +32,11 @@ repos:
       - id: ruff
         args: [ "--fix", "--unsafe-fixes"] # Allow unsafe fixes (ruff pretty strict about what it can fix)
       - id: ruff-format
-  # - repo: https://github.com/djlint/djLint
-  #   rev: v1.36.4
-  #   hooks:
-  #     - id: djlint-reformat-django
-  #     - id: djlint-django
+  - repo: https://github.com/djlint/djLint
+    rev: v1.36.4
+    hooks:
+      - id: djlint-reformat-django
+      - id: djlint-django
   - repo: https://github.com/hukkin/mdformat
     rev: 0.7.22
     hooks:
