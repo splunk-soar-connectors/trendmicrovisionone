@@ -458,7 +458,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         new_artifact = self._create_artifact_content(container_id, alert)
 
-        ret_val, msg, response = self.save_artifacts([new_artifact])
+        ret_val, msg, _response = self.save_artifacts([new_artifact])
         if phantom.is_fail(ret_val):
             self.save_progress(f"Error saving artifacts: {msg}")
             raise RuntimeError(f"Error saving artifacts: {[new_artifact]}")
@@ -1960,7 +1960,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "severity": sandbox_suspicious_list_resp[0]["risk_level"].lower(),
         }
 
-        ret_val, msg, cid = self.save_container(container)
+        _ret_val, _msg, cid = self.save_container(container)
 
         artifacts: list[Any] = []
         for sus_obj in sandbox_suspicious_list_resp:
@@ -1972,7 +1972,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "cef": sus_obj,
             }
             artifacts.append(artifacts_d)
-        ret_val, msg, cid = self.save_artifacts(artifacts)
+        _ret_val, _msg, cid = self.save_artifacts(artifacts)
         self.save_progress("Suspicious Object added to Container")
 
         # Add the response into the data section
