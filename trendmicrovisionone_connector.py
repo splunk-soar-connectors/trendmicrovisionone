@@ -19,6 +19,7 @@ import json
 import sys
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Callable, Optional, TypeVar, Union
+from urllib.parse import quote
 
 import pytmv1
 import requests
@@ -62,6 +63,10 @@ class RetVal(tuple):
 
 
 class TrendMicroVisionOneConnector(BaseConnector):
+    @staticmethod
+    def _encode_path_component(value: str) -> str:
+        return quote(str(value), safe="")
+
     def __init__(self):
         # Call the BaseConnectors init first
         super().__init__()
@@ -319,7 +324,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.endpoint.get_endpoint(endpoint_id=endpoint_id)
+        response = client.endpoint.get_endpoint(endpoint_id=self._encode_path_component(endpoint_id))
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check endpoint_id.")
@@ -458,7 +463,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         new_artifact = self._create_artifact_content(container_id, alert)
 
-        ret_val, msg, response = self.save_artifacts([new_artifact])
+        ret_val, msg, _response = self.save_artifacts([new_artifact])
         if phantom.is_fail(ret_val):
             self.save_progress(f"Error saving artifacts: {msg}")
             raise RuntimeError(f"Error saving artifacts: {[new_artifact]}")
@@ -772,14 +777,15 @@ class TrendMicroVisionOneConnector(BaseConnector):
         ]
 
         # Make rest call
-        response = client.task.get_result(task_id, poll, poll_time_sec)
+        encoded_task_id = self._encode_path_component(task_id)
+        response = client.task.get_result(encoded_task_id, poll, poll_time_sec)
         # Get task action type
         action = self.unwrap(response.response).action
         if action not in excluded_tasks:
             action_type = self.get_task_type(action)
             # Make task specific call using action_type
             response = client.task.get_result_class(
-                task_id=task_id,
+                task_id=encoded_task_id,
                 class_=action_type,
                 poll=poll,
                 poll_time_sec=poll_time_sec,
@@ -1316,7 +1322,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.sandbox.get_submission_status(submit_id=task_id)
+        response = client.sandbox.get_submission_status(submit_id=self._encode_path_component(task_id))
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check task_id.")
@@ -1353,7 +1359,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.sandbox.download_analysis_result(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
+        response = client.sandbox.download_analysis_result(
+            submit_id=self._encode_path_component(submit_id), poll=poll, poll_time_sec=poll_time_sec
+        )
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check submit_id.")
@@ -1459,7 +1467,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Make rest call
         response = client.task.get_result_class(
-            task_id=task_id,
+            task_id=self._encode_path_component(task_id),
             class_=CollectFileTaskResp,
             poll=poll,
             poll_time_sec=poll_time_sec,
@@ -1552,7 +1560,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.note.create(alert_id=workbench_id, note_content=content)
+        response = client.note.create(alert_id=self._encode_path_component(workbench_id), note_content=content)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check workbench_id and content.")
@@ -1599,7 +1607,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         # Choose Investigation Enum
         inv_res = InvestigationResult[inv_result.upper()]
         # Make rest call
-        response = client.alert.update_status(alert_id=workbench_id, status=sts, etag=if_match, inv_result=inv_res)
+        response = client.alert.update_status(alert_id=self._encode_path_component(workbench_id), status=sts, etag=if_match, inv_result=inv_res)
 
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
@@ -1632,7 +1640,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.alert.get(alert_id=workbench_id)
+        response = client.alert.get(alert_id=self._encode_path_component(workbench_id))
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check workbench_id.")
@@ -1943,7 +1951,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         sandbox_suspicious_list_resp: list[dict[str, Any]] = []
         # Make rest call
-        response = client.sandbox.list_suspicious(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
+        response = client.sandbox.list_suspicious(submit_id=self._encode_path_component(submit_id), poll=poll, poll_time_sec=poll_time_sec)
         sus_list_resp: pytmv1.ListSandboxSuspiciousResp = self.unwrap(response.response)
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
@@ -1960,7 +1968,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
             "severity": sandbox_suspicious_list_resp[0]["risk_level"].lower(),
         }
 
-        ret_val, msg, cid = self.save_container(container)
+        _ret_val, _msg, cid = self.save_container(container)
 
         artifacts: list[Any] = []
         for sus_obj in sandbox_suspicious_list_resp:
@@ -1972,7 +1980,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
                 "cef": sus_obj,
             }
             artifacts.append(artifacts_d)
-        ret_val, msg, cid = self.save_artifacts(artifacts)
+        _ret_val, _msg, cid = self.save_artifacts(artifacts)
         self.save_progress("Suspicious Object added to Container")
 
         # Add the response into the data section
@@ -2007,7 +2015,7 @@ class TrendMicroVisionOneConnector(BaseConnector):
 
         # Make rest call
         response = client.sandbox.get_analysis_result(
-            submit_id=report_id,
+            submit_id=self._encode_path_component(report_id),
             poll=poll,
             poll_time_sec=poll_time_sec,
         )
@@ -2047,7 +2055,9 @@ class TrendMicroVisionOneConnector(BaseConnector):
         client = self._get_client()
 
         # Make rest call
-        response = client.sandbox.download_investigation_package(submit_id=submit_id, poll=poll, poll_time_sec=poll_time_sec)
+        response = client.sandbox.download_investigation_package(
+            submit_id=self._encode_path_component(submit_id), poll=poll, poll_time_sec=poll_time_sec
+        )
         # Check if an error occurred
         if self._is_pytmv1_error(response.result_code):
             self.debug_print("Something went wrong, please check submit_id.")

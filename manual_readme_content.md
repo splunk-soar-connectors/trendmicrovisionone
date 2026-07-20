@@ -795,7 +795,7 @@ Read only: **False**
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| file_url | URL pointing to the location of the file to be submitted | Required |
+| file_url | URL of the file that the connector fetches from the SOAR host before submitting it for sandbox analysis | Required |
 | file_name | Name of the file to be analyzed | Required |
 | document_pass | The password for decrypting the submitted document. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |
 | archive_pass | The password for decrypting the submitted archive. The value must be Base64-encoded. The maximum password length is 128 bytes prior to encoding | Optional |

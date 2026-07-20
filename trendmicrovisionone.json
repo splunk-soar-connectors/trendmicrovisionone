@@ -1600,7 +1600,7 @@
             "read_only": false,
             "parameters": {
                 "file_url": {
-                    "description": "URL pointing to the location of the file to be submitted. (Required)",
+                    "description": "URL of the file that the connector fetches from the SOAR host before submitting it for sandbox analysis. (Required)",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -3343,7 +3343,7 @@
             },
             {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.15.0-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.16.0-py3-none-any.whl"
             }
         ]
     },
@@ -3367,7 +3367,7 @@
             },
             {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.15.0-py3-none-any.whl"
+                "input_file": "wheels/py3/typing_extensions-4.16.0-py3-none-any.whl"
             }
         ]
     }
